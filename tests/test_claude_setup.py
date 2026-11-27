@@ -147,3 +147,19 @@ def test_claude_md_within_line_budget():
     assert lines <= CLAUDE_MD_MAX_LINES, (
         f"CLAUDE.md is {lines} lines (budget {CLAUDE_MD_MAX_LINES}); move prose to docs/"
     )
+
+
+def test_file_history_shows_reasons_once_per_session():
+    import uuid
+
+    def hook(path, session):
+        payload = json.dumps({"tool_input": {"file_path": str(ROOT / path)}, "session_id": session, "cwd": str(ROOT)})
+        return subprocess.run([sys.executable, str(ROOT / ".claude/hooks/file-history.py")], input=payload,
+                              capture_output=True, text=True, env={**os.environ, "CLAUDE_PROJECT_DIR": str(ROOT)}).stdout
+
+    session = uuid.uuid4().hex
+    first = json.loads(hook("docs/PRODUCT.md", session))["hookSpecificOutput"]["additionalContext"]
+    assert "docs/PRODUCT.md 的来历" in first
+    assert "定位：以地方为中心的城市档案" in first  # a decision in docs/DECISIONS.md that names this file
+    assert hook("docs/PRODUCT.md", session) == ""  # once per file per session
+    assert hook("/etc/hostname", session) == ""  # outside the project: nothing

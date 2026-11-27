@@ -64,6 +64,16 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "Read|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/file-history.py\"",
+            "timeout": 10
+          }
+        ]
       }
     ],
     "PostToolUseFailure": [

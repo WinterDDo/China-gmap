@@ -20,6 +20,7 @@ Best effort: it must never block a session, so every failure degrades to a short
 from __future__ import annotations
 
 import re
+import signal
 import subprocess
 import sys
 import time
@@ -138,6 +139,7 @@ def main(argv: list[str]) -> int:
 
 
 if __name__ == "__main__":
+    signal.signal(signal.SIGPIPE, signal.SIG_DFL)  # piped into head: stop quietly
     try:
         sys.exit(main(sys.argv[1:]))
     except Exception as exc:  # never block a session
