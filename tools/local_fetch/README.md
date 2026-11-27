@@ -82,6 +82,23 @@ python fetch_bulletins.py
 
 ---
 
+## 三½、在境外网络下怎么办
+
+必应在境外基本搜不到，百度很快会要验证码。这时先跑**不需要搜索**的那部分：清单里已经知道统计局原始网址的
+附件和图片（2020–2023 年的约 217 项）。
+
+```
+python fetch_bulletins.py --known-only
+```
+
+大约 20–40 分钟。2024、2025 年和“转载站没有”的那些仍然需要搜索，最好之后在大陆网络下再跑：
+
+```
+python fetch_bulletins.py --years 2023 2024 2025 --images needed
+```
+
+---
+
 ## 四、把结果交给项目
 
 运行结束时会自动生成 **`jiangshan_bulletins_日期.zip`**（例如 `jiangshan_bulletins_20261201.zip`）。

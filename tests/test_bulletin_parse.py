@@ -32,7 +32,7 @@ def test_full_city_bulletin():
     f = parse_fields(SJZ, 2023)
     assert {k: v["value"] for k, v in f.items() if v} == {
         "gdp": 7534.2, "gdp_growth": 6.1, "gdp_primary": 576.9, "gdp_secondary": 2309.2, "gdp_tertiary": 4648.1,
-        "population": 1123.35, "urbanization": 72.28, "income": 37735, "income_urban": 47564, "income_rural": 21242,
+        "population": 1123.35, "urbanization": 72.28, "gdp_per_capita": 67099.0, "income": 37735, "income_urban": 47564, "income_rural": 21242,
         "budget_revenue": 737.9, "retail_sales": 2751.2,
     }
     assert set(f) == set(FIELDS)
@@ -134,7 +134,7 @@ def test_inexact_values_are_skipped():
 
 def test_per_capita_and_energy_intensity_are_not_gdp():
     # 北京市2021年 / 中华人民共和国2021年
-    assert values("按常住人口计算，全市人均地区生产总值为18.4万元。", 2021) == {}
+    assert values("按常住人口计算，全市人均地区生产总值为18.4万元。", 2021) == {"gdp_per_capita": 184000.0}  # per head, never the GDP itself
     assert values("全年全国万元国内生产总值能耗[22]比上年下降2.7%。", 2021) == {}
 
 
@@ -365,3 +365,10 @@ def test_registered_population_of_another_year_is_skipped():
     # 鞍山市2020年国民经济和社会发展统计公报; read as if a 2021 bulletin restated it, the figure is not 2021's
     assert values("2020年全市户籍总人口336.4万人。", 2020) == {"population_registered": 336.4}
     assert values("2020年全市户籍总人口336.4万人。", 2021) == {}
+
+
+def test_gdp_per_capita_as_stated():
+    assert values("按常住人口计算，全市人均GDP为43335元，增长6.6%。", 2023)["gdp_per_capita"] == 43335
+    assert values("全年人均地区生产总值达到62771元，比上年增长5.1%。", 2023)["gdp_per_capita"] == 62771
+    # income per head is a different keyword and must not leak into it
+    assert "gdp_per_capita" not in values("全年全体居民人均可支配收入35339元，比上年增长5.2%。", 2023)

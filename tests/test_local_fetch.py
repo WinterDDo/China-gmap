@@ -328,3 +328,22 @@ def test_images_needed_mode_skips_charts_of_text_bulletins(site, tmp_path):
                           search_fn=_fake_search(site, []), images_mode="needed")
     assert m["status"] == "done" and not [f for f in m["files"] if f["role"] == "image"]
     assert len(m["images_not_downloaded"]) == 2 and m["page_text_chars"] >= 200
+
+
+def test_known_only_needs_no_search(site, tmp_path, capsys):
+    out = tmp_path / "out"
+    known = dict(SJZ, year=2023, reason="attachment_only_on_tjcn", known_urls=[f"{site}/files/gb2025.pdf"])
+    calls = []
+    m = fb.process_target(fb.Http(delay=(0, 0)), known, str(out), ["bing", "baidu"],
+                          search_fn=_fake_search(site, calls), use_search=False)
+    assert m["status"] == "done" and m["mode"] == "known_only" and calls == []
+    assert [f["path"] for f in m["files"]] == ["known_001.pdf"]
+    dead = dict(known, code="130200", zh_full="唐山市", names=["唐山市"], known_urls=[f"{site}/nothing.pdf"])
+    assert fb.process_target(fb.Http(delay=(0, 0)), dead, str(out), [], use_search=False)["status"] == "error"
+    # the flag keeps only targets with known addresses, and retries ones an earlier *search* run gave up on
+    targets = tmp_path / "targets.json"
+    other = dict(SJZ, code="130300", zh_full="秦皇岛市", names=["秦皇岛市"])
+    targets.write_text(json.dumps({"targets": [known, other, dict(known, code="130400")]}, ensure_ascii=False), encoding="utf-8")
+    fb.write_manifest(str(out / "2023" / "130400"), {"status": "not_found"})
+    fb.main(["--targets", str(targets), "--out", str(out), "--dry-run", "--known-only"])
+    assert "共 2 项" in capsys.readouterr().out

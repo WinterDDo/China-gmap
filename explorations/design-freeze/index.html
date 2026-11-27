@@ -1289,6 +1289,17 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .d-sharepop .dsh-acts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; } .d-sharepop .dsh-acts .btn { justify-content: center; height: 38px; } .d-sharepop .dsh-acts .btn:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .m-quizshare { margin: 0; padding: 14px 16px; background: var(--leaf-raise); border: 1px solid var(--rule); border-radius: 10px; font: 500 15px/1.7 var(--sans); white-space: pre-wrap; text-align: center; }
 [data-sharebar] button { border: 0; background: transparent; font: inherit; color: inherit; cursor: pointer; display: grid; justify-items: center; gap: 4px; padding: 0; }
+.lang-note { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 1001; display: flex; align-items: center; gap: 10px; padding: 10px 12px 10px 16px; border-radius: 12px; background: rgba(32,24,18,.95); color: #f6efe0; font-size: 14px; box-shadow: 0 14px 34px -12px rgba(0,0,0,.55); max-width: min(94vw, 640px); animation: unroll .3s var(--ease); }
+.lang-note .btn { height: 34px; white-space: nowrap; } .lang-note [data-lang-switch] { background: #f6efe0; color: #2b231d; border-color: #f6efe0; font-weight: 600; } .lang-note .btn.ghost { color: #d8c9ad; background: transparent; border-color: rgba(246,239,224,.25); }
+@media (max-width: 560px) { .lang-note { flex-wrap: wrap; bottom: 12px; } .lang-note span { flex-basis: 100%; } }
+.lang-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 14px; }
+@media (max-width: 900px) { .lang-grid { grid-template-columns: 1fr; } }
+.lang-rules, .lang-sim, .lang-also { padding: 16px 18px; display: grid; gap: 8px; align-content: start; } .lang-also { margin-top: 14px; }
+.lang-rules b, .lang-sim b, .lang-also b { font: 600 16px/1.3 var(--serif); } .lang-rules ol, .lang-also ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 14px; line-height: 1.6; }
+.lang-sim table { width: 100%; border-collapse: collapse; font-size: 13px; } .lang-sim th { text-align: left; font: 600 12px/1.2 var(--sans); color: var(--ink-3); padding: 6px; border-bottom: 1px solid var(--rule-strong); }
+.lang-sim td { padding: 7px 6px; border-bottom: 1px solid var(--rule); vertical-align: middle; } .lang-sim tr.on td { background: var(--accent-soft); } .lang-sim .btn { height: 30px; font-size: 12px; white-space: nowrap; }
+.lang-pill { display: inline-block; padding: 3px 8px; border-radius: 999px; font: 600 12px/1.2 var(--sans); white-space: nowrap; } .lang-pill.zh { background: rgba(178,58,43,.12); color: var(--accent); } .lang-pill.en { background: rgba(45,94,120,.12); color: var(--river); }
+@media (max-width: 760px) { .lang-sim table, .lang-sim tbody, .lang-sim tr, .lang-sim td { display: block; } .lang-sim thead { display: none; } .lang-sim tr { padding: 8px 0; border-bottom: 1px solid var(--rule); } .lang-sim td { border: 0; padding: 2px 0; } }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" id="sprite">
@@ -1370,6 +1381,11 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
       </div></div></div><div class="phone-cap">真机比例 390 × 844 · 鼠标拖动、滚轮缩放、点击</div></div>
       <aside class="leaf m-side" data-mscore></aside>
     </div>
+  </section>
+
+  <section class="sec" id="s-lang">
+    <div class="sec-head"><span class="seal"><span>双语</span></span><h2 data-t="secLang">中英双语 · 按地点选语言</h2><span class="newtag">NEW</span><span class="sub" data-t="secLangSub">中国大陆和港澳台默认中文；海外看浏览器语言；自己选过就记住</span></div>
+    <div data-langsec></div>
   </section>
 
   <section class="sec" id="s-desk">
@@ -2148,8 +2164,8 @@ function drawInkDemo(p) { const cv = $("[data-mo-ink]"); const b = cv.getBoundin
   for (let i = 0; i < 5; i++) { const x = W * (.1 + i * .17), w = W * .14; ctx.fillStyle = `rgba(28,22,18,${INK5[4 - i]})`; ctx.globalAlpha = 1 - p; ctx.fillRect(x, H * .25, w, H * .5); ctx.fillStyle = `rgba(28,22,18,${INK5[i]})`; ctx.globalAlpha = p; ctx.fillRect(x, H * .25, w, H * .5); } ctx.globalAlpha = 1; }
 
 /* ================= interactions ================= */
-function setLang(l) { S.lang = l; refresh(); }
-function refresh() { const dl = $("[data-dloading]"); if (dl) dl.remove(); renderI18n(); renderYields(); renderBoard(); renderColophon(); renderLensDock(); renderPanels(false); renderAlmanac(); renderSpec(); renderV4(); renderV5(); renderV6(); if (!M.loaded) { M.loaded = true; if (location.hash.startsWith("#m/")) mRestore(location.hash); else if (location.hash.startsWith("#d/")) setTimeout(() => { dRestore(location.hash); const sd = document.getElementById("s-desk"); if (sd) sd.scrollIntoView(); }, 0); } renderMob(); renderScore(); renderDScore(); for (const a of APPS) { layout(a, true); full(a); } updateZoomLabel(); }
+function setLang(l) { S.lang = l; try { localStorage.setItem(LANGKEY, l); } catch (e) { } const n = document.querySelector(".lang-note"); if (n) n.remove(); refresh(); }
+function refresh() { const dl = $("[data-dloading]"); if (dl) dl.remove(); renderI18n(); renderYields(); renderBoard(); renderColophon(); renderLensDock(); renderPanels(false); renderAlmanac(); renderSpec(); renderV4(); renderV5(); renderV6(); if (!M.loaded) { M.loaded = true; if (location.hash.startsWith("#m/")) mRestore(location.hash); else if (location.hash.startsWith("#d/")) setTimeout(() => { dRestore(location.hash); const sd = document.getElementById("s-desk"); if (sd) sd.scrollIntoView(); }, 0); } renderMob(); renderScore(); renderDScore(); renderLangSec(); for (const a of APPS) { layout(a, true); full(a); } updateZoomLabel(); }
 function selectCity(id, fly = true) { const had = !!S.city; S.city = id; S.board = null; S.dexp = null; S.dfix = false; if (BYID.has(id)) { mVisit(id); dPush(); } renderBoard(); renderYields(); renderPanels(true); snd("stamp"); setTimeout(() => { const p = $("[data-panel]:not([hidden])"); if (p) { countUp(p); spatter(p.querySelector(".cp-head .seal"), 16); } }, 90);
   for (const a of APPS.filter(x => x.cfg === DESK || x.cfg === PHONE)) { const keep = { ...a.view }; layout(a, true); a.view = keep; const c = BYID.get(id);
     if (a.cfg === DESK && fly) flyTo(a, viewOn(a, c, 2.4)); else if (a.cfg === PHONE) { a.view = { ...a.home }; full(a); } else full(a); } }
@@ -2232,6 +2248,7 @@ Object.assign(T, {
   arcNote: ["概况、城区、比较三页全部是真实数据（2023 年公报、七普、ESA WorldCover、高程）。市民页的收入与房价是第 2 期采集的位置；治理、沿革两页的人名与年份为示意，用斜线底的“示意”标注。", "Overview, Land and Compare use real data (2023 communiqués, 2020 census, ESA WorldCover, elevation). Income and housing on People are phase-2 slots; names and years on Governance and History are illustrative and carry the hatched “illustrative” tag."],
   secDuel: ["城市 PK", "City compare"], secDuelSub: ["2–5 城并排；每行领先者钤“冠”字小印，顶部计分", "2–5 cities side by side; the leader of each row gets a small seal, tallied at the top"],
   duelNote: ["点城市旁的 × 可移除，点“加一城”可从搜索加入（原型里循环加入几个示例城市）。对决链接可分享，打开即是同一组城市。", "Remove a city with ×; “Add a city” opens search (the prototype cycles through examples). A compare link reopens the same set."],
+  secLang: ["中英双语 · 按地点选语言", "Chinese & English · picked by where you are"], secLangSub: ["中国大陆和港澳台默认中文；海外看浏览器语言；自己选过就记住", "Chinese in mainland China, HK, Macau, Taiwan; overseas follows the browser; your choice is remembered"],
   secShare: ["分享长卷", "Share cards"], secShareSub: ["一键出图：竖版城市卡、横版对决卡、A3 海报", "One tap: portrait city card, landscape compare card, A3 poster"],
   cap9: ["竖版 · 1080×1920 · 朋友圈、小红书", "Portrait · 1080×1920 · Moments, Xiaohongshu"], cap16: ["横版 · 1200×630 · 微博、公众号头图、链接预览", "Landscape · 1200×630 · Weibo, article covers, link previews"], capA3: ["A3 海报 · 297×420 mm · 300 dpi · 可打印", "A3 poster · 297×420 mm · 300 dpi · printable"],
   secXiang: ["钤印认乡", "Hometown seal"], secXiangSub: ["认家乡、老乡数、老乡在哪儿；访客标注一律用朱笔", "Claim a hometown, count fellow natives, see where they live; visitor marks are always in cinnabar brush"],
@@ -2312,7 +2329,7 @@ function seriesHTML(c) { const yrs = [2020, 2021, 2022, 2023, 2024, 2025];
     <span></span>${yrs.map(y => `<span class="yr ${y === 2023 ? "now" : ""}">${y}${y === 2020 ? `<br>${ZH("七普", "census")}` : y === 2023 ? `<br>${ZH("当前", "current")}` : "<br>&nbsp;"}</span>`).join("")}</div>`; }
 function provHTML(c) { const sc = c.src, q = (sc && sc.q) || {}, k = q.income ? "income" : q.population ? "population" : q.gdp ? "gdp" : null;
   const lab = { income: ZH("全体居民人均可支配收入", "Disposable income per person"), population: ZH("年末常住人口", "Year-end population"), gdp: ZH("地区生产总值", "GDP") }[k], val = k === "income" ? FMTS.yuan(c.inc) : k === "population" ? fmtPopShort(c.pop) : k === "gdp" ? fmtYuan(c.gdp) : "";
-  return `<div class="panel s5"><h4>${icon("i-info")}${ZH("出处 · 每个数字都能点开", "Provenance · every number opens")}<small>${ZH("真实样例", "real example")}</small></h4>` + (sc && k ? `<div class="prov"><div class="row"><span>${ZH("数值", "Value")}</span><b class="num">${lab} ${val}</b></div><div class="row"><span>${ZH("原文句子", "Sentence")}</span><span>“${q[k]}”</span></div><div class="row"><span>${ZH("发布机关", "Publisher")}</span><span>${sc.bureau || "—"} · ${sc.date || ""}</span></div><div class="row"><span>${ZH("转载页", "Mirror")}</span><code>${sc.url}</code></div></div>` : `<p class="note">${t("noData")}</p>`) + `</div>`; }
+  return `<div class="panel s5"><h4>${icon("i-info")}${ZH("出处 · 每个数字都能点开", "Provenance · every number opens")}<small>${ZH("真实样例", "real example")}</small></h4>` + (sc && k ? `<div class="prov"><div class="row"><span>${ZH("数值", "Value")}</span><b class="num">${lab} ${val}</b></div><div class="row"><span>${ZH("原文句子", "Original sentence (Chinese)")}</span><span lang="zh-CN">“${q[k]}”</span></div><div class="row"><span>${ZH("发布机关", "Publisher")}</span><span>${EN() && sc.bureau && /统计局$/.test(sc.bureau) ? `${(c.en || c.n).replace(/ (City|Prefecture)$/, "")} Bureau of Statistics` : (sc.bureau || "—")} · ${sc.date || ""}</span></div><div class="row"><span>${ZH("转载页", "Mirror")}</span><code>${sc.url}</code></div></div>` : `<p class="note">${t("noData")}</p>`) + `</div>`; }
 function arcBody(c) {
   const en = EN(), N = NATION.rankN;
   if (V4.tab === "gk") return `<div class="panel"><h4>${ZH("宝藏点 · 这座城最能打的三件事", "Hidden gems · three things this city does best")}<small>${ZH("从 13 项全国排名里自动挑选", "picked from 13 national rankings")}</small></h4>${prideHTML(c, 3)}</div>
@@ -2488,11 +2505,11 @@ function suPlay() { if (V4.playing) { V4.playing = false; cancelAnimationFrame(s
 const DYN5 = [
   { k: "秦", en: "Qin", y: "前 221 – 前 207", cap: [["610400", "咸阳", "Xianyang"]], top: 36, unit: ["郡", "commanderies"], tiers: [["郡", "Commandery"], ["县", "County"]], off: ["郡守 · 县令", "Commandery governor · county magistrate"], hz: ["钱唐县，属会稽郡", "Qiantang County, under Kuaiji"] },
   { k: "汉", en: "Han", y: "前 202 – 220", cap: [["610100", "长安", "Chang'an"], ["410300", "洛阳", "Luoyang"]], top: 13, unit: ["州（刺史部）", "provinces (inspectorates)"], tiers: [["州", "Province"], ["郡 / 国", "Commandery / kingdom"], ["县", "County"]], off: ["刺史 · 太守 · 县令", "Inspector · governor · magistrate"], hz: ["钱唐县，属会稽郡", "Qiantang County, under Kuaiji"] },
-  { k: "唐", en: "Tang", y: "618 – 907", cap: [["610100", "长安", "Chang'an"]], top: 15, unit: ["道", "circuits"], tiers: [["道", "Circuit"], ["州", "Prefecture"], ["县", "County"]], off: ["刺史 · 县令", "Prefect · magistrate"], hz: ["杭州，属江南东道", "Hangzhou, in Jiangnan East"], ppl: [["李泌", "Li Mi", "开六井"], ["白居易", "Bai Juyi", "筑白堤"]], note: ["道起初是监察区", "Circuits began as inspection zones"] },
-  { k: "宋", en: "Song", y: "960 – 1279", cap: [["410200", "汴京", "Bianjing"], ["330100", "临安", "Lin'an"]], top: 24, unit: ["路", "circuits"], tiers: [["路", "Circuit"], ["府 / 州 / 军 / 监", "Prefecture"], ["县", "County"]], off: ["知州（知府）· 通判 · 知县", "Prefect · vice prefect · magistrate"], hz: ["杭州，南宋升为临安府", "Hangzhou, raised to Lin'an Prefecture"], ppl: [["范仲淹", "Fan Zhongyan", "知杭州"], ["苏轼", "Su Shi", "筑苏堤"]], note: ["北宋后期约 24 路", "About 24 circuits in late Northern Song"] },
+  { k: "唐", en: "Tang", y: "618 – 907", cap: [["610100", "长安", "Chang'an"]], top: 15, unit: ["道", "circuits"], tiers: [["道", "Circuit"], ["州", "Prefecture"], ["县", "County"]], off: ["刺史 · 县令", "Prefect · magistrate"], hz: ["杭州，属江南东道", "Hangzhou, in Jiangnan East"], ppl: [["李泌", "Li Mi", ["开六井", "dug the Six Wells"]], ["白居易", "Bai Juyi", ["筑白堤", "built the Bai Causeway"]]], note: ["道起初是监察区", "Circuits began as inspection zones"] },
+  { k: "宋", en: "Song", y: "960 – 1279", cap: [["410200", "汴京", "Bianjing"], ["330100", "临安", "Lin'an"]], top: 24, unit: ["路", "circuits"], tiers: [["路", "Circuit"], ["府 / 州 / 军 / 监", "Prefecture"], ["县", "County"]], off: ["知州（知府）· 通判 · 知县", "Prefect · vice prefect · magistrate"], hz: ["杭州，南宋升为临安府", "Hangzhou, raised to Lin'an Prefecture"], ppl: [["范仲淹", "Fan Zhongyan", ["知杭州", "Prefect of Hangzhou"]], ["苏轼", "Su Shi", ["筑苏堤", "built the Su Causeway"]]], note: ["北宋后期约 24 路", "About 24 circuits in late Northern Song"] },
   { k: "元", en: "Yuan", y: "1271 – 1368", cap: [["110000", "大都", "Dadu"]], top: 11, unit: ["行省（含中书省）", "provinces"], tiers: [["行省", "Province"], ["路", "Circuit"], ["府 / 州", "Prefecture"], ["县", "County"]], off: ["达鲁花赤 · 总管", "Darughachi · governor"], hz: ["杭州路，江浙行省治所", "Hangzhou Circuit, seat of Jiangzhe"] },
   { k: "明", en: "Ming", y: "1368 – 1644", cap: [["320100", "南京", "Nanjing"], ["110000", "北京", "Beijing"]], top: 15, unit: ["两京十三布政使司", "capitals + provinces"], tiers: [["布政使司", "Province"], ["府", "Prefecture"], ["州 / 县", "County"]], off: ["布政使 · 知府 · 知县", "Commissioner · prefect · magistrate"], hz: ["杭州府，浙江布政使司治所", "Hangzhou Prefecture, seat of Zhejiang"] },
-  { k: "清", en: "Qing", y: "1644 – 1912", cap: [["110000", "北京", "Beijing"]], top: 18, unit: ["省（内地十八省）", "provinces (China proper)"], tiers: [["省", "Province"], ["府 / 直隶州", "Prefecture"], ["县", "County"]], off: ["巡抚 · 知府 · 知县", "Governor · prefect · magistrate"], hz: ["杭州府，浙江省治", "Hangzhou Prefecture, seat of Zhejiang"], ppl: [["林则徐", "Lin Zexu", "任杭嘉湖道"]], note: ["清末增至 22 省", "22 provinces by the end"] },
+  { k: "清", en: "Qing", y: "1644 – 1912", cap: [["110000", "北京", "Beijing"]], top: 18, unit: ["省（内地十八省）", "provinces (China proper)"], tiers: [["省", "Province"], ["府 / 直隶州", "Prefecture"], ["县", "County"]], off: ["巡抚 · 知府 · 知县", "Governor · prefect · magistrate"], hz: ["杭州府，浙江省治", "Hangzhou Prefecture, seat of Zhejiang"], ppl: [["林则徐", "Lin Zexu", ["任杭嘉湖道", "Intendant of the Hang-Jia-Hu circuit"]]], note: ["清末增至 22 省", "22 provinces by the end"] },
   { k: "今", en: "Today", y: "1949 –", cap: [["110000", "北京", "Beijing"]], top: 34, unit: ["省级行政区", "province-level units"], tiers: [["省 / 自治区 / 直辖市", "Province"], ["地级市", "Prefecture-level city"], ["县 / 区", "County / district"]], off: ["本层不收录现任官员", "No current officials in this layer"], hz: ["杭州市，浙江省会", "Hangzhou, capital of Zhejiang"] }];
 V4.gdyn = 3;
 function drawCapitals(app, ctx, u, v) { const order = []; DYN5.forEach((d, di) => d.cap.forEach(([id, zh, en]) => { const c = BYID.get(id); if (c) order.push({ c, d, di, zh, en }); }));
@@ -2517,7 +2534,7 @@ function renderGov() { const d = DYN5[V4.gdyn], en = EN(), mx = Math.max(...DYN5
       <div class="panel"><h4>${ZH("管理分几级", "Tiers of government")}<small>${d.note ? ZH(...d.note) : ""}</small></h4><div class="tiers">${d.tiers.map((t, i) => (i ? `<i></i>` : "") + `<span class="rise" style="animation-delay:${i * .08}s">${ZH(...t)}</span>`).join("")}</div></div>
       <div class="panel"><h4>${ZH("最高一级有多少个", "How many top-level units")}</h4><div class="topn">${DYN5.map((x, i) => `<div class="${i === V4.gdyn ? "on" : ""}"><em class="num">${x.top}</em><b style="height:${x.top / mx * 70}px"></b><span>${en ? x.en.slice(0, 4) : x.k}</span></div>`).join("")}</div><span class="note">${ZH(`${d.k}：${d.top} 个${d.unit[0]}`, `${d.en}: ${d.top} ${d.unit[1]}`)}</span></div>
       <div class="panel"><h4>${ZH("地方官叫什么", "What local officials were called")}</h4><b style="font:600 var(--fs-4)/1.4 var(--serif)">${ZH(...d.off)}</b></div>
-      <div class="panel"><h4>${ZH("杭州那时候", "Hangzhou in this era")}</h4><span>${ZH(...d.hz)}</span>${d.ppl ? `<div class="people">${d.ppl.map(([zh, enN, what]) => `<div class="person">${seal(zh.slice(0, 2))}<div><b>${ZH(zh, enN)}</b><br><span>${what}</span></div><span></span></div>`).join("")}</div>` : ""}</div>
+      <div class="panel"><h4>${ZH("杭州那时候", "Hangzhou in this era")}</h4><span>${ZH(...d.hz)}</span>${d.ppl ? `<div class="people">${d.ppl.map(([zh, enN, what]) => `<div class="person">${seal(zh.slice(0, 2))}<div><b>${ZH(zh, enN)}</b><br><span>${ZH(...what)}</span></div><span></span></div>`).join("")}</div>` : ""}</div>
       <p class="note">${ZH("本层只讲历史上的治理，不收录现任官员。朝代建置、名宦为示意，正式版取自 CHGIS / CBDB。", "History only; no current officials. Dynastic structures and officials are illustrative; production data from CHGIS / CBDB.")}</p></div>`;
   paintArts($("[data-gov-side]")); }
 const HZGOV = [["秦 · 汉", "Qin · Han", "钱唐县", "Qiantang County", "会稽郡", "Kuaiji", "县令", "Magistrate", ""], ["唐", "Tang", "杭州", "Hangzhou", "江南东道", "Jiangnan East", "刺史", "Prefect", "李泌（开六井）· 白居易（筑白堤）"],
@@ -2565,7 +2582,7 @@ function initV4() {
     inset: () => ({ x: 1440 - 388, y: 900 - 120, w: 160 }), scale: () => null, blocked: () => [[0, 0, 1440, 54], [1440 - 378, 48, 378, 852], [220, 900 - 120, 820, 120], [1440 - 560, 900 - 330, 180, 220]] });
 }
 function v4Refresh(key, relayout) { const a = V4APPS[key]; if (!a) return; if (a.cfg.hl) a.hoverPref = prefIdx(a.cfg.hl()); if (relayout) layout(a, false); full(a); }
-const TOC = [["s-start", "开局", "选家乡开局", "Pick hometown", 1], ["s-mobile", "手机", "手机版", "Mobile", 1], ["s-desk", "壹", "桌面主界面", "Desktop"], ["s-phone", "贰", "手机界面", "Phone"], ["s-life", "叁", "宝藏点与生活账本", "Hidden gems & everyday", 1], ["s-topics", "选题", "选题地图", "Topic map", 1], ["s-guess", "肆", "猜城", "Guess", 1], ["s-cards", "伍", "卡牌与打卡地图", "Cards & travel", 1], ["s-duel", "陆", "城市 PK", "Compare duel", 1], ["s-archive", "柒", "城市档案", "City archive"], ["s-share", "捌", "分享长卷", "Share cards"], ["s-xiang", "玖", "钤印认乡", "Hometown seal"], ["s-gujin", "拾", "古今同图", "Then & now"], ["s-gov", "拾壹", "历代治理", "History of rule"], ["s-time", "拾贰", "时间轴与年报", "Timeline"], ["s-icons", "拾叁", "图标优先", "Icons"], ["s-color", "拾肆", "色彩", "Colour"], ["s-type", "拾伍", "字体", "Type"], ["s-motif", "拾陆", "母题与组件", "Motifs"], ["s-motion", "拾柒", "交互与动效", "Motion"], ["s-bi", "拾捌", "双语与数字", "Bilingual"], ["s-decide", "拾玖", "请你确认", "Decide"]];
+const TOC = [["s-start", "开局", "选家乡开局", "Pick hometown", 1], ["s-mobile", "手机", "手机版", "Mobile", 1], ["s-lang", "双语", "中英双语", "Bilingual", 1], ["s-desk", "壹", "桌面主界面", "Desktop"], ["s-phone", "贰", "手机界面", "Phone"], ["s-life", "叁", "宝藏点与生活账本", "Hidden gems & everyday", 1], ["s-topics", "选题", "选题地图", "Topic map", 1], ["s-guess", "肆", "猜城", "Guess", 1], ["s-cards", "伍", "卡牌与打卡地图", "Cards & travel", 1], ["s-duel", "陆", "城市 PK", "Compare duel", 1], ["s-archive", "柒", "城市档案", "City archive"], ["s-share", "捌", "分享长卷", "Share cards"], ["s-xiang", "玖", "钤印认乡", "Hometown seal"], ["s-gujin", "拾", "古今同图", "Then & now"], ["s-gov", "拾壹", "历代治理", "History of rule"], ["s-time", "拾贰", "时间轴与年报", "Timeline"], ["s-icons", "拾叁", "图标优先", "Icons"], ["s-color", "拾肆", "色彩", "Colour"], ["s-type", "拾伍", "字体", "Type"], ["s-motif", "拾陆", "母题与组件", "Motifs"], ["s-motion", "拾柒", "交互与动效", "Motion"], ["s-bi", "拾捌", "双语与数字", "Bilingual"], ["s-decide", "拾玖", "请你确认", "Decide"]];
 function renderToc() { const el = $("[data-toc]"); if (el) el.innerHTML = TOC.map(([id, n, zh, en, isNew]) => `<a href="#${id}" data-sec="${id}" class="${isNew ? "new" : ""}"><span class="seal"><span>${n}</span></span>${ZH(zh, en)}</a>`).join(""); }
 function renderV4() { if (!CITIES) return; v4Prepare(); renderToc();
   $$("[data-v4top]").forEach(el => el.innerHTML = v4Top(el.dataset.v4top)); $$("[data-v4nav]").forEach(el => el.innerHTML = navHTML(el.dataset.v4nav));
@@ -3239,7 +3256,7 @@ function mLensHTML() { const L = M.lens === "pop" ? V4LENS[M.year === 2020 ? "po
 /* ---- ⓘ explanations, with sources ---- */
 const EXPL = {
   month: [["每月可支配收入", "Monthly disposable income"], ["全体居民人均可支配收入 ÷ 12。可支配收入 = 工资 + 经营 + 财产 + 转移收入，扣掉税和社保，是能自由花或存的钱。", "Annual disposable income per resident ÷ 12: wages, business, property and transfers, after tax and social insurance."], ["各市 2023 年国民经济和社会发展统计公报", "2023 city communiqués"], "income"],
-  day: [["每人每天创造", "Output per person per day"], ["人均地区生产总值 ÷ 365。不是收入，是这座城平均每人每天产出的价值。", "GDP per head ÷ 365. Not income: the value produced per person per day."], ["2023 年统计公报", "2023 communiqués"], "gdp"],
+  day: [["每人每天创造", "Output per person per day"], ["人均地区生产总值 ÷ 365。不是收入，是这座城平均每人每天产出的价值。", "GDP per head ÷ 365. Not income: the value produced per person per day."], ["2023 年统计公报（公报写明的人均地区生产总值）", "2023 communiqués (GDP per head as stated)"], "pc"],
   dpop: [["三年人口增减", "Population change in three years"], ["2023 年末常住人口 − 第七次人口普查常住人口（2020-11-01）。", "End-2023 residents minus 2020-census residents."], ["七普公报 · 2023 年统计公报", "2020 census · 2023 communiqués"], "population"],
   forest: [["森林占比（卫星估算）", "Forest share (satellite estimate)"], ["ESA WorldCover 2021 土地覆盖，按 2 公里格子取多数类后统计林地占比。丘陵农田多的地方会偏高，正式版改用各地公布的森林覆盖率。", "ESA WorldCover 2021, majority class on a 2 km grid; overstates hilly farmland. Production will use official forest coverage."], ["ESA WorldCover 2021（CC BY 4.0）", "ESA WorldCover 2021 (CC BY 4.0)"]],
   popAny: [["常住人口", "Resident population"], ["在本地住满半年以上的人，不论户口在哪。", "People living here six months or more, whatever their hukou."], ["2023 年统计公报；缺失时用七普", "2023 communiqués; census when missing"], "population"],
@@ -3276,6 +3293,56 @@ function mRestore(h) { const p = (h || "").replace(/^#/, "").split("/"); if (p[0
 function mBack() { if (M.exp || M.fix) { M.exp = null; M.fix = null; } else if (M.modal) M.modal = null; else if (M.view) M.view = null; else if (M.sheet === "full") M.sheet = "peek"; else if (M.city) M.city = null; else if (M.tab !== "map") M.tab = "map"; renderMob(); mPush(); }
 let DLS = null; (async () => { try { if (window.claude && window.claude.use) DLS = await window.claude.use("downloads"); } catch (e) { DLS = null; } })();
 window.__jsatlas = { map: () => MAPP, state: () => M };
+/* ================= 中英双语：按地点 + 浏览器语言自动选，自己选过就记住 ================= */
+const LANGKEY = "jsatlas.lang";
+const ZH_TZ = /^(Asia\/(Shanghai|Chongqing|Chungking|Harbin|Urumqi|Kashgar|Hong_Kong|Macau|Taipei)|PRC|ROC|Hongkong)$/;
+let LANGAUTO = null;
+function langSignals() { let tz = ""; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) { }
+  const langs = (navigator.languages && navigator.languages.length ? [...navigator.languages] : [navigator.language || ""]).map(x => String(x).toLowerCase()), ua = navigator.userAgent || "";
+  return { tz, langs, wx: /micromessenger/i.test(ua), wxl: ((ua.match(/Language\/([\w-]+)/i) || [])[1] || "").toLowerCase(), q: (new URLSearchParams(location.search).get("lang") || "").toLowerCase() }; }
+/* the rule, in order: link says so › you chose before › WeChat's own language › in mainland China, HK, Macau, Taiwan › overseas with a Chinese browser › English */
+function pickLang(sig, saved) {
+  if (sig.q === "zh" || sig.q === "en") return [sig.q, "link"];
+  if (saved === "zh" || saved === "en") return [saved, "saved"];
+  if (sig.wx && sig.wxl) return [sig.wxl.startsWith("zh") ? "zh" : "en", "wechat"];
+  if (sig.inCN ?? ZH_TZ.test(sig.tz)) return ["zh", "region"];
+  if (sig.langs.some(l => l.startsWith("zh"))) return ["zh", "browser"];
+  return ["en", "overseas"]; }
+const LANGWHY = { link: ["链接里指定了中文", "The link asked for English"], saved: ["你上次选的", "Your earlier choice"], wechat: ["按微信的语言", "Following WeChat's language"],
+  region: ["按你所在的地区（中国大陆、港澳台）显示中文", "Shown in Chinese for visitors in mainland China, Hong Kong, Macau or Taiwan"], browser: ["你的浏览器用中文，所以显示中文", "Your browser prefers Chinese"], overseas: ["按你所在的地区显示英文", "Showing English based on your location"] };
+function langInit() { let saved = null; try { saved = localStorage.getItem(LANGKEY); } catch (e) { }
+  const [l, why] = pickLang(langSignals(), saved); S.lang = l; LANGAUTO = why === "saved" || why === "link" ? null : why; }
+function langNotice(why) { const old = document.querySelector(".lang-note"); if (old) old.remove(); if (!why) return; const el = document.createElement("div"); el.className = "lang-note"; el.setAttribute("role", "status");
+  const other = EN() ? "zh" : "en", w = LANGWHY[why] || LANGWHY.overseas;
+  el.innerHTML = `<span>${EN() ? w[1] : w[0]}</span><button class="btn" data-lang-switch="${other}">${other === "en" ? "Switch to English" : "切换到中文"}</button><button class="btn ghost" data-lang-keep aria-label="${ZH("就用这个", "Keep")}">${EN() ? "Keep English" : "就用中文"}</button>`;
+  document.body.appendChild(el); clearTimeout(langNotice.t); langNotice.t = setTimeout(() => el.remove(), 12000); }
+document.addEventListener("click", e => { const sw = e.target.closest("[data-lang-switch]"), keep = e.target.closest("[data-lang-keep]"); if (!sw && !keep) return; const n = document.querySelector(".lang-note");
+  if (sw) setLang(sw.dataset.langSwitch); else { try { localStorage.setItem(LANGKEY, S.lang); } catch (x) { } } if (n) n.remove(); });
+/* the design page's own simulator: who opens the link, and what they see */
+const LANGSIM = [["bj", ["北京，浏览器中文", "Beijing, Chinese browser"], { inCN: true, langs: ["zh-cn"] }], ["sh-en", ["上海的外国人，浏览器英文", "Foreigner in Shanghai, English browser"], { inCN: true, langs: ["en-us"] }],
+  ["hk", ["香港或台北", "Hong Kong or Taipei"], { inCN: true, langs: ["zh-hk"] }], ["ny-zh", ["纽约的华人，浏览器中文", "Chinese speaker in New York, Chinese browser"], { inCN: false, langs: ["zh-cn", "en-us"] }],
+  ["ny-en", ["纽约的华人，但电脑是英文系统", "Chinese speaker in New York, English computer"], { inCN: false, langs: ["en-us"] }], ["tokyo", ["东京，浏览器日文", "Tokyo, Japanese browser"], { inCN: false, langs: ["ja-jp"] }],
+  ["wx-en", ["微信里打开，微信语言是英文", "Inside WeChat set to English"], { inCN: true, langs: ["zh-cn"], wx: true, wxl: "en" }], ["back", ["回访：上次自己选了英文", "Returning: picked English last time"], { inCN: true, langs: ["zh-cn"], saved: "en" }]];
+function renderLangSec() { const el = document.querySelector("[data-langsec]"); if (!el) return; const cur = el.dataset.sim || "bj";
+  const rows = LANGSIM.map(([k, lab, sig]) => { const [l, why] = pickLang({ tz: "", langs: sig.langs, wx: !!sig.wx, wxl: sig.wxl || "", q: "", inCN: sig.inCN }, sig.saved || null); return `<tr class="${k === cur ? "on" : ""}"><td>${ZH(...lab)}</td><td><b class="lang-pill ${l}">${l === "zh" ? "中文" : "English"}</b></td><td>${ZH(...LANGWHY[why])}</td><td><button class="btn" data-langsim="${k}">${ZH("用这个身份打开", "Open as this visitor")}</button></td></tr>`; }).join("");
+  el.innerHTML = `<div class="lang-grid"><div class="leaf lang-rules"><b>${ZH("怎么决定显示哪种语言", "How the language is chosen")}</b><ol>
+      <li>${ZH("链接里写了 <code>?lang=en</code> 或 <code>?lang=zh</code>：照办（方便分享指定语言的链接）", "The link says <code>?lang=en</code> or <code>?lang=zh</code>: follow it")}</li>
+      <li>${ZH("这台设备上自己选过：一直用那个", "You chose before on this device: keep it")}</li>
+      <li>${ZH("在微信里打开：跟微信设置的语言走", "Inside WeChat: follow WeChat's language")}</li>
+      <li>${ZH("人在中国大陆、香港、澳门、台湾：中文", "In mainland China, Hong Kong, Macau or Taiwan: Chinese")}</li>
+      <li>${ZH("人在海外，但浏览器语言里有中文：中文", "Overseas with Chinese among the browser's languages: Chinese")}</li>
+      <li>${ZH("其余：English", "Everyone else: English")}</li></ol>
+      <p class="note">${ZH("第一次是自动选的，屏幕底部会说明为什么，并给一个一键切换；点过切换或“就用这个”就记住。右上角“中 / EN”随时可换。", "The first pick is automatic; a bar at the bottom says why, with one-tap switching. Any choice is remembered; 中 / EN stays in the top bar.")}</p>
+      <p class="note">${ZH("“在哪里”怎么知道：正式站由网站服务商在请求里带上的国家代码判断，只用来选语言，不存储、不精确到城市；这个原型里用手机/电脑的时区近似。", "Where you are: the live site reads the country code its hosting adds to each request, only to pick a language, never stored or finer than a country; this prototype uses the device's time zone instead.")}</p></div>
+    <div class="leaf lang-sim"><b>${ZH("模拟不同的访问者", "Try different visitors")}</b><table><thead><tr><th>${ZH("谁在打开", "Visitor")}</th><th>${ZH("看到", "Sees")}</th><th>${ZH("为什么", "Why")}</th><th></th></tr></thead><tbody>${rows}</tbody></table>
+      <p class="note">${ZH("“用这个身份打开”会把整份设计稿切成那种语言，并弹出那位访问者会看到的提示条。", "“Open as this visitor” switches the whole page and shows the bar that visitor would see.")}</p></div></div>
+    <div class="leaf lang-also"><b>${ZH("双语还包括", "Bilingual also covers")}</b><ul>
+      <li>${ZH("所有按钮、提示、榜单、分享图、导出的表格都有中英两版；分享图按当时的语言出图。", "Every button, message, ranking, share image and exported table exists in both; share images follow the current language.")}</li>
+      <li>${ZH("城市名用官方英文名（如 Nanchong、Xigaze）；统计公报原文保留中文，英文版标明“Original sentence (Chinese)”。", "Cities use their official English names; communiqué quotes stay in Chinese, labelled as the original.")}</li>
+      <li>${ZH("正式站中文、英文各有固定网址（<code>/zh/</code>、<code>/en/</code>）并互相标注，搜索引擎能分别收录。", "The live site gives each language its own address (/zh/, /en/), cross-linked for search engines.")}</li></ul></div>`; }
+document.addEventListener("click", e => { const b = e.target.closest("[data-langsim]"); if (!b) return; const sim = LANGSIM.find(x => x[0] === b.dataset.langsim); if (!sim) return; const sig = sim[2];
+  const [l, why] = pickLang({ tz: "", langs: sig.langs, wx: !!sig.wx, wxl: sig.wxl || "", q: "", inCN: sig.inCN }, sig.saved || null); const host = document.querySelector("[data-langsec]"); if (host) host.dataset.sim = sim[0];
+  S.lang = l; refresh(); langNotice(why === "saved" ? null : why); });
 /* ================= 桌面 · 逐页评分 ================= */
 const DBASICS = [["搜索：拼音、首字母、县名；空搜索时列出最近搜过、收藏、最近看过"], ["↑↓ 选、回车进、Esc 关；/ 一键搜索"], ["城市页：收藏 ☆、同省 ‹ ›、复制链接"], ["榜单：全量、按省筛选、吾乡名次、导出 CSV（带出处列）"], ["透镜 + 年份（人口：2020 七普 / 2023 公报；其余年份标“采集中”）"], ["每个板块 ⓘ：定义、算法、出处原文、复制引用"], ["链接回到同一座城、同一透镜；浏览器后退逐步退回"], ["加载中、没找到、加载失败都有提示和出路"], ["数据截至日期 + 纠错入口（纠错不公开显示）"]];
 const DPAGES = [
@@ -3424,8 +3491,8 @@ async function shareCanvas(c) { const W = 1080, H = 1440, cv = document.createEl
   x.save(); rrect(x, P, 448, W - 2 * P, 320, 18); x.clip(); x.drawImage(art, P, 448, W - 2 * P, 320); x.restore(); x.strokeStyle = "rgba(43,35,29,.25)"; x.lineWidth = 2; rrect(x, P, 448, W - 2 * P, 320, 18); x.stroke();
   let y = 796; for (const h of hs) { rrect(x, P, y, W - 2 * P, 112, 16); x.fillStyle = "rgba(251,246,234,.9)"; x.fill(); x.strokeStyle = "rgba(43,35,29,.14)"; x.lineWidth = 2; x.stroke();
     const no = h.r <= 30 ? ZH(`第${h.r}`, `#${h.r}`) : ZH(`前${Math.max(1, Math.round(h.q * 100))}%`, `top ${Math.max(1, Math.round(h.q * 100))}%`);
-    x.fillStyle = h.r <= 3 ? "#c9a24a" : "#b23a2b"; x.beginPath(); x.arc(P + 68, y + 56, 42, 0, 7); x.fill(); x.fillStyle = "#fbf4e6"; x.textAlign = "center"; x.textBaseline = "middle"; x.font = `800 ${no.length > 3 ? 24 : 30}px "Noto Serif SC", serif`; x.fillText(no, P + 68, y + 57);
-    x.textAlign = "left"; x.textBaseline = "alphabetic"; x.fillStyle = "#2b231d"; x.font = `400 46px "Ma Shan Zheng", serif`; x.fillText(ZH(...h.m.lab), P + 140, y + 52); x.fillStyle = "#5a4a3c"; x.font = `500 30px "Noto Serif SC", serif`; x.fillText(stripTags(h.m.ph(c)).slice(0, 26), P + 140, y + 94); y += 126; }
+    x.fillStyle = h.r <= 3 ? "#c9a24a" : "#b23a2b"; x.beginPath(); x.arc(P + 68, y + 56, 42, 0, 7); x.fill(); x.fillStyle = "#fbf4e6"; x.textAlign = "center"; x.textBaseline = "middle"; if (EN() && h.r > 30) { x.font = `600 16px "Noto Sans SC", sans-serif`; x.fillText("top", P + 68, y + 42); x.font = `800 24px "Noto Serif SC", serif`; x.fillText(`${Math.max(1, Math.round(h.q * 100))}%`, P + 68, y + 66); } else { x.font = `800 ${no.length > 3 ? 24 : 30}px "Noto Serif SC", serif`; x.fillText(no, P + 68, y + 57); }
+    x.textAlign = "left"; x.textBaseline = "alphabetic"; x.fillStyle = "#2b231d"; x.font = EN() ? `700 38px "Noto Serif SC", serif` : `400 46px "Ma Shan Zheng", serif`; x.fillText(ZH(...h.m.lab), P + 140, y + 52); x.fillStyle = "#5a4a3c"; x.font = `500 30px "Noto Serif SC", serif`; x.fillText(stripTags(h.m.ph(c)).slice(0, 26), P + 140, y + 94); y += 126; }
   const fy = H - 256; x.strokeStyle = "rgba(43,35,29,.2)"; x.lineWidth = 2; x.beginPath(); x.moveTo(P, fy); x.lineTo(W - P, fy); x.stroke();
   x.fillStyle = "#2b231d"; x.font = `400 64px "Ma Shan Zheng", serif`; x.fillText("江山图鉴", P, fy + 96); x.fillStyle = "#8a7a68"; x.font = `600 20px "Noto Serif SC", serif`; x.fillText("J I A N G S H A N   A T L A S", P, fy + 132);
   x.fillStyle = "#b23a2b"; x.font = `500 30px "Noto Sans SC", sans-serif`; x.fillText(`#${cname(c)}  #${small ? ZH("宝藏小城", "gems") : ZH("城市实力", "cities")}`, P, fy + 186);
@@ -3464,9 +3531,9 @@ async function fontsReady() { const txt = CITIES.map(c => c.n + (c.en || "")).jo
   try { await Promise.race([Promise.all(fams.map(f => document.fonts.load(f, txt))), new Promise(r => setTimeout(r, 6000))]); } catch (e) { } }
 async function main() {
   makeApp($("[data-app=desk]"), DESK); makeApp($("[data-app=phone]"), PHONE); initV4(); bindV4(); initV5(); bindV5(); initV6(); initMob();
-  scaleScreens(); bind(); renderI18n();
+  langInit(); scaleScreens(); bind(); renderI18n();
   try { await load(); } catch (e) { $(".lede").textContent = "数据加载失败：" + e.message; const ml = $("[data-mloading]"); const dl = $("[data-dloading]"); if (dl) dl.innerHTML = `<span class="seal" style="--s:54px"><span>图鉴</span></span><b>网络不太好，地图没展开</b><span class="note">${e.message}</span><button class="btn primary" onclick="location.reload()">重试</button>`; if (ml) ml.innerHTML = `<span class="seal" style="--s:46px"><span>图鉴</span></span><b>网络不太好，地图没展开</b><span class="note">已看过的城市仍可离线打开</span><button class="btn primary" onclick="location.reload()" style="height:44px">重试</button>`; return; }
-  await fontsReady(); fxInit(APPS[0]); refresh(); v5Observe();
+  await fontsReady(); fxInit(APPS[0]); refresh(); v5Observe(); langNotice(LANGAUTO);
 }
 main();
 })();
