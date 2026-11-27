@@ -51,7 +51,7 @@ ENCODING = "gb18030"  # pages declare gb2312; gb18030 is its superset (and GBK's
 _ARTICLE = re.compile(r'href="(/tjgb/(\d\d[a-z]+)/(\d+)\.html)"[^>]*>([^<]*)</a>')
 _LIST_ITEM = re.compile(r'<a href="(/tjgb/(\d\d[a-z]+)/(\d+)\.html)" title="([^"]*)"')
 _LAST_PAGE = re.compile(r'href="/tjgb/\d\d[a-z]+/index_(\d+)\.html">尾页</a>')
-_TITLE = re.compile(r"(20\d\d)年(?:度)?国民经济和社会发展统计公报")
+_TITLE = re.compile(r"(20\d\d)年(?:度)?([^年]{0,20}?)国民经济和社会发展统计公报")  # "X市2023年…" or "2023年X市…"
 _ROW = re.compile(r"<tr[^>]*>(.*?)</tr>", re.S)
 
 
@@ -109,7 +109,8 @@ def parse_page(html: str) -> dict:
         "title": clean(htmltext.to_text(title[1])) if title else None,
         "published": published[1] if published else None,
         "bureau": (bureau[1].strip() or None) if bureau else None,
-        "body_html": htmltext.element_html(html, id_="text") or "",
+        # the page-number paragraph closes every body: cut there, so unbalanced markup never runs into the footer
+        "body_html": re.split(r'<p[^>]*class="pageLink"', htmltext.element_html(html, id_="text") or "")[0],
     }
 
 
@@ -144,10 +145,8 @@ def match_list_item(item: dict, matcher: PlaceMatcher) -> tuple[str | None, int 
     province = TJCN_FOLDERS.get(item["folder"])
     if year is None or province is None:
         return None, year
-    title = item["title"]
-    name = title[: _TITLE.search(title).start()]
-    if not name:  # "2023年石家庄市国民经济…" form
-        name = re.sub(r"^20\d\d年(?:度)?", "", title).split("国民经济")[0]
+    m = _TITLE.search(item["title"])
+    name = item["title"][: m.start()] or m.group(2)  # before the year, or between year and 国民经济
     return matcher.find_in(name, province), year
 
 
@@ -181,6 +180,8 @@ class TjcnBulletins(Source):
         dest = self.raw_dir / rel
         if dest.exists() and not force:
             return dest
+        if self.offline and rel in self._known_errors():
+            return None  # failed (HTTP 4xx) when last fetched online; nothing to check offline
         wait = self._last + DELAY - time.monotonic()
         if wait > 0:
             time.sleep(wait)
@@ -194,6 +195,10 @@ class TjcnBulletins(Source):
         finally:
             self._last = time.monotonic()
 
+    def _known_errors(self) -> dict:
+        f = self.raw_dir / "fetch_errors.json"
+        return json.loads(f.read_text()) if f.exists() else {}
+
     def _read(self, rel: str) -> str:
         return decode((self.raw_dir / rel).read_bytes())
 
@@ -205,7 +210,7 @@ class TjcnBulletins(Source):
     # -------------------------------------------------- fetch
 
     def fetch(self, force: bool = False) -> None:
-        self._errors: dict[str, dict] = {}
+        self._errors = {}
         matcher = PlaceMatcher()
         hrefs: dict[str, None] = {}  # bulletin pages to get, in order
         for year, path in YEAR_INDEX.items():
@@ -227,7 +232,7 @@ class TjcnBulletins(Source):
             if n % 100 == 0:
                 print(f"    … {n}/{len(hrefs)} bulletin pages")
         errors_file = self.raw_dir / "fetch_errors.json"
-        old = json.loads(errors_file.read_text()) if errors_file.exists() else {}
+        old = self._known_errors()
         old.update(self._errors)
         for rel in [r for r in old if (self.raw_dir / r).exists()]:
             old.pop(rel)  # fixed since
@@ -237,7 +242,6 @@ class TjcnBulletins(Source):
         """Entries of every province folder's list pages, down to the first page older than YEARS[0]."""
         items: list[dict] = []
         for folder in TJCN_FOLDERS:
-            last = None
             for n in range(1, MAX_LIST_PAGES + 1):
                 rel = f"list/{folder}_{n}.html"
                 path = f"/tjgb/{folder}/" if n == 1 else f"/tjgb/{folder}/index_{n}.html"
@@ -305,8 +309,7 @@ class TjcnBulletins(Source):
         by_year, unmatched = self.links()
         units = bulletin_units(matcher.names)
         out_years: dict[int, list[dict]] = {}
-        files = [f"index/{y}.html" for y in YEARS] + sorted(
-            p.relative_to(self.raw_dir).as_posix() for p in (self.raw_dir / "list").glob("*.html"))
+        files = [f"index/{y}.html" for y in YEARS]  # + every bulletin page read (list pages only served discovery)
         for year in YEARS:
             recs = []
             for code in units:
@@ -315,11 +318,15 @@ class TjcnBulletins(Source):
                 if link is None:
                     recs.append(records.missing_record(base, note="tjcn.org 未转载该年公报"))
                     continue
-                page = self.read_bulletin(link["href"])
-                url = BASE + link["href"]
-                if page is None:
-                    recs.append(records.missing_record({**base, "url": url}, note="页面未下载（见 fetch_errors.json）"))
+                # the index link first; when it is dead (HTTP 404), the same bulletin found on the province list
+                used_href = next((h for h in [link["href"], *link.get("alternates", [])]
+                                  if (self.raw_dir / self.page_rel(h)).exists()), None)
+                if used_href is None:
+                    recs.append(records.missing_record({**base, "url": BASE + link["href"]},
+                                                       note="页面无法下载（见 fetch_errors.json）"))
                     continue
+                page = self.read_bulletin(used_href)
+                url = BASE + used_href
                 files += page["files"]
                 rec = records.build_record(
                     base,
@@ -332,7 +339,8 @@ class TjcnBulletins(Source):
                     files=[f"{self.id}/{f}" for f in page["files"]],
                     names=matcher.names,
                 )
-                rec["tjcn"] = {"via": link["via"], "link_text": link["text"],
+                rec["tjcn"] = {"via": link["via"] if used_href == link["href"] else "list (index link dead)",
+                               "link_text": link["text"],
                                **({"alternates": [BASE + a for a in link["alternates"]]} if link.get("alternates") else {}),
                                **({"missing_pages": page["missing_pages"]} if page.get("missing_pages") else {})}
                 recs.append(rec)

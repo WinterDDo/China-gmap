@@ -105,15 +105,25 @@ _BUREAU = re.compile(r"(?:来源|发布机构|发布单位|信息来源)[:：]\s
 _DATE = re.compile(r"(?:发布时间|发布日期|时间|日期)[:：]\s*(20\d\d[-/年.]\d{1,2}[-/月.]\d{1,2})")
 
 
-def page_meta(text: str) -> dict:
-    """Bureau and posting date as printed on a government page ("来源：XX市统计局", "发布时间：2025-03-20")."""
+_META = re.compile(r"<meta\s+[^>]*?name=[\"']?([\w:.-]+)[\"']?[^>]*?content=[\"']([^\"']*)[\"']", re.I)
+
+
+def _ymd(s: str) -> str | None:
+    m = re.search(r"(20\d\d)[-/年.](\d{1,2})[-/月.](\d{1,2})", s or "")
+    return f"{m[1]}-{int(m[2]):02d}-{int(m[3]):02d}" if m else None
+
+
+def page_meta(text: str, page_html: str = "") -> dict:
+    """Bureau and posting date of a government page: as printed ("来源：XX市统计局", "发布时间：2025-03-20"), else from
+    the <meta> tags of the usual government CMS (ContentSource, SiteName; PubDate). Scripts are never run, so a
+    "来源" written by document.write is only found through the meta tags."""
+    meta = {k.lower(): v.strip() for k, v in _META.findall(page_html[:20000])}
     b = _BUREAU.search(text)
     d = _DATE.search(text)
-    date = None
-    if d:
-        y, m, dd = re.split(r"[-/年.月]", d[1])[:3]
-        date = f"{y}-{int(m):02d}-{int(dd):02d}"
-    return {"bureau": b[1] if b else None, "published": date}
+    bureau = b[1] if b else (meta.get("contentsource") or meta.get("source") or meta.get("sitename") or None)
+    published = _ymd(d[1]) if d else _ymd(meta.get("pubdate") or meta.get("publishdate") or meta.get("firstpublishedtime")
+                                         or meta.get("article:published_time") or "")
+    return {"bureau": bureau, "published": published}
 
 
 class LocalBulletins(Source):
@@ -136,6 +146,7 @@ class LocalBulletins(Source):
     # -------------------------------------------------- fetch: register and unpack the owner's zips
 
     def fetch(self, force: bool = False) -> None:
+        self.raw_dir.mkdir(parents=True, exist_ok=True)  # the drop folder for the owner's zips
         zips = sorted(self.raw_dir.glob("jiangshan_bulletins_*.zip"))
         if not zips:
             print(f"    no jiangshan_bulletins_*.zip in {self.raw_dir} (run tools/local_fetch on a computer in mainland "
@@ -197,6 +208,7 @@ class LocalBulletins(Source):
                  "attachments": [f["final_url"] or f["url"] for f in files if f["role"] == "attachment"
                                  or (f["role"] == "known" and f["path"].endswith((".pdf", ".doc", ".docx", ".xls",
                                                                                   ".xlsx", ".wps", ".ofd")))]}
+        media["images"] += [u for u in m.get("images_not_downloaded") or [] if u not in media["images"]]  # --images needed
         pages = [f for f in files if f["role"] in ("page", "subpage")]
         if m.get("status") != "done" and not files:
             return records.missing_record(base, note=f"本地采集：{m.get('status')}")
@@ -207,7 +219,7 @@ class LocalBulletins(Source):
             art = tool.article_text(page)
             texts.append(art["text"])
             if f["role"] == "page":
-                meta = page_meta(tool.node_text(tool.parse_tree(page).root))
+                meta = page_meta(tool.node_text(tool.parse_tree(page).root), page)
         text = "\n".join(texts)
         used = [rel(f["path"]) for f in pages]
         if records.classify(text, [], []) != "text":
@@ -219,6 +231,10 @@ class LocalBulletins(Source):
                 if records.classify(doc, [], []) == "text":
                     text, used = doc, used + [rel(f["path"])]
                     break
+        if not meta.get("bureau") and title:  # "…统计公报 - 国家统计局", "…_石家庄市统计局"
+            tail = re.split(r"\s*[-_|—]\s*", title)[-1]
+            if re.fullmatch(r"[\u4e00-\u9fff]{2,20}(?:统计局|调查队|人民政府)", tail):
+                meta["bureau"] = tail
         page_url = next((f.get("final_url") or f["url"] for f in pages if f["role"] == "page"), None)
         rec = records.build_record(
             base, url=page_url or (m.get("chosen") or {}).get("url"), title=title, bureau=meta.get("bureau"),

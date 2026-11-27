@@ -109,9 +109,8 @@ def title_match(title: str, t: dict) -> str:
         after = s[m.end():]
         if any(before.endswith(n) for n in names):
             return "strict"
-        if not before or before.endswith(("《", "关于")):
-            if any(after.startswith(n) or after.startswith("度" + n) for n in names):
-                return "strict"
+        if (not before or before.endswith(("《", "关于"))) and any(after.startswith((n, "度" + n)) for n in names):
+            return "strict"
     # a district/county bulletin (…区2024年, …县2024年) is never the city's
     if re.search(r"(?:区|县|旗|镇|乡|市)" + year + "年", s) and not any(n.endswith(("区", "市")) and (n + year) in s
                                                                     for n in names):
@@ -320,6 +319,16 @@ def _inside(n, other) -> bool:
     return False
 
 
+def unwrap_viewer(url: str) -> str:
+    """The document behind an online viewer link (pdf.js "viewer.html?file=/atm/7/x.pdf") – else `url` itself."""
+    split = urllib.parse.urlsplit(url)
+    if "viewer" in split.path.lower():
+        f = (urllib.parse.parse_qs(split.query).get("file") or [""])[0]
+        if f and f.split("?")[0].lower().endswith(DOC_EXT):
+            return urllib.parse.urljoin(url, f)
+    return url
+
+
 def _is_doc(url: str) -> bool:
     path = urllib.parse.urlsplit(url).path.lower()
     if path.endswith(DOC_EXT):
@@ -357,7 +366,7 @@ def extract_links(page: str, base_url: str) -> dict:
         href = (n.attrs.get("href") or "").strip()
         if not href or href.startswith(("javascript:", "mailto:", "#")):
             continue
-        u = urllib.parse.urljoin(base_url, href)
+        u = unwrap_viewer(urllib.parse.urljoin(base_url, href))
         if urllib.parse.urlsplit(u).scheme not in ("http", "https"):
             continue
         path = urllib.parse.urlsplit(u).path
@@ -631,8 +640,11 @@ def read_manifest(folder: str) -> dict | None:
 
 # =============================================================================== one target
 
-def fetch_article(http_: Http, folder: str, url: str, t: dict, manifest: dict) -> dict:
-    """Download the article page, its further pages and the documents/images it links; returns a summary."""
+def fetch_article(http_: Http, folder: str, url: str, t: dict, manifest: dict, images_mode: str = "all") -> dict:
+    """Download the article page, its further pages and the documents/images it links; returns a summary.
+
+    images_mode "needed": download the article's images only when the page has (almost) no text, i.e. when the
+    bulletin itself is published as images; their URLs are recorded in the manifest either way."""
     res = http_.get(url)
     if res["error"] or not res["body"]:
         manifest["files"].append(file_entry("page", res, None))
@@ -657,6 +669,11 @@ def fetch_article(http_: Http, folder: str, url: str, t: dict, manifest: dict) -
         ok = r["body"] and not r["error"] and not looks_like_html(r)
         p = write_file(folder, f"att_{i:02d}{safe_ext(u, r['content_type'], '.bin')}", r["body"]) if ok else None
         manifest["files"].append(file_entry("attachment", r, p))
+    text_chars = len(re.findall(r"[\u4e00-\u9fff]", article_text(page_html)["text"]))
+    manifest["page_text_chars"] = text_chars
+    if images_mode == "needed" and text_chars >= 200:
+        manifest["images_not_downloaded"] = images[:MAX_IMAGES]
+        images = []
     for i, u in enumerate(images[:MAX_IMAGES], 1):
         r = http_.get(u, referer=url)
         ok = r["body"] and not r["error"] and not looks_like_html(r)
@@ -684,7 +701,7 @@ def fetch_known(http_: Http, folder: str, t: dict, manifest: dict) -> int:
 
 
 def process_target(http_: Http, t: dict, out_dir: str, engines: list, any_host: bool = False,
-                   search_fn=search) -> dict:
+                   search_fn=search, images_mode: str = "all") -> dict:
     folder = os.path.join(out_dir, str(t["year"]), t["code"])
     os.makedirs(folder, exist_ok=True)
     manifest = {"code": t["code"], "name": t["zh_full"], "province": t.get("province"), "year": t["year"],
@@ -717,7 +734,7 @@ def process_target(http_: Http, t: dict, out_dir: str, engines: list, any_host: 
     manifest["chosen"] = {k: chosen[k] for k in ("url", "title", "engine", "query", "match", "host_score")}
     manifest["query"], manifest["engine"] = chosen["query"], chosen["engine"]
     say(f"      找到：{chosen['title'][:40]}  {host_of(chosen['url'])}")
-    summary = fetch_article(http_, folder, chosen["url"], t, manifest)
+    summary = fetch_article(http_, folder, chosen["url"], t, manifest, images_mode)
     manifest.update(status="done" if summary["ok"] else "error", summary=summary, finished_at=now_iso())
     write_manifest(folder, manifest)
     return manifest
@@ -771,6 +788,8 @@ def main(argv=None) -> int:
                     help="搜索引擎：bing（必应）、baidu（百度）或 both（先必应，找不到再百度；默认）")
     ap.add_argument("--retry", action="store_true", help="重新尝试上次没找到或出错的项")
     ap.add_argument("--any-host", action="store_true", help="也接受非 gov.cn 网站（结果会标注，默认只要政府网站）")
+    ap.add_argument("--images", choices=["all", "needed"], default="all",
+                    help="all：下载正文里的全部图片（默认）；needed：只在公报本身是图片时才下载（快很多）")
     ap.add_argument("--min-delay", type=float, default=2.0)
     ap.add_argument("--max-delay", type=float, default=5.0)
     ap.add_argument("--zip-only", action="store_true", help="不下载，只把已有结果打包")
@@ -803,7 +822,7 @@ def main(argv=None) -> int:
     try:
         for i, t in enumerate(todo, 1):
             say(f"[{i}/{len(todo)}] {t['year']} {t['zh_full']}（{t['code']}）")
-            m = process_target(http_, t, a.out, engines, a.any_host)
+            m = process_target(http_, t, a.out, engines, a.any_host, images_mode=a.images)
             counts[m["status"]] = counts.get(m["status"], 0) + 1
             mark = {"done": "完成", "not_found": "未找到", "error": "出错"}.get(m["status"], m["status"])
             say(f"      → {mark}")

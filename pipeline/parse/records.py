@@ -33,7 +33,7 @@ from pathlib import Path
 from ..core.paths import INTERIM
 from ..core.store import atomic_write_text
 from . import bulletin, htmltext
-from .places import NATION, PlaceMatcher, bulletin_units, name_variants
+from .places import NATION, PlaceMatcher, bulletin_units, load_names, name_variants
 
 BULLETINS = INTERIM / "bulletins"
 STATUSES = ("text", "image_only", "attachment_only", "missing")
@@ -74,13 +74,21 @@ def title_ok(title: str | None, code: str, year: int, names: dict) -> bool:
     t = re.sub(r"\s+", "", title)
     if f"{year}年" not in t and f"{year}" not in t:
         return False
-    variants = ["全国", "中华人民共和国", "中国"] if code == NATION else name_variants(names[code])
-    return any(v in t for v in variants)
+    if code == NATION:
+        return any(v in t for v in ("全国", "中华人民共和国", "中国"))
+    # any full or short form; a bare name only right before the year ("平顶山2020年…")
+    return any(v in t for v in name_variants(names[code])) or f"{names[code]['zh']}{year}年" in t
 
 
-def missing_record(base: dict, note: str | None = None) -> dict:
-    return {**base, "status": "missing", "fields": {k: None for k in bulletin.FIELDS}, "fields_found": 0,
-            "flags": [], **({"note": note} if note else {})}
+def missing_record(base: dict, note: str | None = None, names: dict | None = None) -> dict:
+    """A record for a bulletin that is not there: same keys as build_record's, nothing filled in."""
+    names = names if names is not None else load_names()
+    code = base["code"]
+    level = level_of(code, names)
+    return {"url": None, "title": None, "bureau": None, "published": None, "dated": None, **base,
+            "level": level, "province": code if level != "city" else names[code]["parent"], "status": "missing",
+            "images": [], "attachments": [], "fields": {k: None for k in bulletin.FIELDS}, "fields_found": 0,
+            "flags": [], "files": [], **({"note": note} if note else {})}
 
 
 def build_record(base: dict, *, url: str, title: str | None, bureau: str | None, published: str | None,

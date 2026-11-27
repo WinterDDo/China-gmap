@@ -53,7 +53,7 @@ def name_variants(entry: dict) -> list[str]:
     if level == "province":
         out += [zh, zh + ("市" if full.endswith("市") else "省")] if not full.endswith("区") else [zh]
     elif full.endswith("自治州"):
-        out += [zh + "州", zh + "自治州"]
+        out += [zh + "州", zh + "自治州", full.replace("自治州", "州")]  # 延边州, 巴音郭楞蒙古州
     elif full.endswith("地区"):
         out += [zh + "地区"]
     elif full.endswith("盟"):

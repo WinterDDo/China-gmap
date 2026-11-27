@@ -9,7 +9,7 @@ from __future__ import annotations
 import html as _html
 import re
 from html.parser import HTMLParser
-from urllib.parse import urljoin
+from urllib.parse import parse_qs, urljoin, urlsplit
 
 BLOCK = {"p", "div", "br", "li", "tr", "h1", "h2", "h3", "h4", "h5", "h6", "table", "tbody", "section", "article",
          "ul", "ol", "dd", "dt", "blockquote", "hr", "center", "pre"}
@@ -160,6 +160,16 @@ class _Media(HTMLParser):
             self._href, self._a = None, None
 
 
+def unwrap_viewer(url: str) -> str:
+    """The document behind an online viewer link (pdf.js "viewer.html?file=/atm/7/x.pdf") – else `url` itself."""
+    split = urlsplit(url)
+    if "viewer" in split.path.lower():
+        f = (parse_qs(split.query).get("file") or [""])[0]
+        if f and f.split("?")[0].lower().endswith(DOC_EXT):
+            return urljoin(url, f)
+    return url
+
+
 def _is_doc(url: str) -> bool:
     path = url.split("?")[0].split("#")[0].lower()
     if path.endswith(DOC_EXT):
@@ -184,7 +194,7 @@ def media(html: str, base_url: str | None = None) -> dict[str, list[str]]:
     for href, _text in p.links:
         if href.startswith(("javascript:", "mailto:", "#")):
             continue
-        u = absolute(href)
+        u = unwrap_viewer(absolute(href))
         if _is_doc(u) and u not in docs:
             docs.append(u)
         elif u.split("?")[0].lower().endswith(IMG_EXT) and u not in images:

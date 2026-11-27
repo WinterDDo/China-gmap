@@ -20,6 +20,8 @@ a plausible range for a city, province or the nation.
 from __future__ import annotations
 
 import re
+from bisect import bisect_right
+from functools import lru_cache
 
 FIELDS = {
     # key: (label, canonical unit)
@@ -39,16 +41,14 @@ FIELDS = {
 
 # --------------------------------------------------------------------- normalisation
 
-# one-to-one character replacements only, so indices into the normalised text are indices into the original
+# one-to-one character replacements only, so indices into the normalised text are indices into the original;
+# U+00B7 (·) is sometimes typed for a decimal point ("7534·2亿元")
 _FULLWIDTH = {ord("０") + i: ord("0") + i for i in range(10)}
 _FULLWIDTH.update({ord("．"): ord("."), ord("％"): ord("%"), ord("﹪"): ord("%"), ord("　"): ord(" "),
                    ord("\xa0"): ord(" "), ord("﹒"): ord("."), ord("·"): ord("."), ord("（"): ord("("),
                    ord("）"): ord(")"), ord("："): ord(":"), ord("～"): ord("~"), ord("－"): ord("-")})
 _FULLWIDTH.update({ord("Ａ") + i: ord("A") + i for i in range(26)})
 _FULLWIDTH.update({ord("ａ") + i: ord("a") + i for i in range(26)})
-# U+00B7 (·) is sometimes typed for a decimal point in Chinese documents ("7534·2亿元")
-
-
 _NOTE_MARK = re.compile(r"\[\d{1,2}\]|［\d{1,2}］|〔\d{1,2}〕")  # footnote markers: 第一产业[3]增加值
 
 
@@ -72,9 +72,15 @@ YUAN = {"元": 1.0, "万元": 1e4}  # → 元
 PERCENT = {"%": 1.0}
 
 _STOP_BETWEEN = re.compile(r"中位数|占|比重|比上年|同比|增长|下降|增加|减少|其中|人均|平均|累计|季度|上半年|月份|能耗|"
-                           r"税收|非税|个百分点|分别|户籍|城镇|农村|乡村|城市|总值的")
-_SKIP_SENT = re.compile(r"最终核实|核实|修订|修正为|普查|上半年|前三季度|一季度|二季度|三季度|四季度|1-\d+月|1～\d+月")
+                           r"税收|非税|个百分点|分别|户籍|城镇|农村|乡村|城市|总值的|出生|死亡|迁入|迁出|自然增长")
+# sentences (text before the keyword) about something else than this year's figure: revision notes on the previous
+# year, census results ("第七次全国人口普查结果显示，…", but not "比2020年第七次人口普查增加…"), quarters, months
+_SKIP_SENT = re.compile(r"最终核实|核实|修订|修正为|普查(?:结果|数据|显示|公报|登记|主要)|根据[^，。]{0,20}普查|"
+                        r"上半年|前三季度|一季度|二季度|三季度|四季度|1-\d+月|1～\d+月")
 _BREAKTHROUGH = re.compile(r"(?:突破|超过|超|迈上|跨越|跃上|站上|跨上|越过|过)\s*$")
+# "突破千亿元大关，达到…", "首次迈入千亿大关,达…", "突破700亿，达到…", "突破四千亿大关、达到…"
+_MILESTONE = re.compile(r"\s*(?:经济)?(?:总量)?(?:首次|再次|成功|一举)?(?:实现|完成)?(?:突破|超过|迈上|迈入|迈过|跨越|跃上|站上|跨上|越过)"
+                        r"[^，,、。；]{1,12}[，,、]\s*(?:总量)?(?:达到|达|为|实现|完成)\s*")
 
 
 def sentences(text: str):
@@ -89,10 +95,17 @@ def sentences(text: str):
         yield start, len(text)
 
 
+@lru_cache(maxsize=4)
+def _spans(text: str) -> tuple[list[int], list[tuple[int, int]]]:
+    spans = list(sentences(text))
+    return [a for a, _ in spans], spans
+
+
 def _sentence_at(text: str, pos: int) -> tuple[int, int]:
-    for a, b in sentences(text):
-        if a <= pos < b:
-            return a, b
+    starts, spans = _spans(text)
+    i = bisect_right(starts, pos) - 1
+    if i >= 0 and spans[i][0] <= pos < spans[i][1]:
+        return spans[i]
     return 0, len(text)
 
 
@@ -104,20 +117,22 @@ def _other_year_before(norm: str, sent_start: int, pos: int, year: int | None) -
     """True if the clause before `pos` is dated to another year ("2022年，全市生产总值…")."""
     if year is None:
         return False
-    years = [int(y) for y in re.findall(r"(20\d\d)年", norm[sent_start:pos])]
+    # a year after 比/较/与/同 is a comparison ("比2020年第七次人口普查增加…"), not the date of the figure
+    years = [int(y) for y in re.findall(r"(?<![比较与同从])(20\d\d)年", norm[sent_start:pos])]
     return bool(years) and years[-1] != year
 
 
 def _find_value(norm: str, keyword: str, units: dict[str, float], *, year: int | None, exclude_before: str = "",
-                filler: int = 12, allow_stop: str | None = None):
+                filler: int = 12, allow_stop: str | None = None, start: int = 0, end: int | None = None):
     """First (sentence span, match span, value, raw) where `keyword` is followed in its clause by NUM+unit.
 
     `exclude_before`: regex of prefixes that disqualify the keyword (tested against the 6 preceding characters).
     The text between keyword and number ("gap") may hold up to `filler` characters, no comma and none of the stop
-    words (except those matching `allow_stop`). A number introduced by 突破/超过 is replaced by the next one."""
+    words (except those matching `allow_stop`). A number introduced by 突破/超过 is replaced by the next one.
+    Only keywords starting in norm[start:end] are considered."""
     unit_re = "|".join(sorted((re.escape(u) for u in units), key=len, reverse=True))
     num_unit = re.compile(NUM + r"\s*(" + unit_re + r")(?!\s*(?:台阶|大关|关口))")
-    for m in re.finditer(keyword, norm):
+    for m in re.compile(keyword).finditer(norm, start, len(norm) if end is None else end):
         if exclude_before and re.search(f"(?:{exclude_before})$", norm[max(0, m.start() - 6): m.start()]):
             continue
         sa, sb = _sentence_at(norm, m.start())
@@ -128,6 +143,8 @@ def _find_value(norm: str, keyword: str, units: dict[str, float], *, year: int |
         if not nm:
             continue
         gap = norm[m.end(): nm.start()]
+        if _MILESTONE.fullmatch(gap):  # "突破千亿元大关，达到1041.7亿元": the milestone has no digits
+            gap = ""
         stops = [w for w in _STOP_BETWEEN.findall(gap) if not (allow_stop and re.fullmatch(allow_stop, w))]
         if len(gap) > filler or re.search(r"[，,、]", gap) or stops:
             continue
@@ -188,7 +205,8 @@ def _growth_after(norm: str, orig: str, hit) -> dict | None:
         seg_end = kb + m_ind.start()
     seg = norm[kb:seg_end]
     m = re.search(r"(增长|下降|回落|减少)\s*" + NUM + r"\s*%", seg)
-    if m and not re.search(r"名义|现价", seg[: m.start()]):
+    # a nominal rate is not the real growth; "（现价）" right after the value labels the value, not the rate
+    if m and not re.search(r"名义|现价", re.split(r"[，,]", seg[: m.start()])[-1]):
         v = to_number(m.group(2)) * (-1 if m.group(1) in ("下降", "回落", "减少") else 1)
         return {"value": round(v, 3), "unit": "%", "raw": m.group(0).replace(" ", ""), "quote": _quote(orig, sa, sb)}
     if re.search(r"(?:与上年|同比)?持平", seg):
@@ -199,45 +217,110 @@ def _growth_after(norm: str, orig: str, hit) -> dict | None:
 _IND_KW = {"gdp_primary": "一", "gdp_secondary": "二", "gdp_tertiary": "三"}
 
 
-def _industries(norm: str, orig: str, year: int | None) -> dict[str, dict | None]:
+INDUSTRY_WINDOW = 800  # characters after the GDP sentence where its breakdown by industry is looked for
+
+
+def _industries(norm: str, orig: str, year: int | None, gdp_at: int | None = None) -> dict[str, dict | None]:
+    """The three industries. With `gdp_at` (start of the GDP sentence) only the passage that follows it is read, so
+    a county's or district's breakdown further down is never taken for the whole unit's."""
     out: dict[str, dict | None] = {}
+    start, end = (0, None) if gdp_at is None else (gdp_at, gdp_at + INDUSTRY_WINDOW)
     # "第一、二、三产业增加值分别为a亿元、b亿元和c亿元"
     m = re.search(r"第一(?:产业)?[、，和]\s*(?:第)?二(?:产业)?[、，和]\s*(?:第)?三产业(?:的)?增加值分别(?:为|是|达到|实现|完成)?\s*"
-                  + NUM + r"\s*(亿元|万元)\s*[、，,]\s*" + NUM + r"\s*(亿元|万元)\s*[、，,和及]\s*" + NUM + r"\s*(亿元|万元)", norm)
+                  + NUM + r"\s*(亿元|万元)?\s*[、，,]\s*" + NUM + r"\s*(亿元|万元)?\s*[、，,和及]\s*" + NUM + r"\s*(亿元|万元)",
+                  norm[start:end] if end else norm[start:])
     if m:
-        sa, sb = _sentence_at(norm, m.start())
-        if not _other_year_before(norm, sa, m.start(), year):
+        m_start = start + m.start()
+        sa, sb = _sentence_at(norm, m_start)
+        if not _other_year_before(norm, sa, m_start, year):
             for i, key in enumerate(("gdp_primary", "gdp_secondary", "gdp_tertiary")):
-                raw, unit = m.group(1 + 2 * i), m.group(2 + 2 * i)
+                raw, unit = m.group(1 + 2 * i), m.group(2 + 2 * i) or m.group(6)  # "2332、33953和46268亿元"
                 out[key] = {"value": round(to_number(raw) * MONEY[unit], 6), "unit": "亿元",
                             "raw": f"{raw.strip()}{unit}", "quote": _quote(orig, sa, sb)}
             return out
     for key, n in _IND_KW.items():
-        kw = rf"第{n}产业\s*(?:实现|完成)?(?:的)?\s*增加值|第{n}产业(?=\s*(?:实现|完成)?\s*\d)|{n}产(?:业)?增加值"
-        hit = _find_value(norm, kw, MONEY, year=year, exclude_before=r"季度|半年", filler=8)
+        kw = (rf"第{n}产业\s*(?:\([^)]{{1,6}}\))?\s*(?:实现|完成)?(?:的)?\s*增加值"  # 第三产业（服务业）实现增加值
+              rf"|第{n}产业(?=\s*(?:实现|完成)?\s*\d)|{n}产(?:业)?增加值")
+        hit = _find_value(norm, kw, MONEY, year=year, exclude_before=r"季度|半年", filler=8, start=start, end=end)
         out[key] = _field(orig, hit, "亿元")
     return out
 
 
 def _population(norm: str, orig: str, year: int | None):
-    kw = r"常住(?:总)?人口(?:总量|总数|规模)?|总人口\s*\(常住人口\)"
-    excl = r"城镇|城市|乡村|农村|外来|户籍|流动|市区|县城|中心城区|城区|镇|新增"
+    kw = r"常住(?:总)?人口(?:总量|总数|规模)?|总人口\s*\(常住人口\)|年末全国(?:大陆)?(?:总)?人口(?!普查)"
+    excl = r"城镇|城市|乡村|农村|外来|户籍|流动|市区|县城|中心城区|城区|镇|新增|每千|每万|每百|每|按"
     hit = _find_value(norm, kw, PEOPLE, year=year, exclude_before=excl, filler=8)
+    if hit is None:  # "年末全市常住人口230.56万户，646.83万人" (households first)
+        m = re.search(r"(?:" + kw + r")(?:为|共)?\s*\d+(?:\.\d+)?\s*万户[，,]\s*" + NUM + r"\s*(万人|人)", norm)
+        if m and not re.search(f"(?:{excl})$", norm[max(0, m.start() - 6): m.start()]):
+            sa, sb = _sentence_at(norm, m.start())
+            if not (_SKIP_SENT.search(norm[sa: m.start()]) or _other_year_before(norm, sa, m.start(), year)):
+                hit = ((sa, sb), (m.start(), m.end()), to_number(m.group(1)) * PEOPLE[m.group(2)],
+                       f"{m.group(1)}{m.group(2)}")
+    if hit is None:  # "年末全省总人口为2347.69万人，其中城镇常住人口1496.18万人…": a total broken down by 常住
+        kw2 = r"(?<![户籍口])年末(?:全省|全市|全区|全州|全盟|全地区)?(?:总)?人口(?:总数|总量)?"
+        for cand in re.finditer(kw2, norm):
+            got = _find_value(norm, kw2, PEOPLE, year=year, filler=4, start=cand.start(), end=cand.end())
+            if not got:
+                continue
+            para_end = norm.find("\n", cand.start())
+            after = norm[cand.start(): min(cand.start() + 300, len(norm) if para_end == -1 else para_end)]
+            m_res = re.search(r"城镇常住人口|常住人口城镇化率", after)
+            if m_res and not re.search(r"户籍|户口|公安", after[: m_res.start()]):
+                hit = got
+                break
     return _field(orig, hit, "万人", digits=4)
 
 
 def _urbanization(norm: str, orig: str, year: int | None):
-    hit = _find_value(norm, r"城镇化率(?:\s*\))?", PERCENT, year=year, exclude_before=r"户籍(?:人口)?", filler=6)
+    hit = _find_value(norm, r"城镇化(?:率|水平)(?:\s*\))?", PERCENT, year=year, exclude_before=r"户籍(?:人口)?", filler=6)
     if not hit:
         kw = r"城镇(?:常住)?人口占(?:全市|全省|全区|全州|全盟|全国)?(?:常住|总)?(?:总)?人口(?:的)?比重(?:\s*\([^)]*\))?"
         hit = _find_value(norm, kw, PERCENT, year=year, filler=6, allow_stop=r"占|比重|城镇")
+    if not hit:
+        hit = _urban_share(norm, year)
     return _field(orig, hit, "%", digits=3)
+
+
+_URBAN_SHARE = re.compile(r"城镇(?:常住)?人口(?:为|达到|达)?\s*" + NUM + r"\s*(?:万人|人)[，,]\s*(?:比上年末?[增减][加少]" + NUM
+                          + r"\s*万人[；;，,]\s*)?占(?:(?:全市|全省|全区|全州|全盟|全国)?(?:年末)?(常住|总)?人口(?:数)?(?:的)?(?:比重)?)?"
+                          r"(?:\s*\([^)]{0,12}\))?(?:为|达到|是)?\s*" + NUM + r"\s*%")
+
+
+def _urban_share(norm: str, year: int | None):
+    """"城镇人口1916.1万人，占常住人口的比重为87.5%": a share of the *resident* population only – the denominator says
+    常住, or the paragraph (up to 300 characters back; the one before if this one starts here) is about 常住人口, and
+    户籍/户口 is not mentioned in between."""
+    for m in _URBAN_SHARE.finditer(norm):
+        sa, sb = _sentence_at(norm, m.start())
+        if _SKIP_SENT.search(norm[sa: m.start()]) or _other_year_before(norm, sa, m.start(), year):
+            continue
+        para = norm.rfind("\n", 0, sa)
+        if para == sa - 1:  # the sentence opens its paragraph: look into the previous one
+            para = norm.rfind("\n", 0, para)
+        context = norm[max(para + 1, m.start() - 300): m.end()]
+        if re.search(r"户籍|户口", context):
+            continue
+        if m.group(3) == "常住" or "常住人口" in context:
+            return (sa, sb), (m.start(), m.end()), to_number(m.group(4)), f"{m.group(4)}%"
+    return None
 
 
 def _incomes(norm: str, orig: str, year: int | None) -> dict[str, dict | None]:
     out: dict[str, dict | None] = {}
-    m = re.search(r"城(?:镇|市)(?:常住)?居民(?:和|与|、)农村(?:常住)?居民(?:的)?人均可支配收入分别(?:为|是|达到|达)?\s*"
-                  + NUM + r"\s*元\s*(?:和|、|，)\s*" + NUM + r"\s*元", norm)
+    # "全体及城乡居民人均可支配收入分别为57541元、68487元和35247元" (all, urban, rural)
+    m = re.search(r"全体(?:居民)?(?:及|和|、|与)城乡居民(?:的)?人均可支配收入分别(?:为|是|达到|达)?\s*" + NUM
+                  + r"\s*元?\s*[、，,]\s*" + NUM + r"\s*元?\s*(?:和|、|及)\s*" + NUM + r"\s*元", norm)
+    if m:
+        sa, sb = _sentence_at(norm, m.start())
+        if not _other_year_before(norm, sa, m.start(), year):
+            for key, g in (("income", 1), ("income_urban", 2), ("income_rural", 3)):
+                out[key] = {"value": to_number(m.group(g)), "unit": "元", "raw": f"{m.group(g)}元",
+                            "quote": _quote(orig, sa, sb)}
+            return out
+    # "城镇和农村居民人均可支配收入分别为62699和31930元" (the first 元 may be left out)
+    m = re.search(r"城(?:镇|市)(?:常住)?(?:居民)?(?:和|与|、|及)农村(?:常住)?居民(?:的)?人均可支配收入分别(?:为|是|达到|达)?\s*"
+                  + NUM + r"\s*元?\s*(?:和|、|，|及)\s*" + NUM + r"\s*元", norm)
     if m:
         sa, sb = _sentence_at(norm, m.start())
         if not _other_year_before(norm, sa, m.start(), year):
@@ -262,7 +345,7 @@ def _incomes(norm: str, orig: str, year: int | None) -> dict[str, dict | None]:
 def _budget_revenue(norm: str, orig: str, year: int | None):
     # 一般公共预算收入; older names of the same budget line: 公共财政预算收入, (财政)一般预算收入. Not 全口径财政收入,
     # 财政总收入 or 地方财政收入, which are other aggregates.
-    kw = r"一般公共预算(?:地方级)?(?:财政)?收入|公共财政(?:预算)?收入|(?:财政)?一般预算收入"
+    kw = (r"一般(?:地方)?公共预算(?:地方级)?(?:财政)?收入|(?:地方)?(?:公共财政|财政公共)(?:预算)?收入|(?:财政)?一般预算收入")
     hit = _find_value(norm, kw, MONEY, year=year, exclude_before=r"上划|省级|市级|县级|区级|本级|乡镇|中央|占|全口径",
                       filler=12)
     return _field(orig, hit, "亿元")
@@ -314,7 +397,10 @@ def parse_fields(text: str, year: int | None = None) -> dict[str, dict | None]:
     out: dict[str, dict | None] = {k: None for k in FIELDS}
     hit, out["gdp"], growth = _gdp(norm, orig, year)
     out["gdp_growth"] = growth or _growth_after(norm, orig, hit)
-    out.update(_industries(norm, orig, year))
+    gdp_at = None
+    if out["gdp"] is not None:
+        gdp_at = hit[0][0] if hit else norm.find(normalize(out["gdp"]["quote"]))
+    out.update(_industries(norm, orig, year, gdp_at if gdp_at is not None and gdp_at >= 0 else None))
     out["population"] = _population(norm, orig, year)
     out["urbanization"] = _urbanization(norm, orig, year)
     out.update(_incomes(norm, orig, year))
