@@ -1282,6 +1282,13 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .d-score td.n { font: 700 15px/1.2 var(--serif); white-space: nowrap; } .d-score td.n.lo { color: var(--ink-3); font-weight: 500; } .d-score td.n.ok { color: var(--accent); }
 .d-score .bas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px 16px; font-size: 13px; }
 .d-score .bas span::before { content: "✓ "; color: var(--accent); font-weight: 700; }
+.pg-toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 1000; background: rgba(32,24,18,.94); color: #f6efe0; padding: 11px 18px; border-radius: 10px; font-size: 14px; display: flex; gap: 8px; align-items: center; box-shadow: 0 12px 30px -10px rgba(0,0,0,.5); max-width: min(92vw, 560px); animation: unroll .25s var(--ease); }
+.d-sharepop { position: absolute; right: 12px; top: 56px; width: 360px; z-index: 20; padding: 12px 14px 14px; display: grid; gap: 10px; box-shadow: 0 24px 50px -20px rgba(0,0,0,.5); animation: unroll .28s var(--ease); }
+.d-sharepop .dsh-h { display: flex; align-items: center; justify-content: space-between; } .d-sharepop .dsh-h b { font: 600 16px/1.2 var(--serif); }
+.d-sharepop .dsh-prev { min-height: 120px; display: grid; place-items: center; background: var(--leaf-sunk); border-radius: 6px; }
+.d-sharepop .dsh-acts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; } .d-sharepop .dsh-acts .btn { justify-content: center; height: 38px; } .d-sharepop .dsh-acts .btn:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.m-quizshare { margin: 0; padding: 14px 16px; background: var(--leaf-raise); border: 1px solid var(--rule); border-radius: 10px; font: 500 15px/1.7 var(--sans); white-space: pre-wrap; text-align: center; }
+[data-sharebar] button { border: 0; background: transparent; font: inherit; color: inherit; cursor: pointer; display: grid; justify-items: center; gap: 4px; padding: 0; }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" id="sprite">
@@ -1378,7 +1385,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
         <div class="spacer"></div>
         <label class="field" data-search><svg class="ic sm"><use href="#i-search"/></svg><input type="search" data-t-ph="search" placeholder="搜索城市" aria-label="搜索"><kbd>/</kbd></label>
         <div class="seg" role="group"><button data-set-lang="zh" aria-pressed="true">中</button><button data-set-lang="en" aria-pressed="false">EN</button></div>
-        <button class="btn icon" aria-label="分享" title="分享"><svg class="ic sm"><use href="#i-share"/></svg></button>
+        <button class="btn icon" aria-label="分享" title="分享" data-dshare><svg class="ic sm"><use href="#i-share"/></svg></button>
         <button class="btn icon" data-open-almanac aria-label="百科" title="百科"><svg class="ic sm"><use href="#i-book"/></svg></button>
       </header>
       <div class="colophon" data-colophon></div>
@@ -1401,7 +1408,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
     <div class="phones"><div><div class="phone" id="phone"><div class="screen"><div class="app" data-app="phone">
       <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
       <header class="p-top"><div class="brand-lock"><span class="seal"><span>图鉴</span></span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div><span class="spacer"></span>
-        <button class="btn icon ghost" aria-label="搜索"><svg class="ic"><use href="#i-search"/></svg></button><button class="btn icon ghost" data-set-lang-toggle aria-label="中/EN"><svg class="ic"><use href="#i-lang"/></svg></button><button class="btn icon ghost" aria-label="菜单"><svg class="ic"><use href="#i-menu"/></svg></button></header>
+        <button class="btn icon ghost" aria-label="搜索"><svg class="ic"><use href="#i-search"/></svg></button><button class="btn icon ghost" data-set-lang-toggle aria-label="中/EN"><svg class="ic"><use href="#i-lang"/></svg></button></header>
       <div class="p-yields" data-pyields></div>
       <div class="p-lens" data-plens></div>
       <section class="leaf p-sheet" data-psheet></section>
@@ -2357,7 +2364,7 @@ function renderArc() { const c = BYID.get(V4.city); if (!c) return; const prov =
   $("[data-arc-yields]").innerHTML = yieldsRow(c);
   $("[data-arc-actions]").innerHTML = `<button class="btn wide" data-sec="s-xiang">${seal("吾乡", 24)}${ZH("这是我老家 · 盖个章", "Stamp · this is my hometown")}</button>
     <button class="btn" data-v4="arc-duel">${icon("i-versus")}${ZH("拉去 PK", "Add to compare")}</button><button class="btn" data-sec="s-share">${icon("i-share")}${ZH("分享长卷", "Share card")}</button>
-    <button class="btn">${icon("i-download")}${ZH("下载数据", "Download data")}</button><button class="btn">${icon("i-link")}${ZH("嵌入卡片", "Embed")}</button>`;
+    <button class="btn" data-arcdl>${icon("i-download")}${ZH("下载数据", "Download data")}</button><button class="btn" data-arcembed>${icon("i-link")}${ZH("嵌入卡片", "Embed")}</button>`;
   $("[data-arc-tabs]").innerHTML = ARC_TABS.map(([id, ic, zh, en]) => `<button role="tab" data-arc-tab="${id}" aria-selected="${V4.tab === id}">${icon(ic, "")}${ZH(zh, en)}</button>`).join("") + `<span class="tab-note note">${ZH("每城一页 · /city/", "One page per city · /city/")}${c.id}</span>`;
   $("[data-arc-body]").innerHTML = arcBody(c); }
 
@@ -2435,7 +2442,7 @@ function renderXiang() { const h = BYID.get(V4.home), en = EN(), no = (V4.count 
     <p class="disclaim">${icon("i-info")}<span>${ZH("不足 10 位的城市不显示，也不画流线。本站访客自愿标注，非官方统计。", "Cities with fewer than 10 are hidden and get no stroke. Self-reported, not official.")}</span></p>`;
   $("[data-x3a]").innerHTML = `${seal("吾乡")}<div class="line">${ZH(`我为家乡<b>${h.n}</b>钤印`, `I stamped for <b>${h.en}</b>`)}</div><div class="zhubi" style="font-size:17px">${ZH(`第 ${no} 位 · 二〇二六年冬`, `No. ${no} · winter 2026`)}</div><div style="width:100%">${prideHTML(h, 2, true)}</div>`;
   $("[data-x3b]").innerHTML = `<div class="foot"><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span><span style="flex:1">${ZH("本站访客自愿标注，非官方统计", "Self-reported by visitors, not official")}</span><span class="qr">${ZH("扫码<br>认家乡", "Scan to<br>stamp")}</span></div>`;
-  $("[data-sharebar]").innerHTML = [["i-share", ZH("发给朋友", "Send")], ["i-out", ZH("朋友圈", "Moments")], ["i-link", ZH("复制链接", "Copy link")], ["i-download", ZH("保存图片", "Save image")]].map(([ic, l]) => `<div><i>${icon(ic, "")}</i>${l}</div>`).join(""); }
+  $("[data-sharebar]").innerHTML = [["send", "i-share", ZH("发给朋友", "Send")], ["moments", "i-out", ZH("朋友圈", "Moments")], ["link", "i-link", ZH("复制链接", "Copy link")], ["save", "i-download", ZH("保存图片", "Save image")]].map(([k, ic, l]) => `<button type="button" data-xshare="${k}"><i>${icon(ic, "")}</i>${l}</button>`).join(""); }
 function drawSealCluster(app, ctx, u, v) { const h = BYID.get(V4.home); if (!h) return; const [x, y] = toPx(v, h.x, h.y), r = rng(41), n = V4.stamped ? 15 : 12;
   for (let i = 0; i < n; i++) { const a = r() * 6.28, d = (10 + r() * 30) * u, s = (3.2 + r() * 2.2) * u; ctx.save(); ctx.translate(x + Math.cos(a) * d * 1.3, y + 8 * u + Math.sin(a) * d * .55); ctx.rotate((r() - .5) * .5); ctx.globalAlpha = .55 + r() * .35; ctx.fillStyle = DAY.seal; ctx.fillRect(-s / 2, -s / 2, s, s); ctx.restore(); } }
 function flowGeom(v) { const h = BYID.get(V4.home); if (!h) return []; const [x0, y0] = toPx(v, h.x, h.y);
@@ -3067,9 +3074,10 @@ function mCoachHTML() { if (!M.coach) return ""; const steps = [
   const st = steps[M.coach - 1]; if (!st) return ""; const [x, y, w, h] = st.ring, [tx, ty, dir, ax] = st.tip;
   return `<span class="ring" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px"></span><div class="tip ${dir}" style="left:${tx}px;top:${ty}px;--ax:${ax}px"><b>${st.t}</b><span>${st.s}</span><div class="row-gap"><span class="note" style="color:#cdbf9a">${M.coach} / 3</span><button class="btn primary" data-m="coach-next">${M.coach === 3 ? ZH("开始玩", "Let's go") : ZH("下一步", "Next")}</button></div></div>`; }
 function mShareHTML(kind) { const c = BYID.get(M.city || M.home || "540400");
-  return `<div class="box"><span class="eyebrow">${ZH("晒一晒", "Share")}</span><div class="m-share"><div class="frame" style="aspect-ratio:3/4"><div class="screen" style="width:450px;height:600px"><div class="xhs" data-mxhs></div></div></div>
-    <div class="m-targets">${[["i-share", ZH("发给朋友", "Send")], ["i-out", ZH("朋友圈", "Moments")], ["i-link", ZH("复制链接", "Copy link")], ["i-download", ZH("保存图片", "Save")]].map(([ic, l]) => `<button data-m="shared"><i>${icon(ic, "")}</i>${l}</button>`).join("")}</div>
-    <span class="note">${ZH("图上有二维码，朋友扫码直接打开这座城", "The QR code opens this city for friends")}</span><button class="btn ghost" data-m="close-modal" style="height:44px">${ZH("关闭", "Close")}</button></div></div>`; }
+  if (M.shareKind === "share-quiz") return `<div class="box"><span class="eyebrow">${ZH("晒成绩", "Share your score")}</span><pre class="m-quizshare">${quizShareText()}</pre><button class="btn primary" data-mshare="quiz-copy" style="height:48px;justify-content:center">${icon("i-link")}${ZH("复制成绩，发到群里比一比", "Copy your score")}</button><span class="note">${ZH("不剧透答案，只显示对错格子", "No spoilers: only right/wrong squares")}</span><button class="btn ghost" data-m="close-modal" style="height:44px">${ZH("关闭", "Close")}</button></div>`;
+  return `<div class="box"><span class="eyebrow">${ZH("晒一晒", "Share")}</span><div class="m-share"><div data-mshareprev><div class="frame" style="aspect-ratio:3/4"><div class="screen" style="width:450px;height:600px"><div class="xhs" data-mxhs></div></div></div></div>
+    <div class="m-targets">${[["send", "i-share", ZH("发给朋友", "Send")], ["moments", "i-out", ZH("朋友圈", "Moments")], ["link", "i-link", ZH("复制链接", "Copy link")], ["save", "i-download", ZH("保存图片", "Save")]].map(([k, ic, l]) => `<button data-mshare="${k}"><i>${icon(ic, "")}</i>${l}</button>`).join("")}</div>
+    <span class="note">${ZH("保存的是 1080×1440 的真图，二维码扫了就打开这座城", "Saves a real 1080×1440 image; the QR code opens this city")}</span><button class="btn ghost" data-m="close-modal" style="height:44px">${ZH("关闭", "Close")}</button></div></div>`; }
 function renderMob(anim) { const r = mRoot(); if (!r || !CITIES) return;
   $("[data-mtabs]", r).innerHTML = mTabsHTML();
   const onMap = M.tab === "map" || M.tab === "album";
@@ -3133,7 +3141,7 @@ function initMob() { const el = $("[data-mmap]"); if (!el) return;
     if (b.dataset.m6pk) { const [x, y] = b.dataset.m6pk.split(","); P6.a = x; P6.b = y; P6.step = -1; clearInterval(P6.timer); renderMob(); snd("flip"); return; }
     if (k === "expand") { M.sheet = "full"; renderMob("count"); mPush(); } else if (k === "collapse") { M.sheet = "peek"; renderMob(); mPush(); }
     else if (k === "stamp") mStamp(); else if (k === "topk") { P6.a = M.city; P6.b = M.home && M.home !== M.city ? M.home : (M.city === "500000" ? "510100" : "500000"); P6.step = -1; M.tab = "pk"; renderMob(); }
-    else if (k === "share" || k === "share-quiz") { M.modal = "share"; renderMob(); } else if (k === "close-modal") { M.modal = null; renderMob(); } else if (k === "shared") { M.modal = null; renderMob(); mToast(`${icon("i-share", "")}<span>${ZH("已生成，朋友扫码就能打开这座城", "Ready: friends can scan to open this city")}</span>`); }
+    else if (k === "share" || k === "share-quiz") { M.shareKind = k; M.modal = "share"; renderMob(); } else if (k === "close-modal") { M.modal = null; renderMob(); }
     else if (k === "flows") { M.flows = true; M.sheet = "peek"; renderMob(); if (MAPP) { MAPP.view = { ...MAPP.home }; full(MAPP); } }
     else if (k === "q-next") { G6.i++; G6.picked = null; renderMob(); snd("flip"); } else if (k === "q-end") { G6.done = true; renderMob(); mTask("quiz"); }
     else if (k === "pk-go" || k === "pk-again") { const n = DUEL5.filter(r => r.k).length; clearInterval(P6.timer); if (RM()) { P6.step = n; renderMob(); mTask("pk"); return; } P6.step = 0; renderMob(); P6.timer = setInterval(() => { P6.step++; renderMob(); snd("flip"); setTimeout(() => snd("stamp"), 300); if (P6.step >= n) { clearInterval(P6.timer); snd("win"); mTask("pk"); } }, 800); }
@@ -3152,15 +3160,15 @@ const RUBRIC = [
   ["A", ["一看就会用", "Understand at a glance"], [["A1", "首屏 3 秒看懂是什么", "开局一句“你从哪儿来？”+ 地图背景"], ["A2", "第一个动作明确", "唯一主按钮：选家乡；可跳过"], ["A3", "3 步内拿到第一份奖励", "选城 → 盖章 → 家乡卡（3 步）"], ["A4", "手势和控件可发现", "3 步教学浮层；双指缩放 + 拖动；+/− 按钮兜底"], ["A5", "随时回到起点", "关闭、收起、重选家乡都在"]]],
   ["B", ["主次有序", "Clear hierarchy"], [["B1", "每屏一个主信息", "地图页=城；城页=宝藏点；猜城=题目"], ["B2", "每屏一个“下一步”", "去看看 / 看完整档案 / 下一题 / 开始 PK"], ["B3", "满而不乱（分层、折叠）", "家底与历史折叠；宝藏点横滑"], ["B4", "模式一致", "卡片、印、颜色同一套"]]],
   ["C", ["探索不卡壳", "Explore without getting stuck"], [["C1", "所有玩法 ≤2 次点击", "底部 5 个 Tab 直达"], ["C2", "没有死路", "每屏有出口：收起、下一题、去完成"], ["C3", "玩法互相导流", "城页 → 打卡/PK/晒；猜城完 → 去打卡这座城"], ["C4", "空状态有引导", "未选城显示今日宝藏城；无数据写“采集中”"]]],
-  ["D", ["留得住、会回来", "Stay and return"], [["D1", "每天回来的理由", "每日 5 题、今日宝藏城、红点"], ["D2", "进度与收集", "打卡地图、完整图鉴页（按省进度、稀有度筛选）、成就"], ["D3", "分享回流", "3:4 图带二维码，扫码直达这座城"], ["D4", "连续性", "日印周历、连对"]]],
+  ["D", ["留得住、会回来", "Stay and return"], [["D1", "每天回来的理由", "每日 5 题、今日宝藏城、红点"], ["D2", "进度与收集", "打卡地图、完整图鉴页（按省进度、稀有度筛选）、成就"], ["D3", "分享回流", "保存的是 1080×1440 真图，二维码是真的，扫码打开这座城；能系统分享就系统分享，微信里给分享引导"], ["D4", "连续性", "日印周历、连对"]]],
   ["E", ["手机好用", "Mobile ergonomics"], [["E1", "拇指区操作", "底部 Tab、底部抽屉、底部操作栏"], ["E2", "点击 ≥44px、字号 ≥12px", "按钮 44–50px；正文 14px；地图注记 ×1.15，大字模式 ×1.32"], ["E3", "动效有反馈、可减弱", "盖章、飞行、翻卡；跟随系统减弱动效"]]]];
 const BASICS = [["P0", "搜索：拼音、首字母、县名、最近搜过", 1], ["P0", "最近看过 + 收藏", 1], ["P0", "榜单：按指标排序、按省筛选、吾乡名次", 1], ["P0", "手机上切换透镜与年份（含图例）", 1], ["P0", "每个数字点 ⓘ：定义、算法、出处原文", 1], ["P0", "链接回到同一画面；返回键逐层后退", 1], ["P0", "微信：标题栏、分享引导、聊天卡片（正式版接 JS-SDK，需备案域名）", 1], ["P0", "加载、无结果、出错时都有提示", 1], ["P0", "数据截至日期 + 纠错入口", 1],
   ["P1", "大字模式", 1], ["P1", "清除我的数据 + 隐私说明", 1], ["P1", "帮助 / 常见问题；教学可重看", 1], ["P1", "加到主屏幕、弱网离线（说明已写；缓存要 Service Worker，正式版做）", .5], ["P1", "复制链接、复制引用格式、榜单导出 CSV（带出处列）", 1], ["P1", "同省城市切换：地图上浮签 ‹ ›，城页左右滑", 1]];
-const SCORE = { history: [["底分", 40], ["第 1 轮", 84], ["第 2 轮", 96], ["第 3 轮", 97], ["第 4 轮", 0]], items: {
+const SCORE = { history: [["底分", 40], ["第 1 轮", 84], ["第 2 轮", 96], ["第 3 轮", 97], ["第 4 轮", 99], ["第 5 轮", 0]], items: {
   A1: [5, ""], A2: [5, ""], A3: [5, ""], A4: [5, ""], A5: [5, ""],
   B1: [5, ""], B2: [5, ""], B3: [5, ""], B4: [5, ""],
   C1: [5, ""], C2: [5, ""], C3: [5, ""], C4: [5, ""],
-  D1: [5, ""], D2: [5, ""], D3: [4, "分享图上的二维码还是占位；正式版换成带城市参数的小程序码或短链，扫码才真能直达这座城"], D4: [5, ""],
+  D1: [5, ""], D2: [5, ""], D3: [5, ""], D4: [5, ""],
   E1: [5, ""], E2: [5, ""], E3: [5, ""] } };
 function renderScore() { const el = $("[data-mscore]"); if (!el) return; const it = SCORE.items, tot = Object.values(it).reduce((s, v) => s + v[0], 0); SCORE.history[SCORE.history.length - 1][1] = tot;
   const p0 = BASICS.filter(b => b[0] === "P0"), p0ok = p0.every(b => b[2] === 1), capped = p0ok ? tot : Math.min(tot, 90); SCORE.history[SCORE.history.length - 1][1] = capped;
@@ -3278,7 +3286,7 @@ const DPAGES = [
   ["s-cards", ["卡牌与打卡地图", "Cards & stamp map"], 95, 96, "本轮：完整图鉴页（按省进度、稀有度筛选）补上了“只能看最近几张”的缺口"],
   ["s-duel", ["城市 PK", "City PK"], 95, 95, "七回合逐个揭晓、缺数据不计分；扣分：开局前满屏问号格偏重，可以先只露第一行"],
   ["s-archive", ["城市档案", "City archive"], 95, 96, "六个分页、下载与嵌入都有；本轮滚动区加了底部渐隐，看得出还能往下滚"],
-  ["s-share", ["分享长卷", "Share sheets"], 96, 96, "四种尺寸各有用途；扣分：二维码仍是占位（正式版换成带城市参数的小程序码）"],
+  ["s-share", ["分享长卷", "Share sheets"], 96, 97, "本轮：“保存图片”生成 1080×1440 真图，二维码是真的（扫码打开这座城）；“复制链接”“系统分享”都能用；档案页“下载数据”导出带公报原文的 CSV，“嵌入卡片”复制 iframe 代码。仍扣：正式版要换成小程序码"],
   ["s-xiang", ["钤印认乡", "Hometown seals"], 95, 95, "认乡 → 老乡在哪 → 钤印卡三步清楚，隐私说明到位；扣分：手机三屏并排，桌面上缺一张对应的大屏布局"],
   ["s-gujin", ["古今同图", "Then & now"], 95, 96, "行迹逐站可点、朝代轴清楚；本轮行迹列表加底部渐隐"],
   ["s-gov", ["历代治理", "Governance through history"], 95, 96, "只讲历代建置和名宦，层级图 + 数量柱一眼看懂；本轮侧栏加底部渐隐"],
@@ -3287,6 +3295,21 @@ function renderDScore() { const el = $("[data-dscore]"); if (!el) return; const 
   el.innerHTML = `<div class="dsh"><span class="big num">${low}<small> ${ZH("最低页", "lowest page")}</small></span><span class="big num" style="font-size:28px">${avg}<small> ${ZH("平均", "average")}</small></span><span class="note" style="margin:0;max-width:640px">${ZH("桌面逐页打分：和手机同一套 A–E 标准（一看就会用 25 · 主次有序 20 · 探索不卡壳 20 · 留得住会回来 20 · 好用 15）。基础功能没齐的页面封顶 90。目标：每一页 ≥ 95。", "Each desktop page scored with the same A–E rubric as mobile. Pages missing basics are capped at 90. Target: every page ≥ 95.")}</span></div>
     <div><b style="font:600 15px/1.2 var(--serif)">${ZH("桌面基础功能", "Desktop basics")}</b> <span class="note">${DBASICS.length} / ${DBASICS.length} ${ZH("已具备", "done")}</span><div class="bas" style="margin-top:8px">${DBASICS.map(([x]) => `<span>${x}</span>`).join("")}</div></div>
     <table><thead><tr><th>${ZH("页面", "Page")}</th><th>${ZH("上轮", "Before")}</th><th>${ZH("本轮", "Now")}</th><th>${ZH("扣分与改动", "Deductions & changes")}</th></tr></thead><tbody>${DPAGES.map(([id, nm, a, b, why]) => `<tr><td><a href="#${id}" style="color:var(--ink);font:600 14px/1.3 var(--serif)">${ZH(...nm)}</a></td><td class="n lo">${a}</td><td class="n ${b >= 95 ? "ok" : ""}">${b}</td><td>${why}</td></tr>`).join("")}</tbody></table>`; }
+/* ---- desktop share panel ---- */
+function dShareToggle() { const app = $("#desk .app"); if (!app) return; let el = $(".d-sharepop", app); if (el) { el.remove(); return; } const c = BYID.get(S.city || M.home || "310000"); if (!c) return;
+  el = document.createElement("div"); el.className = "leaf d-sharepop"; el.dataset.city = c.id;
+  el.innerHTML = `<div class="dsh-h"><b>${ZH("分享", "Share")} · ${cname(c)}</b><button class="btn icon ghost" data-dsh="close" aria-label="${ZH("关闭", "Close")}">${icon("i-close")}</button></div><div class="dsh-prev" data-dshprev><span class="note">${ZH("正在出图…", "Rendering…")}</span></div>
+    <div class="dsh-acts"><button class="btn primary" data-dsh="save">${icon("i-download")}${ZH("保存图片", "Save image")}</button><button class="btn" data-dsh="link">${icon("i-link")}${ZH("复制链接", "Copy link")}</button>${navigator.share ? `<button class="btn" data-dsh="send">${icon("i-share")}${ZH("系统分享", "Share…")}</button>` : ""}<button class="btn" data-dsh="csv">⇩ ${ZH("这座城的数据（CSV）", "City data (CSV)")}</button></div>
+    <p class="note" style="margin:0">${ZH("图片 1080×1440，小红书比例；二维码扫了打开这座城（原型里指向这份设计稿）", "1080×1440 image; the QR code opens this city (in the prototype, this design page)")}</p>`;
+  app.appendChild(el); shareCanvas(c).then(cv => { const pv = $("[data-dshprev]", el); if (pv) { pv.innerHTML = ""; cv.style.cssText = "width:100%;height:auto;display:block;border-radius:6px"; pv.appendChild(cv); } }); }
+document.addEventListener("click", e => { const t = e.target.closest("[data-dshare],[data-dsh],[data-arcdl],[data-arcembed],[data-xshare]"); if (!t) { const pop = $("#desk .d-sharepop"); if (pop && e.isTrusted && !e.target.closest(".d-sharepop")) pop.remove(); return; }
+  if (t.hasAttribute("data-dshare")) { dShareToggle(); return; }
+  if (t.dataset.dsh) { const pop = t.closest(".d-sharepop"), c = pop && BYID.get(pop.dataset.city), k = t.dataset.dsh; if (k === "close") { pop.remove(); return; }
+    if (k === "csv") { dlCSV(cityCSV(c), `jiangshan-${c.id}.csv`, st => dToast(`<span>${st === "saved" ? ZH("已导出这座城的数据，含出处和公报原文", "Exported with sources") : st === "copied" ? ZH("这里存不了文件，已复制到剪贴板", "Copied to the clipboard") : ZH("已取消", "Cancelled")}</span>`)); return; }
+    shareAct(k, c, { toast: (h, ms) => dToast(h, ms) }); return; }
+  if (t.hasAttribute("data-arcdl")) { const c = BYID.get(V4.city); if (c) dlCSV(cityCSV(c), `jiangshan-${c.id}.csv`, st => pageToast(`<span>${st === "saved" ? ZH(`已导出${cname(c)}的数据，含出处和公报原文`, "Exported with sources") : st === "copied" ? ZH("这里存不了文件，已复制到剪贴板", "Copied to the clipboard") : ZH("已取消", "Cancelled")}</span>`)); return; }
+  if (t.hasAttribute("data-arcembed")) { const c = BYID.get(V4.city); if (!c) return; mCopy(`<iframe src="${location.origin}/embed/city/${c.id}" width="360" height="480" style="border:0;border-radius:8px" title="${ZH("江山图鉴", "Jiangshan Atlas")} · ${cname(c)}" loading="lazy"></iframe>`); pageToast(`<span>${ZH("嵌入代码已复制：贴进网页就是这张城市卡（正式站上线后生效）", "Embed code copied (works once the site is live)")}</span>`, 3000); return; }
+  if (t.dataset.xshare) { const c = BYID.get(V4.home); if (c) shareAct(t.dataset.xshare, c, { toast: (h, ms) => pageToast(h, ms) }); } });
 /* ================= 桌面 · 基础功能 ================= */
 function escH(x) { return String(x).replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch])); }
 function dSaveQ(q) { q = String(q || "").trim(); if (!q) return; M.searches = [q, ...M.searches.filter(x => x !== q)].slice(0, 8); mSave(); }
@@ -3333,7 +3356,9 @@ document.addEventListener("click", e => { const b = e.target.closest("[data-dm],
   document.addEventListener("pointerup", e => { if (!sw) return; const dx = e.clientX - sw.x, dy = e.clientY - sw.y, dt = performance.now() - sw.t; sw = null; if (Math.abs(dx) > 60 && Math.abs(dx) > 2 * Math.abs(dy) && dt < 700) { M.swiped = 1; mSib(dx < 0 ? 1 : -1); } }, true); })();
 window.addEventListener("popstate", () => { if (!mRestore(location.hash)) { M.view = null; M.sheet = "peek"; renderMob(); } });
 /* ---- wiring ---- */
-document.addEventListener("click", e => { const r = mRoot(); if (!r || !r.contains(e.target)) return; const b = e.target.closest("[data-mfav],[data-mrank],[data-mlens],[data-myear],[data-mexp],[data-mq-fill],[data-mq-save],[data-mdexf],[data-msib],[data-m]"); if (!b) return;
+document.addEventListener("click", e => { const r = mRoot(); if (!r || !r.contains(e.target)) return; const b = e.target.closest("[data-mfav],[data-mrank],[data-mlens],[data-myear],[data-mexp],[data-mq-fill],[data-mq-save],[data-mdexf],[data-msib],[data-mshare],[data-m]"); if (!b) return;
+  if (b.dataset.mshare) { const kind = b.dataset.mshare; e.stopImmediatePropagation(); if (kind === "quiz-copy") { mCopy(quizShareText()); mToast(`${icon("i-link", "")}<span>${ZH("成绩已复制，粘贴到群里比一比", "Score copied; paste it in a chat")}</span>`); return; }
+    const c = BYID.get(M.city || M.home || "540400"); shareAct(kind, c, { toast: (h, ms) => mToast(h, ms), inWx: M.wx ? () => { M.wxGuide = true; M.modal = null; renderMob(); } : null, preview: u => { const f = $("[data-mshareprev]"); if (f) f.innerHTML = `<img src="${u}" alt="${cname(c)}" style="width:100%;display:block;border-radius:6px;box-shadow:0 10px 30px -14px rgba(0,0,0,.5)">`; } }); return; }
   if (b.dataset.mdexf) { M.dexF = b.dataset.mdexf; renderMob(); snd("tick"); return; }
   if (b.dataset.msib) { mSib(+b.dataset.msib); return; }
   if (b.dataset.mqSave) { const s = b.dataset.mqSave.trim(); if (s) { M.searches = [s, ...M.searches.filter(x => x !== s)].slice(0, 8); mSave(); } M.view = null; }
@@ -3374,6 +3399,65 @@ document.addEventListener("click", e => { const r = mRoot(); if (!r || !r.contai
   else if (k === "copy-link") { const url = location.href.split("#")[0] + mHash(); try { navigator.clipboard && navigator.clipboard.writeText(url); } catch (x) { } mToast(`${icon("i-link", "")}<span>${ZH("链接已复制，打开就是这一页", "Link copied: it opens this exact view")}</span>`); } }, true);
 document.addEventListener("input", e => { if (e.target.matches && e.target.matches("[data-mq2]")) { M.q = e.target.value; const pos = e.target.selectionStart; renderMob(); const i = $("[data-mq2]"); if (i) { i.focus(); i.setSelectionRange(pos, pos); } } });
 document.addEventListener("change", e => { if (e.target.matches && e.target.matches("[data-mprov]")) { M.rankProv = e.target.value; renderMob(); } if (e.target.matches && e.target.matches("[data-mwx]")) { M.wx = e.target.checked; M.wxGuide = false; renderMob(); } });
+
+/* ================= 分享：真图片、真二维码、真分享 ================= */
+const SHR = { busy: false };
+function shrUrl(c) { return location.href.split("#")[0] + (c ? "#m/map/" + c.id : ""); }
+function qrLoad() { return new Promise((res, rej) => { if (window.qrcode) return res(); const s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"; s.crossOrigin = "anonymous"; s.referrerPolicy = "no-referrer";
+  const to = setTimeout(() => rej(new Error("timeout")), 8000); s.onload = () => { clearTimeout(to); window.qrcode ? res() : rej(new Error("missing")); }; s.onerror = () => { clearTimeout(to); rej(new Error("load")); }; document.head.appendChild(s); }); }
+async function qrDraw(x, text, px, py, size) { try { await qrLoad(); const q = qrcode(0, "M"); q.addData(text); q.make(); const n = q.getModuleCount(), m = size / (n + 4);
+    x.fillStyle = "#fffaf0"; x.fillRect(px, py, size, size); x.fillStyle = "#2b231d"; for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) x.fillRect(px + (c + 2) * m, py + (r + 2) * m, m + .5, m + .5); return true; }
+  catch (e) { x.fillStyle = "#fffaf0"; x.fillRect(px, py, size, size); x.strokeStyle = "rgba(43,35,29,.35)"; x.lineWidth = 2; x.strokeRect(px, py, size, size); x.fillStyle = "#6b5a4a"; x.font = `500 ${Math.round(size * .1)}px "Noto Sans SC", sans-serif`; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(ZH("链接见文案", "Link in caption"), px + size / 2, py + size / 2); x.textAlign = "left"; return false; } }
+function rrect(x, a, b, w, h, r) { x.beginPath(); x.moveTo(a + r, b); x.arcTo(a + w, b, a + w, b + h, r); x.arcTo(a + w, b + h, a, b + h, r); x.arcTo(a, b + h, a, b, r); x.arcTo(a, b, a + w, b, r); x.closePath(); }
+const stripTags = h => String(h).replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ");
+/* the 3:4 card (1080 × 1440), drawn natively so it can be saved as a real PNG */
+async function shareCanvas(c) { const W = 1080, H = 1440, cv = document.createElement("canvas"); cv.width = W; cv.height = H; const x = cv.getContext("2d"), P = 84, small = (c.popAny || 0) < 4e6, hs = prideOf(c).slice(0, 3);
+  const g = x.createLinearGradient(0, 0, W * .25, H); g.addColorStop(0, "#fbf3dc"); g.addColorStop(1, "#efe2c2"); x.fillStyle = g; x.fillRect(0, 0, W, H);
+  x.save(); x.globalAlpha = .3; x.globalCompositeOperation = "multiply"; x.fillStyle = paperPattern(x); x.fillRect(0, 0, W, H); x.restore();
+  x.strokeStyle = "rgba(43,35,29,.3)"; x.lineWidth = 3; x.strokeRect(26, 26, W - 52, H - 52); x.lineWidth = 1; x.strokeRect(38, 38, W - 76, H - 76);
+  const tag = "#" + (small ? ZH("被低估的宝藏小城", "underrated gem") : ZH("城市隐藏实力", "hidden strengths")); x.font = `600 34px "Noto Sans SC", sans-serif`; const tw = x.measureText(tag).width + 44;
+  x.fillStyle = "rgba(178,58,43,.1)"; rrect(x, P, 86, tw, 60, 30); x.fill(); x.fillStyle = "#b23a2b"; x.textBaseline = "middle"; x.fillText(tag, P + 22, 117); drawSeal(x, W - P - 46, 116, 92, "图鉴", 4, 7);
+  x.textBaseline = "alphabetic"; x.fillStyle = "#2b231d"; x.font = `900 136px "Noto Serif SC", serif`; x.fillText(cname(c), P, 306);
+  x.fillStyle = "#4a3b2f"; x.font = `500 46px "Noto Serif SC", serif`; x.fillText(small ? ZH("被低估的宝藏小城", "An underrated gem") : ZH("隐藏实力有多强？", "How strong is it, really?"), P, 372);
+  x.fillStyle = "#8a7a68"; x.font = `500 30px "Noto Sans SC", sans-serif`; x.fillText(`${pvOf(c)} · ${kindOf(c)} · ${ZH(...RAR[rarity(c)])}`, P, 416);
+  const art = document.createElement("canvas"); art.width = 912; art.height = 320; try { cardArt(art, c); } catch (e) { }
+  x.save(); rrect(x, P, 448, W - 2 * P, 320, 18); x.clip(); x.drawImage(art, P, 448, W - 2 * P, 320); x.restore(); x.strokeStyle = "rgba(43,35,29,.25)"; x.lineWidth = 2; rrect(x, P, 448, W - 2 * P, 320, 18); x.stroke();
+  let y = 796; for (const h of hs) { rrect(x, P, y, W - 2 * P, 112, 16); x.fillStyle = "rgba(251,246,234,.9)"; x.fill(); x.strokeStyle = "rgba(43,35,29,.14)"; x.lineWidth = 2; x.stroke();
+    const no = h.r <= 30 ? ZH(`第${h.r}`, `#${h.r}`) : ZH(`前${Math.max(1, Math.round(h.q * 100))}%`, `top ${Math.max(1, Math.round(h.q * 100))}%`);
+    x.fillStyle = h.r <= 3 ? "#c9a24a" : "#b23a2b"; x.beginPath(); x.arc(P + 68, y + 56, 42, 0, 7); x.fill(); x.fillStyle = "#fbf4e6"; x.textAlign = "center"; x.textBaseline = "middle"; x.font = `800 ${no.length > 3 ? 24 : 30}px "Noto Serif SC", serif`; x.fillText(no, P + 68, y + 57);
+    x.textAlign = "left"; x.textBaseline = "alphabetic"; x.fillStyle = "#2b231d"; x.font = `400 46px "Ma Shan Zheng", serif`; x.fillText(ZH(...h.m.lab), P + 140, y + 52); x.fillStyle = "#5a4a3c"; x.font = `500 30px "Noto Serif SC", serif`; x.fillText(stripTags(h.m.ph(c)).slice(0, 26), P + 140, y + 94); y += 126; }
+  const fy = H - 256; x.strokeStyle = "rgba(43,35,29,.2)"; x.lineWidth = 2; x.beginPath(); x.moveTo(P, fy); x.lineTo(W - P, fy); x.stroke();
+  x.fillStyle = "#2b231d"; x.font = `400 64px "Ma Shan Zheng", serif`; x.fillText("江山图鉴", P, fy + 96); x.fillStyle = "#8a7a68"; x.font = `600 20px "Noto Serif SC", serif`; x.fillText("J I A N G S H A N   A T L A S", P, fy + 132);
+  x.fillStyle = "#b23a2b"; x.font = `500 30px "Noto Sans SC", sans-serif`; x.fillText(`#${cname(c)}  #${small ? ZH("宝藏小城", "gems") : ZH("城市实力", "cities")}`, P, fy + 186);
+  x.fillStyle = "#8a7a68"; x.font = `400 20px "Noto Sans SC", sans-serif`; x.fillText(ZH("数据：各地统计公报、七普、ESA WorldCover", "Data: city communiqués, 2020 census, ESA WorldCover"), P, fy + 224);
+  const qs = 178, qx = W - P - qs, qy = fy + 22; await qrDraw(x, shrUrl(c), qx, qy, qs); x.fillStyle = "#5a4a3c"; x.font = `500 22px "Noto Sans SC", sans-serif`; x.textAlign = "center"; x.fillText(ZH("扫码看它排第几", "Scan to see the ranks"), qx + qs / 2, qy + qs + 30); x.textAlign = "left";
+  return cv; }
+const shareBlob = async c => { const cv = await shareCanvas(c); return await new Promise(r => cv.toBlob(r, "image/png")); };
+/* one place for every share button: send / moments / link / save */
+async function shareAct(kind, c, ui) { if (!c || SHR.busy) return; const url = shrUrl(c), small = (c.popAny || 0) < 4e6, title = ZH(`${cname(c)}：${small ? "被低估的宝藏小城" : "隐藏实力有多强"}`, `${c.en || c.n}: ${small ? "an underrated gem" : "hidden strengths"}`), text = ZH(`看看${cname(c)}在全国排第几`, `See where ${c.en || c.n} ranks`);
+  const toast = ui.toast || (() => { });
+  if (kind === "link") { mCopy(`${title} ${url}`); toast(`${icon("i-link", "")}<span>${ZH("链接已复制，打开就是这座城", "Link copied: it opens this city")}</span>`); snd("tick"); return; }
+  if ((kind === "send" || kind === "moments") && ui.inWx) { ui.inWx(); return; }
+  if (kind === "send") { if (navigator.share) { SHR.busy = true; try { let data = { title, text, url }; try { const b = await shareBlob(c), f = new File([b], `jiangshan-${c.id}.png`, { type: "image/png" }); if (navigator.canShare && navigator.canShare({ files: [f] })) data = { files: [f], title, text, url }; } catch (e) { }
+        await navigator.share(data); toast(`<span>${ZH("已打开系统分享", "Share sheet opened")}</span>`); return; } catch (e) { if (e && e.name === "AbortError") return; } finally { SHR.busy = false; } }
+    mCopy(`${title} ${url}`); toast(`<span>${ZH("这里打不开系统分享：链接已复制，粘贴给朋友就行", "No share sheet here: link copied, paste it to a friend")}</span>`); return; }
+  SHR.busy = true; toast(`<span>${ZH("正在出图…", "Rendering…")}</span>`, 1200);
+  try { const blob = await shareBlob(c), fn = `jiangshan-${c.id}.png`, imgUrl = URL.createObjectURL(blob); if (ui.preview) ui.preview(imgUrl); let saved = false, declined = false;
+    if (DLS) { try { await DLS.save({ filename: fn, data: blob }); saved = true; } catch (e) { declined = e && e.code === "declined"; } }
+    else if (!(window.claude && window.claude.use)) { try { const a = document.createElement("a"); a.href = imgUrl; a.download = fn; document.body.appendChild(a); a.click(); a.remove(); saved = true; } catch (e) { } }
+    toast(`<span>${declined ? ZH("已取消保存；也可以长按上面的图保存", "Cancelled; you can also long-press the image") : saved ? (kind === "moments" ? ZH("图片已保存（1080×1440），去朋友圈发图吧", "Saved (1080×1440); post it to Moments") : ZH("图片已保存（1080×1440，带二维码）", "Saved (1080×1440, with QR code)")) : ZH("长按上面的图片即可保存", "Long-press the image above to save it")}</span>`, 2600); }
+  finally { SHR.busy = false; } }
+/* quiz result as shareable text, Wordle-style */
+function quizShareText() { const d = new Date(), ds = `${d.getMonth() + 1}/${d.getDate()}`, sc = (G6.res || []).filter(Boolean).length;
+  return `${ZH("江山图鉴 · 今日猜城", "Jiangshan Atlas · daily quiz")} ${ds}\n${(G6.res || []).map(r => r === true ? "🟩" : r === false ? "🟥" : "⬜").join("")} ${sc}/5\n${location.href.split("#")[0]}#m/guess`; }
+/* page-level toast for sections outside the app frames */
+function pageToast(html, ms = 2400) { let t = document.querySelector(".pg-toast"); if (t) t.remove(); t = document.createElement("div"); t.className = "pg-toast"; t.setAttribute("role", "status"); t.innerHTML = html; document.body.appendChild(t); clearTimeout(pageToast.t); pageToast.t = setTimeout(() => t.remove(), ms); }
+/* the city's numbers as a CSV with a source column */
+function cityCSV(c) { const rows = [[ZH("指标", "metric"), ZH("数值", "value"), ZH("单位", "unit"), ZH("出处", "source"), ZH("公报原文", "source sentence")]], q = (c.src && c.src.q) || {};
+  const F = [["popAny", ZH("常住人口", "Resident population"), ZH("人", "people")], ["popReg", ZH("户籍人口", "Registered population"), ZH("人", "people")], ["gdp", ZH("地区生产总值", "GDP"), ZH("元", "yuan")], ["pc", ZH("人均地区生产总值", "GDP per head"), ZH("元", "yuan")], ["month", ZH("每人每月可支配收入", "Disposable income per month"), ZH("元", "yuan")], ["day", ZH("每人每天创造", "Output per person per day"), ZH("元", "yuan")], ["dpop", ZH("三年人口增减（七普→2023）", "Population change 2020→2023"), ZH("人", "people")], ["gg", ZH("经济增速", "GDP growth"), "%"], ["forest", ZH("森林占比（卫星估算）", "Forest share (satellite)"), "%"], ["elev", ZH("平均海拔", "Mean elevation"), ZH("米", "m")], ["coastKm", ZH("离海距离", "Distance to the sea"), ZH("公里", "km")]];
+  for (const [k, lab, unit] of F) { const v = c[k]; if (v == null || !isFinite(v)) { rows.push([lab, ZH("暂无", "n/a"), unit, ZH("这座城的公报没写，正在从统计年鉴补", "Not in this city's communiqué"), ""]); continue; } const ex = EXPL[k] || EXPL[k === "pc" ? "day" : k === "popReg" ? "popAny" : k];
+    const val = k === "forest" || k === "gg" ? +(v * (k === "forest" ? 100 : 1)).toFixed(2) : Math.round(v * 100) / 100; rows.push([lab, val, unit, ex ? ZH(...ex[2]) : ZH("2023 年统计公报", "2023 communiqué"), ex && ex[3] && q[ex[3]] ? q[ex[3]] : ""]); }
+  return rows; }
 
 async function fontsReady() { const txt = CITIES.map(c => c.n + (c.en || "")).join("") + PROVS.map(p => p.zh + p.en).join("") + WONDERS.map(w => w.zh + w.en).join("") + "钱产绿势已游未游对错比古都江南东坡省会万亿青绿初出茅庐略知一二行万里路见多识广江山在胸千里江山中华人民共和国二〇二三年数据图鉴渤黄东南海诸岛公里清淡重浓焦癸卯万亿人金粮工商全国郡州府城郭村都吾乡示意东坡苏轼冠秦汉三国晋南北朝隋唐五代宋元明清今年报0123456789%ILUSTRAVE";
   const fams = ['16px "Ma Shan Zheng"', '400 16px "Noto Sans SC"', '500 16px "Noto Sans SC"', '600 16px "Noto Sans SC"', '700 16px "Noto Sans SC"', '400 16px "Noto Serif SC"', '600 16px "Noto Serif SC"', '700 16px "Noto Serif SC"', '900 16px "Noto Serif SC"'];
