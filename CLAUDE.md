@@ -12,7 +12,7 @@
 | 统计公报怎么采、怎么解析 | `docs/DATA-COLLECTION.md` |
 | 设计定稿原型怎么跑 | `explorations/design-freeze/README.md` |
 | 延后的事 | `TODOS.md`（唯一的延后清单，不另起） |
-| 现在做到哪、什么还没验证、等用户做什么 | `STATUS.md`（还没有；第一次收工时按 `i-dont-read-code` 的模板建） |
+| 现在做到哪、什么还没验证、等用户做什么 | `STATUS.md`（完成一项功能和收工时更新） |
 
 ## 北极星
 

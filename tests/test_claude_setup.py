@@ -5,6 +5,7 @@ injected, and nobody notices. These checks make that failure loud. The two budge
 ever go down: to add a rule, remove one first (see "一条新规则该放哪" in CLAUDE.md).
 """
 
+import datetime
 import json
 import re
 import subprocess
@@ -52,6 +53,27 @@ def test_project_card_is_injected_and_within_budget():
     assert len(out) <= PROJECT_CARD_MAX_CHARS, (
         f"per-turn card is {len(out)} chars (budget {PROJECT_CARD_MAX_CHARS}); remove a rule first"
     )
+
+
+def test_stale_handoffs_are_surfaced_under_the_chinese_heading(tmp_path):
+    asked = (datetime.date.today() - datetime.timedelta(days=30)).isoformat()
+    (tmp_path / ".git").mkdir()
+    (tmp_path / "STATUS.md").write_text(
+        f"# 我们到哪了\n\n## 等你做的\n\n- `{asked}` 跑本地采集工具\n\n## 最近的变化\n",
+        encoding="utf-8",
+    )
+    out = subprocess.run(
+        ["bash", str(ROOT / ".claude/skills/i-dont-read-code/scripts/session-start.sh")],
+        cwd=tmp_path, capture_output=True, text=True, check=True,
+    ).stdout
+    assert "ATTENTION" in out and "跑本地采集工具" in out
+
+
+def test_status_md_fits_the_session_start_window():
+    # session-start.sh shows only the first 6000 bytes; past that, the decisions at the
+    # bottom are silently cut. Chinese is 3 bytes a character, so this is ~2000 characters.
+    size = len((ROOT / "STATUS.md").read_bytes())
+    assert size <= 6000, f"STATUS.md is {size} bytes; trim 最近的变化 or archive old lines"
 
 
 def test_claude_md_within_line_budget():

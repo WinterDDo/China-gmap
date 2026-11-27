@@ -21,5 +21,6 @@
     "output-style",
     "claude-code",
     "agent-skills"
-  ]
+  ],
+  "localChanges": "scripts/inject-rules.sh also finds RULES.md beside the scripts folder (vendored layout); scripts/session-start.sh also accepts the Chinese heading 「等你做的」 for Waiting on you. Keep both when re-syncing from upstream."
 }

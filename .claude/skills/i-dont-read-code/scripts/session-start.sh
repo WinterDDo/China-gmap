@@ -26,12 +26,13 @@ if [ -f "$STATUS" ]; then
   echo
 
   # Surface anything under "Waiting on you" older than STALE_DAYS.
+  # 本仓库的 STATUS.md 用中文小标题，所以同时认「等你做的」（与上游的本地差异之一，见 UPSTREAM.json）。
   if command -v python3 >/dev/null 2>&1; then
     python3 - "$STATUS" "$STALE_DAYS" <<'PY' 2>/dev/null || true
 import datetime, re, sys
 path, stale_days = sys.argv[1], int(sys.argv[2])
 text = open(path, encoding="utf-8", errors="replace").read()
-m = re.search(r"^##+\s*Waiting on you\s*$(.*?)(?=^##\s|\Z)", text, re.S | re.M)
+m = re.search(r"^##+\s*(?:Waiting on you|等你做的)\s*$(.*?)(?=^##\s|\Z)", text, re.S | re.M)
 if m:
     today = datetime.date.today()
     stale = []
