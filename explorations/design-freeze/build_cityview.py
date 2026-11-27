@@ -10,7 +10,9 @@ sites     chinaciv's compiled public lists (MIT, Karpathy's usaciv adapted to Ch
 
 English names: chinaciv's own name_en where it has one (World Heritage sites, most plants and mines), the
 universities', scenic areas' and national parks' official English names below, airports as "<city> <terminal> (IATA)",
-and pinyin for county names and for the wind and solar clusters that are named after their county.
+and for counties the project's own pipeline/reference/names.json first, pinyin only where it has no entry (it lists
+prefectures and municipal districts; elsewhere minority-language spellings such as Barkol for 巴里坤 are still missing,
+see TODOS.md). Pinyin also names the wind and solar clusters, which are named after their county.
 
 Usage: python build_cityview.py <infos.json> <chinaciv web/data dir> <design data dir>   (needs pypinyin)
 """
@@ -21,7 +23,7 @@ import statistics
 import re
 import sys
 
-from pypinyin import lazy_pinyin
+from pypinyin import Style, lazy_pinyin, load_phrases_dict
 
 infos_p, cc_dir, out_dir = sys.argv[1:4]
 geo = json.load(open(os.path.join(out_dir, "geo.json"), encoding="utf-8"))
@@ -40,13 +42,57 @@ def proj(lon, lat):
     return round(rho * math.sin(th) - FR["x0"], 1), round(FR["y1"] - (RHO0 - rho * math.cos(th)), 1)
 
 
-SUFFIX = re.compile(r"(土家族苗族|蒙古族藏族|[\u4e00-\u9fff]{1,6}族)*(自治县|自治旗|自治州直辖|林区|特区|新区|区|县|市|旗)$")
+HERE = os.path.dirname(os.path.abspath(__file__))
+NAMES = json.load(open(os.path.join(HERE, "..", "..", "pipeline", "reference", "names.json"), encoding="utf-8"))
+ETH = ("土家 苗 侗 瑶 壮 彝 藏 羌 回 满 蒙古 哈萨克 维吾尔 柯尔克孜 塔吉克 锡伯 达斡尔 鄂温克 鄂伦春 朝鲜 布依 水 仡佬 黎 畲 纳西 傈僳 拉祜 佤 傣 "
+       "哈尼 景颇 白 普米 怒 独龙 阿昌 德昂 布朗 基诺 仫佬 毛南 京 土 撒拉 东乡 保安 裕固 门巴 珞巴 塔塔尔 俄罗斯 乌孜别克 赫哲").split()
+# readings pypinyin gets wrong in place names (checked against names.json: every Han-name prefecture and district matches)
+load_phrases_dict({k: [[x] for x in v.split()] for k, v in {
+    "长宁": "cháng níng", "长沙": "cháng shā", "长春": "cháng chūn", "长治": "cháng zhì", "长子": "zhǎng zǐ", "闵行": "mǐn háng", "朝阳": "cháo yáng",
+    "重庆": "chóng qìng", "乐山": "lè shān", "乐清": "yuè qīng", "乐亭": "lào tíng", "六安": "lù ān", "六合": "lù hé", "蚌埠": "bèng bù", "番禺": "pān yú",
+    "厦门": "xià mén", "亳州": "bó zhōu", "莘县": "shēn xiàn", "泌阳": "bì yáng", "犍为": "qián wéi", "尉氏": "wèi shì", "东阿": "dōng ē", "洪洞": "hóng tóng",
+    "铅山": "yán shān", "单县": "shàn xiàn", "会理": "huì lǐ", "会同": "huì tóng", "会东": "huì dōng", "会泽": "huì zé", "会宁": "huì níng", "会昌": "huì chāng",
+    "台州": "tāi zhōu", "天台": "tiān tāi", "调兵山": "diào bīng shān", "莎车": "shā chē", "柞水": "zhà shuǐ", "华蓥": "huá yíng", "阆中": "làng zhōng",
+    "濮阳": "pú yáng", "曲阜": "qū fù", "曲靖": "qǔ jìng", "曲沃": "qǔ wò", "曲周": "qǔ zhōu", "曲阳": "qǔ yáng", "大足": "dà zú", "綦江": "qí jiāng", "漯河": "luò hé",
+}.items()})
 
 
-def py(name):
-    """Pinyin for a place name, the administrative suffix dropped: 锦江区 -> Jinjiang, 巴里坤哈萨克自治县 -> Balikun."""
-    core = SUFFIX.sub("", name) or name
-    return "".join(lazy_pinyin(core)).replace("v", "ü").capitalize()
+def core(name):
+    """Drop the administrative suffix, and for autonomous counties the people's names before it: 石柱土家族自治县 -> 石柱."""
+    m = re.match(r"^(.+?)(自治县|自治旗|自治州直辖|自治州|地区|林区|特区|新区|矿区|盟|区|县|市|旗)$", name)
+    if not m:
+        return name, ""
+    c, suf = m.groups()
+    if suf.startswith("自治"):
+        cut = True
+        while cut:
+            cut = False
+            for e in sorted(ETH, key=len, reverse=True):
+                for t in ((e + "族", e) if len(e) > 1 else (e + "族",)):
+                    if c.endswith(t) and len(c) > len(t):
+                        c, cut = c[:-len(t)], True
+                        break
+                if cut:
+                    break
+    return c, suf
+
+
+def py(name, code=None):
+    """English for a place: names.json when it has the code, else pinyin (锦江区 -> Jinjiang, 静安区 -> Jing'an, 忠县 -> Zhongxian)."""
+    if code and code in NAMES:
+        return NAMES[code]["en"]
+    c, suf = core(name)
+    if len(c) == 1 and suf in ("区", "县", "市", "旗"):
+        c += suf
+    syl = lazy_pinyin(c, style=Style.NORMAL, v_to_u=True)
+    if len(syl) == len(c):
+        syl = ["du" if ch == "都" else x for ch, x in zip(c, syl)]
+        if c[0] == "长" and not c.startswith("长子"):
+            syl[0] = "chang"
+    out = syl[0]
+    for x in syl[1:]:
+        out += ("'" if x[:1] in "aoe" else "") + x
+    return out.capitalize()
 
 
 EN = {  # official English names of the listed universities, 5A scenic areas and national parks
@@ -91,7 +137,7 @@ for cid, c in ours.items():
             continue
         lon, lat = k.get("centroid") or k.get("center")
         x, y = proj(lon, lat)
-        kids.append([str(k["adcode"]), k["name"], k["level"][0], x, y, py(k["name"])])
+        kids.append([str(k["adcode"]), k["name"], k["level"][0], x, y, py(k["name"], str(k["adcode"]))])
     if kids:
         counties[cid] = kids
     parent = next((p for p in (infos.get(cid[:2] + "0000") or {}).get("children") or [] if str(p.get("adcode")) == cid), None)
@@ -140,7 +186,7 @@ for cid, items in by_city.items():
         add(cid, ["res:" + r["type"], r["name"], *shift(r), r.get("value"), rtype.get(r["type"], r["type"]), en, RES_EN.get(r["type"], r["type"])])
 
 out = {"counties": counties, "sites": sites,
-       "sources": {"counties": "阿里云 DataV.GeoAtlas 行政区划（infos.json）", "sites": "chinaciv 汇编（MIT）：联合国教科文组织世界遗产名录、国家公园、5A 景区、双一流高校、民航机场生产统计公报 2025、主要港口、Global Energy Monitor 电厂与矿山"},
+       "sources": {"counties": "阿里云 DataV.GeoAtlas 行政区划（infos.json）；英文名取 names.json，没有的用拼音", "sites": "chinaciv 汇编（MIT）：联合国教科文组织世界遗产名录、国家公园、5A 景区、双一流高校、民航机场生产统计公报 2025、主要港口、Global Energy Monitor 电厂与矿山"},
        "shift": [round(dx, 2), round(dy, 2)]}
 json.dump(out, open(os.path.join(out_dir, "cityview.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 print("counties for", len(counties), "cities,", sum(len(v) for v in counties.values()), "units; sites for", len(sites), "cities,",
