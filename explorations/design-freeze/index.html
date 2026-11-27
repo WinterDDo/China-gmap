@@ -1001,7 +1001,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .m-zoom { position: absolute; right: 12px; top: 106px; z-index: 3; display: grid; gap: 6px; }
 .m-zoom button { width: 44px; height: 44px; border-radius: 22px; border: 1px solid var(--rule-strong); background: var(--leaf); box-shadow: var(--shadow); display: grid; place-items: center; cursor: pointer; color: var(--ink); }
 .m-sheet { position: absolute; left: 0; right: 0; bottom: 84px; z-index: 4; background: var(--leaf); border-radius: 16px 16px 0 0; border-top: 1px solid var(--rule-strong); box-shadow: 0 -10px 30px -12px rgba(40,25,10,.35); transition: top .35s cubic-bezier(.2,.7,.2,1); display: flex; flex-direction: column; overflow: hidden; }
-.m-sheet.peek { top: auto; max-height: 300px; }
+.m-sheet.peek { top: auto; max-height: 300px; overflow: visible; }
 .m-sheet.full { top: 44px; }
 .m-sheet.none { display: none; }
 .m-handle { width: 40px; height: 5px; border-radius: 3px; background: var(--rule-strong); margin: 8px auto 4px; flex: none; cursor: pointer; }
@@ -1068,7 +1068,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .m-slot b { font: 900 18px/1.1 var(--serif); }
 .m-slot .sc { font: 900 28px/1 var(--serif); }
 .m-vs { width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: #f6efe0; display: grid; place-items: center; font: 400 20px/1 var(--brush); }
-.m-hot { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+.m-hot { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; min-height: 40px; flex: none; }
 .m-hot .chip { flex: none; height: 36px; }
 .m-rounds { display: grid; gap: 6px; }
 .m-rd { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; background: var(--leaf-raise); border: 1px solid var(--rule); border-radius: 10px; padding: 8px 10px; }
@@ -1151,7 +1151,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .sc-total { display: flex; align-items: center; gap: 16px; }
 .sc-total .big { font: 900 54px/1 var(--serif); color: var(--accent); }
 .sc-total .big small { font-size: 18px; color: var(--ink-3); }
-.sc-total .hist { display: flex; gap: 6px; align-items: flex-end; height: 56px; }
+.sc-total .hist { display: flex; gap: 6px; align-items: flex-end; height: 80px; padding-top: 6px; }
 .sc-total .hist div { width: 34px; display: grid; justify-items: center; gap: 3px; font-size: 10px; color: var(--ink-3); }
 .sc-total .hist b { display: block; width: 100%; background: var(--ink-3); border-radius: 2px 2px 0 0; }
 .sc-total .hist div.cur b { background: var(--accent); }
@@ -1218,6 +1218,31 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .m-app.m-big .lg .k, .m-app.m-big .m-mini span, .m-app.m-big .m-tiles span, .m-app.m-big .note, .m-app.m-big .flow5 .tag { font-size: 13px; }
 .m-app.m-big .m-tabs button { font-size: 12.5px; }
 [data-m="back"] .ic, [data-m="collapse"] .ic { transform: rotate(180deg); }
+.m-dex-top { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; padding: 14px; border: 1px solid var(--rule); border-radius: 14px; background: var(--leaf-raise); }
+.m-dex-rar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.m-dex-rar div { display: grid; gap: 2px; text-align: center; font-size: 11px; color: var(--ink-3); }
+.m-dex-rar b { font: 700 15px/1 var(--serif); color: var(--ink); }
+.m-dex-pv { display: grid; gap: 8px; }
+.m-dex-pv h4 { display: flex; align-items: center; gap: 8px; margin: 0; font: 600 15px/1.2 var(--serif); }
+.m-dex-pv h4 .hbar { flex: 1; max-width: 120px; } .m-dex-pv h4 small { margin-left: auto; font: 500 12px/1 var(--sans); color: var(--ink-3); }
+.m-dex-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.m-dex-t { display: grid; justify-items: center; gap: 3px; min-height: 66px; padding: 8px 2px 6px; border-radius: 10px; border: 1px solid var(--rule); background: var(--leaf-raise); color: var(--ink); font: 500 12px/1.1 var(--serif); cursor: pointer; position: relative; }
+.m-dex-t img { width: 32px; height: 22px; object-fit: contain; }
+.m-dex-t.no { background: transparent; border-style: dashed; color: var(--ink-3); }
+.m-dex-t.no img { filter: grayscale(1) opacity(.35); }
+.m-dex-t.r1 { box-shadow: inset 0 -3px 0 #5b8fa8; } .m-dex-t.r2 { box-shadow: inset 0 -3px 0 #8a5fb0; } .m-dex-t.r3 { box-shadow: inset 0 -3px 0 #c9a24a; }
+.m-dex-t .hm { position: absolute; top: 3px; right: 4px; font-size: 10px; color: var(--accent); }
+.m-dex-t span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m-dex-more { justify-self: start; height: 32px; padding: 0 10px; font-size: 13px; }
+.m-sib { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 4px; margin: -4px 0 -2px; font-size: 12px; color: var(--ink-3); }
+.m-sib button { height: 32px; border: 0; background: transparent; color: var(--ink-2); font: 500 13px/1 var(--serif); cursor: pointer; padding: 0 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.m-sib button:first-child { justify-self: start; } .m-sib button:last-child { justify-self: end; }
+.m-sib span { font: 500 11px/1 var(--sans); letter-spacing: .04em; }
+.m-sib.pill { position: absolute; left: 50%; top: -46px; transform: translateX(-50%); margin: 0; width: max-content; max-width: calc(100% - 120px); grid-template-columns: auto auto auto; gap: 0; padding: 0 4px; height: 36px; border-radius: 18px; background: rgba(251,244,230,.94); border: 1px solid var(--rule-strong); box-shadow: 0 6px 16px -8px rgba(40,25,10,.45); }
+.m-sib.pill button { height: 36px; padding: 0 10px; } .m-sib.pill span { padding: 0 4px; color: var(--ink-3); }
+@keyframes sibL { from { opacity: 0; transform: translateX(28px); } } @keyframes sibR { from { opacity: 0; transform: translateX(-28px); } }
+.m-sc.sib-l { animation: sibL .24s cubic-bezier(.2,.8,.2,1); } .m-sc.sib-r { animation: sibR .24s cubic-bezier(.2,.8,.2,1); }
+@media (prefers-reduced-motion: reduce) { .m-sc.sib-l, .m-sc.sib-r { animation: none; } }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" id="sprite">
@@ -1886,15 +1911,15 @@ function drawOverlays(app) {
   app.hits = []; if (app.blocked) for (const b of app.blocked) Lb.add(b);
   // hovered prefecture outline
   if (app.hoverPref != null && app.hoverPref >= 0) { const p = P.prefs[app.hoverPref]; strokeMap(ctx, v, p.path, "rgba(246,239,224,.95)", 4 * u); strokeMap(ctx, v, p.path, "#2b231d", 1.4 * u); }
-  const sel = SEL && BYID.get(SEL), k = clamp(.5 * Math.pow(z, .55), .5, 1.5) * u;
+  const sel = SEL && BYID.get(SEL), k = clamp(.5 * Math.pow(z, .55), .5, 1.5) * u, tu = u * (app.cfg.ts ? app.cfg.ts() : 1);
   const vis = CITIES.filter(c => { const [x, y] = toPx(v, c.x, c.y); return x > -30 && y > -30 && x < W + 30 && y < H + 30; }).sort((a, b) => a.y - b.y);
   const minTier = app.cfg.minTier ?? (z < 1.6 ? 1 : 0), kOf = c => k * (c.tier === 0 ? .9 : 1);
   // 1. banners claim space by importance (selected city first, then GDP rank)
   const order = vis.slice().sort((a, b) => (b.id === SEL) - (a.id === SEL) || (a.gdpIdx ?? 999) - (b.gdpIdx ?? 999));
   const quota = app.cfg.quota || (z < 1.6 ? 16 : z < 2.6 ? 44 : 999), withYields = z >= 3.2, banners = [], hasBanner = new Set();
   for (const c of order) { const isSel = c.id === SEL; if (!isSel && (BIDS ? !BIDS.has(c.id) : (banners.length >= quota || c.tier < minTier))) continue;
-    const [x, y] = toPx(v, c.x, c.y), m = bannerMetrics(ctx, c, u), by = y - TOWN_H[c.tier] * kOf(c) - 5 * u, extra = withYields || isSel ? 17 * u : 0;
-    const box = [x - m.w / 2 - 2 * u, by - m.h - 2 * u, m.w + 4 * u, m.h + 2 * u + extra];
+    const [x, y] = toPx(v, c.x, c.y), m = bannerMetrics(ctx, c, tu), by = y - TOWN_H[c.tier] * kOf(c) - 5 * u, extra = withYields || isSel ? 17 * tu : 0;
+    const box = [x - m.w / 2 - 2 * tu, by - m.h - 2 * tu, m.w + 4 * tu, m.h + 2 * tu + extra];
     if (Lb.free(box) || isSel || BIDS) { Lb.add(box); banners.push([c, x, by]); hasBanner.add(c.id); } }
   // wonders (drawn under towns and banners; they never block a banner)
   for (const wd of (app.cfg.noWonders ? [] : WONDERS)) { const [x, y] = toPx(v, wd.x, wd.y); if (x < -40 || y < -40 || x > W + 40 || y > H + 40) continue; const kk = k * 1.15;
@@ -1906,13 +1931,13 @@ function drawOverlays(app) {
     if (c.tier < minTier && c.id !== SEL) { if (app.cfg.noDots) continue; ctx.fillStyle = DAY.seal; ctx.beginPath(); ctx.arc(x, y, 1.8 * u, 0, 7); ctx.fill(); app.hits.push({ x, y, r: 6 * u, city: c }); continue; }
     const kk = kOf(c); drawTown(ctx, x, y, c.tier, kk); const hw = [5, 9, 12, 14][c.tier] * kk, hh = TOWN_H[c.tier] * kk; app.hits.push({ x, y: y - hh / 2, r: Math.max(hw, 7 * u), city: c }); }
   // 3. banners (least important first so the important ones sit on top)
-  for (const [c, x, by] of banners.slice().reverse()) { const isSel = c.id === SEL, sk = springK(app, c.id); if (sk !== 1) { ctx.save(); ctx.translate(x, by); ctx.scale(sk, sk); ctx.translate(-x, -by); } const b = drawBanner(ctx, c, x, by, u, { selected: isSel, yields: withYields || isSel || sk !== 1 }); if (sk !== 1) ctx.restore(); app.hits.push({ rect: b, city: c });
-    if (isSel) drawSeal(ctx, b[0] - 13 * u, b[1] + 9 * u, 22 * u, (app.cfg.selSeal && app.cfg.selSeal()) || c.n.slice(0, 2), u, 7); }
+  for (const [c, x, by] of banners.slice().reverse()) { const isSel = c.id === SEL, sk = springK(app, c.id); if (sk !== 1) { ctx.save(); ctx.translate(x, by); ctx.scale(sk, sk); ctx.translate(-x, -by); } const b = drawBanner(ctx, c, x, by, tu, { selected: isSel, yields: withYields || isSel || sk !== 1 }); if (sk !== 1) ctx.restore(); app.hits.push({ rect: b, city: c });
+    if (isSel) drawSeal(ctx, b[0] - 13 * tu, b[1] + 9 * tu, 22 * tu, (app.cfg.selSeal && app.cfg.selSeal()) || c.n.slice(0, 2), tu, 7); }
   // 4. plain names under the remaining towns
   if (z >= 1.25 && !app.cfg.noNames) { for (const c of vis) { const [x, y] = toPx(v, c.x, c.y); if (c.tier >= minTier) { const hw = [5, 9, 12, 14][c.tier] * kOf(c); Lb.add([x - hw * .7, y - TOWN_H[c.tier] * kOf(c) * .6, hw * 1.4, TOWN_H[c.tier] * kOf(c) * .6]); } }
-    for (const c of order) { if (hasBanner.has(c.id) || c.tier < minTier) continue; const [x, y] = toPx(v, c.x, c.y), nm = cname(c); ctx.font = `600 ${(c.tier >= 1 ? 11 : 10) * u}px "Noto Serif SC", serif`;
-      const tw = ctx.measureText(nm).width, bx = [x - tw / 2 - 1 * u, y + 2 * u, tw + 2 * u, 13 * u];
-      if (Lb.free(bx)) { Lb.add(bx); ctx.textAlign = "center"; ctx.textBaseline = "top"; haloText(ctx, nm, x, y + 2.5 * u, DAY.ink, "rgba(238,227,201,.88)", 3 * u); } } }
+    for (const c of order) { if (hasBanner.has(c.id) || c.tier < minTier) continue; const [x, y] = toPx(v, c.x, c.y), nm = cname(c); ctx.font = `600 ${(c.tier >= 1 ? 11 : 10) * tu}px "Noto Serif SC", serif`;
+      const tw = ctx.measureText(nm).width, bx = [x - tw / 2 - 1 * tu, y + 2 * u, tw + 2 * tu, 13 * tu];
+      if (Lb.free(bx)) { Lb.add(bx); ctx.textAlign = "center"; ctx.textBaseline = "top"; haloText(ctx, nm, x, y + 2.5 * u, DAY.ink, "rgba(238,227,201,.88)", 3 * tu); } } }
   if (app.cfg.over) app.cfg.over(app, ctx, u, v); drawInset(app, ctx, u); drawScale(ctx, v, u, app);
 }
 function drawInset(app, ctx, u) {
@@ -1999,7 +2024,7 @@ function cityHTML(c, compact) {
   const peers = c.peers ? `<div class="block"><h4>${t("peers")}</h4><div class="peers">${c.peers.map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-goto="${o.id}"><img src="${TIER_IMG[o.tier]}" alt="" width="120" height="80">${cname(o)}</button>`).join("")}</div></div>` : "";
   const src = `<div class="src">${icon("i-info")}<span>${t("src")}：${ZH("2023 年统计公报（本项目采集，附原文句子）、七普、ESA WorldCover", "2023 communiqués (collected with source sentences), 2020 census, ESA WorldCover")} · <button class="btn ghost" style="height:auto;padding:0;color:var(--river)" data-open-almanac>${t("srcLink")}</button></span></div>`;
   return head + yieldsRow(c) + `<div class="cp-body"><div class="block"><h4>${ZH("宝藏点", "Hidden gems")}<small>${ZH("全国排名最能打的三项", "best three national ranks")}</small></h4>${prideHTML(c, 3, true)}</div>
-    <div class="block"><h4>${ZH("生活账本", "Everyday numbers")}<small>2023</small></h4>${ledgerHTML(c, "panel")}</div>
+    <div class="block"><h4>${ZH("生活账本", "Everyday numbers")}<small>2023</small></h4>${ledgerHTML(c, "panel", 1)}</div>
     <div class="block"><h4>${ZH("人去哪儿了", "Where people go")}<small>${ZH("七普 · 公报", "census · communiqués")}</small></h4>${flowHTML(c, true)}</div>
     <div class="block"><h4>${ZH("城市家底", "The city's stock")}<small>2023</small></h4>${stockHTML(c)}</div>${peers}${src}</div>`; }
 function renderPanels(anim) { const c = S.city && BYID.get(S.city);
@@ -2562,11 +2587,11 @@ const rarity = c => { const b = prideOf(c)[0]; return !b ? 0 : b.r <= 3 ? 3 : b.
 const rankBadge = h => h.r <= 30 ? ZH(`${h.m.b[0]}·第${h.r}`, `#${h.r} ${h.m.b[1]}`) : ZH(`${h.m.b[0]}·前${Math.max(1, Math.round(h.q * 100))}%`, `Top ${Math.max(1, Math.round(h.q * 100))}% ${h.m.b[1]}`);
 function prideHTML(c, n = 3, col = false) { const hs = prideOf(c).slice(0, n); if (!hs.length) return `<p class="note">${t("noData")}</p>`;
   return `<div class="pride ${col ? "col" : ""}">${hs.map(h => { const r = h.r, cls = r <= 3 ? "g" + r : r <= 10 ? "t10" : "";
-    const top = r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b class="num">${r}</b>` : `<small>${ZH("前", "Top")}</small><b class="num">${Math.max(1, Math.round(h.q * 100))}%</b>`;
+    const top = r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b class="num">${r}</b>` : `<small>${ZH("全国前", "Top")}</small><b class="num">${Math.max(1, Math.round(h.q * 100))}%</b>`;
     return `<div class="honor ${cls} ${r <= 3 ? "shine" : ""}"><span class="rkb">${top}</span><span class="lab">${ZH(h.m.lab[0], h.m.lab[1])}${r <= 3 ? `<em class="tch">${ZH("天花板", "No.1 tier")}</em>` : ""}</span><span class="ph">${h.m.ph(c)}</span>${h.m.est ? `<span class="src5">${ZH("卫星估算", "satellite est.")}</span>` : ""}</div>`; }).join("")}</div>`; }
 
 /* ---------- 生活账本 ---------- */
-function ledgerHTML(c, mode = "full") { const N = NAT5;
+function ledgerHTML(c, mode = "full", noPend) { const N = NAT5;
   const month = c.month ?? (c.incU != null ? c.incU / 12 : null), isU = c.month == null && c.incU != null, natM = (isU ? N.incU : N.inc) / 12;
   const gauge = (v, nat) => { const mx = Math.max(v, nat) * 1.25; return `<span class="gauge"><i class="nat" style="left:${nat / mx * 100}%"><b>${ZH("全国", "China")}</b></i><i class="me" style="--w:${v / mx * 100}%"></i></span>`; };
   const vsT = (v, nat) => { const r = Math.round((v / nat - 1) * 100); return `<span class="vs ${r >= 0 ? "up" : "down"}">${r >= 0 ? ZH(`比全国高 ${r}%`, `${r}% above China`) : ZH(`比全国低 ${-r}%`, `${-r}% below China`)}</span>`; };
@@ -2580,7 +2605,7 @@ function ledgerHTML(c, mode = "full") { const N = NAT5;
     : `<div class="lg pend" style="grid-template-columns:34px 1fr"><span class="ico">${icon("i-home", "")}</span><div style="display:flex;flex-wrap:wrap;gap:6px">${[["买房要攒几年收入", "Years of income for a home"], ["平均工资", "Average wage"], ["每千人医生", "Doctors per 1,000"], ["地铁里程", "Metro length"], ["空气优良天数", "Clean-air days"], ["冬天多冷", "How cold in winter"]].map(([a, b]) => `<span class="pchip">${ZH(a, b)} · ${ZH("第 2 期", "phase 2")}</span>`).join("")}</div></div>`;
   return `<div class="ledger">${mode !== "panel" && lead ? `<div class="lead">${lead}</div>` : ""}
     ${row("gold", isU ? ZH("城镇居民 · 每人每月可支配", "Urban residents · disposable per month") : ZH("每人每月可支配收入", "Disposable income per person per month"), month, "yuan", natM, ZH("/月", "/mo"))}
-    ${row("ind", ZH("每人每天创造（人均 GDP ÷ 365）", "Output per person per day (GDP per head ÷ 365)"), c.day, "yuan", N.pc / 365, ZH("/天", "/day"))}${dp}${miss.length ? `<div class="lg pend" style="grid-template-columns:34px 1fr"><span class="ico">${icon("i-info", "")}</span><span class="k">${miss.join(ZH("、", ", "))}${ZH("：这座城的公报没写，正在从统计年鉴补", ": not in this city's communiqué; filling from yearbooks")}</span></div>` : ""}${pend}</div>`; }
+    ${row("ind", ZH("每人每天创造（人均 GDP ÷ 365）", "Output per person per day (GDP per head ÷ 365)"), c.day, "yuan", N.pc / 365, ZH("/天", "/day"))}${dp}${miss.length ? `<div class="lg pend" style="grid-template-columns:34px 1fr"><span class="ico">${icon("i-info", "")}</span><span class="k">${miss.join(ZH("、", ", "))}${ZH("：这座城的公报没写，正在从统计年鉴补", ": not in this city's communiqué; filling from yearbooks")}</span></div>` : ""}${noPend ? "" : pend}</div>`; }
 function stockHTML(c) { const N = NATION.rankN, r = (k, n) => c.rk[k] ? `<span class="note">${ZH("全国第", "#")}${c.rk[k]} / ${n}</span>` : "";
   return `<div class="prov"><div class="row"><span>${ZH("常住人口", "Population")}</span><span><b class="num">${fmtPopShort(c.popAny)}</b> ${r("pop", N.pop)}</span></div><div class="row"><span>${ZH("地区生产总值", "GDP")}</span><span><b class="num">${fmtYuan(c.gdp)}</b> ${r("gdp", N.gdp)}</span></div><div class="row"><span>${t("kPc")}</span><span><b class="num">${fmtPc(c.pc)}</b> ${r("pc", N.pc)}</span></div></div>`; }
 
@@ -2891,6 +2916,8 @@ const mRoot = () => $("[data-mapp]");
 const mDone = () => Object.values(M.tasks).filter(Boolean).length;
 function mFeatured() { const pool = CITIES.filter(c => rarity(c) >= 2 && (c.popAny || 0) < 5e6); const r = rng(dailySeed()); return pool[Math.floor(r() * pool.length)] || CITIES[0]; }
 function mTarget(c, z) { const a = MAPP, u = a.u, s = a.home.s * z; return { s, ox: 195 * u - c.x * s, oy: 300 * u - c.y * s }; }
+function mCopy(t) { try { if (navigator.clipboard) { navigator.clipboard.writeText(t).catch(() => mCopyFallback(t)); return; } } catch (e) { } mCopyFallback(t); }
+function mCopyFallback(t) { try { const x = document.createElement("textarea"); x.value = t; x.style.cssText = "position:fixed;opacity:0"; document.body.appendChild(x); x.select(); document.execCommand("copy"); x.remove(); } catch (e) { } }
 function mToast(html, ms = 2400) { const h = $("[data-mtoast]"); h.innerHTML = `<div class="m-toast">${html}</div>`; clearTimeout(mToast.t); mToast.t = setTimeout(() => h.innerHTML = "", ms); }
 function mTask(k) { if (M.tasks[k]) return; M.tasks[k] = true; const n = mDone(); renderMob(); if (n === 3) { M.me.streakDays[6] = 1; mToast(`${seal("日印")}<span>${ZH("今日 3 个任务全部完成，盖一枚日印！连续 5 天", "All 3 done today: a day seal! 5-day streak")}</span>`, 3000); snd("win"); setTimeout(() => spatter($(".m-task"), 22, "#d9b25a", 90), 100); } else mToast(`${icon("i-flame", "")}<span>${ZH(`今日任务 ${n}/3`, `Today ${n}/3`)}</span>`); }
 /* ---------- renderers ---------- */
@@ -2904,14 +2931,14 @@ function mPeekHTML() { const c = M.city && BYID.get(M.city);
   const hs = prideOf(c), h = hs[0], rr = rarity(c), mini = [["gold", c.month, ZH("每月可支配", "monthly")], ["ind", c.day, ZH("每天创造", "per day")], ["com", c.dpop, ZH("三年人口", "3-yr change")], ["food", c.forest, ZH("森林占比", "forest")], ["pop", c.popAny, ZH("常住人口", "people")]].filter(x => x[1] != null).slice(0, 3);
   return `<div class="m-handle" data-m="expand"></div><div class="m-sc">
     <div class="m-head">${seal(c.n.slice(0, 2))}<div><b>${cname(c)}</b><span>${pvOf(c)} · ${kindOf(c)} · <span class="m-chip r${rr}">${ZH(...RAR[rr])}</span></span></div>${mFavBtn(c)}</div>
-    ${h ? `<div class="m-hon1"><span class="rk">${h.r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b>${h.r}</b>` : `<small>${ZH("前", "Top")}</small><b>${Math.max(1, Math.round(h.q * 100))}%</b>`}</span><div class="t"><b>${ZH(...h.m.lab)}</b><span>${h.m.ph(c)}</span></div></div>` : ""}
+    ${h ? `<div class="m-hon1"><span class="rk">${h.r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b>${h.r}</b>` : `<small>${ZH("全国前", "Top")}</small><b>${Math.max(1, Math.round(h.q * 100))}%</b>`}</span><div class="t"><b>${ZH(...h.m.lab)}</b><span>${h.m.ph(c)}</span></div></div>` : ""}
     <div class="m-mini">${mini.map(([y, v, l]) => `<div>${medalSVG(y)}<b class="num">${v == null ? "—" : YIELDS[y].short(v)}</b><span>${l}</span></div>`).join("")}</div>
     <div class="m-acts"><button class="btn primary" data-m="expand">${ZH("看完整档案 ▲", "Full archive ▲")}</button><button class="btn" data-m="stamp">${seal("打卡", 20)}${AL.got.includes(c.id) ? ZH("已打卡", "Stamped") : ZH("打卡", "Stamp")}</button><button class="btn" data-m="topk">${icon("i-versus")}PK</button></div></div>`; }
 function mFullHTML() { const c = BYID.get(M.city); if (!c) return ""; const rr = rarity(c), km = c.coastKm;
   return `<div class="m-sc" style="padding-top:12px">
-    <div class="m-head"><button class="btn icon ghost" data-m="collapse" aria-label="${ZH("返回", "Back")}" style="width:44px;height:44px;margin-left:-10px">${icon("i-chev", "")}</button><div><b>${cname(c)}</b><span>${pvOf(c)} · ${kindOf(c)} · ${ZH(...RAR[rr])}</span></div>${mFavBtn(c)}</div>
-    <div class="m-sec"><h4>${ZH("宝藏点", "Hidden gems")}<button class="m-i" data-mexp="gems" aria-label="${ZH("怎么来的", "How")}">ⓘ</button><small>${ZH("左右滑", "swipe")}</small></h4><div class="m-carousel">${prideOf(c).slice(0, 3).map(h => `<div class="honor ${h.r <= 3 ? "g" + h.r : h.r <= 10 ? "t10" : ""}"><span class="rkb">${h.r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b class="num">${h.r}</b>` : `<small>${ZH("前", "Top")}</small><b class="num">${Math.max(1, Math.round(h.q * 100))}%</b>`}</span><span class="lab">${ZH(...h.m.lab)}</span><span class="ph">${h.m.ph(c)}</span></div>`).join("")}</div></div>
-    <div class="m-sec"><h4>${ZH("生活账本", "Everyday numbers")}<button class="m-i" data-mexp="month" aria-label="ⓘ">ⓘ</button><small>2023</small></h4>${ledgerHTML(c, "panel")}</div>
+    <div class="m-head"><button class="btn icon ghost" data-m="collapse" aria-label="${ZH("返回", "Back")}" style="width:44px;height:44px;margin-left:-10px">${icon("i-chev", "")}</button><div><b>${cname(c)}</b><span>${pvOf(c)} · ${kindOf(c)} · ${ZH(...RAR[rr])}</span></div>${mFavBtn(c)}</div>${mSibHTML(c)}
+    <div class="m-sec"><h4>${ZH("宝藏点", "Hidden gems")}<button class="m-i" data-mexp="gems" aria-label="${ZH("怎么来的", "How")}">ⓘ</button><small>${ZH("左右滑", "swipe")}</small></h4><div class="m-carousel">${prideOf(c).slice(0, 3).map(h => `<div class="honor ${h.r <= 3 ? "g" + h.r : h.r <= 10 ? "t10" : ""}"><span class="rkb">${h.r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b class="num">${h.r}</b>` : `<small>${ZH("全国前", "Top")}</small><b class="num">${Math.max(1, Math.round(h.q * 100))}%</b>`}</span><span class="lab">${ZH(...h.m.lab)}</span><span class="ph">${h.m.ph(c)}</span></div>`).join("")}</div></div>
+    <div class="m-sec"><h4>${ZH("生活账本", "Everyday numbers")}<button class="m-i" data-mexp="month" aria-label="ⓘ">ⓘ</button><small>2023</small></h4>${ledgerHTML(c, "panel", 1)}</div>
     <div class="m-sec"><h4>${ZH("人去哪儿了", "Where people go")}<button class="m-i" data-mexp="flows" aria-label="ⓘ">ⓘ</button><small>${ZH("七普 · 公报", "census")}</small></h4>${flowHTML(c, true)}<button class="btn" data-m="flows" style="height:44px;margin-top:6px;border-radius:10px">${icon("i-map")}${ZH("在地图上看流向", "See it on the map")}</button></div>
     <div class="m-sec"><h4>${ZH("过日子小知识", "Everyday facts")}</h4><div class="m-tiles">
       <div><span>${icon("i-home")}${ZH("冬天暖气", "Heating")}</span><b>${c.heat ? ZH("有，集中供暖", "Yes") : ZH("没有", "No")}</b></div>
@@ -2924,9 +2951,9 @@ function mFullHTML() { const c = BYID.get(M.city); if (!c) return ""; const rr =
     <div class="m-bar"><button class="btn primary" data-m="stamp">${seal("打卡", 20)}${AL.got.includes(c.id) ? ZH("已打卡", "Stamped") : ZH("打卡", "Stamp")}</button><button class="btn" data-m="topk">${icon("i-versus")}${ZH("拉去 PK", "PK")}</button><button class="btn" data-m="share">${icon("i-share")}${ZH("晒一晒", "Share")}</button></div>`; }
 function mAlbumSheetHTML() { const provs = new Set(AL.got.map(id => id.slice(0, 2))), p = AL.got.length / CITIES.length;
   return `<div class="m-handle"></div><div class="m-sc"><div style="display:flex;gap:14px;align-items:center"><span class="m-ring" style="--p:${Math.max(3, p * 100)}%"><b class="num">${AL.got.length}</b></span><div><b style="font:400 24px/1.1 var(--brush)">${ZH("打卡地图", "Stamp map")}</b><div class="note">${ZH(`已打卡 ${AL.got.length} / ${CITIES.length} 城 · 走过 ${provs.size} 个省`, `${AL.got.length} of ${CITIES.length} cities · ${provs.size} provinces`)}</div></div></div>
-    <button class="btn primary" data-m="draw" style="height:44px;justify-content:center;border-radius:10px">${icon("i-dice")}${ZH("抽一张城市卡", "Draw a city card")}</button>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:8px"><button class="btn primary" data-m="draw" style="height:44px;justify-content:center;border-radius:10px">${icon("i-dice")}${ZH("抽一张城市卡", "Draw a city card")}</button><button class="btn" data-m="dex" style="height:44px;border-radius:10px">${icon("i-cards")}${ZH("全部图鉴", "Collection")}</button></div>
     <div class="m-sec"><h4>${ZH("成就", "Achievements")}<small>${ZH("凑齐一组解锁", "complete a set")}</small></h4><div class="m-achs">${achs().map(a => { const have = a.ids.filter(id => AL.got.includes(id)).length, done = AL.done.has(a.id); return `<div class="ach ${done ? "done" : ""}">${seal(a.seal)}<b>${ZH(a.zh, a.en)}</b><div style="display:grid;gap:3px"><div class="hbar"><i style="width:${have / a.ids.length * 100}%"></i></div><span class="n num">${have} / ${a.ids.length}${done ? ZH(" · 已成就", " · done") : ""}</span></div></div>`; }).join("")}</div></div>
-    <div class="m-sec"><h4>${ZH("最近打卡", "Recent")}</h4><div class="m-hand">${AL.got.slice(-8).reverse().map(id => `<div data-mgo="${id}" role="button" tabindex="0">${cardHTML(BYID.get(id), {})}</div>`).join("")}</div></div></div>`; }
+    <div class="m-sec"><h4>${ZH("最近打卡", "Recent")}<small><button class="btn m-dex-more" data-m="dex">${ZH(`全部图鉴 ${AL.got.length}/${CITIES.length} ›`, `Full collection ›`)}</button></small></h4><div class="m-hand">${AL.got.slice(-8).reverse().map(id => `<div data-mgo="${id}" role="button" tabindex="0">${cardHTML(BYID.get(id), {})}</div>`).join("")}</div></div></div>`; }
 function mGuessHTML() { if (!G6.qs) G6.qs = makeQs(dailySeed()); const q = G6.qs[G6.i], m = q.m, st = G6.picked != null, f = gqFmt(m), win = gwin(q), ok = G6.res[G6.i]; FMTS.gq6 = f;
   const dots = G6.qs.map((_, i) => { const r = G6.res[i]; return `<span class="gs-dot ${r === true ? "ok" : r === false ? "no" : i === G6.i ? "cur" : ""}" style="width:30px;height:30px">${r === true ? ZH("对", "✓") : r === false ? ZH("错", "✗") : i + 1}</span>`; }).join("");
   if (G6.done) { const sc = G6.res.filter(Boolean).length; return `<div class="m-title"><b>${ZH("今日猜城", "Today's quiz")}</b><span>${ZH("已完成", "done")}</span></div>
@@ -2955,15 +2982,15 @@ function mMeHTML() { const h = M.home && BYID.get(M.home); const days = ZH(["一
     ${h ? `<div class="m-me-card">${seal("吾乡")}<div><b>${cname(h)}</b><span>${ZH(`第 1,285 位为${h.n}盖章的老乡`, `No. 1,285 to stamp for ${h.en}`)} · ${ZH("示意", "illustrative")}</span><div style="margin-top:6px">${prideOf(h).slice(0, 2).map(x => `<span class="m-chip" style="background:rgba(243,213,138,.25);color:#f3d58a;margin-right:4px">${rankBadge(x)}</span>`).join("")}</div></div></div>` : `<button class="btn primary" data-m="onboard" style="height:48px;justify-content:center">${ZH("先选你的家乡", "Pick your hometown first")}</button>`}
     <div class="m-sec"><h4>${ZH("今日任务", "Today")}<small>${ZH("每天 0 点刷新", "resets at midnight")}</small></h4><div class="m-tasks">${[["quiz", ZH("猜城 5 题", "5-question quiz"), ZH("每天一套新题", "New every day"), "guess"], ["stamp", ZH("打卡 1 座新城", "Stamp a new city"), ZH("去地图上点一座城", "Tap a city on the map"), "map"], ["pk", ZH("来一场 PK", "Play a PK"), ZH("热门对局一键开打", "Hot rivalries in one tap"), "pk"]].map(([k, t, s, tab]) => `<div class="tk ${M.tasks[k] ? "ok" : ""}"><span class="ck">${M.tasks[k] ? "✓" : ""}</span><div><b>${t}</b><br><span>${s}</span></div>${M.tasks[k] ? `<span class="note">${ZH("完成", "Done")}</span>` : `<button class="btn" data-mtab="${tab}">${ZH("去完成", "Go")}</button>`}</div>`).join("")}</div></div>
     <div class="m-sec"><h4>${ZH("日印", "Day seals")}<small>${ZH("三个任务都完成就盖一枚", "finish all three for a seal")}</small></h4><div class="m-week">${days.map((d, i) => `<div><i class="${M.me.streakDays[i] ? "on" : i === 6 ? "today" : ""}">${M.me.streakDays[i] ? "印" : ""}</i>${d}</div>`).join("")}</div></div>
-    <div class="m-stats"><div><b class="num">${AL.got.length}</b><span>${ZH("打卡城市", "stamped")}</span></div><div><b class="num">${G6.best}</b><span>${ZH("最佳连对", "best streak")}</span></div><div><b class="num">${AL.done.size}</b><span>${ZH("成就", "achievements")}</span></div></div>
+    <div class="m-stats"><button data-m="dex" style="border:0;background:transparent;font:inherit;color:inherit;cursor:pointer;display:grid;gap:2px;justify-items:center"><b class="num">${AL.got.length}</b><span>${ZH("打卡城市 ›", "stamped ›")}</span></button><div><b class="num">${G6.best}</b><span>${ZH("最佳连对", "best streak")}</span></div><div><b class="num">${AL.done.size}</b><span>${ZH("成就", "achievements")}</span></div></div>
     ${M.fav.length ? `<div class="m-sec"><h4>${ZH("我的收藏", "Favourites")}<small>${M.fav.length}</small></h4><div class="st-hits">${M.fav.map(id => BYID.get(id)).filter(Boolean).map(c => `<button class="chip" data-mgo="${c.id}">★ ${cname(c)}</button>`).join("")}</div></div>` : `<div class="m-sec"><h4>${ZH("我的收藏", "Favourites")}</h4><p class="note">${ZH("在城市页点 ☆ 收藏，方便下次对比", "Tap ☆ on a city to save it")}</p></div>`}
     ${M.recent.length ? `<div class="m-sec"><h4>${ZH("最近看过", "Recently viewed")}</h4><div class="st-hits">${M.recent.slice(0, 8).map(id => BYID.get(id)).filter(Boolean).map(c => `<button class="chip" data-mgo="${c.id}">${cname(c)}</button>`).join("")}</div></div>` : ""}
     <div class="m-list"><button data-m="share">${icon("i-share")}${ZH("邀请老乡来盖章", "Invite fellow natives")}<span>${ZH("生成分享图", "share card")}</span></button><button data-m="big">${icon("i-search")}${ZH("大字模式", "Large text")}<span>${M.big ? ZH("开", "on") : ZH("关", "off")}</span></button><button data-snd>${icon(SND.on ? "i-sound" : "i-mute")}${ZH("音效", "Sound")}<span>${SND.on ? ZH("开", "on") : ZH("关", "off")}</span></button><button data-set-lang-toggle>${icon("i-lang")}${ZH("语言", "Language")}<span>中 / EN</span></button><button data-m="restart">${icon("i-compass")}${ZH("重新选家乡", "Pick hometown again")}</button><button data-m="clear-data">${icon("i-close")}${ZH("清除我的数据", "Clear my data")}<span>${ZH("家乡、打卡、收藏", "hometown, stamps, saves")}</span></button></div>
     <details class="m-faq"><summary>${ZH("帮助 · 常见问题", "Help · FAQ")}</summary><p><b>${ZH("数字从哪来？", "Where do numbers come from?")}</b>${ZH("各市统计公报、人口普查和卫星数据；每个数字点 ⓘ 能看到原文。", "City communiqués, the census and satellite data; tap ⓘ on any number.")}</p><p><b>${ZH("要注册吗？", "Do I sign up?")}</b>${ZH("不用。家乡和打卡只存在这台手机上。", "No. Everything stays on this phone.")}</p><p><b>${ZH("能加到桌面吗？", "Add to home screen?")}</b>${ZH("可以：浏览器菜单 → 添加到主屏幕；看过的城没网也能打开。", "Yes: browser menu → Add to Home Screen; viewed cities open offline.")}</p></details>`; }
-function mOnboardHTML() { const q = M.q.trim().toLowerCase(), hits = q ? CITIES.filter(x => x.n.includes(q) || (x.full || "").includes(q) || (x.en || "").toLowerCase().startsWith(q)).slice(0, 6) : [];
+function mOnboardHTML() { const q = M.q.trim().toLowerCase(), sub = new Map(), hits = !q ? [] : SEARCH ? mFind(q).filter(r => { if (sub.has(r[4])) return false; sub.set(r[4], r[5] === "x" ? r[0] : ""); return BYID.has(r[4]); }).slice(0, 6).map(r => BYID.get(r[4])) : CITIES.filter(x => x.n.includes(q) || (x.full || "").includes(q) || (x.en || "").toLowerCase().startsWith(q)).slice(0, 6);
   if (M.ob === 0) return `<div class="box"><span class="seal" style="--s:54px"><span>图鉴</span></span><div class="ttl">${ZH("你从哪儿来？", "Where are you from?")}</div><p class="sub">${ZH("选你的家乡，看看它在全国排第几", "Pick your hometown and see where it ranks")}</p>
-    <label class="field">${icon("i-search")}<input data-mq value="${M.q.replace(/"/g, "&quot;")}" placeholder="${ZH("输入城市名，比如 南充…", "Type a city…")}" aria-label="${ZH("搜索家乡", "Search hometown")}" autocomplete="off"></label>
-    ${hits.length ? `<div class="st-hits">${hits.map(x => `<button class="chip" data-mob="${x.id}">${tierImg(x)}${cname(x)}</button>`).join("")}</div>` : ""}
+    <label class="field">${icon("i-search")}<input data-mq value="${M.q.replace(/"/g, "&quot;")}" placeholder="${ZH("城市、县名或拼音，比如 阆中…", "City, county or pinyin…")}" aria-label="${ZH("搜索家乡", "Search hometown")}" autocomplete="off"></label>
+    ${hits.length ? `<div class="st-hits">${hits.map(x => `<button class="chip" data-mob="${x.id}">${tierImg(x)}${cname(x)}${sub.get(x.id) ? `<span class="note">${ZH(`含${sub.get(x.id)}`, `incl. ${sub.get(x.id)}`)}</span>` : ""}</button>`).join("")}</div>` : q ? `<p class="note" style="margin:0">${ZH("没找到，试试拼音或县名", "No match; try pinyin or a county")}</p>` : ""}
     <span class="eyebrow">${ZH("最近出圈的城", "Trending lately")}</span><div class="st-hits">${TREND.filter(id => BYID.has(id)).map(id => `<button class="chip" data-mob="${id}">${cname(BYID.get(id))}</button>`).join("")}</div>
     <span class="note">${ZH("不注册、不定位，随时可改", "No sign-up, no location; change any time")}</span><button class="btn ghost" data-m="skip-ob" style="height:44px">${ZH("先随便逛逛", "Just look around")}</button></div>`;
   if (M.ob === 2) { const c = BYID.get(M.home); return `<div class="box"><span class="eyebrow">${ZH("你的家乡卡", "Your hometown card")}</span><div data-mobcard>${cardHTML(c, { cls: "deal flipped" })}</div>${prideHTML(c, 3, true)}<button class="btn primary" data-m="ob-done">${ZH("收下，开始逛 →", "Keep it and explore →")}</button><button class="btn ghost" data-m="share" style="height:44px">${icon("i-share")}${ZH("先晒一下", "Share it first")}</button></div>`; }
@@ -2984,8 +3011,10 @@ function renderMob(anim) { const r = mRoot(); if (!r || !CITIES) return;
   $("[data-mtop]", r).innerHTML = M.tab === "map" ? mTopHTML() : ""; $("[data-mzoom]", r).hidden = !onMap;
   const sh = $("[data-msheet]", r); sh.className = "m-sheet " + (M.tab === "album" ? "peek" : M.tab === "map" ? M.sheet : "none");
   sh.innerHTML = M.tab === "album" ? mAlbumSheetHTML() : M.tab === "map" ? (M.sheet === "full" ? mFullHTML() : mPeekHTML()) : "";
+  if (M.sibDir) { const sc = $(".m-sc", sh); if (sc) sc.classList.add("sib-" + M.sibDir); }
+  const pill = M.tab === "map" && M.sheet !== "full" && M.city && !M.view && mSibHTML(BYID.get(M.city)); if (pill) sh.insertAdjacentHTML("afterbegin", pill.replace('class="m-sib"', 'class="m-sib pill"'));
   if (M.tab === "album") sh.style.maxHeight = "430px"; else sh.style.maxHeight = "";
-  const v = $("[data-mview]", r), vw = M.view === "search" ? mSearchHTML() : M.view === "rank" ? mRankHTML() : null; v.hidden = onMap && !vw; v.innerHTML = vw ?? (M.tab === "guess" ? mGuessHTML() : M.tab === "pk" ? mPkHTML() : M.tab === "me" ? mMeHTML() : "");
+  const v = $("[data-mview]", r), vw = M.view === "search" ? mSearchHTML() : M.view === "rank" ? mRankHTML() : M.view === "dex" ? mDexHTML() : null; v.hidden = onMap && !vw; v.innerHTML = vw ?? (M.tab === "guess" ? mGuessHTML() : M.tab === "pk" ? mPkHTML() : M.tab === "me" ? mMeHTML() : "");
   r.classList.toggle("wx", M.wx); r.classList.toggle("m-big", M.big); $("[data-mwxtop]", r).innerHTML = mWxTop(); $("[data-mwxg]", r).innerHTML = mWxGuide();
   $("[data-mlayers]", r).innerHTML = M.layers && M.tab === "map" && !vw ? mLensHTML() : ""; $("[data-mpop]", r).innerHTML = M.confirmClear ? `<div class="m-pop"><div class="m-handle"></div><b class="t">${ZH("清除本机数据？", "Clear data on this phone?")}</b><p>${ZH("家乡、打卡、收藏和搜索记录都会删掉，不能撤销。服务器上没有你的任何个人信息。", "Hometown, stamps, saves and searches will be deleted. Nothing personal is stored on a server.")}</p><div class="row-gap"><button class="btn" data-m="clear-no">${ZH("取消", "Cancel")}</button><button class="btn primary" data-m="clear-yes">${ZH("清除", "Clear")}</button></div></div>` : M.fix ? mFixHTML() : M.exp ? mExpHTML() : "";
   const ld = $("[data-mloading]", r); if (ld) ld.remove();
@@ -3004,11 +3033,19 @@ function renderXhsInto(el) { const c = BYID.get(ST.city || "540400"), small = (c
 function drawMobOver(app, ctx, u, v) { if (M.tab === "album") { drawAlbum(app, ctx, u, v); return; }
   const c = M.city && BYID.get(M.city); if (M.flows && c && M.sheet !== "full") { const f = flowsOf(c); if (f) { const [x0, y0] = toPx(v, c.x, c.y); f.list.slice(0, 4).forEach((d, i) => { const cap = PROV_CAP(d.p); if (!cap) return; let a = [x0, y0], b = toPx(v, cap.x, cap.y); if (f.inflow) [a, b] = [b, a];
     ctx.save(); ctx.strokeStyle = "rgba(45,94,120,.7)"; ctx.lineWidth = (1.2 + d.s * 10) * u; ctx.lineCap = "round"; ctx.setLineDash([5 * u, 5 * u]); ctx.beginPath(); ctx.moveTo(...a); for (let s = 1; s <= 24; s++) ctx.lineTo(...qpt(a, b, .2 * (i % 2 ? -1 : 1), s / 24)); ctx.stroke(); ctx.restore(); }); } } }
-function bindMobMap(a) { const cv = a.canvas; let drag = null, moved = 0;
+function bindMobMap(a) { const cv = a.canvas; let drag = null, moved = 0, pinch = null; const pts = new Map();
   const loc = e => { const r = cv.getBoundingClientRect(), k = cv.width / r.width; return [(e.clientX - r.left) * k, (e.clientY - r.top) * k]; };
-  cv.addEventListener("pointerdown", e => { drag = { x: e.clientX, y: e.clientY, v: { ...a.view } }; moved = 0; cv.setPointerCapture(e.pointerId); });
-  cv.addEventListener("pointermove", e => { if (!drag) return; const r = cv.getBoundingClientRect(), k = cv.width / r.width, dx = (e.clientX - drag.x) * k, dy = (e.clientY - drag.y) * k; moved = Math.max(moved, Math.hypot(dx, dy)); if (moved > 5) { a.view = clampView(a, { s: drag.v.s, ox: drag.v.ox + dx, oy: drag.v.oy + dy }); frame(a); } });
-  cv.addEventListener("pointerup", e => { if (!drag) return; const was = moved > 5; drag = null; if (was) { full(a); return; } const [X, Y] = loc(e); let best = null, bd = 1e9;
+  const two = () => { const [p, q] = [...pts.values()]; return { d: Math.hypot(p[0] - q[0], p[1] - q[1]) || 1, m: [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2] }; };
+  cv.addEventListener("pointerdown", e => { pts.set(e.pointerId, loc(e)); cv.setPointerCapture(e.pointerId);
+    if (pts.size === 2) { const t = two(); pinch = { d0: t.d, m0: t.m, v: { ...a.view } }; drag = null; moved = 99; M.pinched = 1; return; }
+    drag = { x: e.clientX, y: e.clientY, v: { ...a.view } }; moved = 0; });
+  cv.addEventListener("pointermove", e => { if (pts.has(e.pointerId)) pts.set(e.pointerId, loc(e));
+    if (pinch && pts.size >= 2) { const t = two(), v0 = pinch.v, s = clamp(v0.s * t.d / pinch.d0, a.home.s * .85, a.home.s * 9), k = s / v0.s;
+      a.view = clampView(a, { s, ox: t.m[0] - (pinch.m0[0] - v0.ox) * k, oy: t.m[1] - (pinch.m0[1] - v0.oy) * k }); frame(a); updateZoomLabel(); return; }
+    if (!drag) return; const r = cv.getBoundingClientRect(), k = cv.width / r.width, dx = (e.clientX - drag.x) * k, dy = (e.clientY - drag.y) * k; moved = Math.max(moved, Math.hypot(dx, dy)); if (moved > 5) { a.view = clampView(a, { s: drag.v.s, ox: drag.v.ox + dx, oy: drag.v.oy + dy }); frame(a); } });
+  const lift = e => { pts.delete(e.pointerId); if (pinch) { if (pts.size < 2) { pinch = null; drag = null; full(a); } return true; } return false; };
+  cv.addEventListener("pointercancel", e => { lift(e); drag = null; });
+  cv.addEventListener("pointerup", e => { if (lift(e) || !drag) return; const was = moved > 5; drag = null; if (was) { full(a); return; } const [X, Y] = loc(e); let best = null, bd = 1e9;
     for (const h of a.hits) { if (!h.city) continue; if (h.rect) { const [rx, ry, rw, rh] = h.rect; if (X >= rx && X <= rx + rw && Y >= ry && Y <= ry + rh) { best = h; break; } continue; } const d = Math.hypot(h.x - X, h.y - Y); if (d < Math.max(h.r, 16 * a.u) && d < bd) { bd = d; best = h; } }
     if (best) { spatterAt(e.clientX, e.clientY, 12); mSelect(best.city.id); } });
   cv.addEventListener("wheel", e => { e.preventDefault(); const [x, y] = loc(e); zoomAt(a, x, y, Math.exp(-e.deltaY * .0016)); }, { passive: false }); }
@@ -3020,7 +3057,7 @@ function mObPick(id) { const c = BYID.get(id); if (!c) return; M.home = id; M.ob
   setTimeout(() => { full(MAPP); const r = MAPP.canvas.getBoundingClientRect(), k = r.width / MAPP.canvas.width, v = MAPP.view; spatterAt(r.left + (v.ox + c.x * v.s) * k, r.top + (v.oy + c.y * v.s) * k - 20, 22); snd("stamp");
     mToast(`${seal("吾乡")}<span>${ZH(`已认 ${c.n} 为家乡 · 你是第 1,285 位`, `${c.en} is your hometown · No. 1,285`)}</span>`); setTimeout(() => { M.ob = 2; renderMob("card"); }, RM() ? 0 : 900); }, RM() ? 50 : 1400); }
 function initMob() { const el = $("[data-mmap]"); if (!el) return;
-  MAPP = makeApp(el, { w: 390, h: 844, area: () => [0, 100, 390, 844 - 100 - 84 - 150], bbox: () => [900, 1500, 5400, 4300], sel: () => M.city, selSeal: () => M.city && M.city === M.home ? "吾乡" : null, lens: () => M.lens === "pop" ? (M.year === 2020 ? "pop20" : "pop23") : M.lens, quota: 9, over: drawMobOver, hl: () => M.city,
+  MAPP = makeApp(el, { w: 390, h: 844, ts: () => M.big ? 1.32 : 1.15, area: () => [0, 100, 390, 844 - 100 - 84 - 150], bbox: () => [900, 1500, 5400, 4300], sel: () => M.city, selSeal: () => M.city && M.city === M.home ? "吾乡" : null, lens: () => M.lens === "pop" ? (M.year === 2020 ? "pop20" : "pop23") : M.lens, quota: 9, over: drawMobOver, hl: () => M.city,
     inset: () => ({ x: 390 - 8, y: 844 - 84 - 158, w: 64 }), scale: () => null, blocked: () => [[0, 0, 390, 104], [0, 844 - 84 - 160, 390, 244], [334, 100, 56, 110]] });
   bindMobMap(MAPP); mLoad();
   document.addEventListener("click", e => { const r = mRoot(); if (!r || (!r.contains(e.target) && !e.target.closest('[data-m="restart"]'))) return; const b = e.target.closest("[data-mtab],[data-m],[data-mgo],[data-mob],[data-m6pick],[data-m6pk]"); if (!b) return; const k = b.dataset.m;
@@ -3047,19 +3084,19 @@ document.addEventListener("click", e => { const b = e.target.closest("[data-mzoo
 
 /* ---------- score board ---------- */
 const RUBRIC = [
-  ["A", ["一看就会用", "Understand at a glance"], [["A1", "首屏 3 秒看懂是什么", "开局一句“你从哪儿来？”+ 地图背景"], ["A2", "第一个动作明确", "唯一主按钮：选家乡；可跳过"], ["A3", "3 步内拿到第一份奖励", "选城 → 盖章 → 家乡卡（3 步）"], ["A4", "手势和控件可发现", "3 步教学浮层；+/− 缩放按钮"], ["A5", "随时回到起点", "关闭、收起、重选家乡都在"]]],
+  ["A", ["一看就会用", "Understand at a glance"], [["A1", "首屏 3 秒看懂是什么", "开局一句“你从哪儿来？”+ 地图背景"], ["A2", "第一个动作明确", "唯一主按钮：选家乡；可跳过"], ["A3", "3 步内拿到第一份奖励", "选城 → 盖章 → 家乡卡（3 步）"], ["A4", "手势和控件可发现", "3 步教学浮层；双指缩放 + 拖动；+/− 按钮兜底"], ["A5", "随时回到起点", "关闭、收起、重选家乡都在"]]],
   ["B", ["主次有序", "Clear hierarchy"], [["B1", "每屏一个主信息", "地图页=城；城页=宝藏点；猜城=题目"], ["B2", "每屏一个“下一步”", "去看看 / 看完整档案 / 下一题 / 开始 PK"], ["B3", "满而不乱（分层、折叠）", "家底与历史折叠；宝藏点横滑"], ["B4", "模式一致", "卡片、印、颜色同一套"]]],
   ["C", ["探索不卡壳", "Explore without getting stuck"], [["C1", "所有玩法 ≤2 次点击", "底部 5 个 Tab 直达"], ["C2", "没有死路", "每屏有出口：收起、下一题、去完成"], ["C3", "玩法互相导流", "城页 → 打卡/PK/晒；猜城完 → 去打卡这座城"], ["C4", "空状态有引导", "未选城显示今日宝藏城；无数据写“采集中”"]]],
-  ["D", ["留得住、会回来", "Stay and return"], [["D1", "每天回来的理由", "每日 5 题、今日宝藏城、红点"], ["D2", "进度与收集", "打卡地图、成就、稀有度"], ["D3", "分享回流", "3:4 图带二维码，扫码直达这座城"], ["D4", "连续性", "日印周历、连对"]]],
-  ["E", ["手机好用", "Mobile ergonomics"], [["E1", "拇指区操作", "底部 Tab、底部抽屉、底部操作栏"], ["E2", "点击 ≥44px、字号 ≥12px", "按钮 44–50px；正文 14px"], ["E3", "动效有反馈、可减弱", "盖章、飞行、翻卡；跟随系统减弱动效"]]]];
+  ["D", ["留得住、会回来", "Stay and return"], [["D1", "每天回来的理由", "每日 5 题、今日宝藏城、红点"], ["D2", "进度与收集", "打卡地图、完整图鉴页（按省进度、稀有度筛选）、成就"], ["D3", "分享回流", "3:4 图带二维码，扫码直达这座城"], ["D4", "连续性", "日印周历、连对"]]],
+  ["E", ["手机好用", "Mobile ergonomics"], [["E1", "拇指区操作", "底部 Tab、底部抽屉、底部操作栏"], ["E2", "点击 ≥44px、字号 ≥12px", "按钮 44–50px；正文 14px；地图注记 ×1.15，大字模式 ×1.32"], ["E3", "动效有反馈、可减弱", "盖章、飞行、翻卡；跟随系统减弱动效"]]]];
 const BASICS = [["P0", "搜索：拼音、首字母、县名、最近搜过", 1], ["P0", "最近看过 + 收藏", 1], ["P0", "榜单：按指标排序、按省筛选、吾乡名次", 1], ["P0", "手机上切换透镜与年份（含图例）", 1], ["P0", "每个数字点 ⓘ：定义、算法、出处原文", 1], ["P0", "链接回到同一画面；返回键逐层后退", 1], ["P0", "微信：标题栏、分享引导、聊天卡片（正式版接 JS-SDK，需备案域名）", 1], ["P0", "加载、无结果、出错时都有提示", 1], ["P0", "数据截至日期 + 纠错入口", 1],
-  ["P1", "大字模式", 1], ["P1", "清除我的数据 + 隐私说明", 1], ["P1", "帮助 / 常见问题；教学可重看", 1], ["P1", "加到主屏幕、弱网离线（说明已写，缓存待开发）", .5], ["P1", "复制链接（✓）；引用格式与表格下载（待做）", .5], ["P1", "同省城市左右滑切换", 0]];
-const SCORE = { history: [["底分", 40], ["第 1 轮", 84], ["第 2 轮", 96], ["第 3 轮", 0]], items: {
-  A1: [5, ""], A2: [5, ""], A3: [5, ""], A4: [4, "原型用滚轮和 +/− 代替双指缩放"], A5: [5, ""],
+  ["P1", "大字模式", 1], ["P1", "清除我的数据 + 隐私说明", 1], ["P1", "帮助 / 常见问题；教学可重看", 1], ["P1", "加到主屏幕、弱网离线（说明已写；缓存要 Service Worker，正式版做）", .5], ["P1", "复制链接、复制引用格式、榜单导出 CSV（带出处列）", 1], ["P1", "同省城市切换：地图上浮签 ‹ ›，城页左右滑", 1]];
+const SCORE = { history: [["底分", 40], ["第 1 轮", 84], ["第 2 轮", 96], ["第 3 轮", 97], ["第 4 轮", 0]], items: {
+  A1: [5, ""], A2: [5, ""], A3: [5, ""], A4: [5, ""], A5: [5, ""],
   B1: [5, ""], B2: [5, ""], B3: [5, ""], B4: [5, ""],
   C1: [5, ""], C2: [5, ""], C3: [5, ""], C4: [5, ""],
-  D1: [5, ""], D2: [4, "卡牌只能看最近 8 张，缺完整图鉴页"], D3: [5, ""], D4: [5, ""],
-  E1: [5, ""], E2: [4, "大字模式已加；地图注记仍偏小"], E3: [5, ""] } };
+  D1: [5, ""], D2: [5, ""], D3: [4, "分享图上的二维码还是占位；正式版换成带城市参数的小程序码或短链，扫码才真能直达这座城"], D4: [5, ""],
+  E1: [5, ""], E2: [5, ""], E3: [5, ""] } };
 function renderScore() { const el = $("[data-mscore]"); if (!el) return; const it = SCORE.items, tot = Object.values(it).reduce((s, v) => s + v[0], 0); SCORE.history[SCORE.history.length - 1][1] = tot;
   const p0 = BASICS.filter(b => b[0] === "P0"), p0ok = p0.every(b => b[2] === 1), capped = p0ok ? tot : Math.min(tot, 90); SCORE.history[SCORE.history.length - 1][1] = capped;
   el.innerHTML = `<div class="sc-total"><div class="big num">${capped}<small> / 100</small></div><div class="hist">${SCORE.history.map(([l, v], i) => `<div class="${i === SCORE.history.length - 1 ? "cur" : ""}"><span class="num">${v}</span><b style="height:${v / 100 * 44}px"></b>${l}</div>`).join("")}</div><div style="margin-left:auto;max-width:280px" class="note">${ZH("目标 ≥ 95。每一轮：按这张表打分 → 找最低项 → 改 → 再打分。", "Target ≥ 95. Each round: score, fix the lowest items, score again.")}</div></div>
@@ -3088,6 +3125,25 @@ function mSearchHTML() { const res = mFind(M.q), q = M.q.trim();
       : `${M.searches.length ? `<div class="m-sec"><h4>${ZH("最近搜过", "Recent searches")}<small><button class="btn ghost" data-m="clear-searches" style="height:28px;padding:0 6px">${ZH("清空", "Clear")}</button></small></h4><div class="st-hits">${M.searches.map(s => `<button class="chip" data-mq-fill="${s}">${icon("i-search")}${s}</button>`).join("")}</div></div>` : ""}
         ${M.recent.length ? `<div class="m-sec"><h4>${ZH("最近看过", "Recently viewed")}</h4><div class="st-hits">${M.recent.slice(0, 8).map(id => BYID.get(id)).filter(Boolean).map(c => `<button class="chip" data-mgo="${c.id}">${tierImg(c)}${cname(c)}</button>`).join("")}</div></div>` : ""}
         <div class="m-sec"><h4>${ZH("试试这样搜", "Try")}</h4><div class="st-hits">${["nc", "langzhong", "阆中", "chaoyang", "hz"].map(s => `<button class="chip" data-mq-fill="${s}">${s}</button>`).join("")}</div></div>`}</div>`; }
+/* ---- same-province neighbours ---- */
+function mSibs(c) { return CITIES.filter(x => x.prov === c.prov).sort((a, b) => (b.popAny || 0) - (a.popAny || 0)); }
+function mSibHTML(c) { const L = mSibs(c); if (L.length < 2) return ""; const i = L.indexOf(c), pv = L[(i - 1 + L.length) % L.length], nx = L[(i + 1) % L.length];
+  return `<div class="m-sib"><button data-msib="-1" aria-label="${ZH(`上一座：${cname(pv)}`, `Previous: ${cname(pv)}`)}">‹ ${cname(pv)}</button><span class="num">${ZH(`${pvOf(c)}第 ${i + 1} / ${L.length} 大`, `${i + 1} of ${L.length} in ${pvOf(c)}`)}</span><button data-msib="1" aria-label="${ZH(`下一座：${cname(nx)}`, `Next: ${cname(nx)}`)}">${cname(nx)} ›</button></div>`; }
+function mSib(d) { const c = M.city && BYID.get(M.city); if (!c) return; const L = mSibs(c); if (L.length < 2) return; const i = L.indexOf(c), n = L[(i + d + L.length) % L.length];
+  M.city = n.id; M.sibDir = d > 0 ? "l" : "r"; mVisit(n.id); renderMob("count"); M.sibDir = null; mPush(); snd("flip"); if (MAPP) flyTo(MAPP, mTarget(n, 2.6), RM() ? 0 : 600); }
+/* ---- full collection (图鉴) ---- */
+const DEXF = [["all", ["全部", "All"]], ["got", ["已收", "Collected"]], ["miss", ["还没去", "Missing"]], ["r3", ["传世", "Legendary"]], ["r2", ["珍品", "Epic"]], ["r1", ["稀有", "Rare"]]];
+function mDexHTML() { const f = M.dexF || "all", got = new Set(AL.got), rr = new Map(CITIES.map(c => [c.id, rarity(c)])), home = M.home && BYID.get(M.home);
+  const keep = c => f === "all" || (f === "got" ? got.has(c.id) : f === "miss" ? !got.has(c.id) : rr.get(c.id) === +f[1]);
+  const byR = [3, 2, 1, 0].map(k => { const all = CITIES.filter(c => rr.get(c.id) === k); return [k, all.filter(c => got.has(c.id)).length, all.length]; });
+  const provs = PROVS.filter(p => CITIES.some(c => c.prov === p.id)).sort((a, b) => (home && b.id === home.prov) - (home && a.id === home.prov) || CITIES.filter(c => c.prov === b.id && got.has(c.id)).length - CITIES.filter(c => c.prov === a.id && got.has(c.id)).length);
+  const tile = c => { const g = got.has(c.id), r = rr.get(c.id); return `<button class="m-dex-t ${g ? "r" + r : "no"}" data-mgo="${c.id}" aria-label="${cname(c)} · ${g ? ZH(...RAR[r]) : ZH("未打卡", "not yet")}">${c.id === M.home ? `<i class="hm">${ZH("乡", "★")}</i>` : ""}${tierImg(c)}<span>${cname(c)}</span></button>`; };
+  const sec = p => { const cs = CITIES.filter(c => c.prov === p.id), n = cs.filter(c => got.has(c.id)).length, show = cs.filter(keep); if (!show.length) return "";
+    return `<div class="m-dex-pv"><h4>${EN() ? p.en : p.zh}<span class="hbar"><i style="width:${n / cs.length * 100}%"></i></span><small class="num">${n} / ${cs.length}${n === cs.length ? ZH(" · 集齐", " · done") : ""}</small></h4><div class="m-dex-grid">${show.map(tile).join("")}</div></div>`; };
+  return `<div class="m-title"><button class="btn icon ghost" data-m="back" aria-label="${ZH("返回", "Back")}" style="width:44px;height:44px;margin-left:-10px">${icon("i-chev", "")}</button><b>${ZH("城市图鉴", "City collection")}</b><span>${ZH(`已收 ${got.size} / ${CITIES.length}`, `${got.size} of ${CITIES.length}`)}</span></div>
+    <div class="m-dex-top"><span class="m-ring" style="--p:${Math.max(3, got.size / CITIES.length * 100)}%"><b class="num">${got.size}</b></span><div style="display:grid;gap:8px"><span class="note" style="margin:0">${ZH("去过、看过就点“打卡”收进来。底色越亮越难得。", "Stamp a city to collect it. Brighter edges are rarer.")}</span><div class="m-dex-rar">${byR.map(([k, a, b]) => `<div><b class="num">${a}<small style="font-size:11px;color:var(--ink-3)">/${b}</small></b>${ZH(...RAR[k])}</div>`).join("")}</div></div></div>
+    <div class="m-hot">${DEXF.map(([k, lab]) => `<button class="chip ${k === f ? "on" : ""}" data-mdexf="${k}">${ZH(...lab)}</button>`).join("")}</div>
+    ${provs.map(sec).join("") || `<div class="m-empty"><b>${ZH("这一类还没收到", "Nothing here yet")}</b><span>${ZH("去地图上点一座城，打卡收进图鉴", "Tap a city on the map and stamp it")}</span></div>`}`; }
 /* ---- favourites ---- */
 function mFavBtn(c) { const on = M.fav.includes(c.id); return `<button class="btn icon ghost m-star ${on ? "on" : ""}" data-mfav="${c.id}" aria-pressed="${on}" aria-label="${on ? ZH("取消收藏", "Unfavourite") : ZH("收藏", "Favourite")}" style="width:44px;height:44px">${on ? "★" : "☆"}</button>`; }
 /* ---- ranking ---- */
@@ -3099,7 +3155,7 @@ function mRankHTML() { const R = RANKS.find(r => r[0] === M.rankK), asc = M.rank
   const row = c => `<button class="m-rk" data-mgo="${c.id}"><span class="no ${c._rk <= 3 ? "g" + c._rk : ""}">${c._rk}</span>${tierImg(c)}<span class="nm"><b>${cname(c)}</b><i style="width:${Math.abs(c[M.rankK]) / mx * 100}%"></i></span><em class="num">${f(c[M.rankK])}</em></button>`;
   return `<div class="m-title"><button class="btn icon ghost" data-m="back" aria-label="${ZH("返回", "Back")}" style="width:44px;height:44px;margin-left:-10px">${icon("i-chev", "")}</button><b>${ZH("榜单", "Rankings")}</b><span>${ZH(`${all.length} 座城有数据`, `${all.length} cities with data`)}</span><button class="btn icon ghost m-exp-btn" data-mexp="${M.rankK}" aria-label="${ZH("这是什么", "What is this")}">ⓘ</button></div>
     <div class="m-hot">${RANKS.map(([k, y, lab]) => `<button class="chip ${k === M.rankK ? "on" : ""}" data-mrank="${k}">${y ? medalSVG(y, "sm") : ""}${ZH(...lab)}</button>`).join("")}</div>
-    <div class="row-gap"><label class="field" style="flex:1;height:40px">${icon("i-map")}<select data-mprov aria-label="${ZH("按省筛选", "Filter by province")}" style="flex:1;border:0;background:transparent;color:var(--ink);font:inherit"><option value="">${ZH("全国", "All China")}</option>${provs.map(p => `<option value="${p.id}" ${p.id === M.rankProv ? "selected" : ""}>${EN() ? p.en : p.zh}</option>`).join("")}</select></label><button class="btn" data-m="rank-flip" style="height:40px">${asc ? ZH("↑ 从低到高", "↑ Low first") : ZH("↓ 从高到低", "↓ High first")}</button></div>
+    <div class="row-gap"><label class="field" style="flex:1;height:40px">${icon("i-map")}<select data-mprov aria-label="${ZH("按省筛选", "Filter by province")}" style="flex:1;border:0;background:transparent;color:var(--ink);font:inherit"><option value="">${ZH("全国", "All China")}</option>${provs.map(p => `<option value="${p.id}" ${p.id === M.rankProv ? "selected" : ""}>${EN() ? p.en : p.zh}</option>`).join("")}</select></label><button class="btn icon" data-m="csv" style="height:40px;width:40px" aria-label="${ZH("下载表格", "Download table")}" title="${ZH("下载表格（CSV，含出处）", "Download CSV with sources")}">⇩</button><button class="btn" data-m="rank-flip" style="height:40px">${asc ? ZH("↑ 从低到高", "↑ Low first") : ZH("↓ 从高到低", "↓ High first")}</button></div>
     ${home ? `<div class="m-rk-home">${ZH(`吾乡 ${home.n}：全国第 ${home._rk} / ${all.length}`, `Your ${home.en}: #${home._rk} of ${all.length}`)}</div>` : ""}
     <div class="m-rklist">${list.slice(0, 60).map(row).join("")}</div>${list.length > 60 ? `<p class="note" style="text-align:center">${ZH(`只列前 60 座；用省份筛选看更多`, "Top 60 shown; filter by province for more")}</p>` : ""}`; }
 /* ---- lens & year on the phone ---- */
@@ -3126,7 +3182,7 @@ const EXPL = {
   "lens-growth": [["人口增减透镜", "Population change lens"], ["红色在增加，蓝色在减少，比较的是七普到 2023 年末。", "Red grew, blue shrank, census to end 2023."], ["七普 · 2023 年统计公报", "census · 2023 communiqués"]],
   "lens-forest": [["森林透镜", "Forest lens"], ["颜色越深林地越多（卫星估算，丘陵农田偏高）。", "Darker = more forest (satellite estimate)."], ["ESA WorldCover 2021", "ESA WorldCover 2021"]] };
 function mExpHTML() { const e = EXPL[M.exp]; if (!e) return ""; const c = M.city && BYID.get(M.city), q = c && c.src && c.src.q && e[3] ? c.src.q[e[3]] : null;
-  return `<div class="m-pop"><div class="m-handle"></div><b class="t">${ZH(...e[0])}</b><p>${ZH(...e[1])}</p><div class="prov"><div class="row"><span>${ZH("出处", "Source")}</span><span>${ZH(...e[2])}</span></div>${q ? `<div class="row"><span>${ZH(`${c.n} 原文`, `${c.en} original`)}</span><span>“${q}”</span></div>` : ""}<div class="row"><span>${ZH("数据截至", "As of")}</span><span>${ZH("2023 年公报 · 2026-11 更新", "2023 communiqués · updated 2026-11")}</span></div></div>
+  return `<div class="m-pop"><div class="m-handle"></div><b class="t">${ZH(...e[0])}</b><p>${ZH(...e[1])}</p><div class="prov"><div class="row"><span>${ZH("出处", "Source")}</span><span>${ZH(...e[2])}</span></div>${q ? `<div class="row"><span>${ZH(`${c.n} 原文`, `${c.en} original`)}</span><span>“${q}”</span></div>` : ""}<div class="row"><span>${ZH("数据截至", "As of")}</span><span>${ZH("2023 年公报 · 2026-11 更新", "2023 communiqués · updated 2026-11")}</span></div><div class="row"><span>${ZH("引用", "Cite")}</span><span><button class="btn ghost" data-m="cite" style="height:32px;padding:0 8px;margin:-6px 0">${icon("i-link")}${ZH("复制引用格式", "Copy citation")}</button></span></div></div>
     <div class="row-gap"><button class="btn" data-m="fix">${ZH("这个数不对？纠错", "Wrong? Report it")}</button><button class="btn primary" data-m="close-exp">${ZH("知道了", "Got it")}</button></div></div>`; }
 function mFixHTML() { const c = M.city && BYID.get(M.city);
   return `<div class="m-pop"><div class="m-handle"></div><b class="t">${ZH("纠错", "Report an error")}</b><p class="note">${ZH("核实后更新，并在出处里注明修订；纠错内容不公开显示。", "We verify, update and note the revision; reports are not shown publicly.")}</p>
@@ -3145,9 +3201,15 @@ function mRestore(h) { const p = (h || "").replace(/^#/, "").split("/"); if (p[0
   for (const x of p.slice(2)) { if (x.startsWith("v-")) M.view = x.slice(2); else if (BYID.has(x)) M.city = x; else if (x === "full") M.sheet = "full"; else if (RANKS.some(r => r[0] === x)) M.rankK = x; }
   renderMob(); if (M.city && MAPP) flyTo(MAPP, mTarget(BYID.get(M.city), 2.6), 0); M.restoring = false; return true; }
 function mBack() { if (M.exp || M.fix) { M.exp = null; M.fix = null; } else if (M.modal) M.modal = null; else if (M.view) M.view = null; else if (M.sheet === "full") M.sheet = "peek"; else if (M.city) M.city = null; else if (M.tab !== "map") M.tab = "map"; renderMob(); mPush(); }
+let DLS = null; (async () => { try { if (window.claude && window.claude.use) DLS = await window.claude.use("downloads"); } catch (e) { DLS = null; } })();
+window.__jsatlas = { map: () => MAPP, state: () => M };
+(() => { let sw = null; document.addEventListener("pointerdown", e => { const sh = e.target.closest && e.target.closest("#s-mobile [data-msheet]"); sw = sh && M.city && M.tab === "map" && !e.target.closest(".m-carousel, .m-hot, .st-hits, .m-hand, input, select, canvas") ? { x: e.clientX, y: e.clientY, t: performance.now() } : null; }, true);
+  document.addEventListener("pointerup", e => { if (!sw) return; const dx = e.clientX - sw.x, dy = e.clientY - sw.y, dt = performance.now() - sw.t; sw = null; if (Math.abs(dx) > 60 && Math.abs(dx) > 2 * Math.abs(dy) && dt < 700) { M.swiped = 1; mSib(dx < 0 ? 1 : -1); } }, true); })();
 window.addEventListener("popstate", () => { if (!mRestore(location.hash)) { M.view = null; M.sheet = "peek"; renderMob(); } });
 /* ---- wiring ---- */
-document.addEventListener("click", e => { const r = mRoot(); if (!r || !r.contains(e.target)) return; const b = e.target.closest("[data-mfav],[data-mrank],[data-mlens],[data-myear],[data-mexp],[data-mq-fill],[data-mq-save],[data-m]"); if (!b) return;
+document.addEventListener("click", e => { const r = mRoot(); if (!r || !r.contains(e.target)) return; const b = e.target.closest("[data-mfav],[data-mrank],[data-mlens],[data-myear],[data-mexp],[data-mq-fill],[data-mq-save],[data-mdexf],[data-msib],[data-m]"); if (!b) return;
+  if (b.dataset.mdexf) { M.dexF = b.dataset.mdexf; renderMob(); snd("tick"); return; }
+  if (b.dataset.msib) { mSib(+b.dataset.msib); return; }
   if (b.dataset.mqSave) { const s = b.dataset.mqSave.trim(); if (s) { M.searches = [s, ...M.searches.filter(x => x !== s)].slice(0, 8); mSave(); } M.view = null; }
   if (b.dataset.mfav) { const id = b.dataset.mfav; M.fav = M.fav.includes(id) ? M.fav.filter(x => x !== id) : [id, ...M.fav]; mSave(); renderMob(); snd("tick"); mToast(`<span>${M.fav.includes(id) ? ZH("已收藏，在“我的”里能找到", "Saved; find it under Me") : ZH("已取消收藏", "Removed")}</span>`, 1600); e.stopPropagation(); return; }
   if (b.dataset.mrank) { M.rankK = b.dataset.mrank; renderMob(); mPush(); return; }
@@ -3158,7 +3220,19 @@ document.addEventListener("click", e => { const r = mRoot(); if (!r || !r.contai
   const k = b.dataset.m;
   if (k === "search") { M.view = "search"; M.q = ""; renderMob(); mPush(); setTimeout(() => { const i = $("[data-mq2]"); i && i.focus(); }, 50); e.stopImmediatePropagation(); }
   else if (k === "rank") { M.view = "rank"; renderMob(); mPush(); }
+  else if (k === "dex") { M.view = "dex"; renderMob(); mPush(); const v = $("[data-mview]"); if (v) v.scrollTop = 0; }
   else if (k === "rank-flip") { M.rankAsc = !M.rankAsc; renderMob(); }
+  else if (k === "cite") { const ex = EXPL[M.exp], c = M.city && BYID.get(M.city), d = new Date(), ds = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const t = ZH(`${c ? (c.full || c.n) + " · " : ""}${ex[0][0]}。数据来源：${ex[2][0]}。转引自 江山图鉴（${location.href.split("#")[0] + mHash()}），${ds} 访问。`, `${c ? c.en + " · " : ""}${ex[0][1]}. Source: ${ex[2][1]}. Via Jiangshan Atlas (${location.href.split("#")[0] + mHash()}), accessed ${ds}.`);
+    mCopy(t); mToast(`${icon("i-link", "")}<span>${ZH("引用已复制：含出处、链接、访问日期", "Citation copied: source, link and date")}</span>`); }
+  else if (k === "csv") { const R = RANKS.find(r => r[0] === M.rankK), asc = M.rankAsc !== !!R[3], all = CITIES.filter(c => c[M.rankK] != null && isFinite(c[M.rankK])).sort((a, b) => asc ? a[M.rankK] - b[M.rankK] : b[M.rankK] - a[M.rankK]), ex = EXPL[M.rankK];
+    const rows = [[ZH("名次", "rank"), ZH("城市", "city"), ZH("省份", "province"), "adcode", ZH(...R[2]), ZH("出处", "source")]].concat(all.filter(c => !M.rankProv || c.prov === M.rankProv).map(c => [all.indexOf(c) + 1, cname(c), pvOf(c), c.id, +(+c[M.rankK]).toFixed(2), ex ? ZH(...ex[2]) : ZH("各市统计公报", "City communiqués")]));
+    const csv = "\ufeff" + rows.map(r => r.map(v => /[",\n]/.test(String(v)) ? `"${String(v).replace(/"/g, '""')}"` : v).join(",")).join("\n");
+    const fn = `jiangshan-${M.rankK}${M.rankProv ? "-" + M.rankProv : ""}.csv`, n = rows.length - 1, okT = () => mToast(`<span>${ZH(`已导出 ${n} 行 CSV，含出处列；Excel 可直接打开`, `Exported ${n} rows with sources`)}</span>`);
+    const copyT = () => { mCopy(csv); mToast(`<span>${ZH(`这里存不了文件，已把 ${n} 行表格复制到剪贴板`, `Can't save files here; copied ${n} rows to the clipboard`)}</span>`); };
+    if (DLS) DLS.save({ filename: fn, data: csv }).then(okT, err => { const c = err && err.code; if (c === "declined") mToast(`<span>${ZH("已取消下载", "Download cancelled")}</span>`, 1500); else if (c === "rate_limited") mToast(`<span>${ZH("上一个下载还没确认，稍等再试", "Another download is pending")}</span>`, 1800); else copyT(); });
+    else if (!(window.claude && window.claude.use)) { try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })); a.download = fn; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); okT(); } catch (x) { copyT(); } }
+    else copyT(); }
   else if (k === "back") mBack();
   else if (k === "close-exp") { M.exp = null; M.fix = null; renderMob(); }
   else if (k === "fix") { M.fix = true; M.exp = null; renderMob(); }
@@ -3167,7 +3241,7 @@ document.addEventListener("click", e => { const r = mRoot(); if (!r || !r.contai
   else if (k === "layers") { M.layers = !M.layers; renderMob(); }
   else if (k === "wx-more" || (k === "share" && M.wx)) { M.wxGuide = true; M.modal = null; renderMob(); e.stopImmediatePropagation(); }
   else if (k === "wx-close") { M.wxGuide = false; renderMob(); }
-  else if (k === "big") { M.big = !M.big; mSave(); renderMob(); }
+  else if (k === "big") { M.big = !M.big; mSave(); renderMob(); if (MAPP) full(MAPP); }
   else if (k === "clear-data") { M.confirmClear = true; renderMob(); }
   else if (k === "clear-no") { M.confirmClear = false; renderMob(); }
   else if (k === "clear-yes") { M.confirmClear = false; M.fav = []; M.recent = []; M.searches = []; M.home = null; try { localStorage.removeItem(MKEY); } catch (x) { } mToast(`<span>${ZH("已清除本机数据", "Cleared")}</span>`); renderMob(); }
