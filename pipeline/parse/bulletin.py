@@ -33,6 +33,7 @@ FIELDS = {
     "population": ("年末常住人口", "万人"),
     "population_registered": ("年末户籍人口", "万人"),
     "urbanization": ("常住人口城镇化率", "%"),
+    "gdp_per_capita": ("人均地区生产总值", "元"),
     "income": ("全体居民人均可支配收入", "元"),
     "income_urban": ("城镇居民人均可支配收入", "元"),
     "income_rural": ("农村居民人均可支配收入", "元"),
@@ -385,6 +386,13 @@ def _incomes(norm: str, orig: str, year: int | None) -> dict[str, dict | None]:
     return out
 
 
+def _gdp_per_capita(norm: str, orig: str, year: int | None):
+    # 人均地区生产总值 / 人均生产总值 / 人均GDP, as the bulletin states it ("按常住人口计算，全市人均GDP为43335元");
+    # never computed from GDP and population here. Not 人均可支配收入 or 人均消费 (different keywords).
+    hit = _find_value(norm, r"人均(?:地区|国内)?生产总值|人均\s*GDP", YUAN, year=year, filler=14)
+    return _field(orig, hit, "元", digits=2)
+
+
 def _budget_revenue(norm: str, orig: str, year: int | None):
     # 一般公共预算收入; older names of the same budget line: 公共财政预算收入, (财政)一般预算收入. Not 全口径财政收入,
     # 财政总收入 or 地方财政收入, which are other aggregates.
@@ -448,6 +456,7 @@ def parse_fields(text: str, year: int | None = None) -> dict[str, dict | None]:
     out["population"] = _population(norm, orig, year)
     out["population_registered"] = _population_registered(norm, orig, year)
     out["urbanization"] = _urbanization(norm, orig, year)
+    out["gdp_per_capita"] = _gdp_per_capita(norm, orig, year)
     out.update(_incomes(norm, orig, year))
     out["budget_revenue"] = _budget_revenue(norm, orig, year)
     out["retail_sales"] = _retail(norm, orig, year)
@@ -461,15 +470,15 @@ def parse_fields(text: str, year: int | None = None) -> dict[str, dict | None]:
 RANGES = {
     "city": {"gdp": (5, 60000), "gdp_growth": (-25, 30), "population": (0.05, 4000), "population_registered": (0.05, 4000),
              "urbanization": (5, 100),
-             "income": (5000, 120000), "income_urban": (10000, 130000), "income_rural": (3000, 70000),
+             "gdp_per_capita": (8000, 450000), "income": (5000, 120000), "income_urban": (10000, 130000), "income_rural": (3000, 70000),
              "budget_revenue": (0.05, 5000), "retail_sales": (0.5, 20000)},
     "province": {"gdp": (100, 200000), "gdp_growth": (-25, 30), "population": (100, 15000),
                  "population_registered": (100, 15000), "urbanization": (15, 100),
-                 "income": (8000, 120000), "income_urban": (15000, 130000), "income_rural": (5000, 70000),
+                 "gdp_per_capita": (20000, 250000), "income": (8000, 120000), "income_urban": (15000, 130000), "income_rural": (5000, 70000),
                  "budget_revenue": (10, 30000), "retail_sales": (50, 70000)},
     "nation": {"gdp": (500000, 2000000), "gdp_growth": (-10, 20), "population": (130000, 150000),
                "population_registered": (130000, 150000),
-               "urbanization": (50, 100), "income": (20000, 100000), "income_urban": (30000, 120000),
+               "urbanization": (50, 100), "gdp_per_capita": (50000, 150000), "income": (20000, 100000), "income_urban": (30000, 120000),
                "income_rural": (10000, 60000), "budget_revenue": (100000, 400000), "retail_sales": (200000, 800000)},
 }
 SUM_TOLERANCE = 0.01

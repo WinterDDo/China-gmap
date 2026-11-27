@@ -24,7 +24,7 @@ def test_text_record():
     r = _rec("tjcn_shijiazhuang_2023_text.html", "130100")
     assert r["status"] == "text" and r["level"] == "city" and r["province"] == "130000"
     assert r["bureau"] == "石家庄市统计局" and r["dated"] == "2024-03-11"
-    assert r["fields"]["gdp"]["value"] == 7534.2 and r["fields_found"] == 12
+    assert r["fields"]["gdp"]["value"] == 7534.2 and r["fields_found"] == 13
     assert r["flags"] == []
 
 
@@ -62,7 +62,7 @@ def test_write_outputs_and_crosscheck(tmp_path):
     merged = json.loads((root / "2023.json").read_text())
     assert [x["code"] for x in merged["records"]] == ["130100", "130200"]
     rows = list(csv.DictReader((root / "coverage.csv").open(encoding="utf-8")))
-    assert rows[0]["status"] == "text" and rows[0]["fields_found"] == "12" and rows[1]["status"] == "missing"
+    assert rows[0]["status"] == "text" and rows[0]["fields_found"] == "13" and rows[1]["status"] == "missing"
 
     civ = tmp_path / "city_stats"
     civ.mkdir()
