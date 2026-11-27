@@ -24,18 +24,24 @@ const SNAP = s => { const h = t => { let x = 0; for (let i = 0; i < t.length; i+
     // skip mobile onboarding so its buttons are reachable
     if (sec === 's-mobile') { const sk = await p.$('#s-mobile [data-m="skip-ob"]'); if (sk) { await sk.click(); await p.waitForTimeout(400); } for (let i = 0; i < 3; i++) { const c = await p.$('#s-mobile [data-m="coach-next"]'); if (c) { await c.click(); await p.waitForTimeout(150); } } }
     const n = await p.evaluate(s => { const root = document.getElementById(s); const els = [...root.querySelectorAll('button, [role=button], a[href]')].filter(e => e.offsetParent && !e.closest('.sec-head')); els.forEach((e, i) => e.setAttribute('data-audit', s + '-' + i)); return els.length; }, sec);
-    let dead = [];
+    let dead = [], covered = [];
     for (let i = 0; i < n; i++) { const sel = `[data-audit="${sec}-${i}"]`; const el = await p.$(sel); if (!el) continue; const vis = await el.isVisible().catch(() => false); if (!vis) continue;
       const label = (await el.evaluate(e => (e.getAttribute('aria-label') || e.textContent || e.getAttribute('title') || '').trim().replace(/\s+/g, ' ').slice(0, 40))) || '?';
+      await el.scrollIntoViewIfNeeded().catch(() => {});
+      // Let the previous click's smooth scroll finish first, or the scroll position looks like it moves on its own.
+      for (let k = 0, last = null; k < 25; k++) { const y = await p.evaluate(() => window.scrollY); if (y === last) break; last = y; await p.waitForTimeout(120); }
       const idle = await p.evaluate(SNAP, sec); await p.waitForTimeout(350); const before = await p.evaluate(SNAP, sec);
       const still = before.map((v, k) => v === idle[k]);  // parts that change on their own (animated canvases) prove nothing
       let dl = false; p.once('download', () => dl = true);
-      // A real click first (pointer events, like a person). If something an earlier click opened covers the button,
-      // fire the button's own click instead: the question is whether the button is wired, not what lies on top.
-      try { await el.click({ timeout: 1500 }); } catch (e) { try { await el.evaluate(x => x.click()); } catch (e2) { continue; } }
+      // A real click first (pointer events, like a person). If something covers the button (an overlay, or a panel an
+      // earlier click opened), fire the button's own click instead. A covered button that still shows no change is
+      // reported as "covered", not "dead": a person cannot reach it right now, and some buttons answer only to
+      // pointer events, which that fallback does not send.
+      let reached = true;
+      try { await el.click({ timeout: 1500 }); } catch (e) { reached = false; try { await el.evaluate(x => x.click()); } catch (e2) { continue; } }
       await p.waitForTimeout(350);
       const after = await p.evaluate(SNAP, sec);
       const changed = before.some((v, k) => still[k] && v !== after[k]) || after.length !== before.length || dl;
-      if (!changed) dead.push(label); }
-    results.push([sec, n, dead, errs.slice(0, 3)]); console.log(sec, n, 'dead:', JSON.stringify(dead), errs.length ? 'ERR ' + JSON.stringify(errs.slice(0, 2)) : ''); await p.close(); }
+      if (!changed) (reached ? dead : covered).push(label); }
+    results.push([sec, n, dead, errs.slice(0, 3)]); console.log(sec, n, 'dead:', JSON.stringify(dead), 'covered:', JSON.stringify(covered), errs.length ? 'ERR ' + JSON.stringify(errs.slice(0, 2)) : ''); await p.close(); }
   await b.close(); })();
