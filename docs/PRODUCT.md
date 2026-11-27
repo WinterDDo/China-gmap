@@ -67,6 +67,7 @@
 | 统计公报、政府网站信息 | 政府公开信息 | 注明出处 |
 | ESA WorldCover | CC BY 4.0 | 署名 |
 | Natural Earth | 公有领域 | — |
+| OpenStreetMap（城市视图的铁路、高速） | ODbL 1.0 | 地图上署名「© OpenStreetMap 贡献者」；整理出的线路数据同样按 ODbL 公开；正式版换国家标准地图服务 |
 | AWS Terrain Tiles | 开放数据，需署名 | 署名 |
 | DataV.GeoAtlas | 免费公开，学习研究 | 国内正式版改用标准地图服务底图 |
 | CBDB | 旧版 CC BY-NC-SA 4.0；2026-08-20 起新版为参照 BY-NC-ND 的独立协议 | 非商业；锁定 CC BY-NC-SA 版本；致函申请公开展示许可 |

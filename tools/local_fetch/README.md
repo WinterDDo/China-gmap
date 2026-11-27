@@ -148,3 +148,21 @@ python fetch_bulletins.py --zip-only
 - 收到压缩包后放进 `data/raw/local_bulletins/`，运行
   `python -m pipeline fetch local_bulletins && python -m pipeline process local_bulletins`，
   结果会并入 `data/interim/bulletins/<年份>.json` 和 `coverage.csv`。详见 `docs/DATA-COLLECTION.md`。
+
+---
+
+## 附：下载铁路和高速线路（fetch_osm_lines.py）
+
+城市视图里的铁路（高铁、普铁）和高速公路取自 OpenStreetMap（用户 2026-11-27 选定）。云端连不上它的查询服务器，所以在你的电脑上下载。
+这个脚本同样**只需要 Python，不需要安装别的东西**，在美国网络下也能用（它连的是 OpenStreetMap 的服务器，不是国内网站）。
+
+```
+python3 fetch_osm_lines.py
+```
+
+- 一共 34 个省级地区，每个下载铁路和高速两项，大约 20 到 40 分钟。屏幕上会一项一项显示进度。
+- 中途停了（关了窗口、断网），再运行一次同样的命令，会接着下，不会重来。
+- 想先试一下：`python3 fetch_osm_lines.py --only SC`（只下四川，一两分钟）。
+- 跑完会显示「全部完成」或列出没下成的几项，同时在同一个文件夹里生成 `jiangshan_osm_lines.zip`，把它交回给项目。
+
+数据 © OpenStreetMap 贡献者，按开放数据库许可（ODbL 1.0）使用。

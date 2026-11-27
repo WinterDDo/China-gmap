@@ -257,3 +257,11 @@
 - 谁定的：用户（看过对照图后原话「可以，并进主线，下一步做 A 铁路和高速」）
 - 出处：会话 session_01DGeZrdANx45XY7zhNDtypj
 - 相关文件：explorations/design-freeze/index.html, explorations/design-freeze/build_cityview.py
+
+### 2026-11-27 · 城市视图的铁路和高速用 OpenStreetMap
+- 决定：原型里城市视图的铁路（分高铁和普铁）和高速公路取自 OpenStreetMap；地图上署名「© OpenStreetMap 贡献者」，整理出的线路数据按 ODbL 开放协议公开；正式上线时和底图一起换成国家标准地图服务。
+- 为什么：国家没有公开可下载的线路图；OpenStreetMap 的线路新，能分出高铁和普铁。线路是志愿者绘制的，和交通运输部统计的里程略有出入，所以只画线，不拿它算里程。
+- 放弃了：Natural Earth 的铁路和公路（已在用、不加协议要求，但大约是十年前的数据，近十年的高铁大多没有，也分不出高铁和普铁）。
+- 谁定的：用户（在两个选项里选了「OpenStreetMap（推荐）」）
+- 出处：会话 session_01DGeZrdANx45XY7zhNDtypj
+- 相关文件：docs/PRODUCT.md
