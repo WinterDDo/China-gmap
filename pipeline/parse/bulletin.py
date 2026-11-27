@@ -250,10 +250,14 @@ def _industries(norm: str, orig: str, year: int | None, gdp_at: int | None = Non
     return out
 
 
+# residents counted by a service, not the residents: "常住人口签约251.67万人" (family-doctor sign-ups), 建档, 体检, 参保
+_POP_STOP = r"签约|建档|体检|参保"
+
+
 def _population(norm: str, orig: str, year: int | None):
     kw = r"常住(?:总)?人口(?:总量|总数|规模)?|总人口\s*\(常住人口\)|年末全国(?:大陆)?(?:总)?人口(?!普查)"
     excl = r"城镇|城市|乡村|农村|外来|户籍|流动|市区|县城|中心城区|城区|镇|新增|每千|每万|每百|每|按"
-    hit = _find_value(norm, kw, PEOPLE, year=year, exclude_before=excl, filler=8)
+    hit = _find_value(norm, kw, PEOPLE, year=year, exclude_before=excl, filler=8, extra_stop=_POP_STOP)
     if hit is None:  # "年末全市常住人口230.56万户，646.83万人" (households first)
         m = re.search(r"(?:" + kw + r")(?:为|共)?\s*\d+(?:\.\d+)?\s*万户[，,]\s*" + NUM + r"\s*(万人|人)", norm)
         if m and not re.search(f"(?:{excl})$", norm[max(0, m.start() - 6): m.start()]):
