@@ -1,0 +1,6 @@
+# downloads and intermediate files (rebuilt by `python -m pipeline all`)
+data/raw/
+data/interim/
+__pycache__/
+*.pyc
+.venv/
