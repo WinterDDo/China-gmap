@@ -4,3 +4,6 @@ data/interim/
 __pycache__/
 *.pyc
 .venv/
+
+# i-dont-read-code 的「刚才到底跑了什么」流水账，每台机器各记各的，不进仓库
+.i-dont-read-code/
