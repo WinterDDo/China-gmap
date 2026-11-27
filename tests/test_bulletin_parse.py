@@ -267,6 +267,13 @@ def test_total_population_broken_down_by_residence():
     assert values("年末全市户籍人口601.6万人，比上年末增加2.9万人，其中城镇人口400万人。", 2020) == {"population_registered": 601.6}
 
 
+def test_family_doctor_sign_ups_are_not_population():
+    # 泸州市2020年国民经济和社会发展统计公报 (tjcn 23sc/36911)
+    t = ("组建家庭医生团队823个，常住人口签约251.67万人，全年健康体检190.91万人，老年人体检人数39.86万人，"
+         "居民电子健康档案建档率95.8%，……")
+    assert values(t, 2020) == {}
+
+
 def test_births_are_not_population():
     # 达州市2023年国民经济和社会发展统计公报 (found by the cross-check against chinaciv)
     t = ("根据2023年全国人口变动情况抽样调查资料测算，全年全市常住人口出生人口3.07万人，人口出生率5.73‰；"
