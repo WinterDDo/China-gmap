@@ -1,0 +1,490 @@
+adcode,zh_full,zh,en,en_full,level,source,note
+110000,北京市,北京,Beijing,Beijing Municipality,province,pypinyin,
+110101,东城区,东城,Dongcheng,Dongcheng District,district,pypinyin,
+110102,西城区,西城,Xicheng,Xicheng District,district,pypinyin,
+110105,朝阳区,朝阳,Chaoyang,Chaoyang District,district,override,polyphone fix (pypinyin: zhao yang); shares en with 朝阳市 211300
+110106,丰台区,丰台,Fengtai,Fengtai District,district,pypinyin,polyphone checked: 台=tai
+110107,石景山区,石景山,Shijingshan,Shijingshan District,district,pypinyin,polyphone checked: 石=shi
+110108,海淀区,海淀,Haidian,Haidian District,district,pypinyin,
+110109,门头沟区,门头沟,Mentougou,Mentougou District,district,pypinyin,
+110111,房山区,房山,Fangshan,Fangshan District,district,pypinyin,
+110112,通州区,通州,Tongzhou,Tongzhou District,district,pypinyin,
+110113,顺义区,顺义,Shunyi,Shunyi District,district,pypinyin,
+110114,昌平区,昌平,Changping,Changping District,district,pypinyin,
+110115,大兴区,大兴,Daxing,Daxing District,district,pypinyin,polyphone checked: 兴=xing
+110116,怀柔区,怀柔,Huairou,Huairou District,district,pypinyin,
+110117,平谷区,平谷,Pinggu,Pinggu District,district,pypinyin,
+110118,密云区,密云,Miyun,Miyun District,district,pypinyin,
+110119,延庆区,延庆,Yanqing,Yanqing District,district,pypinyin,
+120000,天津市,天津,Tianjin,Tianjin Municipality,province,pypinyin,
+120101,和平区,和平,Heping,Heping District,district,pypinyin,polyphone checked: 和=he
+120102,河东区,河东,Hedong,Hedong District,district,pypinyin,
+120103,河西区,河西,Hexi,Hexi District,district,pypinyin,
+120104,南开区,南开,Nankai,Nankai District,district,pypinyin,
+120105,河北区,河北,Hebei,Hebei District,district,pypinyin,shares en with 河北省 130000
+120106,红桥区,红桥,Hongqiao,Hongqiao District,district,pypinyin,
+120110,东丽区,东丽,Dongli,Dongli District,district,pypinyin,polyphone checked: 丽=li
+120111,西青区,西青,Xiqing,Xiqing District,district,pypinyin,
+120112,津南区,津南,Jinnan,Jinnan District,district,pypinyin,
+120113,北辰区,北辰,Beichen,Beichen District,district,pypinyin,
+120114,武清区,武清,Wuqing,Wuqing District,district,pypinyin,
+120115,宝坻区,宝坻,Baodi,Baodi District,district,pypinyin,polyphone checked: 坻=di
+120116,滨海新区,滨海,Binhai,Binhai New Area,district,pypinyin,
+120117,宁河区,宁河,Ninghe,Ninghe District,district,pypinyin,
+120118,静海区,静海,Jinghai,Jinghai District,district,pypinyin,
+120119,蓟州区,蓟州,Jizhou,Jizhou District,district,pypinyin,
+130000,河北省,河北,Hebei,Hebei Province,province,pypinyin,shares en with 河北区 120105
+130100,石家庄市,石家庄,Shijiazhuang,Shijiazhuang,city,pypinyin,polyphone checked: 石=shi
+130200,唐山市,唐山,Tangshan,Tangshan,city,pypinyin,
+130300,秦皇岛市,秦皇岛,Qinhuangdao,Qinhuangdao,city,pypinyin,
+130400,邯郸市,邯郸,Handan,Handan,city,pypinyin,
+130500,邢台市,邢台,Xingtai,Xingtai,city,pypinyin,polyphone checked: 台=tai
+130600,保定市,保定,Baoding,Baoding,city,pypinyin,
+130700,张家口市,张家口,Zhangjiakou,Zhangjiakou,city,pypinyin,
+130800,承德市,承德,Chengde,Chengde,city,pypinyin,
+130900,沧州市,沧州,Cangzhou,Cangzhou,city,pypinyin,
+131000,廊坊市,廊坊,Langfang,Langfang,city,pypinyin,
+131100,衡水市,衡水,Hengshui,Hengshui,city,pypinyin,
+140000,山西省,山西,Shanxi,Shanxi Province,province,pypinyin,
+140100,太原市,太原,Taiyuan,Taiyuan,city,pypinyin,
+140200,大同市,大同,Datong,Datong,city,pypinyin,
+140300,阳泉市,阳泉,Yangquan,Yangquan,city,pypinyin,
+140400,长治市,长治,Changzhi,Changzhi,city,override,polyphone fix (pypinyin: zhang zhi)
+140500,晋城市,晋城,Jincheng,Jincheng,city,pypinyin,
+140600,朔州市,朔州,Shuozhou,Shuozhou,city,pypinyin,
+140700,晋中市,晋中,Jinzhong,Jinzhong,city,pypinyin,
+140800,运城市,运城,Yuncheng,Yuncheng,city,pypinyin,
+140900,忻州市,忻州,Xinzhou,Xinzhou,city,pypinyin,
+141000,临汾市,临汾,Linfen,Linfen,city,pypinyin,
+141100,吕梁市,吕梁,Lüliang,Lüliang,city,pypinyin,polyphone checked: 吕=lü; ü kept (ASCII fallbacks Lyuliang / Lvliang)
+150000,内蒙古自治区,内蒙古,Inner Mongolia,Inner Mongolia Autonomous Region,province,override,established English name (pinyin Neimenggu); official map romanization: Nei Mongol
+150100,呼和浩特市,呼和浩特,Hohhot,Hohhot,city,override,official transliteration (pinyin Huhehaote)
+150200,包头市,包头,Baotou,Baotou,city,pypinyin,
+150300,乌海市,乌海,Wuhai,Wuhai,city,pypinyin,
+150400,赤峰市,赤峰,Chifeng,Chifeng,city,pypinyin,
+150500,通辽市,通辽,Tongliao,Tongliao,city,pypinyin,
+150600,鄂尔多斯市,鄂尔多斯,Ordos,Ordos,city,override,official transliteration (pinyin E'erduosi)
+150700,呼伦贝尔市,呼伦贝尔,Hulunbuir,Hulunbuir,city,override,official transliteration (pinyin Hulunbei'er); also written Hulun Buir
+150800,巴彦淖尔市,巴彦淖尔,Bayannur,Bayannur,city,override,official transliteration (pinyin Bayannao'er); also written Bayan Nur
+150900,乌兰察布市,乌兰察布,Ulanqab,Ulanqab,city,override,official transliteration (pinyin Wulanchabu)
+152200,兴安盟,兴安,Hinggan,Hinggan League,city,override,official transliteration (pinyin Xing'an)
+152500,锡林郭勒盟,锡林郭勒,Xilingol,Xilingol League,city,override,"official transliteration (pinyin Xilinguole); also written Xilin Gol (official maps, Inner Mongolia govt)"
+152900,阿拉善盟,阿拉善,Alxa,Alxa League,city,override,official transliteration (pinyin Alashan)
+210000,辽宁省,辽宁,Liaoning,Liaoning Province,province,pypinyin,
+210100,沈阳市,沈阳,Shenyang,Shenyang,city,pypinyin,polyphone checked: 沈=shen
+210200,大连市,大连,Dalian,Dalian,city,pypinyin,
+210300,鞍山市,鞍山,Anshan,Anshan,city,pypinyin,
+210400,抚顺市,抚顺,Fushun,Fushun,city,pypinyin,
+210500,本溪市,本溪,Benxi,Benxi,city,pypinyin,
+210600,丹东市,丹东,Dandong,Dandong,city,pypinyin,
+210700,锦州市,锦州,Jinzhou,Jinzhou,city,pypinyin,
+210800,营口市,营口,Yingkou,Yingkou,city,pypinyin,
+210900,阜新市,阜新,Fuxin,Fuxin,city,pypinyin,
+211000,辽阳市,辽阳,Liaoyang,Liaoyang,city,pypinyin,
+211100,盘锦市,盘锦,Panjin,Panjin,city,pypinyin,
+211200,铁岭市,铁岭,Tieling,Tieling,city,pypinyin,
+211300,朝阳市,朝阳,Chaoyang,Chaoyang,city,override,polyphone fix (pypinyin: zhao yang); shares en with 朝阳区 110105
+211400,葫芦岛市,葫芦岛,Huludao,Huludao,city,pypinyin,
+220000,吉林省,吉林,Jilin,Jilin Province,province,pypinyin,shares en with 吉林市 220200
+220100,长春市,长春,Changchun,Changchun,city,pypinyin,polyphone checked: 长=chang
+220200,吉林市,吉林,Jilin,Jilin,city,pypinyin,shares en with 吉林省 220000
+220300,四平市,四平,Siping,Siping,city,pypinyin,
+220400,辽源市,辽源,Liaoyuan,Liaoyuan,city,pypinyin,
+220500,通化市,通化,Tonghua,Tonghua,city,pypinyin,
+220600,白山市,白山,Baishan,Baishan,city,pypinyin,
+220700,松原市,松原,Songyuan,Songyuan,city,pypinyin,
+220800,白城市,白城,Baicheng,Baicheng,city,pypinyin,
+222400,延边朝鲜族自治州,延边,Yanbian,Yanbian Korean Autonomous Prefecture,city,pypinyin,
+230000,黑龙江省,黑龙江,Heilongjiang,Heilongjiang Province,province,pypinyin,
+230100,哈尔滨市,哈尔滨,Harbin,Harbin,city,override,official transliteration (pinyin Ha'erbin)
+230200,齐齐哈尔市,齐齐哈尔,Qiqihar,Qiqihar,city,override,official transliteration (pinyin Qiqiha'er)
+230300,鸡西市,鸡西,Jixi,Jixi,city,pypinyin,
+230400,鹤岗市,鹤岗,Hegang,Hegang,city,pypinyin,
+230500,双鸭山市,双鸭山,Shuangyashan,Shuangyashan,city,pypinyin,
+230600,大庆市,大庆,Daqing,Daqing,city,pypinyin,
+230700,伊春市,伊春,Yichun,Yichun,city,pypinyin,shares en with 宜春市 360900
+230800,佳木斯市,佳木斯,Jiamusi,Jiamusi,city,pypinyin,
+230900,七台河市,七台河,Qitaihe,Qitaihe,city,pypinyin,polyphone checked: 台=tai
+231000,牡丹江市,牡丹江,Mudanjiang,Mudanjiang,city,pypinyin,
+231100,黑河市,黑河,Heihe,Heihe,city,pypinyin,
+231200,绥化市,绥化,Suihua,Suihua,city,pypinyin,
+232700,大兴安岭地区,大兴安岭,Da Hinggan Ling,Da Hinggan Ling Prefecture,city,override,official transliteration (pinyin Daxing'anling); official map form; also Daxing'anling (pinyin) / Greater Khingan
+310000,上海市,上海,Shanghai,Shanghai Municipality,province,pypinyin,
+310101,黄浦区,黄浦,Huangpu,Huangpu District,district,pypinyin,
+310104,徐汇区,徐汇,Xuhui,Xuhui District,district,pypinyin,
+310105,长宁区,长宁,Changning,Changning District,district,override,polyphone fix (pypinyin: zhang ning)
+310106,静安区,静安,Jing'an,Jing'an District,district,pypinyin,
+310107,普陀区,普陀,Putuo,Putuo District,district,pypinyin,
+310109,虹口区,虹口,Hongkou,Hongkou District,district,pypinyin,polyphone checked: 虹=hong
+310110,杨浦区,杨浦,Yangpu,Yangpu District,district,pypinyin,
+310112,闵行区,闵行,Minhang,Minhang District,district,override,polyphone fix (pypinyin: min xing)
+310113,宝山区,宝山,Baoshan,Baoshan District,district,pypinyin,shares en with 保山市 530500
+310114,嘉定区,嘉定,Jiading,Jiading District,district,pypinyin,
+310115,浦东新区,浦东,Pudong,Pudong New Area,district,pypinyin,
+310116,金山区,金山,Jinshan,Jinshan District,district,pypinyin,
+310117,松江区,松江,Songjiang,Songjiang District,district,pypinyin,
+310118,青浦区,青浦,Qingpu,Qingpu District,district,pypinyin,
+310120,奉贤区,奉贤,Fengxian,Fengxian District,district,pypinyin,
+310151,崇明区,崇明,Chongming,Chongming District,district,pypinyin,
+320000,江苏省,江苏,Jiangsu,Jiangsu Province,province,pypinyin,
+320100,南京市,南京,Nanjing,Nanjing,city,pypinyin,
+320200,无锡市,无锡,Wuxi,Wuxi,city,pypinyin,shares en with 巫溪县 500238
+320300,徐州市,徐州,Xuzhou,Xuzhou,city,pypinyin,
+320400,常州市,常州,Changzhou,Changzhou,city,pypinyin,
+320500,苏州市,苏州,Suzhou,Suzhou,city,pypinyin,shares en with 宿州市 341300
+320600,南通市,南通,Nantong,Nantong,city,pypinyin,
+320700,连云港市,连云港,Lianyungang,Lianyungang,city,pypinyin,
+320800,淮安市,淮安,Huai'an,Huai'an,city,pypinyin,
+320900,盐城市,盐城,Yancheng,Yancheng,city,pypinyin,
+321000,扬州市,扬州,Yangzhou,Yangzhou,city,pypinyin,
+321100,镇江市,镇江,Zhenjiang,Zhenjiang,city,pypinyin,
+321200,泰州市,泰州,Taizhou,Taizhou,city,pypinyin,shares en with 台州市 331000
+321300,宿迁市,宿迁,Suqian,Suqian,city,pypinyin,polyphone checked: 宿=su
+330000,浙江省,浙江,Zhejiang,Zhejiang Province,province,pypinyin,
+330100,杭州市,杭州,Hangzhou,Hangzhou,city,pypinyin,
+330200,宁波市,宁波,Ningbo,Ningbo,city,pypinyin,
+330300,温州市,温州,Wenzhou,Wenzhou,city,pypinyin,
+330400,嘉兴市,嘉兴,Jiaxing,Jiaxing,city,pypinyin,polyphone checked: 兴=xing
+330500,湖州市,湖州,Huzhou,Huzhou,city,pypinyin,
+330600,绍兴市,绍兴,Shaoxing,Shaoxing,city,pypinyin,polyphone checked: 兴=xing
+330700,金华市,金华,Jinhua,Jinhua,city,pypinyin,polyphone checked: 华=hua
+330800,衢州市,衢州,Quzhou,Quzhou,city,pypinyin,
+330900,舟山市,舟山,Zhoushan,Zhoushan,city,pypinyin,
+331000,台州市,台州,Taizhou,Taizhou,city,pypinyin,polyphone checked: 台=tai; shares en with 泰州市 321200
+331100,丽水市,丽水,Lishui,Lishui,city,pypinyin,polyphone checked: 丽=li
+340000,安徽省,安徽,Anhui,Anhui Province,province,pypinyin,
+340100,合肥市,合肥,Hefei,Hefei,city,pypinyin,
+340200,芜湖市,芜湖,Wuhu,Wuhu,city,pypinyin,
+340300,蚌埠市,蚌埠,Bengbu,Bengbu,city,pypinyin,polyphone checked: 蚌=beng
+340400,淮南市,淮南,Huainan,Huainan,city,pypinyin,
+340500,马鞍山市,马鞍山,Ma'anshan,Ma'anshan,city,pypinyin,
+340600,淮北市,淮北,Huaibei,Huaibei,city,pypinyin,
+340700,铜陵市,铜陵,Tongling,Tongling,city,pypinyin,
+340800,安庆市,安庆,Anqing,Anqing,city,pypinyin,
+341000,黄山市,黄山,Huangshan,Huangshan,city,pypinyin,
+341100,滁州市,滁州,Chuzhou,Chuzhou,city,pypinyin,
+341200,阜阳市,阜阳,Fuyang,Fuyang,city,pypinyin,
+341300,宿州市,宿州,Suzhou,Suzhou,city,pypinyin,polyphone checked: 宿=su; shares en with 苏州市 320500
+341500,六安市,六安,Lu'an,Lu'an,city,pypinyin,polyphone checked: 六=lu
+341600,亳州市,亳州,Bozhou,Bozhou,city,pypinyin,polyphone checked: 亳=bo
+341700,池州市,池州,Chizhou,Chizhou,city,pypinyin,
+341800,宣城市,宣城,Xuancheng,Xuancheng,city,pypinyin,
+350000,福建省,福建,Fujian,Fujian Province,province,pypinyin,
+350100,福州市,福州,Fuzhou,Fuzhou,city,pypinyin,shares en with 抚州市 361000
+350200,厦门市,厦门,Xiamen,Xiamen,city,pypinyin,polyphone checked: 厦=xia
+350300,莆田市,莆田,Putian,Putian,city,pypinyin,polyphone checked: 莆=pu
+350400,三明市,三明,Sanming,Sanming,city,pypinyin,
+350500,泉州市,泉州,Quanzhou,Quanzhou,city,pypinyin,
+350600,漳州市,漳州,Zhangzhou,Zhangzhou,city,pypinyin,
+350700,南平市,南平,Nanping,Nanping,city,pypinyin,
+350800,龙岩市,龙岩,Longyan,Longyan,city,pypinyin,
+350900,宁德市,宁德,Ningde,Ningde,city,pypinyin,
+360000,江西省,江西,Jiangxi,Jiangxi Province,province,pypinyin,
+360100,南昌市,南昌,Nanchang,Nanchang,city,pypinyin,
+360200,景德镇市,景德镇,Jingdezhen,Jingdezhen,city,pypinyin,
+360300,萍乡市,萍乡,Pingxiang,Pingxiang,city,pypinyin,
+360400,九江市,九江,Jiujiang,Jiujiang,city,pypinyin,
+360500,新余市,新余,Xinyu,Xinyu,city,pypinyin,
+360600,鹰潭市,鹰潭,Yingtan,Yingtan,city,pypinyin,
+360700,赣州市,赣州,Ganzhou,Ganzhou,city,pypinyin,
+360800,吉安市,吉安,Ji'an,Ji'an,city,pypinyin,
+360900,宜春市,宜春,Yichun,Yichun,city,pypinyin,shares en with 伊春市 230700
+361000,抚州市,抚州,Fuzhou,Fuzhou,city,pypinyin,shares en with 福州市 350100
+361100,上饶市,上饶,Shangrao,Shangrao,city,pypinyin,
+370000,山东省,山东,Shandong,Shandong Province,province,pypinyin,
+370100,济南市,济南,Jinan,Jinan,city,pypinyin,polyphone checked: 济=ji
+370200,青岛市,青岛,Qingdao,Qingdao,city,pypinyin,
+370300,淄博市,淄博,Zibo,Zibo,city,pypinyin,
+370400,枣庄市,枣庄,Zaozhuang,Zaozhuang,city,pypinyin,
+370500,东营市,东营,Dongying,Dongying,city,pypinyin,
+370600,烟台市,烟台,Yantai,Yantai,city,pypinyin,polyphone checked: 台=tai
+370700,潍坊市,潍坊,Weifang,Weifang,city,pypinyin,
+370800,济宁市,济宁,Jining,Jining,city,pypinyin,polyphone checked: 济=ji
+370900,泰安市,泰安,Tai'an,Tai'an,city,pypinyin,
+371000,威海市,威海,Weihai,Weihai,city,pypinyin,
+371100,日照市,日照,Rizhao,Rizhao,city,pypinyin,
+371300,临沂市,临沂,Linyi,Linyi,city,pypinyin,
+371400,德州市,德州,Dezhou,Dezhou,city,pypinyin,
+371500,聊城市,聊城,Liaocheng,Liaocheng,city,pypinyin,
+371600,滨州市,滨州,Binzhou,Binzhou,city,pypinyin,
+371700,菏泽市,菏泽,Heze,Heze,city,pypinyin,
+410000,河南省,河南,Henan,Henan Province,province,pypinyin,
+410100,郑州市,郑州,Zhengzhou,Zhengzhou,city,pypinyin,
+410200,开封市,开封,Kaifeng,Kaifeng,city,pypinyin,
+410300,洛阳市,洛阳,Luoyang,Luoyang,city,pypinyin,
+410400,平顶山市,平顶山,Pingdingshan,Pingdingshan,city,pypinyin,
+410500,安阳市,安阳,Anyang,Anyang,city,pypinyin,
+410600,鹤壁市,鹤壁,Hebi,Hebi,city,pypinyin,
+410700,新乡市,新乡,Xinxiang,Xinxiang,city,pypinyin,
+410800,焦作市,焦作,Jiaozuo,Jiaozuo,city,pypinyin,
+410900,濮阳市,濮阳,Puyang,Puyang,city,pypinyin,
+411000,许昌市,许昌,Xuchang,Xuchang,city,pypinyin,
+411100,漯河市,漯河,Luohe,Luohe,city,override,polyphone fix (pypinyin: ta he)
+411200,三门峡市,三门峡,Sanmenxia,Sanmenxia,city,pypinyin,
+411300,南阳市,南阳,Nanyang,Nanyang,city,pypinyin,
+411400,商丘市,商丘,Shangqiu,Shangqiu,city,pypinyin,
+411500,信阳市,信阳,Xinyang,Xinyang,city,pypinyin,
+411600,周口市,周口,Zhoukou,Zhoukou,city,pypinyin,
+411700,驻马店市,驻马店,Zhumadian,Zhumadian,city,pypinyin,
+419001,济源市,济源,Jiyuan,Jiyuan,county_direct,pypinyin,polyphone checked: 济=ji
+420000,湖北省,湖北,Hubei,Hubei Province,province,pypinyin,
+420100,武汉市,武汉,Wuhan,Wuhan,city,pypinyin,
+420200,黄石市,黄石,Huangshi,Huangshi,city,pypinyin,polyphone checked: 石=shi
+420300,十堰市,十堰,Shiyan,Shiyan,city,pypinyin,
+420500,宜昌市,宜昌,Yichang,Yichang,city,pypinyin,
+420600,襄阳市,襄阳,Xiangyang,Xiangyang,city,pypinyin,
+420700,鄂州市,鄂州,Ezhou,Ezhou,city,pypinyin,
+420800,荆门市,荆门,Jingmen,Jingmen,city,pypinyin,
+420900,孝感市,孝感,Xiaogan,Xiaogan,city,pypinyin,
+421000,荆州市,荆州,Jingzhou,Jingzhou,city,pypinyin,
+421100,黄冈市,黄冈,Huanggang,Huanggang,city,pypinyin,
+421200,咸宁市,咸宁,Xianning,Xianning,city,pypinyin,
+421300,随州市,随州,Suizhou,Suizhou,city,pypinyin,
+422800,恩施土家族苗族自治州,恩施,Enshi,Enshi Tujia and Miao Autonomous Prefecture,city,pypinyin,
+429004,仙桃市,仙桃,Xiantao,Xiantao,county_direct,pypinyin,
+429005,潜江市,潜江,Qianjiang,Qianjiang,county_direct,pypinyin,shares en with 黔江区 500114
+429006,天门市,天门,Tianmen,Tianmen,county_direct,pypinyin,
+429021,神农架林区,神农架,Shennongjia,Shennongjia Forestry District,county_direct,pypinyin,
+430000,湖南省,湖南,Hunan,Hunan Province,province,pypinyin,
+430100,长沙市,长沙,Changsha,Changsha,city,pypinyin,polyphone checked: 长=chang
+430200,株洲市,株洲,Zhuzhou,Zhuzhou,city,pypinyin,
+430300,湘潭市,湘潭,Xiangtan,Xiangtan,city,pypinyin,
+430400,衡阳市,衡阳,Hengyang,Hengyang,city,pypinyin,
+430500,邵阳市,邵阳,Shaoyang,Shaoyang,city,pypinyin,
+430600,岳阳市,岳阳,Yueyang,Yueyang,city,pypinyin,
+430700,常德市,常德,Changde,Changde,city,pypinyin,
+430800,张家界市,张家界,Zhangjiajie,Zhangjiajie,city,pypinyin,
+430900,益阳市,益阳,Yiyang,Yiyang,city,pypinyin,
+431000,郴州市,郴州,Chenzhou,Chenzhou,city,pypinyin,
+431100,永州市,永州,Yongzhou,Yongzhou,city,pypinyin,
+431200,怀化市,怀化,Huaihua,Huaihua,city,pypinyin,
+431300,娄底市,娄底,Loudi,Loudi,city,pypinyin,
+433100,湘西土家族苗族自治州,湘西,Xiangxi,Xiangxi Tujia and Miao Autonomous Prefecture,city,pypinyin,
+440000,广东省,广东,Guangdong,Guangdong Province,province,pypinyin,
+440100,广州市,广州,Guangzhou,Guangzhou,city,pypinyin,
+440200,韶关市,韶关,Shaoguan,Shaoguan,city,pypinyin,
+440300,深圳市,深圳,Shenzhen,Shenzhen,city,pypinyin,
+440400,珠海市,珠海,Zhuhai,Zhuhai,city,pypinyin,
+440500,汕头市,汕头,Shantou,Shantou,city,pypinyin,
+440600,佛山市,佛山,Foshan,Foshan,city,pypinyin,
+440700,江门市,江门,Jiangmen,Jiangmen,city,pypinyin,
+440800,湛江市,湛江,Zhanjiang,Zhanjiang,city,pypinyin,
+440900,茂名市,茂名,Maoming,Maoming,city,pypinyin,
+441200,肇庆市,肇庆,Zhaoqing,Zhaoqing,city,pypinyin,
+441300,惠州市,惠州,Huizhou,Huizhou,city,pypinyin,
+441400,梅州市,梅州,Meizhou,Meizhou,city,pypinyin,
+441500,汕尾市,汕尾,Shanwei,Shanwei,city,pypinyin,polyphone checked: 尾=wei
+441600,河源市,河源,Heyuan,Heyuan,city,pypinyin,
+441700,阳江市,阳江,Yangjiang,Yangjiang,city,pypinyin,
+441800,清远市,清远,Qingyuan,Qingyuan,city,pypinyin,
+441900,东莞市,东莞,Dongguan,Dongguan,city,pypinyin,polyphone checked: 莞=guan
+442000,中山市,中山,Zhongshan,Zhongshan,city,pypinyin,
+445100,潮州市,潮州,Chaozhou,Chaozhou,city,pypinyin,
+445200,揭阳市,揭阳,Jieyang,Jieyang,city,pypinyin,
+445300,云浮市,云浮,Yunfu,Yunfu,city,pypinyin,
+450000,广西壮族自治区,广西,Guangxi,Guangxi Zhuang Autonomous Region,province,pypinyin,
+450100,南宁市,南宁,Nanning,Nanning,city,pypinyin,
+450200,柳州市,柳州,Liuzhou,Liuzhou,city,pypinyin,
+450300,桂林市,桂林,Guilin,Guilin,city,pypinyin,
+450400,梧州市,梧州,Wuzhou,Wuzhou,city,pypinyin,
+450500,北海市,北海,Beihai,Beihai,city,pypinyin,
+450600,防城港市,防城港,Fangchenggang,Fangchenggang,city,pypinyin,
+450700,钦州市,钦州,Qinzhou,Qinzhou,city,pypinyin,
+450800,贵港市,贵港,Guigang,Guigang,city,pypinyin,
+450900,玉林市,玉林,Yulin,Yulin,city,pypinyin,shares en with 榆林市 610800
+451000,百色市,百色,Baise,Baise,city,pypinyin,polyphone checked: 色=se
+451100,贺州市,贺州,Hezhou,Hezhou,city,pypinyin,
+451200,河池市,河池,Hechi,Hechi,city,pypinyin,
+451300,来宾市,来宾,Laibin,Laibin,city,pypinyin,
+451400,崇左市,崇左,Chongzuo,Chongzuo,city,pypinyin,
+460000,海南省,海南,Hainan,Hainan Province,province,pypinyin,shares en with 海南藏族自治州 632500
+460100,海口市,海口,Haikou,Haikou,city,pypinyin,
+460200,三亚市,三亚,Sanya,Sanya,city,pypinyin,
+460300,三沙市,三沙,Sansha,Sansha,city,pypinyin,
+460400,儋州市,儋州,Danzhou,Danzhou,city,pypinyin,
+469001,五指山市,五指山,Wuzhishan,Wuzhishan,county_direct,pypinyin,
+469002,琼海市,琼海,Qionghai,Qionghai,county_direct,pypinyin,
+469005,文昌市,文昌,Wenchang,Wenchang,county_direct,pypinyin,
+469006,万宁市,万宁,Wanning,Wanning,county_direct,pypinyin,polyphone checked: 万=wan
+469007,东方市,东方,Dongfang,Dongfang,county_direct,pypinyin,
+469021,定安县,定安,Ding'an,Ding'an County,county_direct,pypinyin,
+469022,屯昌县,屯昌,Tunchang,Tunchang County,county_direct,pypinyin,polyphone checked: 屯=tun
+469023,澄迈县,澄迈,Chengmai,Chengmai County,county_direct,pypinyin,polyphone checked: 澄=cheng
+469024,临高县,临高,Lingao,Lingao County,county_direct,pypinyin,
+469025,白沙黎族自治县,白沙,Baisha,Baisha Li Autonomous County,county_direct,pypinyin,
+469026,昌江黎族自治县,昌江,Changjiang,Changjiang Li Autonomous County,county_direct,pypinyin,
+469027,乐东黎族自治县,乐东,Ledong,Ledong Li Autonomous County,county_direct,pypinyin,polyphone checked: 乐=le
+469028,陵水黎族自治县,陵水,Lingshui,Lingshui Li Autonomous County,county_direct,pypinyin,
+469029,保亭黎族苗族自治县,保亭,Baoting,Baoting Li and Miao Autonomous County,county_direct,pypinyin,
+469030,琼中黎族苗族自治县,琼中,Qiongzhong,Qiongzhong Li and Miao Autonomous County,county_direct,pypinyin,
+500000,重庆市,重庆,Chongqing,Chongqing Municipality,province,pypinyin,
+500101,万州区,万州,Wanzhou,Wanzhou District,district,pypinyin,polyphone checked: 万=wan
+500102,涪陵区,涪陵,Fuling,Fuling District,district,pypinyin,
+500103,渝中区,渝中,Yuzhong,Yuzhong District,district,pypinyin,
+500104,大渡口区,大渡口,Dadukou,Dadukou District,district,pypinyin,
+500105,江北区,江北,Jiangbei,Jiangbei District,district,pypinyin,
+500106,沙坪坝区,沙坪坝,Shapingba,Shapingba District,district,pypinyin,
+500107,九龙坡区,九龙坡,Jiulongpo,Jiulongpo District,district,pypinyin,
+500108,南岸区,南岸,Nan'an,Nan'an District,district,pypinyin,
+500109,北碚区,北碚,Beibei,Beibei District,district,pypinyin,
+500110,綦江区,綦江,Qijiang,Qijiang District,district,pypinyin,
+500111,大足区,大足,Dazu,Dazu District,district,pypinyin,
+500112,渝北区,渝北,Yubei,Yubei District,district,pypinyin,
+500113,巴南区,巴南,Banan,Banan District,district,pypinyin,
+500114,黔江区,黔江,Qianjiang,Qianjiang District,district,pypinyin,shares en with 潜江市 429005
+500115,长寿区,长寿,Changshou,Changshou District,district,pypinyin,polyphone checked: 长=chang
+500116,江津区,江津,Jiangjin,Jiangjin District,district,pypinyin,
+500117,合川区,合川,Hechuan,Hechuan District,district,pypinyin,
+500118,永川区,永川,Yongchuan,Yongchuan District,district,pypinyin,
+500119,南川区,南川,Nanchuan,Nanchuan District,district,pypinyin,
+500120,璧山区,璧山,Bishan,Bishan District,district,pypinyin,
+500151,铜梁区,铜梁,Tongliang,Tongliang District,district,pypinyin,
+500152,潼南区,潼南,Tongnan,Tongnan District,district,pypinyin,
+500153,荣昌区,荣昌,Rongchang,Rongchang District,district,pypinyin,
+500154,开州区,开州,Kaizhou,Kaizhou District,district,pypinyin,
+500155,梁平区,梁平,Liangping,Liangping District,district,pypinyin,
+500156,武隆区,武隆,Wulong,Wulong District,district,pypinyin,
+500229,城口县,城口,Chengkou,Chengkou County,district,pypinyin,
+500230,丰都县,丰都,Fengdu,Fengdu County,district,override,polyphone fix (pypinyin: feng dou)
+500231,垫江县,垫江,Dianjiang,Dianjiang County,district,pypinyin,
+500233,忠县,忠县,Zhongxian,Zhongxian County,district,pypinyin,monosyllabic name joined with generic (Zhongxian); zh keeps 县
+500235,云阳县,云阳,Yunyang,Yunyang County,district,pypinyin,
+500236,奉节县,奉节,Fengjie,Fengjie County,district,pypinyin,
+500237,巫山县,巫山,Wushan,Wushan County,district,pypinyin,
+500238,巫溪县,巫溪,Wuxi,Wuxi County,district,pypinyin,shares en with 无锡市 320200
+500240,石柱土家族自治县,石柱,Shizhu,Shizhu Tujia Autonomous County,district,pypinyin,polyphone checked: 石=shi
+500241,秀山土家族苗族自治县,秀山,Xiushan,Xiushan Tujia and Miao Autonomous County,district,pypinyin,
+500242,酉阳土家族苗族自治县,酉阳,Youyang,Youyang Tujia and Miao Autonomous County,district,pypinyin,
+500243,彭水苗族土家族自治县,彭水,Pengshui,Pengshui Miao and Tujia Autonomous County,district,pypinyin,
+510000,四川省,四川,Sichuan,Sichuan Province,province,pypinyin,
+510100,成都市,成都,Chengdu,Chengdu,city,pypinyin,polyphone checked: 都=du
+510300,自贡市,自贡,Zigong,Zigong,city,pypinyin,
+510400,攀枝花市,攀枝花,Panzhihua,Panzhihua,city,pypinyin,
+510500,泸州市,泸州,Luzhou,Luzhou,city,pypinyin,
+510600,德阳市,德阳,Deyang,Deyang,city,pypinyin,
+510700,绵阳市,绵阳,Mianyang,Mianyang,city,pypinyin,
+510800,广元市,广元,Guangyuan,Guangyuan,city,pypinyin,
+510900,遂宁市,遂宁,Suining,Suining,city,pypinyin,
+511000,内江市,内江,Neijiang,Neijiang,city,pypinyin,
+511100,乐山市,乐山,Leshan,Leshan,city,pypinyin,polyphone checked: 乐=le
+511300,南充市,南充,Nanchong,Nanchong,city,pypinyin,
+511400,眉山市,眉山,Meishan,Meishan,city,pypinyin,
+511500,宜宾市,宜宾,Yibin,Yibin,city,pypinyin,
+511600,广安市,广安,Guang'an,Guang'an,city,pypinyin,
+511700,达州市,达州,Dazhou,Dazhou,city,pypinyin,
+511800,雅安市,雅安,Ya'an,Ya'an,city,pypinyin,
+511900,巴中市,巴中,Bazhong,Bazhong,city,pypinyin,
+512000,资阳市,资阳,Ziyang,Ziyang,city,pypinyin,
+513200,阿坝藏族羌族自治州,阿坝,Ngawa,Ngawa Tibetan and Qiang Autonomous Prefecture,city,override,official transliteration (pinyin Aba); the form Aba (pinyin) is also used by Sichuan sources
+513300,甘孜藏族自治州,甘孜,Garzê,Garzê Tibetan Autonomous Prefecture,city,override,official transliteration (pinyin Ganzi); diacritic kept (ASCII Garze); Ganzi also seen
+513400,凉山彝族自治州,凉山,Liangshan,Liangshan Yi Autonomous Prefecture,city,pypinyin,
+520000,贵州省,贵州,Guizhou,Guizhou Province,province,pypinyin,
+520100,贵阳市,贵阳,Guiyang,Guiyang,city,pypinyin,
+520200,六盘水市,六盘水,Liupanshui,Liupanshui,city,pypinyin,polyphone checked: 六=liu
+520300,遵义市,遵义,Zunyi,Zunyi,city,pypinyin,
+520400,安顺市,安顺,Anshun,Anshun,city,pypinyin,
+520500,毕节市,毕节,Bijie,Bijie,city,pypinyin,
+520600,铜仁市,铜仁,Tongren,Tongren,city,pypinyin,
+522300,黔西南布依族苗族自治州,黔西南,Qianxinan,Qianxinan Bouyei and Miao Autonomous Prefecture,city,pypinyin,
+522600,黔东南苗族侗族自治州,黔东南,Qiandongnan,Qiandongnan Miao and Dong Autonomous Prefecture,city,pypinyin,
+522700,黔南布依族苗族自治州,黔南,Qiannan,Qiannan Bouyei and Miao Autonomous Prefecture,city,pypinyin,
+530000,云南省,云南,Yunnan,Yunnan Province,province,pypinyin,
+530100,昆明市,昆明,Kunming,Kunming,city,pypinyin,
+530300,曲靖市,曲靖,Qujing,Qujing,city,pypinyin,polyphone checked: 曲=qu
+530400,玉溪市,玉溪,Yuxi,Yuxi,city,pypinyin,
+530500,保山市,保山,Baoshan,Baoshan,city,pypinyin,shares en with 宝山区 310113
+530600,昭通市,昭通,Zhaotong,Zhaotong,city,pypinyin,
+530700,丽江市,丽江,Lijiang,Lijiang,city,pypinyin,polyphone checked: 丽=li
+530800,普洱市,普洱,Pu'er,Pu'er,city,pypinyin,
+530900,临沧市,临沧,Lincang,Lincang,city,pypinyin,
+532300,楚雄彝族自治州,楚雄,Chuxiong,Chuxiong Yi Autonomous Prefecture,city,pypinyin,
+532500,红河哈尼族彝族自治州,红河,Honghe,Honghe Hani and Yi Autonomous Prefecture,city,pypinyin,
+532600,文山壮族苗族自治州,文山,Wenshan,Wenshan Zhuang and Miao Autonomous Prefecture,city,pypinyin,
+532800,西双版纳傣族自治州,西双版纳,Xishuangbanna,Xishuangbanna Dai Autonomous Prefecture,city,pypinyin,
+532900,大理白族自治州,大理,Dali,Dali Bai Autonomous Prefecture,city,pypinyin,
+533100,德宏傣族景颇族自治州,德宏,Dehong,Dehong Dai and Jingpo Autonomous Prefecture,city,pypinyin,
+533300,怒江傈僳族自治州,怒江,Nujiang,Nujiang Lisu Autonomous Prefecture,city,pypinyin,
+533400,迪庆藏族自治州,迪庆,Dêqên,Dêqên Tibetan Autonomous Prefecture,city,override,official transliteration (pinyin Diqing); diacritics kept (ASCII Deqen); Diqing also seen
+540000,西藏自治区,西藏,Xizang,Xizang Autonomous Region,province,pypinyin,formerly Tibet in English; current PRC usage Xizang
+540100,拉萨市,拉萨,Lhasa,Lhasa,city,override,official transliteration (pinyin Lasa)
+540200,日喀则市,日喀则,Xigazê,Xigazê,city,override,official transliteration (pinyin Rikaze); diacritic kept (ASCII Xigaze)
+540300,昌都市,昌都,Qamdo,Qamdo,city,override,official transliteration (pinyin Changdu)
+540400,林芝市,林芝,Nyingchi,Nyingchi,city,override,official transliteration (pinyin Linzhi)
+540500,山南市,山南,Shannan,Shannan,city,pypinyin,"Chinese-origin name, pinyin (Tibetan Lhoka not used on official maps)"
+540600,那曲市,那曲,Nagqu,Nagqu,city,override,official transliteration (pinyin Naqu)
+542500,阿里地区,阿里,Ngari,Ngari Prefecture,city,override,official transliteration (pinyin Ali)
+610000,陕西省,陕西,Shaanxi,Shaanxi Province,province,override,established English name (pinyin Shanxi)
+610100,西安市,西安,Xi'an,Xi'an,city,pypinyin,
+610200,铜川市,铜川,Tongchuan,Tongchuan,city,pypinyin,
+610300,宝鸡市,宝鸡,Baoji,Baoji,city,pypinyin,
+610400,咸阳市,咸阳,Xianyang,Xianyang,city,pypinyin,
+610500,渭南市,渭南,Weinan,Weinan,city,pypinyin,
+610600,延安市,延安,Yan'an,Yan'an,city,pypinyin,
+610700,汉中市,汉中,Hanzhong,Hanzhong,city,pypinyin,
+610800,榆林市,榆林,Yulin,Yulin,city,pypinyin,shares en with 玉林市 450900
+610900,安康市,安康,Ankang,Ankang,city,pypinyin,
+611000,商洛市,商洛,Shangluo,Shangluo,city,pypinyin,
+620000,甘肃省,甘肃,Gansu,Gansu Province,province,pypinyin,
+620100,兰州市,兰州,Lanzhou,Lanzhou,city,pypinyin,
+620200,嘉峪关市,嘉峪关,Jiayuguan,Jiayuguan,city,pypinyin,
+620300,金昌市,金昌,Jinchang,Jinchang,city,pypinyin,
+620400,白银市,白银,Baiyin,Baiyin,city,pypinyin,
+620500,天水市,天水,Tianshui,Tianshui,city,pypinyin,
+620600,武威市,武威,Wuwei,Wuwei,city,pypinyin,
+620700,张掖市,张掖,Zhangye,Zhangye,city,pypinyin,
+620800,平凉市,平凉,Pingliang,Pingliang,city,pypinyin,
+620900,酒泉市,酒泉,Jiuquan,Jiuquan,city,pypinyin,
+621000,庆阳市,庆阳,Qingyang,Qingyang,city,pypinyin,
+621100,定西市,定西,Dingxi,Dingxi,city,pypinyin,
+621200,陇南市,陇南,Longnan,Longnan,city,pypinyin,
+622900,临夏回族自治州,临夏,Linxia,Linxia Hui Autonomous Prefecture,city,pypinyin,
+623000,甘南藏族自治州,甘南,Gannan,Gannan Tibetan Autonomous Prefecture,city,pypinyin,
+630000,青海省,青海,Qinghai,Qinghai Province,province,pypinyin,
+630100,西宁市,西宁,Xining,Xining,city,pypinyin,
+630200,海东市,海东,Haidong,Haidong,city,pypinyin,
+632200,海北藏族自治州,海北,Haibei,Haibei Tibetan Autonomous Prefecture,city,pypinyin,
+632300,黄南藏族自治州,黄南,Huangnan,Huangnan Tibetan Autonomous Prefecture,city,pypinyin,
+632500,海南藏族自治州,海南,Hainan,Hainan Tibetan Autonomous Prefecture,city,pypinyin,shares en with 海南省 460000
+632600,果洛藏族自治州,果洛,Golog,Golog Tibetan Autonomous Prefecture,city,override,official transliteration (pinyin Guoluo)
+632700,玉树藏族自治州,玉树,Yushu,Yushu Tibetan Autonomous Prefecture,city,pypinyin,"Chinese-origin name, pinyin (seat Gyêgu)"
+632800,海西蒙古族藏族自治州,海西,Haixi,Haixi Mongol and Tibetan Autonomous Prefecture,city,pypinyin,
+640000,宁夏回族自治区,宁夏,Ningxia,Ningxia Hui Autonomous Region,province,pypinyin,
+640100,银川市,银川,Yinchuan,Yinchuan,city,pypinyin,
+640200,石嘴山市,石嘴山,Shizuishan,Shizuishan,city,pypinyin,polyphone checked: 石=shi
+640300,吴忠市,吴忠,Wuzhong,Wuzhong,city,pypinyin,
+640400,固原市,固原,Guyuan,Guyuan,city,pypinyin,
+640500,中卫市,中卫,Zhongwei,Zhongwei,city,pypinyin,
+650000,新疆维吾尔自治区,新疆,Xinjiang,Xinjiang Uygur Autonomous Region,province,pypinyin,en_full uses PRC spelling Uygur (also Uyghur)
+650100,乌鲁木齐市,乌鲁木齐,Ürümqi,Ürümqi,city,override,official transliteration (pinyin Wulumuqi); diacritic kept (ASCII Urumqi)
+650200,克拉玛依市,克拉玛依,Karamay,Karamay,city,override,official transliteration (pinyin Kelamayi)
+650400,吐鲁番市,吐鲁番,Turpan,Turpan,city,override,official transliteration (pinyin Tulufan)
+650500,哈密市,哈密,Hami,Hami,city,pypinyin,official maps use Hami (Uygur Kumul)
+652300,昌吉回族自治州,昌吉,Changji,Changji Hui Autonomous Prefecture,city,pypinyin,
+652700,博尔塔拉蒙古自治州,博尔塔拉,Bortala,Bortala Mongol Autonomous Prefecture,city,override,official transliteration (pinyin Bo'ertala)
+652800,巴音郭楞蒙古自治州,巴音郭楞,Bayingolin,Bayingolin Mongol Autonomous Prefecture,city,override,official transliteration (pinyin Bayinguoleng)
+652900,阿克苏地区,阿克苏,Aksu,Aksu Prefecture,city,override,official transliteration (pinyin Akesu)
+653000,克孜勒苏柯尔克孜自治州,克孜勒苏,Kizilsu,Kizilsu Kirgiz Autonomous Prefecture,city,override,official transliteration (pinyin Kezilesu)
+653100,喀什地区,喀什,Kashi,Kashi Prefecture,city,pypinyin,official maps use Kashi (conventional Kashgar)
+653200,和田地区,和田,Hotan,Hotan Prefecture,city,override,official transliteration (pinyin Hetian)
+654000,伊犁哈萨克自治州,伊犁,Ili,Ili Kazak Autonomous Prefecture,city,override,official transliteration (pinyin Yili)
+654200,塔城地区,塔城,Tacheng,Tacheng Prefecture,city,pypinyin,official maps use Tacheng (Chinese name)
+654300,阿勒泰地区,阿勒泰,Altay,Altay Prefecture,city,override,official transliteration (pinyin Aletai)
+659001,石河子市,石河子,Shihezi,Shihezi,county_direct,pypinyin,polyphone checked: 石=shi; XPCC city
+659002,阿拉尔市,阿拉尔,Aral,Aral,county_direct,override,official transliteration (pinyin Ala'er); XPCC city
+659003,图木舒克市,图木舒克,Tumxuk,Tumxuk,county_direct,override,official transliteration (pinyin Tumushuke); XPCC city
+659004,五家渠市,五家渠,Wujiaqu,Wujiaqu,county_direct,pypinyin,
+659005,北屯市,北屯,Beitun,Beitun,county_direct,pypinyin,polyphone checked: 屯=tun
+659006,铁门关市,铁门关,Tiemenguan,Tiemenguan,county_direct,pypinyin,
+659007,双河市,双河,Shuanghe,Shuanghe,county_direct,pypinyin,
+659008,可克达拉市,可克达拉,Kokdala,Kokdala,county_direct,override,official transliteration (pinyin Kekedala); XPCC city
+659009,昆玉市,昆玉,Kunyu,Kunyu,county_direct,pypinyin,
+659010,胡杨河市,胡杨河,Huyanghe,Huyanghe,county_direct,pypinyin,
+710000,台湾省,台湾,Taiwan,Taiwan Province,province,pypinyin,
+710100,台北市,台北,Taipei,Taipei,city,override,project id; conventional romanization as in PRC English-language media; GB/T 16159 pinyin: Taibei
+710200,新北市,新北,New Taipei,New Taipei,city,override,project id; conventional romanization as in PRC English-language media; GB/T 16159 pinyin: Xinbei; en_full kept bare like other cities (commonly New Taipei City)
+710300,桃园市,桃园,Taoyuan,Taoyuan,city,pypinyin,project id; conventional and GB/T 16159 pinyin forms coincide
+710400,台中市,台中,Taichung,Taichung,city,override,project id; conventional romanization as in PRC English-language media; GB/T 16159 pinyin: Taizhong
+710500,台南市,台南,Tainan,Tainan,city,pypinyin,project id; conventional and GB/T 16159 pinyin forms coincide
+710600,高雄市,高雄,Kaohsiung,Kaohsiung,city,override,project id; conventional romanization as in PRC English-language media; GB/T 16159 pinyin: Gaoxiong
+810000,香港特别行政区,香港,Hong Kong,Hong Kong Special Administrative Region,province,override,established English name (pinyin Xianggang)
+820000,澳门特别行政区,澳门,Macao,Macao Special Administrative Region,province,override,established English name (pinyin Aomen); PRC official spelling Macao (also Macau)
