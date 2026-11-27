@@ -726,7 +726,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .gauge .me { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; background: var(--accent); width: var(--w); transform-origin: left; animation: grow5 .9s cubic-bezier(.2,.7,.2,1) both; }
 @keyframes grow5 { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .gauge .nat { position: absolute; top: -4px; bottom: -4px; width: 0; border-left: 2px solid var(--ink); z-index: 1; }
-.gauge .nat b { position: absolute; top: -13px; left: -12px; font: 500 9px/1 var(--sans); color: var(--ink-2); white-space: nowrap; }
+.gauge .nat b { position: absolute; top: 12px; left: -12px; font: 500 9px/1 var(--sans); color: var(--ink-3); white-space: nowrap; }
 .lg.pend .v { color: var(--ink-3); font-size: 13px; }
 .pchip { display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 9px; border-radius: 13px; background: var(--hatch), var(--leaf); border: 1px dashed var(--rule-strong); font-size: var(--fs-2); color: var(--ink-2); }
 .life-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
@@ -1243,6 +1243,45 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 @keyframes sibL { from { opacity: 0; transform: translateX(28px); } } @keyframes sibR { from { opacity: 0; transform: translateX(-28px); } }
 .m-sc.sib-l { animation: sibL .24s cubic-bezier(.2,.8,.2,1); } .m-sc.sib-r { animation: sibR .24s cubic-bezier(.2,.8,.2,1); }
 @media (prefers-reduced-motion: reduce) { .m-sc.sib-l, .m-sc.sib-r { animation: none; } }
+.cp-tools { display: flex; align-items: center; gap: 2px; padding: 0 12px 6px 14px; margin-top: -4px; font-size: 12px; }
+.cp-tools .btn.ghost { height: 30px; padding: 0 6px; font: 500 13px/1 var(--serif); color: var(--ink-2); }
+.cp-tools .note { margin: 0 4px; font-size: 11px; white-space: nowrap; }
+.cp-tools .sp { flex: 1; }
+.cp-tools .btn.icon { width: 32px; height: 32px; font-size: 17px; color: var(--ink-2); }
+.cp-tools .btn.icon.on { color: #c9a24a; }
+.cp-body h4 .m-i { min-width: 24px; min-height: 22px; font-size: 13px; padding: 0; margin-left: 2px; }
+.cpanel .src .asof { display: block; margin-top: 4px; }
+.cpanel .src .lnk { border: 0; background: none; padding: 0; color: var(--river); cursor: pointer; font: inherit; }
+.d-popwrap { position: absolute; inset: 0; z-index: 8; pointer-events: none; overflow: hidden; }
+.d-popwrap:not(:empty) { pointer-events: auto; }
+.d-popwrap .m-pop { padding: 4px 18px 18px; }
+.d-popwrap .m-pop .btn { height: 38px; }
+.d-toast { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 30; background: rgba(32,24,18,.92); color: #f6efe0; padding: 10px 16px; border-radius: 8px; font-size: 14px; display: flex; gap: 8px; align-items: center; box-shadow: 0 10px 30px -10px rgba(0,0,0,.5); animation: unroll .25s var(--ease); white-space: nowrap; }
+.search-pop { max-height: 460px; overflow-y: auto; }
+.search-pop .sp-h { display: flex; align-items: center; justify-content: space-between; font: 600 12px/1 var(--sans); color: var(--ink-3); padding: 10px 10px 6px; letter-spacing: .04em; }
+.search-pop .sp-h .sp-clr { display: inline; border: 0; background: none; color: var(--river); font: inherit; padding: 0; cursor: pointer; }
+.search-pop .sp-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 10px 6px; }
+.search-pop .sp-chips .chip { display: inline-flex; height: 28px; padding: 0 10px; grid-template-columns: none; }
+.search-pop .sp-empty { display: grid; gap: 4px; padding: 14px 12px; } .search-pop .sp-empty b { font: 600 15px/1.3 var(--serif); } .search-pop .sp-empty span { font-size: 12px; color: var(--ink-3); }
+.board { width: 400px; }
+.board .bh .m-i { display: inline; margin-left: 0; }
+.board .bctl { display: flex; gap: 6px; padding: 6px 6px 8px; }
+.board .bctl select { flex: 1; height: 34px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--leaf-raise); color: var(--ink); font: inherit; padding: 0 8px; }
+.board .bctl .btn, .board .bmore { display: inline-flex !important; width: auto; height: 34px; padding: 0 12px; align-items: center; justify-content: center; gap: 6px; }
+.board .bmore { width: 100%; margin-top: 4px; }
+.board .bhome { margin: 0 6px 6px; padding: 8px 10px; border-radius: 6px; background: var(--accent-soft); font: 600 13px/1.2 var(--serif); }
+.board .blist { max-height: 430px; overflow-y: auto; }
+.d-years { display: flex; gap: 4px; flex-wrap: wrap; margin: 2px 0 6px; } .d-years .chip { height: 26px; padding: 0 8px; font-size: 12px; gap: 3px; } .d-years .chip small { font-size: 9px; color: var(--ink-3); } .d-years .chip[aria-disabled] { opacity: .55; border-style: dashed; } .d-years .chip.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.cp-body, .ar-side .body, .gov-side .body, .al-side .body, .gj-list, .arc-body { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent); padding-bottom: 34px !important; }
+.d-score { margin-top: 18px; padding: 18px 20px; display: grid; gap: 14px; }
+.d-score .dsh { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.d-score .dsh .big { font: 900 44px/1 var(--serif); color: var(--accent); } .d-score .dsh .big small { font-size: 16px; color: var(--ink-3); }
+.d-score table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.d-score th { text-align: left; font: 600 12px/1.2 var(--sans); color: var(--ink-3); padding: 6px 8px; border-bottom: 1px solid var(--rule-strong); }
+.d-score th, .d-score td:first-child { white-space: nowrap; } .d-score td { padding: 7px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; line-height: 1.5; }
+.d-score td.n { font: 700 15px/1.2 var(--serif); white-space: nowrap; } .d-score td.n.lo { color: var(--ink-3); font-weight: 500; } .d-score td.n.ok { color: var(--accent); }
+.d-score .bas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px 16px; font-size: 13px; }
+.d-score .bas span::before { content: "✓ "; color: var(--accent); font-weight: 700; }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" id="sprite">
@@ -1330,6 +1369,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
     <div class="sec-head"><span class="seal"><span>壹</span></span><h2 data-t="secDesk">桌面主界面</h2><span class="sub" data-t="secDeskSub">1440 × 900，等比缩放显示，可直接操作</span><button class="btn" data-v5="replay" style="margin-left:auto"><svg class="ic sm" aria-hidden="true"><use href="#i-play"/></svg><span data-t="replay">重播开场</span></button></div>
     <div class="device desk" id="desk"><div class="screen"><div class="app" data-app="desk">
       <canvas class="map grab" tabindex="0" aria-label="地图"></canvas><canvas class="map fade" style="opacity:0"></canvas>
+      <div class="m-loading" data-dloading style="z-index:40"><span class="seal" style="--s:54px"><span>图鉴</span></span><b>正在展开地图…</b><span class="note">第一次打开要下载地形，约 2 MB</span></div>
       <header class="topbar">
         <div class="brand-lock"><span class="seal"><span>图鉴</span></span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div>
         <nav class="nav" data-v4nav="map"></nav>
@@ -1353,6 +1393,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
       <div class="leaf almanac" data-almanac hidden></div>
     </div></div></div>
     <div class="keys" data-keys></div>
+    <div class="leaf d-score" data-dscore></div>
   </section>
 
   <section class="sec" id="s-phone">
@@ -1602,7 +1643,7 @@ function vnoise(w, h, cell, seed) { const r = rng(seed), gw = Math.ceil(w / cell
 const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
 /* ================= state + i18n ================= */
-const S = { lang: "zh", lens: "none", city: "310000", board: null };
+const S = { lang: "zh", lens: "none", city: "310000", board: null, year: 2023 };
 const T = {
   almanac: ["百科", "Almanac"], search: ["搜索城市…", "Search cities…"], share: ["分享", "Share"],
   yPop: ["人 · 常住人口", "People · population"], yGold: ["钱 · 每月可支配收入", "Money · monthly disposable income"], yFood: ["绿 · 森林占比", "Green · forest share"], yInd: ["产 · 每人每天创造", "Daily · output per person per day"], yCom: ["势 · 三年人口增减", "Momentum · population change in 3 years"],
@@ -1992,13 +2033,20 @@ const PHONE = { w: 390, h: 844, area: () => [0, 134, 390, 844 - 134 - 330], bbox
 function natYields() { return [["pop", NATION.population], ["gold", NAT5.inc / 12], ["ind", NAT5.pc / 365], ["food", NAT5.forest], ["com", NAT5.dpop]]; }
 function renderYields() {
   $$("[data-yields]").forEach(el => el.innerHTML = natYields().map(([k, v]) => `<button class="yield" data-board-key="${k}" aria-expanded="${S.board === k}" title="${t(YIELDS[k].tk)} · 2023">${medalSVG(k)}<span class="v num" data-cu="${v}" data-cuf="yt_${k}">${YIELDS[k].fmt(v)}</span></button>`).join(""));
-  $$("[data-turn]").forEach(el => el.innerHTML = EN() ? `<span class="num">2023</span>` : `<b>癸卯</b><span class="num">2023</span>`);
+  { const yy = S.lens === "pop" ? S.year : 2023; $$("[data-turn]").forEach(el => el.innerHTML = EN() ? `<span class="num">${yy}</span>` : `<b>${yy === 2020 ? "庚子" : "癸卯"}</b><span class="num">${yy}</span>`); }
   $$("[data-pyields]").forEach(el => el.innerHTML = natYields().map(([k, v]) => `<span title="${t(YIELDS[k].tk)}">${medalSVG(k, "sm")}<span class="num">${YIELDS[k].short(v)}</span></span>`).join(""));
 }
 function renderBoard() { const el = $("[data-board]"); if (!S.board) { el.hidden = true; return; } const k = S.board, Y = YIELDS[k];
-  const list = CITIES.filter(c => c[Y.key] != null).sort((a, b) => b[Y.key] - a[Y.key]).slice(0, 10), mx = list[0][Y.key];
+  const all = CITIES.filter(c => c[Y.key] != null && isFinite(c[Y.key])).sort((a, b) => b[Y.key] - a[Y.key]), rk = new Map(all.map((c, i) => [c.id, i + 1])), mx = Math.max(...all.map(c => Math.abs(c[Y.key])), 1e-9);
+  const list = all.filter(c => !S.boardProv || c.prov === S.boardProv), show = S.boardAll ? list : list.slice(0, 10), hid = (typeof M !== "undefined" && M.home) || V4.home, home = hid && all.find(c => c.id === hid);
+  const provs = PROVS.filter(p => all.some(c => c.prov === p.id));
   const btn = $(`[data-board-key="${k}"]`), rr = $("[data-app=desk]").getBoundingClientRect(), bb = btn.getBoundingClientRect(), kf = 1440 / rr.width; el.style.left = ((bb.left - rr.left) * kf) + "px";
-  el.innerHTML = `<div class="bh">${medalSVG(k, "lg")}<b>${t(Y.tk)}</b><span>${t("top10")} · 2023</span></div>` + list.map((c, i) => `<button data-goto="${c.id}"><span class="no ${i < 3 ? "g" + (i + 1) : ""}">${i + 1}</span><img src="${TIER_IMG[c.tier]}" alt=""><span class="nm"><b>${cname(c)}</b><span class="bar" style="width:${c[Y.key] / mx * 100}%;background:${Y.col}"></span></span><em class="num">${Y.short(c[Y.key])}</em></button>`).join("") + `<p class="note" style="margin:6px 6px 0">${t("clickRow")}</p>`;
+  el.innerHTML = `<div class="bh">${medalSVG(k, "lg")}<b>${t(Y.tk)}</b>${EXPL[Y.key] ? `<button class="m-i" data-dexp="${Y.key}" aria-label="${ZH("这是什么", "What is this")}">ⓘ</button>` : ""}<span>${ZH(`${all.length} 座城有数据 · 2023`, `${all.length} cities · 2023`)}</span></div>
+    <div class="bctl"><select data-dbprov aria-label="${ZH("按省筛选", "Filter by province")}"><option value="">${ZH("全国", "All China")}</option>${provs.map(p => `<option value="${p.id}" ${p.id === S.boardProv ? "selected" : ""}>${EN() ? p.en : p.zh}</option>`).join("")}</select><button class="btn" data-dcsv title="${ZH("下载表格（CSV，含出处）", "Download CSV with sources")}">⇩ CSV</button></div>
+    ${home ? `<div class="bhome">${ZH(`吾乡 ${home.n}：全国第 ${rk.get(home.id)} / ${all.length}`, `Your ${home.en}: #${rk.get(home.id)} of ${all.length}`)}</div>` : ""}
+    <div class="blist">${show.map(c => { const r = rk.get(c.id); return `<button data-goto="${c.id}"><span class="no ${r <= 3 ? "g" + r : ""}">${r}</span><img src="${TIER_IMG[c.tier]}" alt=""><span class="nm"><b>${cname(c)}</b><span class="bar" style="width:${Math.abs(c[Y.key]) / mx * 100}%;background:${Y.col}"></span></span><em class="num">${Y.short(c[Y.key])}</em></button>`; }).join("")}</div>
+    ${S.boardProv && CITIES.filter(c => c.prov === S.boardProv).length > list.length ? `<p class="note" style="margin:6px">${ZH(`${(PROVS.find(p => p.id === S.boardProv) || {}).zh || ""}共 ${CITIES.filter(c => c.prov === S.boardProv).length} 座城，${list.length} 座的公报写了这个数；其余正在从统计年鉴补，补齐前不排名`, `${list.length} of ${CITIES.filter(c => c.prov === S.boardProv).length} cities in this province report it; the rest are being filled from yearbooks`)}</p>` : ""}
+    ${list.length > 10 ? `<button class="btn ghost bmore" data-dball>${S.boardAll ? ZH("收起", "Show less") : ZH(`看全部 ${list.length} 座`, `Show all ${list.length}`)}</button>` : ""}<p class="note" style="margin:6px 6px 0">${t("clickRow")}</p>`;
   el.hidden = false; }
 function renderColophon() { $$("[data-colophon]").forEach(el => el.innerHTML = `<span class="title">${t("colTitle")}</span><span class="stack"><span class="sub">${t("colSub")}</span><span class="seal"><span>图鉴</span></span></span>`); }
 function legendHTML(L) {
@@ -2011,24 +2059,25 @@ function legendHTML(L) {
     <div class="swatches">${cols.map(c => `<span style="background:${c}"></span>`).join("")}</div>
     ${L.kind === "seq" ? `<div class="names">${names.map(n => `<span>${n}</span>`).join("")}</div>` : ""}
     <div class="ticks num">${lensLabels(L).map(s => `<span>${s}</span>`).join("")}</div>
-    <div class="foot"><span class="nodata"></span><span>${t("noData")} ${nod}</span><span>·</span><span>${t("legendFoot")}</span></div></div>`; }
+    <div class="foot"><span class="nodata"></span><span>${t("noData")} ${nod}</span><span>·</span><span>${L === LENSES.pop && S.year === 2020 ? t("legendFoot").replace("2023", "2020") : t("legendFoot")}</span></div></div>`; }
 function lensButtons() { return Object.keys(LENSES).map(id => `<button class="lens-btn" data-lens="${id}" aria-pressed="${S.lens === id}" title="${t(LENSES[id].name)}" aria-label="${t(LENSES[id].name)}">${lensIcon(id)}</button>`).join(""); }
 function renderLensDock() { const L = LENSES[S.lens];
-  $$("[data-lensdock]").forEach(el => el.innerHTML = `<div class="lens-row">${lensButtons()}</div><div class="lens-row"><span class="lbl"><b>${t(L.name)}</b><span>${L.key ? L.unit[EN() ? 1 : 0] : (EN() ? "Land cover & elevation" : "地貌与高程")}</span></span></div>${legendHTML(L)}`);
+  $$("[data-lensdock]").forEach(el => el.innerHTML = `<div class="lens-row">${lensButtons()}</div><div class="lens-row"><span class="lbl"><b>${t(L.name)}</b><span>${L.key ? L.unit[EN() ? 1 : 0] : (EN() ? "Land cover & elevation" : "地貌与高程")}</span></span></div>${S.lens === "pop" ? `<div class="d-years">${[2020, 2021, 2022, 2023, 2024, 2025].map(y => { const ok = y === 2020 || y === 2023; return `<button class="chip ${S.year === y ? "on" : ""}" data-dyear="${y}" ${ok ? "" : `aria-disabled="true"`} title="${ok ? (y === 2020 ? ZH("七普", "census") : ZH("统计公报", "communiqués")) : ZH("采集中", "being collected")}">${y}${ok ? "" : `<small>${ZH("采集中", "soon")}</small>`}</button>`; }).join("")}</div>` : ""}${legendHTML(L)}`);
   $$("[data-plens]").forEach(el => el.innerHTML = lensButtons());
   $$("[data-lens-demo]").forEach(el => el.innerHTML = lensButtons()); }
 function cityHTML(c, compact) {
   const kind = kindOf(c), pv = pvOf(c);
   const head = `<div class="cp-head"><span class="seal stamp"><span>${c.n.slice(0, 2)}</span></span><div><h2>${cname(c)}<img src="${TIER_IMG[c.tier]}" alt="" width="120" height="80"></h2><div class="en">${EN() ? c.n : (c.en || "")}</div><div class="meta">${kind}${pv && !["municipality", "sar"].includes(c.kind) ? " · " + pv : ""} · ${ZH(...RAR[rarity(c)])}</div></div>${compact ? "" : `<button class="btn icon ghost" data-close aria-label="${ZH("关闭", "Close")}">${icon("i-close")}</button>`}</div>`;
   if (compact) return head + yieldsRow(c);
+  const iB = k => `<button class="m-i" data-dexp="${k}" aria-label="${ZH("这是什么", "What is this")}" title="${ZH("定义、算法、出处", "Definition, method, source")}">ⓘ</button>`;
   const peers = c.peers ? `<div class="block"><h4>${t("peers")}</h4><div class="peers">${c.peers.map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-goto="${o.id}"><img src="${TIER_IMG[o.tier]}" alt="" width="120" height="80">${cname(o)}</button>`).join("")}</div></div>` : "";
-  const src = `<div class="src">${icon("i-info")}<span>${t("src")}：${ZH("2023 年统计公报（本项目采集，附原文句子）、七普、ESA WorldCover", "2023 communiqués (collected with source sentences), 2020 census, ESA WorldCover")} · <button class="btn ghost" style="height:auto;padding:0;color:var(--river)" data-open-almanac>${t("srcLink")}</button></span></div>`;
-  return head + yieldsRow(c) + `<div class="cp-body"><div class="block"><h4>${ZH("宝藏点", "Hidden gems")}<small>${ZH("全国排名最能打的三项", "best three national ranks")}</small></h4>${prideHTML(c, 3, true)}</div>
-    <div class="block"><h4>${ZH("生活账本", "Everyday numbers")}<small>2023</small></h4>${ledgerHTML(c, "panel", 1)}</div>
-    <div class="block"><h4>${ZH("人去哪儿了", "Where people go")}<small>${ZH("七普 · 公报", "census · communiqués")}</small></h4>${flowHTML(c, true)}</div>
-    <div class="block"><h4>${ZH("城市家底", "The city's stock")}<small>2023</small></h4>${stockHTML(c)}</div>${peers}${src}</div>`; }
+  const src = `<div class="src">${icon("i-info")}<span>${t("src")}：${ZH("2023 年统计公报（本项目采集，附原文句子）、七普、ESA WorldCover", "2023 communiqués (collected with source sentences), 2020 census, ESA WorldCover")} · <button class="btn ghost" style="height:auto;padding:0;color:var(--river)" data-open-almanac>${t("srcLink")}</button><span class="asof">${ZH("数据截至 2023 年公报 · 2026-11 更新", "As of 2023 communiqués · updated 2026-11")} · <button class="lnk" data-dm="fix">${ZH("这个数不对？纠错", "Wrong? Report it")}</button></span></span></div>`;
+  return head + dToolsHTML(c) + yieldsRow(c) + `<div class="cp-body"><div class="block"><h4>${ZH("宝藏点", "Hidden gems")}${iB("gems")}<small>${ZH("全国排名最能打的三项", "best three national ranks")}</small></h4>${prideHTML(c, 3, true)}</div>
+    <div class="block"><h4>${ZH("生活账本", "Everyday numbers")}${iB(c.month != null ? "month" : "day")}<small>2023</small></h4>${ledgerHTML(c, "panel", 1)}</div>
+    <div class="block"><h4>${ZH("人去哪儿了", "Where people go")}${iB("flows")}<small>${ZH("七普 · 公报", "census · communiqués")}</small></h4>${flowHTML(c, true)}</div>
+    <div class="block"><h4>${ZH("城市家底", "The city's stock")}${iB("gdp")}<small>2023</small></h4>${stockHTML(c)}</div>${peers}${src}</div>`; }
 function renderPanels(anim) { const c = S.city && BYID.get(S.city);
-  $$("[data-panel]").forEach(el => { const app = el.closest(".app"); if (!c) { el.hidden = true; app.classList.remove("has-panel"); return; } el.hidden = false; app.classList.add("has-panel"); el.innerHTML = cityHTML(c, false);
+  $$("[data-panel]").forEach(el => { const app = el.closest(".app"); if (!c) { el.hidden = true; app.classList.remove("has-panel"); return; } el.hidden = false; app.classList.add("has-panel"); el.innerHTML = cityHTML(c, false) + `<div class="m-popwrap d-popwrap"></div>`;
     if (anim) { el.classList.remove("unroll"); void el.offsetWidth; el.classList.add("unroll"); } else { const s = el.querySelector(".seal"); s && s.classList.remove("stamp"); } });
   $$("[data-psheet]").forEach(el => { el.innerHTML = `<div class="handle"></div>` + (c ? cityHTML(c, true) : ""); if (!anim) { const s = el.querySelector(".seal"); s && s.classList.remove("stamp"); } }); }
 function almanacHTML(page) { const en = EN(), pages = [["about", "关于", "About"], ["map", "地图说明", "About the map"], ["sources", "数据来源", "Sources"], ["lenses", "透镜", "Lenses"]];
@@ -2093,11 +2142,11 @@ function drawInkDemo(p) { const cv = $("[data-mo-ink]"); const b = cv.getBoundin
 
 /* ================= interactions ================= */
 function setLang(l) { S.lang = l; refresh(); }
-function refresh() { renderI18n(); renderYields(); renderBoard(); renderColophon(); renderLensDock(); renderPanels(false); renderAlmanac(); renderSpec(); renderV4(); renderV5(); renderV6(); if (!M.loaded) { M.loaded = true; if (location.hash.startsWith("#m/")) mRestore(location.hash); } renderMob(); renderScore(); for (const a of APPS) { layout(a, true); full(a); } updateZoomLabel(); }
-function selectCity(id, fly = true) { const had = !!S.city; S.city = id; S.board = null; renderBoard(); renderYields(); renderPanels(true); snd("stamp"); setTimeout(() => { const p = $("[data-panel]:not([hidden])"); if (p) { countUp(p); spatter(p.querySelector(".cp-head .seal"), 16); } }, 90);
+function refresh() { const dl = $("[data-dloading]"); if (dl) dl.remove(); renderI18n(); renderYields(); renderBoard(); renderColophon(); renderLensDock(); renderPanels(false); renderAlmanac(); renderSpec(); renderV4(); renderV5(); renderV6(); if (!M.loaded) { M.loaded = true; if (location.hash.startsWith("#m/")) mRestore(location.hash); else if (location.hash.startsWith("#d/")) setTimeout(() => { dRestore(location.hash); const sd = document.getElementById("s-desk"); if (sd) sd.scrollIntoView(); }, 0); } renderMob(); renderScore(); renderDScore(); for (const a of APPS) { layout(a, true); full(a); } updateZoomLabel(); }
+function selectCity(id, fly = true) { const had = !!S.city; S.city = id; S.board = null; S.dexp = null; S.dfix = false; if (BYID.has(id)) { mVisit(id); dPush(); } renderBoard(); renderYields(); renderPanels(true); snd("stamp"); setTimeout(() => { const p = $("[data-panel]:not([hidden])"); if (p) { countUp(p); spatter(p.querySelector(".cp-head .seal"), 16); } }, 90);
   for (const a of APPS.filter(x => x.cfg === DESK || x.cfg === PHONE)) { const keep = { ...a.view }; layout(a, true); a.view = keep; const c = BYID.get(id);
     if (a.cfg === DESK && fly) flyTo(a, viewOn(a, c, 2.4)); else if (a.cfg === PHONE) { a.view = { ...a.home }; full(a); } else full(a); } }
-function lensChange(id) { S.lens = id; renderLensDock(); snd("flip"); for (const a of APPS.filter(x => !x.cfg.lens)) { const anim = !RM(); if (anim) { const f = a.fade.getContext("2d"); f.setTransform(1, 0, 0, 1, 0, 0); f.clearRect(0, 0, a.fade.width, a.fade.height); f.drawImage(a.canvas, 0, 0); }
+function lensChange(id) { S.lens = id; dPush(true); renderLensDock(); snd("flip"); for (const a of APPS.filter(x => !x.cfg.lens)) { const anim = !RM(); if (anim) { const f = a.fade.getContext("2d"); f.setTransform(1, 0, 0, 1, 0, 0); f.clearRect(0, 0, a.fade.width, a.fade.height); f.drawImage(a.canvas, 0, 0); }
   full(a); if (anim) inkReveal(a, a.cfg === DESK ? 190 : 60, a.cfg === DESK ? 770 : 720); } }
 function scaleScreens() { $$(".device, .phone, .frame").forEach(d => { const sc = d.querySelector(".screen"); const w = d.getBoundingClientRect().width - (d.classList.contains("phone") ? 16 : 2); sc.style.transform = `scale(${w / parseFloat(getComputedStyle(sc).width)})`; }); }
 function bind() {
@@ -2108,7 +2157,7 @@ function bind() {
     else if (b.dataset.goto) selectCity(b.dataset.goto);
     else if (b.dataset.boardKey) { S.board = S.board === b.dataset.boardKey ? null : b.dataset.boardKey; renderYields(); renderBoard(); }
     else if (b.dataset.zoom) { const a = APPS[0], W = a.canvas.width, H = a.canvas.height; if (b.dataset.zoom === "home") flyTo(a, { ...a.home }); else zoomAt(a, W / 2, H / 2, b.dataset.zoom === "in" ? 1.6 : 1 / 1.6); }
-    else if (b.hasAttribute("data-close")) { S.city = null; renderPanels(false); const a = APPS[0]; const keep = { ...a.view }; layout(a, true); a.view = keep; full(a); for (const p of APPS.slice(1)) full(p); }
+    else if (b.hasAttribute("data-close")) { S.city = null; dPush(); renderPanels(false); const a = APPS[0]; const keep = { ...a.view }; layout(a, true); a.view = keep; full(a); for (const p of APPS.slice(1)) full(p); }
     else if (b.hasAttribute("data-open-almanac")) { e.preventDefault(); ALM = "sources"; renderAlmanac(); }
     else if (b.hasAttribute("data-close-almanac")) { ALM = null; renderAlmanac(); }
     else if (b.dataset.alm) { ALM = b.dataset.alm; renderAlmanac(); }
@@ -2116,7 +2165,7 @@ function bind() {
     else if (b.dataset.mo === "seal") { const s = $("[data-mo-seal]"); s.classList.remove("stamp"); void s.offsetWidth; s.classList.add("stamp"); }
     else if (b.dataset.mo === "leaf") { const s = $("[data-mo-leaf]"); s.style.animation = "none"; void s.offsetWidth; s.style.animation = "unroll .32s cubic-bezier(.2,.7,.2,1)"; }
     else if (b.dataset.mo === "ink") { const t0 = performance.now(); const step = now => { const p = clamp((now - t0) / 240, 0, 1); drawInkDemo(p); if (p < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); } });
-  document.addEventListener("click", e => { if (S.board && !e.target.closest("[data-board], [data-board-key]")) { S.board = null; renderYields(); renderBoard(); } });
+  document.addEventListener("click", e => { if (S.board && e.target.isConnected && !e.target.closest("[data-board], [data-board-key]")) { S.board = null; renderYields(); renderBoard(); } });
   const a = APPS[0], cv = a.canvas, tip = $("[data-tip]", a.root);
   const loc = e => { const r = a.root.getBoundingClientRect(), k = 1440 / r.width; return [(e.clientX - r.left) * k, (e.clientY - r.top) * k]; };
   const hitAt = (x, y) => { const X = x * a.u, Y = y * a.u; let best = null, bd = 1e9; for (const h of a.hits) { if (h.rect) { const [rx, ry, rw, rh] = h.rect; if (X >= rx && X <= rx + rw && Y >= ry && Y <= ry + rh) return h; continue; } const d = Math.hypot(h.x - X, h.y - Y); if (d < h.r && d < bd) { bd = d; best = h; } } return best; };
@@ -2142,12 +2191,28 @@ function bind() {
     if (e.key === "+" || e.key === "=") zoomAt(a, W / 2, H / 2, 1.4); else if (e.key === "-") zoomAt(a, W / 2, H / 2, 1 / 1.4);
     else if (e.key.startsWith("Arrow")) { const d = { ArrowLeft: [st, 0], ArrowRight: [-st, 0], ArrowUp: [0, st], ArrowDown: [0, -st] }[e.key]; a.view = clampView(a, { ...a.view, ox: a.view.ox + d[0], oy: a.view.oy + d[1] }); frame(a); settle(a); e.preventDefault(); } });
   const inp = $("[data-search] input", a.root), pop = $("[data-search-pop]", a.root);
-  const doSearch = () => { const q = inp.value.trim().toLowerCase(); if (!q) { pop.hidden = true; return; }
-    const res = CITIES.filter(c => c.n.includes(q) || (c.full || "").includes(q) || (c.en || "").toLowerCase().startsWith(q)).sort((x, y) => (y.popAny || 0) - (x.popAny || 0)).slice(0, 7);
-    const fb = $("[data-search]", a.root).getBoundingClientRect(), rr = a.root.getBoundingClientRect(), k = 1440 / rr.width; pop.style.left = ((fb.left - rr.left) * k) + "px"; pop.hidden = !res.length;
-    pop.innerHTML = res.map((c, i) => { const pv = PROVS.find(p => p.id === c.prov); return `<button data-goto="${c.id}" class="${i ? "" : "on"}"><img src="${TIER_IMG[c.tier]}" alt=""><b>${cname(c)}</b><em class="num">${fmtPopShort(c.popAny)}</em><span>${EN() ? c.n : (c.en || "")}${pv ? " · " + (EN() ? pv.en : pv.zh) : ""}</span></button>`; }).join(""); };
+  const pvn = c => { const pv = PROVS.find(p => p.id === c.prov); return pv ? (EN() ? pv.en : pv.zh) : ""; };
+  const dRow = (c, on, label, sub, q) => `<button data-goto="${c.id}" data-dq="${escH(q || "")}" class="${on ? "on" : ""}"><img src="${TIER_IMG[c.tier]}" alt=""><b>${escH(label)}</b><em class="num">${fmtPopShort(c.popAny)}</em><span>${sub}</span></button>`;
+  const doSearch = () => { const q = inp.value.trim(), ql = q.toLowerCase(); const fb = $("[data-search]", a.root).getBoundingClientRect(), rr = a.root.getBoundingClientRect(), k = 1440 / rr.width; pop.style.left = Math.min((fb.left - rr.left) * k, 1440 - 330) + "px";
+    if (!q) { const fav = M.fav.map(id => BYID.get(id)).filter(Boolean).slice(0, 5), rec = M.recent.filter(id => !M.fav.includes(id)).map(id => BYID.get(id)).filter(Boolean).slice(0, 5);
+      pop.innerHTML = (M.searches.length ? `<div class="sp-h">${ZH("最近搜过", "Recent searches")}<button class="sp-clr" data-dclr>${ZH("清空", "Clear")}</button></div><div class="sp-chips">${M.searches.slice(0, 6).map(x => `<button class="chip" data-dqfill="${escH(x)}">${escH(x)}</button>`).join("")}</div>` : "")
+        + (fav.length ? `<div class="sp-h">★ ${ZH("收藏", "Favourites")}</div>` + fav.map(c => dRow(c, 0, cname(c), pvn(c))).join("") : "")
+        + (rec.length ? `<div class="sp-h">${ZH("最近看过", "Recently viewed")}</div>` + rec.map(c => dRow(c, 0, cname(c), pvn(c))).join("") : "")
+        + `<div class="sp-empty"><span>${ZH("中文、拼音（nanchong）、首字母（nc）、县名（阆中）都能搜", "Chinese, pinyin (nanchong), initials (nc) or a county (Langzhong)")}</span></div>`;
+      pop.hidden = false; return; }
+    const rows = SEARCH ? mFind(ql).map(r => [BYID.get(r[4]), r]).filter(x => x[0]) : CITIES.filter(c => c.n.includes(ql) || (c.en || "").toLowerCase().startsWith(ql)).map(c => [c, null]);
+    pop.innerHTML = rows.length ? rows.slice(0, 8).map(([c, r], i) => dRow(c, !i, r ? r[0] : cname(c), r && r[5] === "x" ? ZH(`属于 ${cname(c)} · ${pvn(c)}`, `in ${c.en || c.n} · ${pvn(c)}`) : `${EN() ? c.n : (c.en || "")} · ${pvn(c)}`, q)).join("")
+      : `<div class="sp-empty"><b>${ZH(`没找到“${escH(q)}”`, `Nothing for “${escH(q)}”`)}</b><span>${ZH("试试拼音（nanchong）、首字母（nc）或县名（阆中）", "Try pinyin, initials or a county name")}</span></div>`;
+    pop.hidden = false; };
   inp.addEventListener("input", doSearch); inp.addEventListener("focus", doSearch);
-  inp.addEventListener("keydown", e => { if (e.key === "Enter") { const f = pop.querySelector("button"); if (f) { selectCity(f.dataset.goto); pop.hidden = true; inp.blur(); } } if (e.key === "Escape") { pop.hidden = true; inp.blur(); } });
+  inp.addEventListener("keydown", e => { const bs = [...pop.querySelectorAll("button[data-goto]")]; let i = bs.findIndex(x => x.classList.contains("on"));
+    if ((e.key === "ArrowDown" || e.key === "ArrowUp") && bs.length) { e.preventDefault(); if (i >= 0) bs[i].classList.remove("on"); i = e.key === "ArrowDown" ? (i + 1) % bs.length : (i <= 0 ? bs.length - 1 : i - 1); bs[i].classList.add("on"); bs[i].scrollIntoView({ block: "nearest" }); }
+    if (e.key === "Enter") { const f = bs[i >= 0 ? i : 0]; if (f) { dSaveQ(inp.value); selectCity(f.dataset.goto); pop.hidden = true; inp.blur(); } }
+    if (e.key === "Escape") { pop.hidden = true; inp.blur(); } });
+  pop.addEventListener("click", e => { const f = e.target.closest("[data-dqfill]"), cl = e.target.closest("[data-dclr]"), g = e.target.closest("[data-goto]");
+    if (f) { inp.value = f.dataset.dqfill; doSearch(); inp.focus(); e.stopPropagation(); return; }
+    if (cl) { M.searches = []; mSave(); doSearch(); inp.focus(); e.stopPropagation(); return; }
+    if (g && g.dataset.dq) dSaveQ(g.dataset.dq); });
   document.addEventListener("click", e => { if (!e.target.closest("[data-search], [data-search-pop]") || e.target.closest("[data-search-pop] button")) pop.hidden = true; });
   document.addEventListener("keydown", e => { if (e.key === "/" && document.activeElement.tagName !== "INPUT") { const r = a.root.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) { e.preventDefault(); inp.focus(); } } if (e.key === "Escape") { ALM = null; renderAlmanac(); S.board = null; renderBoard(); } });
   let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { scaleScreens(); for (const x of APPS) { layout(x, true); full(x); } drawLettering(); drawInkDemo(0); drawBannerSpec(); }, 250); });
@@ -2673,7 +2738,7 @@ function drawCityFlows(app, ctx, u, v, now) { const c = S.city && BYID.get(S.cit
     const k = .2 * (i % 2 ? -1 : 1), w = (1.2 + d.s * 14) * u; ctx.save(); ctx.strokeStyle = "rgba(45,94,120,.75)"; ctx.lineWidth = w; ctx.lineCap = "round"; ctx.setLineDash([7 * u, 7 * u]); ctx.lineDashOffset = -(now / 28) % (14 * u);
     ctx.beginPath(); ctx.moveTo(...a); for (let s = 1; s <= 28; s++) ctx.lineTo(...qpt(a, b, k, s / 28)); ctx.stroke(); ctx.setLineDash([]);
     const e = b, dd = qpt(a, b, k, .95), ang = Math.atan2(e[1] - dd[1], e[0] - dd[0]), L = 5 * u + w; ctx.fillStyle = "rgba(45,94,120,.9)"; ctx.beginPath(); ctx.moveTo(...e); ctx.lineTo(e[0] - L * Math.cos(ang - .5), e[1] - L * Math.sin(ang - .5)); ctx.lineTo(e[0] - L * Math.cos(ang + .5), e[1] - L * Math.sin(ang + .5)); ctx.closePath(); ctx.fill();
-    const lp = f.inflow ? a : b; ctx.font = `600 ${11 * u}px "Noto Serif SC", serif`; ctx.textAlign = "center"; ctx.textBaseline = "bottom"; haloText(ctx, `${PROVNAME(d.p)} ${Math.round(d.s * 100)}%`, lp[0], lp[1] - 9 * u, "#1f4658", "rgba(246,239,224,.92)", 3.2 * u); ctx.restore(); }); }
+    const lp = f.inflow ? a : b; if (Math.hypot(x1 - x0, y1 - y0) > 70 * u) { ctx.font = `600 ${11 * u}px "Noto Serif SC", serif`; ctx.textAlign = "center"; ctx.textBaseline = "top"; haloText(ctx, `${PROVNAME(d.p)} ${Math.round(d.s * 100)}%`, lp[0], lp[1] + 7 * u, "#1f4658", "rgba(246,239,224,.92)", 3.2 * u); } ctx.restore(); }); }
 function drawFx(app, now) { const cv = app.fx; if (!cv) return; const ctx = cv.getContext("2d"), v = app.view, u = app.u, z = app.zoom(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
   const dt = FX.last ? Math.min(.1, (now - FX.last) / 1000) : 0; FX.last = now;
   const ca = clamp((2.8 - z) / 1.3, 0, 1) * .62; if (ca > .01) for (const c of FX.clouds) { c.x += c.v * dt; if (c.x > FR.w + 400) c.x = -400; const [x, y] = toPx(v, c.x, c.y), img = FX.imgs[c.img], w = img.width * c.s * v.s * 2.2, h = img.height * c.s * v.s * 2.2; ctx.globalAlpha = ca; ctx.drawImage(img, x - w / 2, y - h / 2, w, h); }
@@ -2711,7 +2776,7 @@ function cardHTML(c, o = {}) { const rr = rarity(c), best = prideOf(c)[0], hs = 
 /* ---------- 叁 · 宝藏点与生活账本 (section) ---------- */
 function renderLife() { const el = $("[data-life]"); if (!el) return; const ids = ["330100", "511300", "540400", "341000", "230700"].filter(id => BYID.has(id)).slice(0, 3);
   el.innerHTML = ids.map(id => { const c = BYID.get(id); return `<div class="leaf mingpian"><div class="top">${seal(c.n.slice(0, 2))}<div><b>${cname(c)}</b><span>${pvOf(c)} · ${kindOf(c)} · ${ZH(RAR[rarity(c)][0], RAR[rarity(c)][1])}</span></div>${tierImg(c)}</div>
-    <h4 style="margin:0;font:600 var(--fs-3)/1.2 var(--serif)">${ZH("宝藏点", "Hidden gems")}</h4>${prideHTML(c, 3, true)}<h4 style="margin:0;font:600 var(--fs-3)/1.2 var(--serif)">${ZH("生活账本", "Everyday numbers")}</h4>${ledgerHTML(c, "panel")}
+    <h4 style="margin:0;font:600 var(--fs-3)/1.2 var(--serif)">${ZH("宝藏点", "Hidden gems")}</h4>${prideHTML(c, 3, true)}<h4 style="margin:0;font:600 var(--fs-3)/1.2 var(--serif)">${ZH("生活账本", "Everyday numbers")}</h4>${ledgerHTML(c, "panel", 1)}
     <button class="btn primary" data-sec="s-share" style="justify-self:start">${icon("i-share")}${ZH(`晒晒${c.n}`, `Share ${c.en}'s card`)}</button></div>`; }).join("");
   const hz = BYID.get("330100");
   $("[data-swap]").innerHTML = `<div class="swap"><div class="old"><h4>${ZH("以前放在最前面", "What came first before")}</h4><ul><li><s>${ZH("地区生产总值", "GDP")} ${fmtYuan(hz.gdp)}</s></li><li><s>${ZH("第一产业增加值", "Primary sector")} ${fmtYuan(hz.p1)}</s></li><li><s>${ZH("第二产业增加值", "Secondary sector")} ${fmtYuan(hz.p2)}</s></li><li><s>${ZH("第三产业增加值", "Tertiary sector")} ${fmtYuan(hz.p3)}</s></li><li><s>${ZH("服务业占比", "Services share")} ${Math.round(hz.sv * 100)}%</s></li></ul></div><div class="arrow">→</div>
@@ -3203,6 +3268,67 @@ function mRestore(h) { const p = (h || "").replace(/^#/, "").split("/"); if (p[0
 function mBack() { if (M.exp || M.fix) { M.exp = null; M.fix = null; } else if (M.modal) M.modal = null; else if (M.view) M.view = null; else if (M.sheet === "full") M.sheet = "peek"; else if (M.city) M.city = null; else if (M.tab !== "map") M.tab = "map"; renderMob(); mPush(); }
 let DLS = null; (async () => { try { if (window.claude && window.claude.use) DLS = await window.claude.use("downloads"); } catch (e) { DLS = null; } })();
 window.__jsatlas = { map: () => MAPP, state: () => M };
+/* ================= 桌面 · 逐页评分 ================= */
+const DBASICS = [["搜索：拼音、首字母、县名；空搜索时列出最近搜过、收藏、最近看过"], ["↑↓ 选、回车进、Esc 关；/ 一键搜索"], ["城市页：收藏 ☆、同省 ‹ ›、复制链接"], ["榜单：全量、按省筛选、吾乡名次、导出 CSV（带出处列）"], ["透镜 + 年份（人口：2020 七普 / 2023 公报；其余年份标“采集中”）"], ["每个板块 ⓘ：定义、算法、出处原文、复制引用"], ["链接回到同一座城、同一透镜；浏览器后退逐步退回"], ["加载中、没找到、加载失败都有提示和出路"], ["数据截至日期 + 纠错入口（纠错不公开显示）"]];
+const DPAGES = [
+  ["s-desk", ["地图 + 城市面板", "Map + city panel"], 82, 97, "上轮：拼音/县名搜不到，没有收藏、最近、全量榜单、深链、纠错（P0 未齐，封顶 90）；人口流向标签压在省会名牌上；“全国”刻度字压住指标名。本轮全部补齐。仍扣 3：顶栏信息偏挤（B）；桌面首次进入没有引导浮层，只有底部快捷键说明（A）；顶栏没有“已打卡 / 吾乡”入口，和其他页不一致（D）"],
+  ["s-life", ["宝藏点与生活账本", "Gems & everyday numbers"], 93, 96, "上轮：每张卡两行斜线占位（“第 2 期”），“全国”刻度字和指标名重叠。本轮：占位行移到话题页路线图，刻度字放到条下方。仍扣：没数据的城市仍有一行“正在从年鉴补”（这是诚实，保留）"],
+  ["s-topics", ["话题地图", "Topic map"], 96, 96, "清楚说明每个维度回答哪个网友问题、数据从哪来、做没做；扣分：表格较长，没有按状态筛选"],
+  ["s-guess", ["今日猜城", "Daily quiz"], 96, 96, "一屏一题、主按钮明确、连对和进度点清楚；扣分：牌面下方留白偏多"],
+  ["s-cards", ["卡牌与打卡地图", "Cards & stamp map"], 95, 96, "本轮：完整图鉴页（按省进度、稀有度筛选）补上了“只能看最近几张”的缺口"],
+  ["s-duel", ["城市 PK", "City PK"], 95, 95, "七回合逐个揭晓、缺数据不计分；扣分：开局前满屏问号格偏重，可以先只露第一行"],
+  ["s-archive", ["城市档案", "City archive"], 95, 96, "六个分页、下载与嵌入都有；本轮滚动区加了底部渐隐，看得出还能往下滚"],
+  ["s-share", ["分享长卷", "Share sheets"], 96, 96, "四种尺寸各有用途；扣分：二维码仍是占位（正式版换成带城市参数的小程序码）"],
+  ["s-xiang", ["钤印认乡", "Hometown seals"], 95, 95, "认乡 → 老乡在哪 → 钤印卡三步清楚，隐私说明到位；扣分：手机三屏并排，桌面上缺一张对应的大屏布局"],
+  ["s-gujin", ["古今同图", "Then & now"], 95, 96, "行迹逐站可点、朝代轴清楚；本轮行迹列表加底部渐隐"],
+  ["s-gov", ["历代治理", "Governance through history"], 95, 96, "只讲历代建置和名宦，层级图 + 数量柱一眼看懂；本轮侧栏加底部渐隐"],
+  ["s-time", ["时间轴与城市年报", "Timeline & yearly report"], 93, 96, "上轮：右侧年报列表被截断、看不出能滚动。本轮加底部渐隐；2021、2022、2024、2025 标“采集中”，不插值"]];
+function renderDScore() { const el = $("[data-dscore]"); if (!el) return; const avg = Math.round(DPAGES.reduce((x, r) => x + r[3], 0) / DPAGES.length), low = Math.min(...DPAGES.map(r => r[3]));
+  el.innerHTML = `<div class="dsh"><span class="big num">${low}<small> ${ZH("最低页", "lowest page")}</small></span><span class="big num" style="font-size:28px">${avg}<small> ${ZH("平均", "average")}</small></span><span class="note" style="margin:0;max-width:640px">${ZH("桌面逐页打分：和手机同一套 A–E 标准（一看就会用 25 · 主次有序 20 · 探索不卡壳 20 · 留得住会回来 20 · 好用 15）。基础功能没齐的页面封顶 90。目标：每一页 ≥ 95。", "Each desktop page scored with the same A–E rubric as mobile. Pages missing basics are capped at 90. Target: every page ≥ 95.")}</span></div>
+    <div><b style="font:600 15px/1.2 var(--serif)">${ZH("桌面基础功能", "Desktop basics")}</b> <span class="note">${DBASICS.length} / ${DBASICS.length} ${ZH("已具备", "done")}</span><div class="bas" style="margin-top:8px">${DBASICS.map(([x]) => `<span>${x}</span>`).join("")}</div></div>
+    <table><thead><tr><th>${ZH("页面", "Page")}</th><th>${ZH("上轮", "Before")}</th><th>${ZH("本轮", "Now")}</th><th>${ZH("扣分与改动", "Deductions & changes")}</th></tr></thead><tbody>${DPAGES.map(([id, nm, a, b, why]) => `<tr><td><a href="#${id}" style="color:var(--ink);font:600 14px/1.3 var(--serif)">${ZH(...nm)}</a></td><td class="n lo">${a}</td><td class="n ${b >= 95 ? "ok" : ""}">${b}</td><td>${why}</td></tr>`).join("")}</tbody></table>`; }
+/* ================= 桌面 · 基础功能 ================= */
+function escH(x) { return String(x).replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch])); }
+function dSaveQ(q) { q = String(q || "").trim(); if (!q) return; M.searches = [q, ...M.searches.filter(x => x !== q)].slice(0, 8); mSave(); }
+function dToolsHTML(c) { const L = mSibs(c), i = L.indexOf(c), on = M.fav.includes(c.id), pv = L.length > 1 && L[(i - 1 + L.length) % L.length], nx = L.length > 1 && L[(i + 1) % L.length];
+  return `<div class="cp-tools">${pv ? `<button class="btn ghost" data-dsib="-1" title="${ZH("同省上一座", "Previous in province")}">‹ ${cname(pv)}</button><span class="note num">${ZH(`${pvOf(c)}第 ${i + 1} / ${L.length} 大`, `${i + 1} of ${L.length} in ${pvOf(c)}`)}</span><button class="btn ghost" data-dsib="1" title="${ZH("同省下一座", "Next in province")}">${cname(nx)} ›</button>` : ""}<span class="sp"></span><button class="btn icon ghost ${on ? "on" : ""}" data-dfav="${c.id}" aria-pressed="${on}" aria-label="${on ? ZH("取消收藏", "Unfavourite") : ZH("收藏", "Favourite")}" title="${on ? ZH("取消收藏", "Unfavourite") : ZH("收藏（在搜索框里能找到）", "Favourite (shown in search)")}">${on ? "★" : "☆"}</button><button class="btn icon ghost" data-dm="link" aria-label="${ZH("复制链接", "Copy link")}" title="${ZH("复制这一页的链接", "Copy a link to this view")}">${icon("i-link")}</button></div>`; }
+function dPopHTML() { const kc = M.city, ke = M.exp; M.city = S.city; M.exp = S.dexp; let h = ""; try { h = S.dfix ? mFixHTML() : S.dexp ? mExpHTML() : ""; } finally { M.city = kc; M.exp = ke; } return h.replace(/data-m="/g, 'data-dm="'); }
+function dRenderPop() { $$("[data-panel]:not([hidden]) .d-popwrap").forEach(w => w.innerHTML = dPopHTML()); }
+function dToast(html, ms = 2200) { const app = $("#desk .app"); if (!app) return; let t0 = $(".d-toast", app); if (t0) t0.remove(); t0 = document.createElement("div"); t0.className = "d-toast"; t0.innerHTML = html; app.appendChild(t0); clearTimeout(dToast.t); dToast.t = setTimeout(() => t0.remove(), ms); }
+function dlCSV(rows, fn, ok) { const csv = "﻿" + rows.map(r => r.map(v => /[",\n]/.test(String(v)) ? `"${String(v).replace(/"/g, '""')}"` : v).join(",")).join("\n"), toastFn = (typeof ok === "function" ? ok : () => { });
+  const copyT = () => { mCopy(csv); toastFn("copied"); };
+  if (DLS) DLS.save({ filename: fn, data: csv }).then(() => toastFn("saved"), err => { const c = err && err.code; if (c === "declined") toastFn("declined"); else if (c === "rate_limited") toastFn("busy"); else copyT(); });
+  else if (!(window.claude && window.claude.use)) { try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })); a.download = fn; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); toastFn("saved"); } catch (x) { copyT(); } }
+  else copyT(); }
+function dBoardCSV() { const Y = YIELDS[S.board], ex = EXPL[Y.key], all = CITIES.filter(c => c[Y.key] != null && isFinite(c[Y.key])).sort((a, b) => b[Y.key] - a[Y.key]);
+  const rows = [[ZH("名次", "rank"), ZH("城市", "city"), ZH("省份", "province"), "adcode", t(Y.tk), ZH("出处", "source")]].concat(all.filter(c => !S.boardProv || c.prov === S.boardProv).map(c => [all.indexOf(c) + 1, cname(c), pvOf(c), c.id, +(+c[Y.key]).toFixed(2), ex ? ZH(...ex[2]) : ZH("各市 2023 年统计公报", "2023 city communiqués")]));
+  const n = rows.length - 1; dlCSV(rows, `jiangshan-${S.board}${S.boardProv ? "-" + S.boardProv : ""}.csv`, st => dToast(st === "saved" ? `<span>${ZH(`已导出 ${n} 行 CSV，含出处列`, `Exported ${n} rows with sources`)}</span>` : st === "copied" ? `<span>${ZH(`这里存不了文件，已把 ${n} 行复制到剪贴板`, `Copied ${n} rows to the clipboard`)}</span>` : st === "busy" ? `<span>${ZH("上一个下载还没确认", "Another download is pending")}</span>` : `<span>${ZH("已取消下载", "Download cancelled")}</span>`)); }
+let D_RESTORING = false;
+function dHash() { return "#d/" + (S.city || "-") + (S.lens && S.lens !== "none" ? "/" + S.lens + (S.lens === "pop" && S.year === 2020 ? "/2020" : "") : ""); }
+function dSetYear(y) { S.year = y; LENSES.pop.key = y === 2020 ? "pop20" : "pop"; LENSES.pop.unit = [`人 · ${y}${y === 2020 ? " 七普" : " 公报"}`, `people · ${y}`]; renderLensDock(); renderYields();
+  for (const a of APPS.filter(x => !x.cfg.lens)) { if (!RM()) { const f = a.fade.getContext("2d"); f.setTransform(1, 0, 0, 1, 0, 0); f.clearRect(0, 0, a.fade.width, a.fade.height); f.drawImage(a.canvas, 0, 0); } full(a); if (!RM()) inkReveal(a, 60, 120); } dPush(true); }
+function dPush(replace) { if (D_RESTORING) return; const h = dHash(); if (location.hash === h) return; try { history[replace ? "replaceState" : "pushState"]({ d: 1 }, "", h); } catch (e) { } }
+function dRestore(h) { const q = (h || "").replace(/^#/, "").split("/"); if (q[0] !== "d") return false; D_RESTORING = true;
+  try { const lens = q[2] && LENSES[q[2]] ? q[2] : "none"; if (S.lens !== lens) lensChange(lens); const yr = q[3] === "2020" ? 2020 : 2023; if (S.year !== yr) dSetYear(yr);
+    if (q[1] && BYID.has(q[1])) { if (S.city !== q[1]) selectCity(q[1]); } else if (q[1] === "-" && S.city) { const x = $("#desk [data-close]"); if (x) x.click(); } } finally { D_RESTORING = false; } return true; }
+window.addEventListener("popstate", () => dRestore(location.hash));
+document.addEventListener("change", e => { if (e.target.matches && e.target.matches("[data-dbprov]")) { S.boardProv = e.target.value; S.boardAll = false; renderBoard(); } });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && (S.dexp || S.dfix)) { S.dexp = null; S.dfix = false; dRenderPop(); } });
+document.addEventListener("click", e => { const b = e.target.closest("[data-dm],[data-dfav],[data-dsib],[data-dexp],[data-dcsv],[data-dball],[data-dyear]"); if (!b || !b.closest(".app") || b.closest(".m-app")) return;
+  if (b.dataset.dyear) { if (b.getAttribute("aria-disabled")) { dToast(`<span>${ZH(`${b.dataset.dyear} 年正在采集，齐了才能看`, `${b.dataset.dyear} is being collected`)}</span>`, 1600); return; } dSetYear(+b.dataset.dyear); snd("flip"); return; }
+  if (b.dataset.dfav) { const id = b.dataset.dfav; M.fav = M.fav.includes(id) ? M.fav.filter(x => x !== id) : [id, ...M.fav]; mSave(); renderPanels(false); snd("tick"); dToast(`<span>${M.fav.includes(id) ? ZH("已收藏：点搜索框就能看到", "Saved: shown when you click search") : ZH("已取消收藏", "Removed")}</span>`, 1800); return; }
+  if (b.dataset.dsib) { const c = BYID.get(S.city); if (!c) return; const L = mSibs(c), i = L.indexOf(c); selectCity(L[(i + +b.dataset.dsib + L.length) % L.length].id); return; }
+  if (b.dataset.dexp) { S.dexp = b.dataset.dexp; S.dfix = false; S.board = null; renderBoard(); renderYields(); dRenderPop(); return; }
+  if (b.hasAttribute("data-dcsv")) { dBoardCSV(); return; }
+  if (b.hasAttribute("data-dball")) { S.boardAll = !S.boardAll; renderBoard(); return; }
+  const k = b.dataset.dm;
+  if (k === "link") { mCopy(location.href.split("#")[0] + dHash()); dToast(`${icon("i-link", "")}<span>${ZH("链接已复制：打开就是这座城、这个透镜", "Link copied: opens this city and lens")}</span>`); }
+  else if (k === "fix") { S.dfix = true; S.dexp = null; dRenderPop(); }
+  else if (k === "close-exp") { S.dfix = false; S.dexp = null; dRenderPop(); }
+  else if (k === "fix-send") { S.dfix = false; dRenderPop(); dToast(`<span>${ZH("已收到，核实后更新。谢谢！", "Received; we'll verify. Thank you!")}</span>`); }
+  else if (k === "cite") { const ex = EXPL[S.dexp], c = S.city && BYID.get(S.city), d = new Date(), ds = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`, url = location.href.split("#")[0] + dHash();
+    if (ex) mCopy(ZH(`${c ? (c.full || c.n) + " · " : ""}${ex[0][0]}。数据来源：${ex[2][0]}。转引自 江山图鉴（${url}），${ds} 访问。`, `${c ? (c.en || c.n) + " · " : ""}${ex[0][1]}. Source: ${ex[2][1]}. Via Jiangshan Atlas (${url}), accessed ${ds}.`));
+    dToast(`${icon("i-link", "")}<span>${ZH("引用已复制：含出处、链接、访问日期", "Citation copied: source, link and date")}</span>`); } });
 (() => { let sw = null; document.addEventListener("pointerdown", e => { const sh = e.target.closest && e.target.closest("#s-mobile [data-msheet]"); sw = sh && M.city && M.tab === "map" && !e.target.closest(".m-carousel, .m-hot, .st-hits, .m-hand, input, select, canvas") ? { x: e.clientX, y: e.clientY, t: performance.now() } : null; }, true);
   document.addEventListener("pointerup", e => { if (!sw) return; const dx = e.clientX - sw.x, dy = e.clientY - sw.y, dt = performance.now() - sw.t; sw = null; if (Math.abs(dx) > 60 && Math.abs(dx) > 2 * Math.abs(dy) && dt < 700) { M.swiped = 1; mSib(dx < 0 ? 1 : -1); } }, true); })();
 window.addEventListener("popstate", () => { if (!mRestore(location.hash)) { M.view = null; M.sheet = "peek"; renderMob(); } });
@@ -3255,7 +3381,7 @@ async function fontsReady() { const txt = CITIES.map(c => c.n + (c.en || "")).jo
 async function main() {
   makeApp($("[data-app=desk]"), DESK); makeApp($("[data-app=phone]"), PHONE); initV4(); bindV4(); initV5(); bindV5(); initV6(); initMob();
   scaleScreens(); bind(); renderI18n();
-  try { await load(); } catch (e) { $(".lede").textContent = "数据加载失败：" + e.message; const ml = $("[data-mloading]"); if (ml) ml.innerHTML = `<span class="seal" style="--s:46px"><span>图鉴</span></span><b>网络不太好，地图没展开</b><span class="note">已看过的城市仍可离线打开</span><button class="btn primary" onclick="location.reload()" style="height:44px">重试</button>`; return; }
+  try { await load(); } catch (e) { $(".lede").textContent = "数据加载失败：" + e.message; const ml = $("[data-mloading]"); const dl = $("[data-dloading]"); if (dl) dl.innerHTML = `<span class="seal" style="--s:54px"><span>图鉴</span></span><b>网络不太好，地图没展开</b><span class="note">${e.message}</span><button class="btn primary" onclick="location.reload()">重试</button>`; if (ml) ml.innerHTML = `<span class="seal" style="--s:46px"><span>图鉴</span></span><b>网络不太好，地图没展开</b><span class="note">已看过的城市仍可离线打开</span><button class="btn primary" onclick="location.reload()" style="height:44px">重试</button>`; return; }
   await fontsReady(); fxInit(APPS[0]); refresh(); v5Observe();
 }
 main();
