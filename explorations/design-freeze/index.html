@@ -1,4 +1,5 @@
 <title>江山图鉴设计定稿</title>
+<meta name="theme-color" content="#e8dcc0">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -535,7 +536,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 
 /* 陆 · 钤印认乡 */
 .zhubi { font-family: var(--brush); color: var(--accent); }
-.p-sheet.tall { height: 376px; }
+.p-sheet.tall { height: 520px; }
 .xiang { margin: 0 16px; display: grid; grid-template-columns: 96px 1fr; gap: 14px; align-items: center; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--leaf-raise); position: relative; }
 .xiang .slot { width: 96px; height: 96px; display: grid; place-items: center; border: 1.5px dashed rgba(178,58,43,.5); border-radius: 2px; position: relative; }
 .xiang .slot .seal { --s: 80px; }
@@ -562,7 +563,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .sharecard .seal > span { font-size: 44px; }
 .sharecard .line { font: 400 26px/1.3 var(--brush); color: var(--ink); text-align: center; }
 .sharecard .line b { color: var(--accent); font-weight: 400; }
-.sharecard .m { position: relative; width: 100%; height: 250px; border: 1px solid var(--rule); }
+.sharecard .m { position: relative; width: 100%; height: 150px; border: 1px solid var(--rule); }
 .sharecard .m .mapbox { inset: 0; }
 .sharecard .foot { margin-top: auto; width: 100%; display: flex; align-items: flex-end; gap: 10px; font-size: 9.5px; color: var(--ink-3); }
 .sharecard .foot .wordmark b { font-size: 17px; } .sharecard .foot .wordmark i { font-size: 7px; }
@@ -644,6 +645,257 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .ar-side .rk-list { gap: 4px; }
 .ar-side .leadline { font-size: 18px; }
 
+
+/* ============================================================================================
+   第 5 版 · play and everyday numbers. Motion is the new ingredient: unroll, mist, boats, springy
+   plaques, stamps that thud and spatter ink, numbers that roll. Everything honours reduced motion.
+   ============================================================================================ */
+@keyframes stamp5 { 0% { transform: scale(1.9) rotate(-10deg); opacity: 0; } 45% { transform: scale(.9) rotate(1.5deg); opacity: 1; } 68% { transform: scale(1.05) rotate(-.6deg); } 100% { transform: none; opacity: 1; } }
+.seal.stamp, .stamp5 { animation: stamp5 .42s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes thud { 0%, 100% { transform: none; } 25% { transform: translate(1px, 3px); } 50% { transform: translate(-1px, -1px); } 75% { transform: translate(1px, 1px); } }
+.thud { animation: thud .3s linear; }
+@keyframes bump { 0% { transform: scale(1); } 35% { transform: scale(1.35); } 100% { transform: scale(1); } }
+.bump { animation: bump .45s cubic-bezier(.2,.7,.2,1); display: inline-block; }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise .45s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes pop5 { 0% { transform: scale(.4); opacity: 0; } 60% { transform: scale(1.12); opacity: 1; } 100% { transform: scale(1); } }
+@keyframes wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
+.yield:hover .medal, .lens-btn:hover svg, .homebtn:hover .seal { animation: wiggle .4s ease-in-out; }
+@keyframes pulse5 { 0%, 100% { box-shadow: 0 0 0 0 rgba(178,58,43,.45); } 50% { box-shadow: 0 0 0 8px rgba(178,58,43,0); } }
+.pulse { animation: pulse5 1.6s ease-in-out infinite; }
+.fxl { position: fixed; inset: 0; pointer-events: none; z-index: 60; }
+.fxl i { position: fixed; display: block; border-radius: 42% 58% 55% 45%; }
+.snd { gap: 6px; }
+.app canvas.fxc { pointer-events: none; }
+/* unroll on open */
+.app .rod { position: absolute; top: 48px; bottom: 0; width: 20px; margin-left: -10px; left: 100%; z-index: 7; pointer-events: none; display: none;
+  background: linear-gradient(90deg, #2e1d12, #7a4c2c 30%, #c99766 50%, #7a4c2c 70%, #2e1d12); border-radius: 3px; box-shadow: 6px 0 14px rgba(0,0,0,.35); }
+.app .rod::before, .app .rod::after { content: ""; position: absolute; left: -5px; right: -5px; height: 16px; background: #2b1d16; border-radius: 3px; }
+.app .rod::before { top: -2px; } .app .rod::after { bottom: -2px; }
+@keyframes unroll-map { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+@keyframes rod-move { from { left: 100%; } to { left: 0%; } }
+@keyframes fade5 { from { opacity: 0; } to { opacity: 1; } }
+.app.opening canvas.map:not(.fade):not(.fxc) { animation: unroll-map 1.6s cubic-bezier(.45,.05,.2,1) both; }
+.app.opening .rod { display: block; animation: rod-move 1.6s cubic-bezier(.45,.05,.2,1) both; }
+.app.opening .colophon { animation: fade5 .6s 1.3s both; }
+.app.opening .lensdock, .app.opening .mapctl, .app.opening .zoomlv { animation: rise .5s 1.4s both; }
+.app.opening .cpanel { animation: unroll .45s 1.5s both; }
+
+/* new focus/hover states (guidelines) */
+.nav button:focus-visible, .tabs button:focus-visible, .gj-list button:focus-visible, .gj-time .ticks button:focus-visible, .tl-years button:focus-visible, .switch:focus-visible, .homebtn:focus-visible, .duel-head .add:focus-visible, .toc a:focus-visible, .card5 button:focus-visible, .gs-pick:focus-visible, .ach:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.app canvas.map:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.gj-time .ticks button:hover, .tl-years button:hover { color: var(--ink); }
+.switch:hover, .homebtn:hover, .duel-head .add:hover { background: var(--accent-soft); }
+.arc-body, .duel-rows, .gj-list, .gov-side .body, .ar-side .body, .al-side .body { overscroll-behavior: contain; }
+
+/* 骄傲榜 · pride */
+.pride { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.pride.col { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+.honor { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; align-items: center; padding: 12px 14px; border-radius: 4px; background: var(--leaf-raise); border: 1px solid var(--rule); overflow: hidden; }
+.pride.col .honor { padding: 8px 10px; gap: 2px 10px; }
+.honor .rkb { grid-row: span 2; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; text-align: center; color: #f6efe0; background: var(--ink-2); border: 2px solid rgba(43,35,29,.35); line-height: 1; position: relative; }
+.pride.col .honor .rkb { width: 42px; height: 42px; }
+.honor .rkb small { display: block; font: 500 9px/1 var(--sans); opacity: .85; }
+.honor .rkb b { display: block; font: 900 19px/1 var(--serif); margin-top: 2px; }
+.pride.col .honor .rkb b { font-size: 15px; }
+.honor.g1 .rkb { background: #b8913f; } .honor.g2 .rkb { background: #8f9aa0; } .honor.g3 .rkb { background: #a8693b; } .honor.t10 .rkb { background: var(--accent); }
+.honor.g1 { background: linear-gradient(135deg, #fbf3dc, #f1e1b6); border-color: #b8913f; }
+.honor .lab { font: 400 20px/1.15 var(--brush); color: var(--ink); }
+.pride.col .honor .lab { font-size: 16px; }
+.honor .ph { font-size: var(--fs-2); color: var(--ink-2); line-height: 1.35; }
+.honor .ph b { font: 600 var(--fs-3)/1.2 var(--serif); color: var(--accent); }
+.honor .src5 { position: absolute; right: 8px; top: 6px; font-size: 9.5px; color: var(--ink-3); }
+.honor.shine::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.55) 50%, transparent 65%); transform: translateX(-120%); animation: shine 2.8s 1s ease-in-out infinite; pointer-events: none; }
+@keyframes shine { 0% { transform: translateX(-120%); } 40%, 100% { transform: translateX(120%); } }
+
+/* 生活账本 · everyday numbers */
+.ledger { display: grid; gap: 10px; }
+.ledger .lead { font: 400 21px/1.4 var(--brush); color: var(--ink); }
+.ledger .lead b { color: var(--accent); font-weight: 400; }
+.lg { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; padding: 8px 0; border-bottom: 1px dotted var(--rule-strong); }
+.lg:last-child { border-bottom: 0; }
+.lg > .ico { grid-row: span 2; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--leaf-sunk); color: var(--ink-2); }
+.lg > .ico .medal { width: 34px; height: 34px; }
+.lg .k { font-size: var(--fs-2); color: var(--ink-2); }
+.lg .v { font: 600 22px/1.1 var(--serif); white-space: nowrap; text-align: right; }
+.lg .v small { font: 400 11px/1 var(--sans); color: var(--ink-3); margin-left: 2px; }
+.lg .cmp5 { grid-column: 2 / span 2; display: flex; align-items: center; gap: 10px; font-size: var(--fs-1); color: var(--ink-3); }
+.lg .vs { white-space: nowrap; font-weight: 600; }
+.lg .vs.up { color: var(--pos); } .lg .vs.down { color: var(--neg); }
+.gauge { position: relative; flex: 1; height: 8px; border-radius: 4px; background: var(--leaf-sunk); min-width: 60px; }
+.gauge .me { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; background: var(--accent); width: var(--w); transform-origin: left; animation: grow5 .9s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes grow5 { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.gauge .nat { position: absolute; top: -4px; bottom: -4px; width: 0; border-left: 2px solid var(--ink); z-index: 1; }
+.gauge .nat b { position: absolute; top: -13px; left: -12px; font: 500 9px/1 var(--sans); color: var(--ink-2); white-space: nowrap; }
+.lg.pend .v { color: var(--ink-3); font-size: 13px; }
+.pchip { display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 9px; border-radius: 13px; background: var(--hatch), var(--leaf); border: 1px dashed var(--rule-strong); font-size: var(--fs-2); color: var(--ink-2); }
+.life-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.mingpian { padding: 16px 18px; display: grid; gap: 12px; align-content: start; }
+.mingpian .top { display: flex; align-items: center; gap: 12px; }
+.mingpian .top .seal { --s: 46px; }
+.mingpian .top b { font: 900 26px/1.1 var(--serif); display: block; }
+.mingpian .top span { font-size: var(--fs-1); color: var(--ink-3); }
+.mingpian .top img { width: 48px; height: 32px; object-fit: contain; margin-left: auto; }
+.swap { display: grid; grid-template-columns: 1fr 40px 1fr; gap: 12px; align-items: stretch; }
+.swap > div { padding: 14px 16px; border-radius: 3px; display: grid; gap: 6px; align-content: start; }
+.swap .old { background: var(--leaf-sunk); color: var(--ink-3); }
+.swap .old s { text-decoration-color: rgba(178,58,43,.6); }
+.swap .new { background: var(--leaf-raise); border: 1px solid var(--rule-strong); }
+.swap .arrow { display: grid; place-items: center; font: 400 30px/1 var(--brush); color: var(--accent); }
+.swap h4 { margin: 0 0 4px; font: 600 var(--fs-3)/1.3 var(--serif); color: var(--ink); }
+.swap li { font-size: var(--fs-2); }
+.swap ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; }
+
+/* 人去哪儿了 · where people went */
+.flow5 { display: grid; gap: 8px; }
+.flow5 .head { font: 400 19px/1.4 var(--brush); }
+.flow5 .head b { color: var(--accent); font-weight: 400; }
+.flow5 .bar2 { display: flex; height: 14px; border-radius: 2px; overflow: hidden; }
+.flow5 .bar2 i { display: block; height: 100%; }
+.flow5 .dst { display: grid; grid-template-columns: 62px minmax(0, 1fr) 46px; gap: 4px 10px; align-items: center; font-size: var(--fs-2); }
+.flow5 .dst b { font: 600 var(--fs-3)/1.1 var(--serif); }
+.flow5 .dst .hbar i { background: var(--river); animation: grow5 .8s cubic-bezier(.2,.7,.2,1) both; transform-origin: left; }
+.flow5 .dst em { font: 600 var(--fs-3)/1 var(--serif); font-style: normal; text-align: right; }
+.flow5 .tag { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; font-size: var(--fs-1); color: var(--ink-3); }
+
+/* 城市卡牌 · cards */
+.card5 { --bd: #3a2e26; position: relative; width: 220px; aspect-ratio: 5 / 7; perspective: 1000px; flex: none; }
+.card5 .cd-in { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .65s cubic-bezier(.2,.7,.2,1); }
+.card5.flipped .cd-in { transform: rotateY(180deg); }
+.card5 .cd-front, .card5 .cd-back { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 9px; overflow: hidden; }
+.card5 .cd-front { background: var(--leaf-raise); border: 2px solid var(--bd); box-shadow: 0 10px 24px -10px rgba(40,25,10,.5), inset 0 0 0 4px var(--leaf-raise), inset 0 0 0 5px var(--bd); padding: 10px 10px 8px; display: flex; flex-direction: column; gap: 6px; }
+.card5 .cd-back { transform: rotateY(180deg); background: repeating-linear-gradient(45deg, #8f2a20 0 6px, #a8352a 6px 12px); border: 2px solid #5e1a12; display: grid; place-items: center; align-content: center; gap: 10px; color: #f3d58a; box-shadow: 0 10px 24px -10px rgba(40,25,10,.5); }
+.card5 .cd-back .seal { --s: 64px; box-shadow: 0 0 0 3px #f3d58a; }
+.card5 .cd-back b { font: 400 22px/1 var(--brush); }
+.card5 .cd-back .bk { padding: 10px 14px; background: rgba(43,20,14,.55); border-radius: 4px; font-size: 10.5px; line-height: 1.5; text-align: left; max-width: 86%; color: #f6efe0; }
+.card5 .cd-top { display: flex; align-items: center; gap: 6px; }
+.card5 .cd-nm { font: 900 20px/1.1 var(--serif); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card5 .cd-top .seal { --s: 26px; }
+.card5 .cd-top .seal > span { font-size: 10px; }
+.card5 .cd-art { position: relative; height: 38%; border-radius: 4px; overflow: hidden; border: 1px solid rgba(43,35,29,.3); background: var(--water); }
+.card5 .cd-art canvas { width: 100%; height: 100%; display: block; }
+.card5 .cd-rar { position: absolute; left: 6px; bottom: 6px; font: 600 10px/1 var(--sans); letter-spacing: .1em; padding: 4px 7px; border-radius: 10px; background: rgba(43,35,29,.78); color: #f6efe0; }
+.card5 .cd-hon { position: absolute; right: 6px; top: 6px; font: 400 12px/1 var(--brush); padding: 4px 6px; border-radius: 2px; background: var(--accent); color: var(--accent-ink); box-shadow: 0 2px 6px rgba(0,0,0,.25); }
+.card5 .cd-sub { font-size: 10.5px; color: var(--ink-3); }
+.card5 .cd-stats { display: grid; gap: 3px; flex: 1; align-content: start; }
+.card5 .cd-stats div { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; gap: 6px; align-items: center; font-size: 11px; border-bottom: 1px dotted var(--rule-strong); padding-bottom: 3px; }
+.card5 .cd-stats .medal { width: 16px; height: 16px; }
+.card5 .cd-stats b { font: 600 12.5px/1 var(--serif); white-space: nowrap; }
+.card5 .cd-stats .hide b { color: var(--accent); font-size: 15px; }
+.card5 .cd-foot { display: flex; justify-content: space-between; font: 500 8.5px/1 var(--sans); letter-spacing: .12em; color: var(--ink-3); }
+.card5.r1 { --bd: #2d5e78; }
+.card5.r1 .cd-rar { background: #2d5e78; }
+.card5.r2 { --bd: #b8913f; }
+.card5.r2 .cd-front { background: linear-gradient(170deg, #fbf3dc, #f0e0b5); box-shadow: 0 12px 26px -10px rgba(120,80,10,.6), inset 0 0 0 4px #fbf3dc, inset 0 0 0 5.5px #b8913f; }
+.card5.r2 .cd-rar { background: #b8913f; }
+.card5.r3 { --bd: #7d2118; }
+.card5.r3 .cd-front { background: linear-gradient(165deg, #b23a2b, #7d2118); color: #f3d58a; box-shadow: 0 14px 30px -10px rgba(125,33,24,.7), inset 0 0 0 4px #9a2c20, inset 0 0 0 5.5px #f3d58a; }
+.card5.r3 .cd-nm { color: #f3d58a; }
+.card5.r3 .cd-sub, .card5.r3 .cd-foot { color: rgba(243,213,138,.8); }
+.card5.r3 .cd-stats div { border-color: rgba(243,213,138,.35); }
+.card5.r3 .cd-stats b { color: #fbf1e4; }
+.card5.r3 .cd-rar { background: #f3d58a; color: #7d2118; }
+.card5.r3 .cd-front::after, .card5.r2 .cd-front::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.4) 48%, transparent 66%); transform: translateX(-130%); animation: shine 3.2s ease-in-out infinite; pointer-events: none; }
+@keyframes deal { 0% { transform: translate(260px, 200px) rotate(24deg) scale(.6); opacity: 0; } 70% { transform: translate(-6px, -4px) rotate(-2deg) scale(1.02); opacity: 1; } 100% { transform: none; } }
+.card5.deal { animation: deal .6s cubic-bezier(.2,.7,.2,1) both; }
+.card5 .stampmark { position: absolute; z-index: 3; left: 50%; top: 52%; translate: -50% -50%; pointer-events: none; }
+.card5 .stampmark .seal { --s: 86px; box-shadow: 0 6px 16px rgba(0,0,0,.25); }
+.card5 .stampmark .seal > span { font-size: 40px; }
+.card5 .stampmark.ink .seal { background: #2b231d; }
+
+/* 猜城 */
+.gs { position: absolute; left: 0; right: 0; top: 48px; bottom: 0; display: grid; grid-template-rows: auto 1fr auto; background: radial-gradient(ellipse at 50% 40%, #f4ecd9, #e6d8b8); }
+.gs-head { display: grid; grid-template-columns: 300px 1fr 300px; align-items: center; padding: 22px 34px 6px; gap: 20px; }
+.gs-head .rounds { display: grid; gap: 8px; }
+.gs-head .rounds .row5 { display: flex; gap: 8px; }
+.gs-dot { width: 34px; height: 34px; border-radius: 3px; border: 1.5px dashed var(--rule-strong); display: grid; place-items: center; font: 400 17px/1 var(--brush); color: var(--ink-3); }
+.gs-dot.cur { border: 2px solid var(--accent); color: var(--accent); }
+.gs-dot.ok { background: var(--accent); border: 0; color: var(--accent-ink); animation: pop5 .4s both; }
+.gs-dot.no { background: var(--ink); border: 0; color: #f6efe0; animation: pop5 .4s both; }
+.gs-q { text-align: center; display: grid; gap: 8px; justify-items: center; }
+.gs-q .chip5 { display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px 0 6px; border-radius: 17px; background: var(--leaf-raise); border: 1px solid var(--rule-strong); font: 600 var(--fs-3)/1 var(--serif); }
+.gs-q .chip5 .medal { width: 24px; height: 24px; }
+.gs-q h3 { margin: 0; font: 900 34px/1.25 var(--serif); }
+.gs-streak { justify-self: end; display: flex; align-items: center; gap: 12px; }
+.gs-streak .fl { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: var(--accent-ink); box-shadow: 0 6px 16px -6px rgba(178,58,43,.8); }
+.gs-streak .fl .ic { width: 28px; height: 28px; }
+.gs-streak b { font: 900 30px/1 var(--serif); display: block; }
+.gs-streak span { font-size: var(--fs-1); color: var(--ink-3); }
+.gs-arena { display: grid; grid-template-columns: 1fr 120px 1fr; align-items: center; justify-items: center; padding: 6px 80px; }
+.gs-pick { border: 0; background: transparent; padding: 0; cursor: pointer; color: var(--ink); font: inherit; text-align: left; border-radius: 12px; transition: transform .2s cubic-bezier(.2,.7,.2,1); }
+.gs-pick:hover:not([disabled]) { transform: translateY(-8px) rotate(-1deg); }
+.gs-pick:nth-child(3):hover:not([disabled]) { transform: translateY(-8px) rotate(1deg); }
+.gs-pick[disabled] { cursor: default; }
+.gs-pick .card5 { width: 318px; }
+.gs-pick.win .card5 .cd-front { box-shadow: 0 0 0 4px #5b927f, 0 0 34px 6px rgba(91,146,127,.55), inset 0 0 0 4px var(--leaf-raise), inset 0 0 0 5px var(--bd); }
+.gs-pick.lose { opacity: .78; filter: saturate(.7); }
+.gs-vs { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: #f6efe0; font: 400 46px/1 var(--brush); box-shadow: 0 10px 24px -8px rgba(0,0,0,.5); animation: wiggle 2.6s ease-in-out infinite; }
+.gs-foot { padding: 4px 34px 22px; display: flex; align-items: center; justify-content: center; gap: 18px; min-height: 84px; }
+.gs-fact { font: 400 22px/1.35 var(--brush); color: var(--ink); text-align: center; }
+.gs-fact b { color: var(--accent); font-weight: 400; }
+.gs-res { position: absolute; inset: 0; z-index: 8; display: grid; place-items: center; background: rgba(30,20,12,.42); }
+.gs-res .box { width: 560px; padding: 30px 34px; display: grid; gap: 14px; justify-items: center; text-align: center; animation: pop5 .45s both; }
+.gs-res .ttl { font: 400 56px/1 var(--brush); color: var(--accent); }
+.gs-res .sc { font: 900 26px/1 var(--serif); }
+.gs-res .row5 { display: flex; gap: 8px; }
+
+/* 游历图 · album */
+.al-prog { position: absolute; left: 16px; top: 62px; z-index: 4; padding: 14px 18px; width: 330px; display: grid; gap: 8px; }
+.al-prog .t { display: flex; align-items: baseline; gap: 10px; }
+.al-prog .t b { font: 400 30px/1 var(--brush); }
+.al-prog .t span { font: 900 26px/1 var(--serif); color: var(--accent); margin-left: auto; }
+.al-prog .t small { font-size: var(--fs-2); color: var(--ink-3); }
+.al-prog .pb { height: 10px; border-radius: 5px; background: var(--leaf-sunk); overflow: hidden; }
+.al-prog .pb i { display: block; height: 100%; background: linear-gradient(90deg, #b23a2b, #d0604c); border-radius: 5px; transition: width .8s cubic-bezier(.2,.7,.2,1); }
+.al-side { position: absolute; right: 14px; top: 62px; bottom: 14px; width: 540px; z-index: 4; display: flex; flex-direction: column; overflow: hidden; }
+.al-side .body { grid-template-columns: minmax(0, 1fr); overflow-y: auto; overflow-x: hidden; padding: 16px 18px; display: grid; gap: 14px; align-content: start; }
+.al-feat { display: grid; grid-template-columns: 250px 1fr; gap: 16px; align-items: start; }
+.al-feat .card5 { width: 250px; }
+.al-feat .ctl { display: grid; gap: 10px; align-content: start; }
+.al-feat .ctl .btn { justify-content: center; height: 40px; font-size: var(--fs-3); }
+.al-feat .ctl .note { line-height: 1.5; }
+.achs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ach { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 2px 10px; align-items: center; padding: 8px 10px; border: 1px solid var(--rule); border-radius: 3px; background: var(--leaf); }
+.ach .seal { --s: 38px; grid-row: span 2; filter: grayscale(1) opacity(.35); }
+.ach.done { border-color: #b8913f; background: linear-gradient(135deg, #fbf3dc, #f3e5bf); }
+.ach.done .seal { filter: none; }
+.ach.unlock { animation: pop5 .5s both; }
+.ach b { font: 600 var(--fs-3)/1.2 var(--serif); }
+.ach .hbar { height: 6px; }
+.ach .hbar i { background: #b8913f; transition: width .8s cubic-bezier(.2,.7,.2,1); }
+.ach .n { font-size: 10.5px; color: var(--ink-3); }
+.hand { display: flex; gap: 0; padding: 12px 0 0 14px; overflow: hidden; }
+.hand .card5 { width: 92px; margin-left: -14px; transition: transform .2s; cursor: pointer; }
+.hand .card5:hover { transform: translateY(-10px) rotate(-2deg); z-index: 2; }
+.hand .card5 .cd-front { padding: 5px; gap: 3px; border-radius: 6px; }
+.hand .card5 .cd-nm { font-size: 11px; }
+.hand .card5 .cd-top .seal, .hand .card5 .cd-stats, .hand .card5 .cd-foot, .hand .card5 .cd-sub, .hand .card5 .cd-rar, .hand .card5 .cd-hon { display: none; }
+.hand .card5 .cd-art { height: 64%; }
+.toast5 { position: absolute; left: 50%; top: 80px; z-index: 9; translate: -50% 0; display: flex; align-items: center; gap: 12px; padding: 12px 20px; background: #2b1d16; color: #f3d58a; border-radius: 4px; box-shadow: 0 14px 30px -10px rgba(0,0,0,.6); animation: pop5 .45s both; font: 600 var(--fs-4)/1.2 var(--serif); }
+.toast5 .seal { --s: 40px; }
+
+/* 回合制对决 */
+.drow.facedown > div:not(:first-child):not(:empty) { position: relative; background: repeating-linear-gradient(45deg, rgba(178,58,43,.10) 0 6px, rgba(178,58,43,.04) 6px 12px); }
+.drow.facedown .val, .drow.facedown .hbar { visibility: hidden; }
+.drow.facedown > div:not(:first-child):not(:empty)::after { content: "？"; position: absolute; inset: 0; display: grid; place-items: center; font: 400 20px/1 var(--brush); color: rgba(178,58,43,.55); }
+@keyframes flipin { 0% { transform: rotateX(90deg); opacity: .2; } 100% { transform: none; opacity: 1; } }
+.drow.reveal > div:not(:first-child) { animation: flipin .45s cubic-bezier(.2,.7,.2,1) both; transform-origin: center top; }
+.drow.reveal > div:nth-child(3) { animation-delay: .08s; } .drow.reveal > div:nth-child(4) { animation-delay: .16s; } .drow.reveal > div:nth-child(5) { animation-delay: .24s; }
+.drow.cur { box-shadow: inset 4px 0 0 var(--accent); }
+.duel-head .score { font: 900 34px/1 var(--serif); margin-top: 4px; display: flex; align-items: baseline; gap: 6px; }
+.duel-head .score small { font: 400 var(--fs-1)/1 var(--sans); color: var(--ink-3); }
+.duel-head .mini-art { width: 54px; height: 40px; border-radius: 3px; border: 1px solid var(--rule); overflow: hidden; flex: none; }
+.duel-head .mini-art canvas { width: 100%; height: 100%; display: block; }
+.duel-win { position: absolute; inset: 0; z-index: 6; display: grid; place-items: center; background: rgba(244,236,217,.78); backdrop-filter: blur(1.5px); }
+.duel-win .box { display: grid; gap: 12px; justify-items: center; text-align: center; padding: 28px 40px; animation: pop5 .5s both; }
+.duel-win .w { font: 400 76px/1 var(--brush); color: var(--accent); display: flex; align-items: center; gap: 16px; }
+.duel-win .w .seal { --s: 78px; }
+.duel-win .w .seal > span { font-size: 34px; }
+.duel-win .sc { font: 900 28px/1 var(--serif); letter-spacing: .06em; }
+.duel-board { position: relative; }
+.duel-go { display: grid; gap: 10px; justify-items: center; padding: 16px; }
+.duel-go .btn.primary { height: 52px; padding: 0 28px; font: 600 20px/1 var(--serif); gap: 10px; }
+
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" id="sprite">
@@ -675,22 +927,27 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   <symbol id="i-pause" viewBox="0 0 20 20"><path d="M7 4.5v11M13 4.5v11"/></symbol>
   <symbol id="i-link" viewBox="0 0 20 20"><path d="M8.5 11.5l3-3M7.2 9.3l-1.8 1.8a2.6 2.6 0 0 0 3.6 3.6l1.8-1.8M12.8 10.7l1.8-1.8A2.6 2.6 0 0 0 11 5.3L9.2 7.1"/></symbol>
   <symbol id="i-download" viewBox="0 0 20 20"><path d="M10 3.5v9.5M6.5 9.5 10 13l3.5-3.5M4 16.5h12"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 20 20"><path d="M3.5 8h3l4-3.5v11l-4-3.5h-3z"/><path d="M13.5 7.5a3.5 3.5 0 0 1 0 5M15.5 5.5a6.5 6.5 0 0 1 0 9"/></symbol>
+  <symbol id="i-mute" viewBox="0 0 20 20"><path d="M3.5 8h3l4-3.5v11l-4-3.5h-3z"/><path d="m13.5 8 4 4M17.5 8l-4 4"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 20 20"><path d="M10 17.5c-3.2 0-5.2-2.1-5.2-4.8 0-2.7 2.1-4 2.7-6.6 1 1.3 1.5 2.5 1.5 3.8 1-1.2 1.7-3.3 1.4-5.9 3.1 1.9 4.8 5 4.8 8.3 0 3.1-2.1 5.2-5.2 5.2z"/></symbol>
+  <symbol id="i-dice" viewBox="0 0 20 20"><rect x="3.5" y="3.5" width="13" height="13" rx="2.5"/><path d="M7.3 7.3h.01M12.7 12.7h.01M12.7 7.3h.01M7.3 12.7h.01M10 10h.01" stroke-width="2.4"/></symbol>
+  <symbol id="i-cards" viewBox="0 0 20 20"><rect x="3" y="5" width="9.5" height="12.5" rx="1.2"/><path d="M7.5 3h8.3a1.2 1.2 0 0 1 1.2 1.2v10.3"/></symbol>
 </svg>
 
 <div class="doc">
   <header class="doc-head">
     <div class="row">
       <div class="brand-lock"><span class="seal"><span>图鉴</span></span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div>
-      <div class="seg" role="group" aria-label="语言"><button data-set-lang="zh" aria-pressed="true">中</button><button data-set-lang="en" aria-pressed="false">EN</button></div>
+      <div class="row-gap"><button class="btn snd" data-snd aria-pressed="false"></button><div class="seg" role="group" aria-label="语言"><button data-set-lang="zh" aria-pressed="true">中</button><button data-set-lang="en" aria-pressed="false">EN</button></div></div>
     </div>
-    <div class="eyebrow">设计定稿 · 第 4 版 · 待确认</div>
+    <div class="eyebrow">设计定稿 · 第 5 版 · 待确认</div>
     <h1>千里江山，做成一张能玩的地图</h1>
-    <p class="lede" data-lede>第 4 版在第 3 版（已确认的千里江山风格、游戏式交互、图标优先）之上，按新的产品定义加了七个画面：<b>城市档案、城市对决、分享长卷、钤印认乡、古今同图、治理层、时间轴与年报</b>，顶栏也多了五个模式。真实数据照常使用；还没采集或还没拿到许可的内容，一律用斜线底的「示意」小签标出。</p>
+    <p class="lede" data-lede>第 5 版回应你的两条意见：<b>更好玩</b>（开场展卷、云雾行船、弹起的匾额、钤印的墨点与音效、猜城小游戏、城市卡牌与游历图、回合制对决）和<b>更贴近普通人</b>（城市先讲骄傲榜和生活账本：每月可支配多少、每天创造多少、人去了哪里；GDP 和三产退到后面，三产不再单列）。每座城都有自己“全国第几”的骄傲，小城也一样。
     <nav class="toc" data-toc aria-label="目录"></nav>
   </header>
 
   <section class="sec" id="s-desk">
-    <div class="sec-head"><span class="seal"><span>壹</span></span><h2 data-t="secDesk">桌面主界面</h2><span class="sub" data-t="secDeskSub">1440 × 900，等比缩放显示，可直接操作</span></div>
+    <div class="sec-head"><span class="seal"><span>壹</span></span><h2 data-t="secDesk">桌面主界面</h2><span class="sub" data-t="secDeskSub">1440 × 900，等比缩放显示，可直接操作</span><button class="btn" data-v5="replay" style="margin-left:auto"><svg class="ic sm" aria-hidden="true"><use href="#i-play"/></svg><span data-t="replay">重播开场</span></button></div>
     <div class="device desk" id="desk"><div class="screen"><div class="app" data-app="desk">
       <canvas class="map grab" tabindex="0" aria-label="地图"></canvas><canvas class="map fade" style="opacity:0"></canvas>
       <header class="topbar">
@@ -731,20 +988,36 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   </section>
 
 
-  <section class="sec" id="s-archive">
-    <div class="sec-head"><span class="seal"><span>叁</span></span><h2 data-t="secArc">城市档案</h2><span class="newtag">NEW</span><span class="sub" data-t="secArcSub">每城一页，可被搜索到；六个分页，可直接点</span></div>
-    <div class="device desk"><div class="screen"><div class="app" data-app="arc">
-      <header class="topbar" data-v4top="arc"></header>
-      <div class="arc">
-        <aside class="leaf arc-side"><div data-arc-head></div><div class="arc-loc"><div class="mapbox" data-map="arc"><canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas></div></div><div data-arc-yields></div><div class="arc-actions" data-arc-actions></div></aside>
-        <main class="leaf arc-main"><nav class="tabs" data-arc-tabs role="tablist"></nav><div class="arc-body" data-arc-body></div></main>
-      </div>
+
+  <section class="sec" id="s-life">
+    <div class="sec-head"><span class="seal"><span>叁</span></span><h2 data-t="secLife">骄傲榜与生活账本</h2><span class="newtag">NEW</span><span class="sub" data-t="secLifeSub">普通人先看的数字放最前；每座城都有拿得出手的东西</span></div>
+    <div class="life-grid" data-life></div>
+    <div class="leaf card" data-swap></div>
+  </section>
+
+  <section class="sec" id="s-guess">
+    <div class="sec-head"><span class="seal"><span>肆</span></span><h2 data-t="secGuess">猜城 · 比大小</h2><span class="newtag">NEW</span><span class="sub" data-t="secGuessSub">每日 5 题，全是真实数字；点一张卡就是你的答案</span></div>
+    <div class="device desk"><div class="screen"><div class="app" data-app="guess">
+      <header class="topbar" data-v4top="guess"></header>
+      <div class="gs" data-gs aria-live="polite"></div>
     </div></div></div>
-    <p class="note" data-t="arcNote">概况、城区、比较三页全部是真实数据（2023 年公报、七普、ESA WorldCover、高程）。市民页的收入与房价是第 2 期采集的位置；治理、沿革两页的人名与年份为示意，用斜线底的“示意”标注。</p>
+    <p class="note" data-t="guessNote">题目每天由日期决定，人人同一套，方便比分；连对会累计。数字来自 2023 年统计公报、七普与卫星土地覆盖。</p>
+  </section>
+
+  <section class="sec" id="s-cards">
+    <div class="sec-head"><span class="seal"><span>伍</span></span><h2 data-t="secCards">城市卡牌与游历图</h2><span class="newtag">NEW</span><span class="sub" data-t="secCardsSub">看过的城收进游历图；稀有度看“骄傲榜”，不看城市大小</span></div>
+    <div class="device desk"><div class="screen"><div class="app" data-app="album">
+      <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
+      <header class="topbar" data-v4top="cards"></header>
+      <div class="leaf al-prog" data-al-prog></div>
+      <aside class="leaf al-side"><div class="body"><div class="al-feat"><div data-al-card></div><div class="ctl" data-al-ctl></div></div><div data-al-ach></div><div data-al-hand></div></div></aside>
+      <div data-al-toast></div>
+    </div></div></div>
+    <p class="note" data-t="cardsNote">点“抽一张”发一张新卡，再点“收入游历图”钤印；凑齐一组就解锁成就（原型里头两张固定是洛阳、安阳，第二张就能集齐七大古都）。游历记录只存在你自己的浏览器里。</p>
   </section>
 
   <section class="sec" id="s-duel">
-    <div class="sec-head"><span class="seal"><span>肆</span></span><h2 data-t="secDuel">城市对决</h2><span class="newtag">NEW</span><span class="sub" data-t="secDuelSub">2–5 城并排；每行领先者钤“冠”字小印，顶部计分</span></div>
+    <div class="sec-head"><span class="seal"><span>陆</span></span><h2 data-t="secDuel5">城市对决 · 回合制</h2><span class="newtag">NEW</span><span class="sub" data-t="secDuelSub">2–5 城并排；每行领先者钤“冠”字小印，顶部计分</span></div>
     <div class="device desk"><div class="screen"><div class="app" data-app="duel">
       <header class="topbar" data-v4top="duel"></header>
       <div class="duel">
@@ -755,11 +1028,23 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
         </aside>
       </div>
     </div></div></div>
-    <p class="note" data-t="duelNote">点城市旁的 × 可移除，点“加一城”可从搜索加入（原型里循环加入几个示例城市）。对决链接可分享，打开即是同一组城市。</p>
+    <p class="note" data-t="duelNote5">点城市旁的 × 可移除，点“加一城”可从搜索加入（原型里循环加入几个示例城市）。对决链接可分享，打开即是同一组城市。</p>
+  </section>
+
+  <section class="sec" id="s-archive">
+    <div class="sec-head"><span class="seal"><span>柒</span></span><h2 data-t="secArc">城市档案</h2><span class="newtag">NEW</span><span class="sub" data-t="secArcSub">每城一页，可被搜索到；六个分页，可直接点</span></div>
+    <div class="device desk"><div class="screen"><div class="app" data-app="arc">
+      <header class="topbar" data-v4top="arc"></header>
+      <div class="arc">
+        <aside class="leaf arc-side"><div data-arc-head></div><div class="arc-loc"><div class="mapbox" data-map="arc"><canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas></div></div><div data-arc-yields></div><div class="arc-actions" data-arc-actions></div></aside>
+        <main class="leaf arc-main"><nav class="tabs" data-arc-tabs role="tablist"></nav><div class="arc-body" data-arc-body></div></main>
+      </div>
+    </div></div></div>
+    <p class="note" data-t="arcNote">概况、城区、比较三页全部是真实数据（2023 年公报、七普、ESA WorldCover、高程）。市民页的收入与房价是第 2 期采集的位置；治理、沿革两页的人名与年份为示意，用斜线底的“示意”标注。</p>
   </section>
 
   <section class="sec" id="s-share">
-    <div class="sec-head"><span class="seal"><span>伍</span></span><h2 data-t="secShare">分享长卷</h2><span class="newtag">NEW</span><span class="sub" data-t="secShareSub">一键出图：竖版城市卡、横版对决卡、A3 海报</span></div>
+    <div class="sec-head"><span class="seal"><span>捌</span></span><h2 data-t="secShare">分享长卷</h2><span class="newtag">NEW</span><span class="sub" data-t="secShareSub">一键出图：竖版城市卡、横版对决卡、A3 海报</span></div>
     <div class="frames">
       <figure style="width:min(300px,100%)"><div class="frame" style="aspect-ratio:360/640"><div class="screen" style="width:360px;height:640px"><div class="card9"><div data-c9-top style="display:contents"></div><div class="m"><div class="mapbox" data-map="c9"><canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas></div></div><div data-c9-bottom style="display:contents"></div></div></div></div><figcaption data-t="cap9">竖版 · 1080×1920 · 朋友圈、小红书</figcaption></figure>
       <figure style="width:min(560px,100%)"><div class="frame" style="aspect-ratio:600/315"><div class="screen" style="width:600px;height:315px"><div class="card16"><div class="l" data-c16></div><div class="r"><div class="mapbox" data-map="c16"><canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas></div></div></div></div></div><figcaption data-t="cap16">横版 · 1200×630 · 微博、公众号头图、链接预览</figcaption>
@@ -768,7 +1053,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   </section>
 
   <section class="sec" id="s-xiang">
-    <div class="sec-head"><span class="seal"><span>陆</span></span><h2 data-t="secXiang">钤印认乡</h2><span class="newtag">NEW</span><span class="sub" data-t="secXiangSub">认家乡、老乡数、老乡在哪儿；访客标注一律用朱笔</span></div>
+    <div class="sec-head"><span class="seal"><span>玖</span></span><h2 data-t="secXiang">钤印认乡</h2><span class="newtag">NEW</span><span class="sub" data-t="secXiangSub">认家乡、老乡数、老乡在哪儿；访客标注一律用朱笔</span></div>
     <div class="phones">
       <div><div class="phone"><div class="screen"><div class="app" data-app="x1">
         <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
@@ -794,7 +1079,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   </section>
 
   <section class="sec" id="s-gujin">
-    <div class="sec-head"><span class="seal"><span>柒</span></span><h2 data-t="secGujin">古今同图</h2><span class="newtag">NEW</span><span class="sub" data-t="secGujinSub">人物行迹画在今天的地图上；朝代时间轴</span></div>
+    <div class="sec-head"><span class="seal"><span>拾</span></span><h2 data-t="secGujin">古今同图</h2><span class="newtag">NEW</span><span class="sub" data-t="secGujinSub">人物行迹画在今天的地图上；朝代时间轴</span></div>
     <div class="device desk"><div class="screen"><div class="app" data-app="gj">
       <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
       <header class="topbar" data-v4top="gj"></header>
@@ -805,7 +1090,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   </section>
 
   <section class="sec" id="s-gov">
-    <div class="sec-head"><span class="seal"><span>捌</span></span><h2 data-t="secGov">治理层</h2><span class="newtag">NEW</span><span class="sub" data-t="secGovSub">可整层关闭；只用官方公开来源；守七条红线</span></div>
+    <div class="sec-head"><span class="seal"><span>拾壹</span></span><h2 data-t="secGov">治理层</h2><span class="newtag">NEW</span><span class="sub" data-t="secGovSub">可整层关闭；只用官方公开来源；守七条红线</span></div>
     <div class="device desk"><div class="screen"><div class="app" data-app="gov">
       <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
       <header class="topbar" data-v4top="gov"></header>
@@ -817,7 +1102,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   </section>
 
   <section class="sec" id="s-time">
-    <div class="sec-head"><span class="seal"><span>玖</span></span><h2 data-t="secTime">时间轴与年度城市年报</h2><span class="newtag">NEW</span><span class="sub" data-t="secTimeSub">2020 → 2025；缺的年份留斜线，不插值</span></div>
+    <div class="sec-head"><span class="seal"><span>拾贰</span></span><h2 data-t="secTime">时间轴与年度城市年报</h2><span class="newtag">NEW</span><span class="sub" data-t="secTimeSub">2020 → 2025；缺的年份留斜线，不插值</span></div>
     <div class="device desk"><div class="screen"><div class="app" data-app="tl">
       <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
       <header class="topbar" data-v4top="tl"></header>
@@ -828,7 +1113,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   </section>
 
   <section class="sec" id="s-icons">
-    <div class="sec-head"><span class="seal"><span>拾</span></span><h2 data-t="secIcons">图标优先</h2><span class="sub" data-t="secIconsSub">能用图形说的，不用文字说</span></div>
+    <div class="sec-head"><span class="seal"><span>拾叁</span></span><h2 data-t="secIcons">图标优先</h2><span class="sub" data-t="secIconsSub">能用图形说的，不用文字说</span></div>
     <h3 data-t="hYields">五赋 · 五种产出徽章</h3>
     <div class="yieldspec" data-yieldspec></div>
     <h3 data-t="hTowns">城池 · 按常住人口分四级</h3>
@@ -842,21 +1127,21 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   </section>
 
   <section class="sec" id="s-color">
-    <div class="sec-head"><span class="seal"><span>拾壹</span></span><h2 data-t="secColor">色彩</h2><span class="sub" data-t="secColorSub">每个颜色都是有名字的颜料，按角色使用</span></div>
+    <div class="sec-head"><span class="seal"><span>拾肆</span></span><h2 data-t="secColor">色彩</h2><span class="sub" data-t="secColorSub">每个颜色都是有名字的颜料，按角色使用</span></div>
     <h3 data-t="roles">界面角色</h3><div class="tokens" data-tokens></div>
     <h3 data-t="pigments">地图颜料</h3><div class="pigments" data-pigments></div>
     <h3 data-t="scales">数据色阶</h3><div class="scales" data-scales></div>
   </section>
 
   <section class="sec" id="s-type">
-    <div class="sec-head"><span class="seal"><span>拾贰</span></span><h2 data-t="secType">字体</h2><span class="sub" data-t="secTypeSub">三种字体，七级字号，中英同一套</span></div>
+    <div class="sec-head"><span class="seal"><span>拾伍</span></span><h2 data-t="secType">字体</h2><span class="sub" data-t="secTypeSub">三种字体，七级字号，中英同一套</span></div>
     <div class="type-spec" data-typespec></div>
     <h3 data-t="lettering">地图注记</h3>
     <div class="leaf lettering"><canvas data-lettering></canvas></div>
   </section>
 
   <section class="sec" id="s-motif">
-    <div class="sec-head"><span class="seal"><span>拾叁</span></span><h2 data-t="secMotif">母题与组件</h2><span class="sub" data-t="secMotifSub">每个母题只表达一种意思</span></div>
+    <div class="sec-head"><span class="seal"><span>拾陆</span></span><h2 data-t="secMotif">母题与组件</h2><span class="sub" data-t="secMotifSub">每个母题只表达一种意思</span></div>
     <div class="grid3">
       <div class="leaf card"><h3 data-t="mSeal">印 · 唯一的强调</h3><div class="row-gap"><span class="seal" style="--s:56px"><span>上海</span></span><span class="seal" style="--s:44px"><span>图鉴</span></span><span class="seal" style="--s:30px"><span>壹</span></span><button class="btn" data-restamp><span data-t="restamp">重新钤印</span></button></div><p class="cap" data-t="mSealCap">品牌、选中的城市、当前透镜、章节号。</p></div>
       <div class="leaf card"><h3 data-t="mLeaf">裱 · 所有面板都是册页</h3><div class="leaf" style="padding:16px;box-shadow:none"><div class="eyebrow" data-t="mLeafE">册页 LEAF</div><div style="font:600 18px/1.3 var(--serif)" data-t="mLeafT">双线框 · 圆角 2px</div></div><p class="cap" data-t="mLeafCap">外细线 + 内 3px 第二条线，熟绢底，纸面轻投影。</p></div>
@@ -874,7 +1159,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   </section>
 
   <section class="sec" id="s-motion">
-    <div class="sec-head"><span class="seal"><span>拾肆</span></span><h2 data-t="secMotion">交互与动效</h2><span class="sub" data-t="secMotionSub">像游戏一样即时反馈</span></div>
+    <div class="sec-head"><span class="seal"><span>拾柒</span></span><h2 data-t="secMotion">交互与动效</h2><span class="sub" data-t="secMotionSub">像游戏一样即时反馈</span></div>
     <ul class="leaf card ilist" data-ilist></ul>
     <div class="grid3">
       <div class="leaf card"><h3 data-t="mo1">钤印 · 选中城市</h3><div class="motion-demo"><span class="seal" style="--s:60px" data-mo-seal><span>成都</span></span></div><button class="btn" data-mo="seal" data-t="replay">重放</button><p class="cap">180ms · 1.14 → 1 · 回正 2.5°</p></div>
@@ -884,22 +1169,22 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   </section>
 
   <section class="sec" id="s-bi">
-    <div class="sec-head"><span class="seal"><span>拾伍</span></span><h2 data-t="secBi">双语与数字</h2><span class="sub" data-t="secBiSub">一次只显示一种语言；品牌字永远中英并列</span></div>
+    <div class="sec-head"><span class="seal"><span>拾捌</span></span><h2 data-t="secBi">双语与数字</h2><span class="sub" data-t="secBiSub">一次只显示一种语言；品牌字永远中英并列</span></div>
     <div class="leaf card tablewrap"><table class="fmt" data-fmt></table></div>
   </section>
 
   <section class="sec" id="s-decide">
-    <div class="sec-head"><span class="seal"><span>拾陆</span></span><h2>请你确认</h2></div>
+    <div class="sec-head"><span class="seal"><span>拾玖</span></span><h2>请你确认</h2></div>
     <div class="leaf card decide"><ol>
-      <li><b>顶栏五个模式</b>：地图 · 档案 · 对决 · 古今 · 治理，右侧常驻“吾乡”印。这五个入口是否合适？</li>
-      <li><b>城市档案六个分页</b>：概况 · 城区 · 市民 · 比较 · 治理 · 沿革。默认进入概况；治理层关闭时“治理”分页整页隐藏。</li>
-      <li><b>对决计分</b>：每行最高者钤“冠”字小印，顶部累计，并注明“不代表优劣”。这样的游戏感是否合适？</li>
-      <li><b>分享三种尺寸</b>：竖版城市卡、横版对决卡、A3 海报；都带出处与“江山图鉴”字号。</li>
-      <li><b>钤印认乡的朱笔</b>：访客数字一律朱笔手写体，统计数字一律印刷体。这条分界你认可吗？</li>
-      <li><b>古今同图</b>：人物行迹用朱笔虚线 + 编号驿站，时间轴按朝代；第一位人物用苏轼。</li>
-      <li><b>治理层默认状态</b>：我建议<b>默认关闭</b>，由用户主动打开（更稳妥，也方便国内版整层不带）。你倾向默认开还是关？</li>
-      <li><b>“示意”小签</b>：没有真实数据的地方一律用斜线底小签，与“无数据”同一种斜线。</li>
-      <li>第 3 版已确认的五赋、匾额、城池四级、奇观、排行榜、题跋保持不变。其他想改的地方直接告诉我。</li>
+      <li><b>新五赋</b>：人 · 钱 · 产 · 绿 · 势（常住人口、每月可支配收入、每人每天创造、森林占比、三年人口增减），代替原来的 人 · 金 · 粮 · 工 · 商。颜色和形制不变，只换内容。</li>
+      <li><b>骄傲榜</b>：从 13 项全国排名里，每座城自动挑最好的三项，配一句大白话（“地盘能装下 9 个上海”“每 10 块地有 8 块是林子”）。这样的说法你喜欢吗？还想加哪些能让小城骄傲的维度？</li>
+      <li><b>城市信息的顺序</b>：骄傲榜 → 生活账本 → 人去哪儿了 → 城市家底（GDP 等）。三产不再单列。</li>
+      <li><b>人去哪儿了</b>：城市层面用“户籍 − 常住”看多少人在外地；去向用七普的省际流动（按省）。地图上画成流动的石青虚线；访客自报的“老乡在哪儿”仍用朱笔，两者分开。</li>
+      <li><b>猜城</b>：每日 5 题、连对、成绩称号（初出茅庐 → 江山在胸）。</li>
+      <li><b>卡牌稀有度</b>：按骄傲榜最好的名次（前 3 传世、前 10 珍品、前 30 稀有），与城市大小无关。</li>
+      <li><b>对决</b>：七个回合逐个揭晓，“冠”数多者胜，可直接跳到结果。</li>
+      <li><b>动效与音效</b>：开场展卷、云雾、行船、飞鸟、匾额弹起、钤印墨点、晕墨换透镜、数字滚动；音效默认关闭，右上角可开。会不会太闹？</li>
+      <li><b>治理层默认状态</b>（上一版的问题）：我仍建议默认关闭。</li>
     </ol></div>
   </section>
 
@@ -930,8 +1215,8 @@ const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 /* ================= state + i18n ================= */
 const S = { lang: "zh", lens: "none", city: "310000", board: null };
 const T = {
-  almanac: ["百科", "Almanac"], search: ["搜索城市", "Search cities"], share: ["分享", "Share"],
-  yPop: ["人 · 常住人口", "People · population"], yGold: ["金 · 地区生产总值", "Gold · GDP"], yFood: ["粮 · 第一产业增加值", "Grain · primary sector"], yInd: ["工 · 第二产业增加值", "Craft · secondary sector"], yCom: ["商 · 第三产业增加值", "Trade · tertiary sector"],
+  almanac: ["百科", "Almanac"], search: ["搜索城市…", "Search cities…"], share: ["分享", "Share"],
+  yPop: ["人 · 常住人口", "People · population"], yGold: ["钱 · 每月可支配收入", "Money · monthly disposable income"], yFood: ["绿 · 森林占比", "Green · forest share"], yInd: ["产 · 每人每天创造", "Daily · output per person per day"], yCom: ["势 · 三年人口增减", "Momentum · population change in 3 years"],
   lens: ["透镜", "Lens"], lensNone: ["地形", "Terrain"], lensPc: ["人均GDP", "GDP per capita"], lensPop: ["常住人口", "Population"], lensGrowth: ["人口增长", "Pop. change"], lensSv: ["服务业占比", "Services share"],
   colTitle: ["千里江山", "A Thousand Li of Rivers and Mountains"], colSub: ["中华人民共和国 · 二〇二三年数据", "People's Republic of China · 2023 data"],
   kPc: ["人均GDP", "GDP per capita"], kGrowth: ["人口变化 2020→23", "Pop. change 2020→23"], sectors: ["三产结构", "Economy by sector"],
@@ -971,12 +1256,12 @@ const fmtPct = (v, sign) => v == null ? "—" : (sign && v > 0 ? "+" : "") + (v 
 /* ================= 五赋 glyphs: one source for SVG and canvas ================= */
 const YIELDS = {
   pop: { col: "#3b302a", key: "popAny", tk: "yPop", ch: "人", fill: ["M10 3.2a2.8 2.8 0 1 1 0 5.6a2.8 2.8 0 0 1 0-5.6z", "M4.6 16.4c0-3.5 2.4-6.1 5.4-6.1s5.4 2.6 5.4 6.1z"] },
-  gold: { col: "#b8913f", key: "gdp", tk: "yGold", ch: "金", stroke: ["M10 4.3a5.7 5.7 0 1 1 0 11.4a5.7 5.7 0 0 1 0-11.4z"], fill: ["M8 8h4v4H8z"], hole: true },
-  food: { col: "#5b927f", key: "p1", tk: "yFood", ch: "粮", stroke: ["M10 17V7.5"], fill: ["M10 3.6c1.2 1 1.2 2.7 0 3.7-1.2-1-1.2-2.7 0-3.7z", "M10 8c-2-.1-3.3-1.3-3.6-3.1 1.9.1 3.3 1.2 3.6 3.1z", "M10 8c2-.1 3.3-1.3 3.6-3.1-1.9.1-3.3 1.2-3.6 3.1z", "M10 11.3c-2-.1-3.3-1.3-3.6-3.1 1.9.1 3.3 1.2 3.6 3.1z", "M10 11.3c2-.1 3.3-1.3 3.6-3.1-1.9.1-3.3 1.2-3.6 3.1z", "M10 14.6c-2-.1-3.3-1.3-3.6-3.1 1.9.1 3.3 1.2 3.6 3.1z", "M10 14.6c2-.1 3.3-1.3 3.6-3.1-1.9.1-3.3 1.2-3.6 3.1z"] },
-  ind: { col: "#b07a45", key: "p2", tk: "yInd", ch: "工", fill: ["M3.6 16.2V9.6l3.3 2V9.6l3.3 2V9.6l3.3 2V4.4h2.9v11.8z"] },
-  com: { col: "#2d5e78", key: "p3", tk: "yCom", ch: "商", stroke: ["M10 4v11.5M6.5 15.5h7M4.5 6.2h11"], fill: ["M4.5 6.6 2.6 10.8h3.8z", "M15.5 6.6l-1.9 4.2h3.8z", "M10 3a1 1 0 1 1 0 2a1 1 0 0 1 0-2z"] },
+  gold: { col: "#b8913f", key: "month", tk: "yGold", ch: "钱", stroke: ["M10 4.3a5.7 5.7 0 1 1 0 11.4a5.7 5.7 0 0 1 0-11.4z"], fill: ["M8 8h4v4H8z"], hole: true },
+  food: { col: "#5b927f", key: "forest", tk: "yFood", ch: "绿", fill: ["M10 2.8 14.6 9.3h-2.7l3.6 5H4.5l3.6-5H5.4z"], stroke: ["M10 14.3v3"] },
+  ind: { col: "#b07a45", key: "day", tk: "yInd", ch: "产", fill: ["M10 6.7a3.3 3.3 0 1 1 0 6.6a3.3 3.3 0 0 1 0-6.6z"], stroke: ["M10 2.9v1.7M10 15.4v1.7M2.9 10h1.7M15.4 10h1.7M5 5l1.2 1.2M13.8 13.8 15 15M5 15l1.2-1.2M13.8 6.2 15 5"] },
+  com: { col: "#2d5e78", key: "dpop", tk: "yCom", ch: "势", stroke: ["M4 14 8.3 9.7l2.6 2.6L16 7.2"], fill: ["M16.6 5.6 16.8 10.2 12.1 6.1z"] },
 };
-const LENS_GLYPH = { none: "mountain", pc: "gold", pop: "pop", growth: "trend", sv: "com" };
+const LENS_GLYPH = { none: "mountain", month: "gold", pc: "ind", pop: "pop", growth: "com", forest: "food" };
 function medalSVG(k, cls = "") { const y = YIELDS[k]; return `<svg class="medal ${cls}" viewBox="0 0 20 20" aria-hidden="true"><circle class="d" cx="10" cy="10" r="9.3" fill="${y.col}"/>${(y.fill || []).map(d => `<path class="g" d="${d}" stroke="none"/>`).join("")}${(y.stroke || []).map(d => `<path d="${d}" fill="none" stroke="#f6efe0" stroke-width="1.4" stroke-linecap="round"/>`).join("")}</svg>`; }
 const P2D = {}; for (const [k, y] of Object.entries(YIELDS)) P2D[k] = { fill: (y.fill || []).map(d => new Path2D(d)), stroke: (y.stroke || []).map(d => new Path2D(d)) };
 function drawMedal(ctx, k, x, y, r) { const Y = YIELDS[k]; ctx.save(); ctx.fillStyle = Y.col; ctx.strokeStyle = "rgba(43,35,29,.6)"; ctx.lineWidth = Math.max(.6, r * .09);
@@ -990,7 +1275,7 @@ async function loadImg(src) { const img = new Image(); img.src = src; await img.
   const cx = cv.getContext("2d", { willReadFrequently: true }); cx.drawImage(img, 0, 0); return cx.getImageData(0, 0, img.width, img.height); }
 async function load() {
   const j = p => fetch(p).then(r => { if (!r.ok) throw new Error(p + " " + r.status); return r.json(); });
-  const [g, c, pv, n, dj] = await Promise.all([j("data/geo.json"), j("data/cities.json"), j("data/provinces.json"), j("data/nation.json"), j("data/dem.json")]);
+  const [g, c, pv, n, dj] = await Promise.all([j("data/geo.json"), j("data/cities.json"), j("data/provinces.json"), j("data/nation.json"), j("data/dem.json")]); try { FLOWS = await j("data/flows.json"); } catch (e) { FLOWS = null; }
   G = g; CITIES = c; PROVS = pv; NATION = n; FR = g.frame; BYID = new Map(c.map(x => [x.id, x]));
   const Rr = 6371.0088, P1 = 25 * D, P2 = 47 * D, L0 = 105 * D, N = (Math.sin(P1) + Math.sin(P2)) / 2, C = Math.cos(P1) ** 2 + 2 * N * Math.sin(P1), RHO0 = Rr * Math.sqrt(C) / N;
   proj = (lon, lat) => { const rho = Rr * Math.sqrt(C - 2 * N * Math.sin(lat * D)) / N, th = N * (lon * D - L0); return [rho * Math.sin(th) - FR.x0, FR.y1 - (RHO0 - rho * Math.cos(th))]; };
@@ -1035,7 +1320,7 @@ function prepare() {
   for (const c of CITIES) { c.popAny = c.pop || c.pop20; c.tier = c.popAny >= 1.5e7 ? 3 : c.popAny >= 8e6 ? 2 : c.popAny >= 3e6 ? 1 : 0; }
   RANKED = CITIES.filter(c => c.gdp).sort((a, b) => b.gdp - a.gdp); RANKED.forEach((c, i) => c.gdpIdx = i);
   NZ = vnoise(w, h, 6, 7); const nz2 = vnoise(w, h, 40, 9); for (let i = 0; i < NZ.length; i++) NZ[i] = NZ[i] * .6 + nz2[i] * .4;
-  for (const L of Object.values(LENSES)) if (L.key) L.breaks = L.makeBreaks();
+  v5Derive(); for (const L of Object.values(LENSES)) if (L.key) L.breaks = L.makeBreaks();
   WONDERS.forEach(wd => { const [x, y] = proj(wd.lon, wd.lat); wd.x = x; wd.y = y; });
   TIER_IMG = [0, 1, 2, 3].map(tierImage);
 }
@@ -1044,10 +1329,11 @@ function prepare() {
 function quantBreaks(vals) { const s = vals.filter(v => v != null && isFinite(v)).sort((a, b) => a - b); return [.2, .4, .6, .8].map(q => s[Math.floor(q * s.length)]); }
 const LENSES = {
   none: { key: null, name: "lensNone" },
+  month: { key: "month", name: "lensMonth", kind: "seq", unit: ["元 / 月 · 2023", "¥ per month · 2023"], fmt: v => EN() ? "¥" + (v / 1e3).toFixed(1) + "K" : Math.round(v).toLocaleString("zh-CN"), makeBreaks() { return quantBreaks(CITIES.map(c => c.month)); } },
   pc: { key: "pc", name: "lensPc", kind: "seq", unit: ["元 / 人", "¥ per person"], fmt: v => EN() ? "¥" + Math.round(v / 1e3) + "K" : (v / 1e4).toFixed(1) + "万", makeBreaks() { return quantBreaks(CITIES.map(c => c.pc)); } },
   pop: { key: "popAny", name: "lensPop", kind: "seq", unit: ["人", "people"], fmt: v => EN() ? (v / 1e6).toFixed(1) + "M" : Math.round(v / 1e4) + "万", makeBreaks() { return quantBreaks(CITIES.map(c => c.popAny)); } },
   growth: { key: "growth", name: "lensGrowth", kind: "div", unit: ["2020→2023", "2020→2023"], fmt: v => (v > 0 ? "+" : "") + (v * 100).toFixed(0) + "%", makeBreaks() { return [-0.04, -0.01, 0.01, 0.04]; } },
-  sv: { key: "sv", name: "lensSv", kind: "seq", unit: ["占 GDP", "of GDP"], fmt: v => Math.round(v * 100) + "%", makeBreaks() { return quantBreaks(CITIES.map(c => c.sv)); } },
+  forest: { key: "forest", name: "lensForest", kind: "seq", unit: ["占土地 · 卫星估算", "of land · satellite est."], fmt: v => Math.round(v * 100) + "%", makeBreaks() { return quantBreaks(CITIES.map(c => c.forest)); } },
 };
 const lensClass = (L, c) => { const v = c && c[L.key]; return v == null ? -1 : L.breaks.filter(b => v >= b).length; };
 const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
@@ -1195,8 +1481,8 @@ function drawBanner(ctx, c, x, y, u, opts) {
   // post connecting plaque to the town
   ctx.strokeStyle = "rgba(43,29,22,.7)"; ctx.lineWidth = 1 * u; ctx.beginPath(); ctx.moveTo(x, y0 + m.h); ctx.lineTo(x, y + 4 * u); ctx.stroke();
   let bottom = y0 + m.h;
-  if (opts.yields) { const ks = ["gold", "food", "ind", "com"], vals = [c.gdp, c.p1, c.p2, c.p3]; ctx.font = `600 ${9.5 * u}px "Noto Sans SC", sans-serif`;
-    const items = ks.map((k, i) => [k, vals[i] == null ? "—" : EN() ? (vals[i] / 1e9 >= 1000 ? (vals[i] / 1e12).toFixed(1) + "T" : Math.round(vals[i] / 1e9) + "B") : (vals[i] >= 1e12 ? (vals[i] / 1e12).toFixed(1) + "万亿" : Math.round(vals[i] / 1e8) + "亿")]);
+  if (opts.yields) { const ks = ["gold", "ind", "food", "com"], vals = ks.map(k => c[YIELDS[k].key]); ctx.font = `600 ${9.5 * u}px "Noto Sans SC", sans-serif`;
+    const items = ks.map((k, i) => [k, vals[i] == null ? "—" : YIELDS[k].short(vals[i])]);
     const iw = items.map(([, s]) => ctx.measureText(s).width + 14 * u), tw = iw.reduce((a, b) => a + b, 0) + 6 * u; let ix = x - tw / 2 + 3 * u; const iy = bottom + 9 * u;
     ctx.fillStyle = "rgba(246,239,224,.92)"; ctx.fillRect(x - tw / 2, bottom + 1 * u, tw, 16 * u); ctx.strokeStyle = "rgba(43,29,22,.35)"; ctx.lineWidth = .8 * u; ctx.strokeRect(x - tw / 2, bottom + 1 * u, tw, 16 * u);
     items.forEach(([k, s], i) => { drawMedal(ctx, k, ix + 5 * u, iy, 5 * u); ctx.fillStyle = "#2b231d"; ctx.textAlign = "left"; ctx.fillText(s, ix + 11.5 * u, iy + .5 * u); ix += iw[i]; }); bottom += 17 * u; }
@@ -1256,7 +1542,7 @@ function drawOverlays(app) {
     if (c.tier < minTier && c.id !== SEL) { if (app.cfg.noDots) continue; ctx.fillStyle = DAY.seal; ctx.beginPath(); ctx.arc(x, y, 1.8 * u, 0, 7); ctx.fill(); app.hits.push({ x, y, r: 6 * u, city: c }); continue; }
     const kk = kOf(c); drawTown(ctx, x, y, c.tier, kk); const hw = [5, 9, 12, 14][c.tier] * kk, hh = TOWN_H[c.tier] * kk; app.hits.push({ x, y: y - hh / 2, r: Math.max(hw, 7 * u), city: c }); }
   // 3. banners (least important first so the important ones sit on top)
-  for (const [c, x, by] of banners.slice().reverse()) { const isSel = c.id === SEL; const b = drawBanner(ctx, c, x, by, u, { selected: isSel, yields: withYields || isSel }); app.hits.push({ rect: b, city: c });
+  for (const [c, x, by] of banners.slice().reverse()) { const isSel = c.id === SEL, sk = springK(app, c.id); if (sk !== 1) { ctx.save(); ctx.translate(x, by); ctx.scale(sk, sk); ctx.translate(-x, -by); } const b = drawBanner(ctx, c, x, by, u, { selected: isSel, yields: withYields || isSel || sk !== 1 }); if (sk !== 1) ctx.restore(); app.hits.push({ rect: b, city: c });
     if (isSel) drawSeal(ctx, b[0] - 13 * u, b[1] + 9 * u, 22 * u, (app.cfg.selSeal && app.cfg.selSeal()) || c.n.slice(0, 2), u, 7); }
   // 4. plain names under the remaining towns
   if (z >= 1.25 && !app.cfg.noNames) { for (const c of vis) { const [x, y] = toPx(v, c.x, c.y); if (c.tier >= minTier) { const hw = [5, 9, 12, 14][c.tier] * kOf(c); Lb.add([x - hw * .7, y - TOWN_H[c.tier] * kOf(c) * .6, hw * 1.4, TOWN_H[c.tier] * kOf(c) * .6]); } }
@@ -1284,7 +1570,7 @@ function makeApp(root, cfg) { const cv = $$("canvas.map", root), app = { root, c
   app.bctx = app.base.getContext("2d"); app.zoom = () => app.view.s / app.home.s * (cfg.zb || 1); APPS.push(app); return app; }
 function layout(app, keepView) {
   const W0 = app.cfg.w, H0 = app.cfg.h, dpr = Math.min(window.devicePixelRatio || 1, 2), box = app.root.getBoundingClientRect(), u = clamp(dpr * box.width / W0, 1, 2.2);
-  const old = app.u; app.u = u; app.canvas.width = app.base.width = app.fade.width = Math.round(W0 * u); app.canvas.height = app.base.height = app.fade.height = Math.round(H0 * u);
+  const old = app.u; app.u = u; app.canvas.width = app.base.width = app.fade.width = Math.round(W0 * u); app.canvas.height = app.base.height = app.fade.height = Math.round(H0 * u); if (app.fx) { app.fx.width = app.canvas.width; app.fx.height = app.canvas.height; }
   const a = app.cfg.area(), f = fit(app.cfg.bbox ? app.cfg.bbox() : [0, 0, FR.w, FR.h], a[0] * u, a[1] * u, a[2] * u, a[3] * u); app.home = { s: f.s, ox: f.ox, oy: f.oy };
   if (!keepView || !app.view || !old) app.view = { ...app.home }; else { const r = u / old; app.view = { s: app.view.s * r, ox: app.view.ox * r, oy: app.view.oy * r }; }
   app.inset = app.cfg.inset ? app.cfg.inset() : null; app.scale = app.cfg.scale ? app.cfg.scale() : null; app.blocked = app.cfg.blocked ? app.cfg.blocked().map(b => b.map(q => q * u)) : null; }
@@ -1314,16 +1600,16 @@ const DESK = { w: 1440, h: 900, area: () => S.city ? [0, 48, 1440 - 392, 852] : 
 const PHONE = { w: 390, h: 844, area: () => [0, 134, 390, 844 - 134 - 330], bbox: () => [900, 1500, 5400, 4300], inset: () => ({ x: 390 - 8, y: 844 - 330 - 8, w: 72 }), scale: () => null, blocked: () => [[0, 0, 390, 138], [0, 470, 390, 374], [306, 404, 84, 110]] };
 
 /* ================= UI ================= */
-function natYields() { const n = NATION; return [["pop", n.population], ["gold", n.gdp], ["food", 8.9755e12], ["ind", 48.2589e12], ["com", 68.8238e12]]; }
+function natYields() { return [["pop", NATION.population], ["gold", NAT5.inc / 12], ["ind", NAT5.pc / 365], ["food", NAT5.forest], ["com", NAT5.dpop]]; }
 function renderYields() {
-  $$("[data-yields]").forEach(el => el.innerHTML = natYields().map(([k, v]) => `<button class="yield" data-board-key="${k}" aria-expanded="${S.board === k}" title="${t(YIELDS[k].tk)} · 2023">${medalSVG(k)}<span class="v num">${k === "pop" ? fmtPop(v) : fmtYuan(v)}</span></button>`).join(""));
+  $$("[data-yields]").forEach(el => el.innerHTML = natYields().map(([k, v]) => `<button class="yield" data-board-key="${k}" aria-expanded="${S.board === k}" title="${t(YIELDS[k].tk)} · 2023">${medalSVG(k)}<span class="v num" data-cu="${v}" data-cuf="yt_${k}">${YIELDS[k].fmt(v)}</span></button>`).join(""));
   $$("[data-turn]").forEach(el => el.innerHTML = EN() ? `<span class="num">2023</span>` : `<b>癸卯</b><span class="num">2023</span>`);
-  $$("[data-pyields]").forEach(el => el.innerHTML = natYields().map(([k, v]) => `<span title="${t(YIELDS[k].tk)}">${medalSVG(k, "sm")}<span class="num">${k === "pop" ? fmtPop(v) : fmtYuan(v)}</span></span>`).join(""));
+  $$("[data-pyields]").forEach(el => el.innerHTML = natYields().map(([k, v]) => `<span title="${t(YIELDS[k].tk)}">${medalSVG(k, "sm")}<span class="num">${YIELDS[k].short(v)}</span></span>`).join(""));
 }
 function renderBoard() { const el = $("[data-board]"); if (!S.board) { el.hidden = true; return; } const k = S.board, Y = YIELDS[k];
   const list = CITIES.filter(c => c[Y.key] != null).sort((a, b) => b[Y.key] - a[Y.key]).slice(0, 10), mx = list[0][Y.key];
   const btn = $(`[data-board-key="${k}"]`), rr = $("[data-app=desk]").getBoundingClientRect(), bb = btn.getBoundingClientRect(), kf = 1440 / rr.width; el.style.left = ((bb.left - rr.left) * kf) + "px";
-  el.innerHTML = `<div class="bh">${medalSVG(k, "lg")}<b>${t(Y.tk)}</b><span>${t("top10")} · 2023</span></div>` + list.map((c, i) => `<button data-goto="${c.id}"><span class="no ${i < 3 ? "g" + (i + 1) : ""}">${i + 1}</span><img src="${TIER_IMG[c.tier]}" alt=""><span class="nm"><b>${cname(c)}</b><span class="bar" style="width:${c[Y.key] / mx * 100}%;background:${Y.col}"></span></span><em class="num">${k === "pop" ? fmtPop(c[Y.key]) : fmtYuan(c[Y.key])}</em></button>`).join("") + `<p class="note" style="margin:6px 6px 0">${t("clickRow")}</p>`;
+  el.innerHTML = `<div class="bh">${medalSVG(k, "lg")}<b>${t(Y.tk)}</b><span>${t("top10")} · 2023</span></div>` + list.map((c, i) => `<button data-goto="${c.id}"><span class="no ${i < 3 ? "g" + (i + 1) : ""}">${i + 1}</span><img src="${TIER_IMG[c.tier]}" alt=""><span class="nm"><b>${cname(c)}</b><span class="bar" style="width:${c[Y.key] / mx * 100}%;background:${Y.col}"></span></span><em class="num">${Y.short(c[Y.key])}</em></button>`).join("") + `<p class="note" style="margin:6px 6px 0">${t("clickRow")}</p>`;
   el.hidden = false; }
 function renderColophon() { $$("[data-colophon]").forEach(el => el.innerHTML = `<span class="title">${t("colTitle")}</span><span class="stack"><span class="sub">${t("colSub")}</span><span class="seal"><span>图鉴</span></span></span>`); }
 function legendHTML(L) {
@@ -1343,21 +1629,15 @@ function renderLensDock() { const L = LENSES[S.lens];
   $$("[data-plens]").forEach(el => el.innerHTML = lensButtons());
   $$("[data-lens-demo]").forEach(el => el.innerHTML = lensButtons()); }
 function cityHTML(c, compact) {
-  const kind = KIND[c.kind] ? KIND[c.kind][EN() ? 1 : 0] : c.kindZh, prov = PROVS.find(p => p.id === c.prov), pv = prov ? (EN() ? prov.en : prov.zh) : "", N = NATION.rankN;
-  const head = `<div class="cp-head"><span class="seal stamp"><span>${c.n.slice(0, 2)}</span></span><div><h2>${cname(c)}<img src="${TIER_IMG[c.tier]}" alt=""></h2><div class="en">${EN() ? c.n : (c.en || "")}</div><div class="meta">${kind}${pv && !["municipality", "sar"].includes(c.kind) ? " · " + pv : ""}</div></div>${compact ? "" : `<button class="btn icon ghost" data-close aria-label="close"><svg class="ic sm"><use href="#i-close"/></svg></button>`}</div>`;
-  const yv = [["pop", c.popAny, c.rk.pop, N.pop], ["gold", c.gdp, c.rk.gdp, N.gdp], ["food", c.p1], ["ind", c.p2], ["com", c.p3]];
-  const yields = `<div class="cp-yields">${yv.map(([k, v, r, n]) => `<div title="${t(YIELDS[k].tk)}">${medalSVG(k)}<span class="v num">${k === "pop" ? fmtPopShort(v) : fmtYuan(v)}</span>${r ? `<span class="r num">#${r}</span>` : `<span class="r">&nbsp;</span>`}</div>`).join("")}</div>`;
-  if (compact) return head + yields;
-  const g = c.growth, stats = `<div class="stats"><div class="stat">${medalSVG("gold")}<span class="k">${t("kPc")}</span><span class="v num">${c.pc ? (EN() ? "¥" + Math.round(c.pc).toLocaleString("en-US") : (c.pc / 1e4).toFixed(2) + "万") : "—"}</span></div>
-    <div class="stat"><svg class="ic" style="color:var(--ink-2)"><use href="#i-trend"/></svg><span class="k">${t("kGrowth")}</span><span class="v num ${g > 0 ? "up" : g < 0 ? "down" : ""}">${fmtPct(g, true)}</span></div></div>`;
-  const tot = c.gdp || 1, secs = [["p1", "food"], ["p2", "ind"], ["p3", "com"]];
-  const sector = c.p1 != null ? `<div class="block"><h4>${t("sectors")}<small>2023</small></h4><div class="sector-bar">${secs.map(([k, y]) => `<span style="flex:${c[k] || 0};background:${YIELDS[y].col}"></span>`).join("")}</div>
-    <div class="sector-legend">${secs.map(([k, y]) => `<div>${medalSVG(y, "sm")}<b class="num">${((c[k] || 0) / tot * 100).toFixed(0)}%</b></div>`).join("")}</div></div>` : "";
-  const medal = (key, icon, n, label) => { const r = c.rk[key]; return `<div class="medal-card"><span class="rk num ${r && r <= 3 ? "g" + r : ""}">${r || "—"}${icon}</span><span class="k">${label}<br>/ ${n}</span></div>`; };
-  const ranks = `<div class="block"><h4>${t("ranks")}</h4><div class="medals">${medal("gdp", medalSVG("gold"), N.gdp, "GDP")}${medal("pc", medalSVG("pop"), N.pc, t("lensPc"))}${medal("sv", medalSVG("com"), N.sv, t("lensSv"))}</div></div>`;
-  const peers = c.peers ? `<div class="block"><h4>${t("peers")}</h4><div class="peers">${c.peers.map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-goto="${o.id}"><img src="${TIER_IMG[o.tier]}" alt="">${cname(o)}</button>`).join("")}</div></div>` : "";
-  const src = `<div class="src"><svg class="ic sm"><use href="#i-info"/></svg><span>${t("src")}：${t("srcText")} · <a href="#" data-open-almanac>${t("srcLink")}</a></span></div>`;
-  return head + yields + `<div class="cp-body">${stats}${sector}${ranks}${peers}${src}</div>`; }
+  const kind = kindOf(c), pv = pvOf(c);
+  const head = `<div class="cp-head"><span class="seal stamp"><span>${c.n.slice(0, 2)}</span></span><div><h2>${cname(c)}<img src="${TIER_IMG[c.tier]}" alt="" width="120" height="80"></h2><div class="en">${EN() ? c.n : (c.en || "")}</div><div class="meta">${kind}${pv && !["municipality", "sar"].includes(c.kind) ? " · " + pv : ""} · ${ZH(...RAR[rarity(c)])}</div></div>${compact ? "" : `<button class="btn icon ghost" data-close aria-label="${ZH("关闭", "Close")}">${icon("i-close")}</button>`}</div>`;
+  if (compact) return head + yieldsRow(c);
+  const peers = c.peers ? `<div class="block"><h4>${t("peers")}</h4><div class="peers">${c.peers.map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-goto="${o.id}"><img src="${TIER_IMG[o.tier]}" alt="" width="120" height="80">${cname(o)}</button>`).join("")}</div></div>` : "";
+  const src = `<div class="src">${icon("i-info")}<span>${t("src")}：${ZH("2023 年统计公报（本项目采集，附原文句子）、七普、ESA WorldCover", "2023 communiqués (collected with source sentences), 2020 census, ESA WorldCover")} · <button class="btn ghost" style="height:auto;padding:0;color:var(--river)" data-open-almanac>${t("srcLink")}</button></span></div>`;
+  return head + yieldsRow(c) + `<div class="cp-body"><div class="block"><h4>${ZH("骄傲榜", "Pride board")}<small>${ZH("全国排名最靠前的三项", "best three national ranks")}</small></h4>${prideHTML(c, 3, true)}</div>
+    <div class="block"><h4>${ZH("生活账本", "Everyday numbers")}<small>2023</small></h4>${ledgerHTML(c, "panel")}</div>
+    <div class="block"><h4>${ZH("人去哪儿了", "Where people go")}<small>${ZH("七普 · 公报", "census · communiqués")}</small></h4>${flowHTML(c, true)}</div>
+    <div class="block"><h4>${ZH("城市家底", "The city's stock")}<small>2023</small></h4>${stockHTML(c)}</div>${peers}${src}</div>`; }
 function renderPanels(anim) { const c = S.city && BYID.get(S.city);
   $$("[data-panel]").forEach(el => { const app = el.closest(".app"); if (!c) { el.hidden = true; app.classList.remove("has-panel"); return; } el.hidden = false; app.classList.add("has-panel"); el.innerHTML = cityHTML(c, false);
     if (anim) { el.classList.remove("unroll"); void el.offsetWidth; el.classList.add("unroll"); } else { const s = el.querySelector(".seal"); s && s.classList.remove("stamp"); } });
@@ -1378,7 +1658,7 @@ function renderI18n() { document.documentElement.lang = EN() ? "en" : "zh-CN"; d
 /* ================= spec ================= */
 function renderSpec() {
   const en = EN();
-  $("[data-yieldspec]").innerHTML = Object.entries(YIELDS).map(([k, y]) => `<div class="leaf">${medalSVG(k, "lg")}<b>${y.ch} ${en ? ["", "People", "Gold", "Grain", "Craft", "Trade"][Object.keys(YIELDS).indexOf(k) + 1] : ""}</b><span>${t(y.tk).split(" · ")[1]}</span></div>`).join("");
+  $("[data-yieldspec]").innerHTML = Object.entries(YIELDS).map(([k, y]) => `<div class="leaf">${medalSVG(k, "lg")}<b>${y.ch} ${en ? y.en5 : ""}</b><span>${t(y.tk).split(" · ")[1]}</span></div>`).join("");
   const tierNames = [["村", "Village", "< 300万", "< 3M"], ["城", "Town", "300–800万", "3–8M"], ["府", "Prefecture city", "800–1500万", "8–15M"], ["都", "Metropolis", "≥ 1500万", "≥ 15M"]];
   $("[data-towns]").innerHTML = tierNames.map((n, i) => `<div class="leaf picto"><img src="${TIER_IMG[i]}" alt="" style="width:120px;height:80px"><b>${en ? n[1] : n[0]}</b><span>${en ? n[3] : n[2]} · ${CITIES.filter(c => c.tier === i).length}${en ? " cities" : " 座"}</span></div>`).join("");
   $("[data-wonders]").innerHTML = WONDERS.map(w => `<div class="leaf picto"><canvas data-wpic="${w.draw}" width="240" height="168"></canvas><b>${en ? w.en : w.zh}</b></div>`).join("");
@@ -1424,12 +1704,12 @@ function drawInkDemo(p) { const cv = $("[data-mo-ink]"); const b = cv.getBoundin
 
 /* ================= interactions ================= */
 function setLang(l) { S.lang = l; refresh(); }
-function refresh() { renderI18n(); renderYields(); renderBoard(); renderColophon(); renderLensDock(); renderPanels(false); renderAlmanac(); renderSpec(); renderV4(); for (const a of APPS) { layout(a, true); full(a); } updateZoomLabel(); }
-function selectCity(id, fly = true) { const had = !!S.city; S.city = id; S.board = null; renderBoard(); renderYields(); renderPanels(true);
+function refresh() { renderI18n(); renderYields(); renderBoard(); renderColophon(); renderLensDock(); renderPanels(false); renderAlmanac(); renderSpec(); renderV4(); renderV5(); for (const a of APPS) { layout(a, true); full(a); } updateZoomLabel(); }
+function selectCity(id, fly = true) { const had = !!S.city; S.city = id; S.board = null; renderBoard(); renderYields(); renderPanels(true); snd("stamp"); setTimeout(() => { const p = $("[data-panel]:not([hidden])"); if (p) { countUp(p); spatter(p.querySelector(".cp-head .seal"), 16); } }, 90);
   for (const a of APPS.filter(x => x.cfg === DESK || x.cfg === PHONE)) { const keep = { ...a.view }; layout(a, true); a.view = keep; const c = BYID.get(id);
     if (a.cfg === DESK && fly) flyTo(a, viewOn(a, c, 2.4)); else if (a.cfg === PHONE) { a.view = { ...a.home }; full(a); } else full(a); } }
-function lensChange(id) { S.lens = id; renderLensDock(); for (const a of APPS.filter(x => !x.cfg.lens)) { if (!matchMedia("(prefers-reduced-motion: reduce)").matches) { const f = a.fade.getContext("2d"); f.setTransform(1, 0, 0, 1, 0, 0); f.clearRect(0, 0, a.fade.width, a.fade.height); f.drawImage(a.canvas, 0, 0); a.fade.style.transition = "none"; a.fade.style.opacity = 1; }
-  full(a); requestAnimationFrame(() => { a.fade.style.transition = ""; a.fade.style.opacity = 0; }); } }
+function lensChange(id) { S.lens = id; renderLensDock(); snd("flip"); for (const a of APPS.filter(x => !x.cfg.lens)) { const anim = !RM(); if (anim) { const f = a.fade.getContext("2d"); f.setTransform(1, 0, 0, 1, 0, 0); f.clearRect(0, 0, a.fade.width, a.fade.height); f.drawImage(a.canvas, 0, 0); }
+  full(a); if (anim) inkReveal(a, a.cfg === DESK ? 190 : 60, a.cfg === DESK ? 770 : 720); } }
 function scaleScreens() { $$(".device, .phone, .frame").forEach(d => { const sc = d.querySelector(".screen"); const w = d.getBoundingClientRect().width - (d.classList.contains("phone") ? 16 : 2); sc.style.transform = `scale(${w / parseFloat(getComputedStyle(sc).width)})`; }); }
 function bind() {
   document.addEventListener("click", e => { const b = e.target.closest("button, a"); if (!b) return;
@@ -1456,7 +1736,7 @@ function bind() {
   cv.addEventListener("pointermove", e => { const [x, y] = loc(e);
     if (drag) { const r = a.root.getBoundingClientRect(), k = 1440 / r.width * a.u, dx = (e.clientX - drag.x) * k, dy = (e.clientY - drag.y) * k; moved = Math.max(moved, Math.hypot(dx, dy));
       if (moved > 3) { a.view = clampView(a, { s: drag.v.s, ox: drag.v.ox + dx, oy: drag.v.oy + dy }); a.hoverPref = -1; frame(a); } return; }
-    const h = hitAt(x, y); cv.classList.toggle("point", !!h);
+    const h = hitAt(x, y); cv.classList.toggle("point", !!h); springHover(a, h && h.city ? h.city.id : null);
     let pref = -1; if (!h && S.lens !== "none") { const mx = (x * a.u - a.view.ox) / a.view.s, my = (y * a.u - a.view.oy) / a.view.s, gx = (mx / DEM.km) | 0, gy = (my / DEM.km) | 0; if (gx >= 0 && gy >= 0 && gx < DEM.w && gy < DEM.h) pref = PREF[gy * DEM.w + gx]; }
     if (pref !== a.hoverPref) { a.hoverPref = pref; frame(a); }
     if (h && h.city) { const c = h.city; tip.innerHTML = `<b>${cname(c)}</b><span class="sub">${EN() ? c.n : (c.en || "")}</span><div class="row num"><span>${medalSVG("pop", "sm")}${fmtPopShort(c.popAny)}</span><span>${medalSVG("gold", "sm")}${fmtYuan(c.gdp)}</span></div>`; }
@@ -1464,7 +1744,7 @@ function bind() {
     else if (pref >= 0) { const c = PREF_CITY[pref], L = LENSES[S.lens], p = P.prefs[pref], v = c && c[L.key]; tip.innerHTML = `<b>${c ? cname(c) : p.name}</b><span class="sub">${t(L.name)}</span><div class="row num"><span>${v == null ? t("noData") : L.key === "growth" ? fmtPct(v, true) : L.key === "sv" ? Math.round(v * 100) + "%" : L.key === "pc" ? (EN() ? "¥" + Math.round(v).toLocaleString("en-US") : (v / 1e4).toFixed(2) + "万") : fmtPop(v)}</span></div>`; }
     else { tip.hidden = true; return; }
     tip.hidden = false; tip.style.left = (x + 16) + "px"; tip.style.top = (y + 16) + "px"; });
-  const end = e => { if (!drag) return; cv.classList.remove("grabbing"); const wasDrag = moved > 3; drag = null; if (wasDrag) { full(a); return; } const [x, y] = loc(e), h = hitAt(x, y); if (h && h.city) selectCity(h.city.id); };
+  const end = e => { if (!drag) return; cv.classList.remove("grabbing"); const wasDrag = moved > 3; drag = null; if (wasDrag) { full(a); return; } const [x, y] = loc(e), h = hitAt(x, y); if (h && h.city) { spatterAt(e.clientX, e.clientY, 18); selectCity(h.city.id); } };
   cv.addEventListener("pointerup", end); cv.addEventListener("pointercancel", () => { drag = null; cv.classList.remove("grabbing"); });
   cv.addEventListener("pointerleave", () => { tip.hidden = true; if (a.hoverPref !== -1) { a.hoverPref = -1; frame(a); } });
   cv.addEventListener("wheel", e => { e.preventDefault(); const [x, y] = loc(e); zoomAt(a, x * a.u, y * a.u, Math.exp(-e.deltaY * .0016)); }, { passive: false });
@@ -1512,11 +1792,11 @@ const V4APPS = {};
 const ORD = ["#b23a2b", "#2d5e78", "#b07a45", "#5b927f", "#3b302a"];
 const SHI = () => `<span class="shi">${ZH("示意", "Illustrative")}</span>`;
 const PEND = (zh = "采集中", en = "Collecting") => `<span class="shi">${ZH(zh, en)}</span>`;
-const icon = (id, cls = "sm") => `<svg class="ic ${cls}"><use href="#${id}"/></svg>`;
+const icon = (id, cls = "sm") => `<svg class="ic ${cls}" aria-hidden="true"><use href="#${id}"/></svg>`;
 const pvOf = c => { const p = PROVS.find(p => p.id === c.prov); return p ? (EN() ? p.en : p.zh) : ""; };
 const kindOf = c => KIND[c.kind] ? KIND[c.kind][EN() ? 1 : 0] : c.kindZh;
 const fmtPc = v => v == null ? "—" : EN() ? "¥" + Math.round(v).toLocaleString("en-US") : (v / 1e4).toFixed(2) + "万";
-const tierImg = c => `<img src="${TIER_IMG[c.tier]}" alt="">`;
+const tierImg = c => `<img src="${TIER_IMG[c.tier]}" alt="" width="120" height="80">`;
 
 /* 苏轼 · postings (illustrative; production data from CBDB). Stops sit at today's prefecture seats. */
 const SU = [
@@ -1544,21 +1824,20 @@ function v4Prepare() {
   V4LENS.pop23 = { ...base, key: "pop", breaks: base.breaks };
   V4LENS.pop20 = { ...base, key: "pop20", breaks: base.breaks };
 }
-const MODES = [["map", "i-map", "地图", "Map", "s-desk"], ["arc", "i-scroll", "档案", "Archive", "s-archive"], ["duel", "i-versus", "对决", "Compare", "s-duel"], ["gj", "i-history", "古今", "Then & now", "s-gujin"], ["gov", "i-gov", "治理", "Governance", "s-gov"]];
+const MODES = [["map", "i-map", "地图", "Map", "s-desk"], ["arc", "i-scroll", "档案", "Archive", "s-archive"], ["duel", "i-versus", "对决", "Compare", "s-duel"], ["guess", "i-dice", "猜城", "Guess", "s-guess"], ["gj", "i-history", "古今", "Then & now", "s-gujin"], ["gov", "i-gov", "治理", "Governance", "s-gov"]];
 const navHTML = active => MODES.map(([id, ic, zh, en, sec]) => `<button data-sec="${sec}" aria-current="${id === active}">${icon(ic)}${ZH(zh, en)}</button>`).join("");
 function v4Top(active) {
   return `<div class="brand-lock"><span class="seal"><span>图鉴</span></span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div><nav class="nav">${navHTML(active)}</nav><div class="spacer"></div>
   <label class="field v4">${icon("i-search")}<input type="search" placeholder="${t("search")}" aria-label="${t("search")}"><kbd>/</kbd></label>
-  <button class="homebtn" data-sec="s-xiang" title="${ZH("吾乡", "My hometown")}"><span class="seal"><span>吾乡</span></span>${cname(BYID.get(V4.home))}</button>
+  <button class="homebtn" data-sec="s-cards" title="${ZH("游历图", "Travel map")}">${icon("i-cards")}<b class="num">${AL.got.length}</b></button><button class="homebtn" data-sec="s-xiang" title="${ZH("吾乡", "My hometown")}"><span class="seal"><span>吾乡</span></span>${cname(BYID.get(V4.home))}</button>
   <div class="seg" role="group"><button data-set-lang="zh" aria-pressed="${!EN()}">中</button><button data-set-lang="en" aria-pressed="${EN()}">EN</button></div>
   <button class="btn icon" data-sec="s-share" aria-label="${t("share")}" title="${t("share")}">${icon("i-share")}</button>`; }
 function pTop() { return `<div class="brand-lock"><span class="seal"><span>图鉴</span></span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div><span class="spacer"></span><button class="btn icon ghost" aria-label="search">${icon("i-search", "")}</button><button class="btn icon ghost" data-set-lang-toggle aria-label="中/EN">${icon("i-lang", "")}</button><button class="btn icon ghost" aria-label="menu">${icon("i-menu", "")}</button>`; }
-function yieldsRow(c) { const N = NATION.rankN, yv = [["pop", c.popAny, c.rk.pop], ["gold", c.gdp, c.rk.gdp], ["food", c.p1], ["ind", c.p2], ["com", c.p3]];
-  return `<div class="cp-yields">${yv.map(([k, v, r]) => `<div title="${t(YIELDS[k].tk)}">${medalSVG(k)}<span class="v num">${k === "pop" ? fmtPopShort(v) : fmtYuan(v)}</span>${r ? `<span class="r num">#${r}</span>` : `<span class="r">&nbsp;</span>`}</div>`).join("")}</div>`; }
+function yieldsRow(c) { return `<div class="cp-yields">${["pop", "gold", "ind", "food", "com"].map(k => { const Y = YIELDS[k], v = c[Y.key], r = c.rk[Y.key]; return `<div title="${t(Y.tk)}">${medalSVG(k)}<span class="v num"${v != null ? ` data-cu="${v}" data-cuf="y_${k}"` : ""}>${v == null ? "—" : Y.short(v)}</span>${r ? `<span class="r num">#${r}</span>` : `<span class="r">&nbsp;</span>`}</div>`; }).join("")}</div>`; }
 const seal = (txt, s) => `<span class="seal"${s ? ` style="--s:${s}px"` : ""}><span>${txt}</span></span>`;
 
 /* ---------- 叁 · 城市档案 ---------- */
-const ARC_TABS = [["gk", "i-info", "概况", "Overview"], ["cq", "i-mountain", "城区", "Land"], ["sm", "i-people", "市民", "People"], ["bj", "i-versus", "比较", "Compare"], ["zl", "i-gov", "治理", "Governance"], ["yg", "i-history", "沿革", "History"]];
+const ARC_TABS = [["gk", "i-info", "概况", "Overview"], ["cq", "i-mountain", "城区", "Land"], ["sm", "i-people", "人口去向", "Where people go"], ["bj", "i-versus", "比较", "Compare"], ["zl", "i-gov", "治理", "Governance"], ["yg", "i-history", "沿革", "History"]];
 function landStats(id) { const pi = P.prefs.findIndex(p => p.id === id); if (pi < 0 || !LC) return null; const cnt = {}, z = DEM.z; let n = 0, zs = 0, zmax = -1e9;
   for (let i = 0; i < PREF.length; i++) if (PREF[i] === pi) { n++; const k = LC[i]; cnt[k] = (cnt[k] || 0) + 1; zs += Math.max(z[i], 0); if (z[i] > zmax) zmax = z[i]; }
   const grp = [[[10, 20, 95], "林", "Forest", 10], [[40], "田", "Farmland", 40], [[30], "草", "Grass", 30], [[50], "城", "Built-up", 50], [[80], "水", "Water", 80], [[90], "泽", "Wetland", 90], [[60], "漠", "Bare", 60], [[70, 100], "雪", "Snow/moss", 70]];
@@ -1570,27 +1849,15 @@ function seriesHTML(c) { const yrs = [2020, 2021, 2022, 2023, 2024, 2025];
   return `<div class="series">${rows.map(([ic, lab, vals, f, note]) => { const mx = Math.max(...Object.values(vals).filter(v => v != null), 1);
     return `<span class="lab">${ic}${lab}</span>` + yrs.map(y => vals[y] != null ? `<div class="cell"><b class="num">${f(vals[y])}</b><i style="height:${Math.max(6, vals[y] / mx * 46)}px;background:${y === 2023 ? "var(--ink)" : "var(--ink-3)"}"></i></div>` : `<div class="cell pend"><b>${ZH("采集中", "pending")}</b><i></i></div>`).join(""); }).join("")}
     <span></span>${yrs.map(y => `<span class="yr ${y === 2023 ? "now" : ""}">${y}${y === 2020 ? `<br>${ZH("七普", "census")}` : y === 2023 ? `<br>${ZH("当前", "current")}` : "<br>&nbsp;"}</span>`).join("")}</div>`; }
+function provHTML(c) { const sc = c.src, q = (sc && sc.q) || {}, k = q.income ? "income" : q.population ? "population" : q.gdp ? "gdp" : null;
+  const lab = { income: ZH("全体居民人均可支配收入", "Disposable income per person"), population: ZH("年末常住人口", "Year-end population"), gdp: ZH("地区生产总值", "GDP") }[k], val = k === "income" ? FMTS.yuan(c.inc) : k === "population" ? fmtPopShort(c.pop) : k === "gdp" ? fmtYuan(c.gdp) : "";
+  return `<div class="panel s5"><h4>${icon("i-info")}${ZH("出处 · 每个数字都能点开", "Provenance · every number opens")}<small>${ZH("真实样例", "real example")}</small></h4>` + (sc && k ? `<div class="prov"><div class="row"><span>${ZH("数值", "Value")}</span><b class="num">${lab} ${val}</b></div><div class="row"><span>${ZH("原文句子", "Sentence")}</span><span>“${q[k]}”</span></div><div class="row"><span>${ZH("发布机关", "Publisher")}</span><span>${sc.bureau || "—"} · ${sc.date || ""}</span></div><div class="row"><span>${ZH("转载页", "Mirror")}</span><code>${sc.url}</code></div></div>` : `<p class="note">${t("noData")}</p>`) + `</div>`; }
 function arcBody(c) {
   const en = EN(), N = NATION.rankN;
-  if (V4.tab === "gk") { const g = c.growth, tot = c.gdp || 1, secs = [["p1", "food"], ["p2", "ind"], ["p3", "com"]];
-    const medal = (key, ic, n, label) => { const r = c.rk[key]; return `<div class="medal-card"><span class="rk num ${r && r <= 3 ? "g" + r : ""}">${r || "—"}${ic}</span><span class="k">${label}<br>/ ${n}</span></div>`; };
-    return `<div class="kpis">
-      <div class="kpi"><span class="k">${medalSVG("pop", "sm")}${ZH("常住人口 · 2023", "Population · 2023")}</span><span class="v num">${fmtPopShort(c.popAny)}</span><span class="s num">${ZH("全国第", "Rank ")}${c.rk.pop || "—"}${ZH(" 位", "")} / ${N.pop}</span></div>
-      <div class="kpi"><span class="k">${medalSVG("gold", "sm")}${ZH("地区生产总值", "GDP")}</span><span class="v num">${fmtYuan(c.gdp)}</span><span class="s num">${ZH("全国第", "Rank ")}${c.rk.gdp || "—"}${ZH(" 位", "")} / ${N.gdp}</span></div>
-      <div class="kpi"><span class="k">${medalSVG("gold", "sm")}${t("kPc")}</span><span class="v num">${fmtPc(c.pc)}</span><span class="s num">${ZH("全国第", "Rank ")}${c.rk.pc || "—"}${ZH(" 位", "")} / ${N.pc}</span></div>
-      <div class="kpi"><span class="k">${icon("i-trend")}${t("kGrowth")}</span><span class="v num ${g > 0 ? "up" : g < 0 ? "down" : ""}">${fmtPct(g, true)}</span><span class="s">${ZH("七普 → 2023 年末", "Census → end 2023")}</span></div></div>
-    <div class="panel s8"><h4>${ZH("六年序列", "Six-year series")}<small>2020 → 2025</small></h4>${seriesHTML(c)}</div>
-    <div class="panel s4"><h4>${t("sectors")}<small>2023</small></h4><div class="sector-bar">${secs.map(([k, y]) => `<span style="flex:${c[k] || 0};background:${YIELDS[y].col}"></span>`).join("")}</div>
-      <div class="sector-legend">${secs.map(([k, y]) => `<div>${medalSVG(y, "sm")}<b class="num">${((c[k] || 0) / tot * 100).toFixed(0)}%</b></div>`).join("")}</div>
-      <div class="medals" style="margin-top:6px">${medal("gdp", medalSVG("gold"), N.gdp, "GDP")}${medal("pc", medalSVG("pop"), N.pc, t("lensPc"))}${medal("sv", medalSVG("com"), N.sv, t("lensSv"))}</div></div>
-    <div class="panel s7"><h4>${icon("i-info")}${ZH("出处 · 每个数字都能点开", "Provenance · every number opens")}<small>${ZH("格式示意", "format preview")}</small></h4>
-      <div class="prov"><div class="row"><span>${ZH("数值", "Value")}</span><b class="num">${ZH("常住人口 ", "Population ")}${fmtPopShort(c.pop)} · 2023</b></div>
-      <div class="row"><span>${ZH("发布机关", "Publisher")}</span><span>${c.n}${ZH("市统计局", " Municipal Bureau of Statistics")}</span></div>
-      <div class="row"><span>${ZH("原文", "Document")}</span><span>${ZH(`《${c.n}市2023年国民经济和社会发展统计公报》`, `${c.en} 2023 Statistical Communiqué`)}</span></div>
-      <div class="row"><span>${ZH("原文句子", "Sentence")}</span><span>${ZH("采集后自动摘录", "Quoted automatically on collection")} ${PEND("第 1 期", "phase 1")}</span></div>
-      <div class="row"><span>${ZH("转载 · 抓取", "Mirror · fetched")}</span><span>${ZH("中国统计信息网", "tjcn.org")} · <code>sha256 …</code></span></div></div></div>
-    <div class="panel s5"><h4>${t("peers")}</h4><div class="peers">${(c.peers || []).map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-arc-city="${o.id}">${tierImg(o)}${cname(o)}</button>`).join("")}</div>
-      <p class="note">${ZH("点任一城换成它的档案。", "Click one to open its archive.")}</p></div>`; }
+  if (V4.tab === "gk") return `<div class="panel"><h4>${ZH("骄傲榜 · 最拿得出手的三件事", "Pride board · three things to boast about")}<small>${ZH("从 13 项全国排名里自动挑选", "picked from 13 national rankings")}</small></h4>${prideHTML(c, 3)}</div>
+    <div class="panel s7"><h4>${ZH("生活账本", "Everyday numbers")}<small>${ZH("2023 · 和全国平均比", "2023 · vs national average")}</small></h4>${ledgerHTML(c, "full")}</div>
+    <div class="panel s5"><h4>${ZH("城市家底", "The city's stock")}<small>2023</small></h4>${stockHTML(c)}<h4 style="margin-top:6px">${t("peers")}</h4><div class="peers">${(c.peers || []).map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-arc-city="${o.id}">${tierImg(o)}${cname(o)}</button>`).join("")}</div></div>
+    <div class="panel s7"><h4>${ZH("六年序列", "Six-year series")}<small>2020 → 2025</small></h4>${seriesHTML(c)}</div>${provHTML(c)}`;
   if (V4.tab === "cq") { const L = landStats(c.id); if (!L) return `<div class="panel">${t("noData")}</div>`; const tot = L.parts.reduce((s, p) => s + p.n, 0);
     return `<div class="kpis"><div class="kpi"><span class="k">${icon("i-mountain")}${ZH("面积（栅格估算）", "Area (grid estimate)")}</span><span class="v num">${en ? Math.round(L.area).toLocaleString("en-US") + " km²" : (L.area / 1e4).toFixed(2) + "万 km²"}</span><span class="s">${ZH("4 公里栅格计数，非官方面积", "4 km cell count, not the official area")}</span></div>
       <div class="kpi"><span class="k">${icon("i-mountain")}${ZH("平均海拔", "Mean elevation")}</span><span class="v num">${Math.round(L.mean)} m</span><span class="s">AWS Terrain Tiles</span></div>
@@ -1602,20 +1869,17 @@ function arcBody(c) {
     <div class="panel s5"><h4>${ZH("高校与产业区牌", "Universities & industrial zones")}<small>${ZH("第 2 期", "phase 2")}</small></h4>
       <div class="prov"><div class="row"><span>${ZH("高校（含双一流）", "Universities")}</span>${PEND("教育部名单 · 第 2 期", "MoE list · phase 2")}</div><div class="row"><span>${ZH("国家级开发区", "National zones")}</span>${PEND("第 2 期", "phase 2")}</div><div class="row"><span>${ZH("产业区牌", "Industry plaques")}</span>${PEND("第 2 期", "phase 2")}</div></div>
       <p class="note">${ZH("高校与开发区会以小匾的形式出现在地图上，和城池同一套画法。", "Universities and zones appear on the map as small plaques, drawn like the towns.")}</p></div>`; }
-  if (V4.tab === "sm") { const pk = (k, zh, en2) => `<div class="kpi pend"><span class="k">${medalSVG(k, "sm")}${ZH(zh, en2)}</span><span class="v">—</span><span class="s">${ZH("第 2 期采集 · 官方口径", "Phase 2 · official only")}</span></div>`;
-    return `<div class="kpis"><div class="kpi"><span class="k">${medalSVG("pop", "sm")}${ZH("七普常住人口 · 2020", "Census · 2020")}</span><span class="v num">${fmtPopShort(c.pop20)}</span><span class="s">${ZH("第七次全国人口普查", "7th national census")}</span></div>
-      <div class="kpi"><span class="k">${medalSVG("pop", "sm")}${ZH("年末常住人口 · 2023", "End 2023")}</span><span class="v num">${fmtPopShort(c.pop)}</span><span class="s">${ZH("统计公报", "Communiqué")}</span></div>
-      ${pk("gold", "人均可支配收入", "Disposable income")}${pk("ind", "城镇单位平均工资", "Average wage")}</div>
-    <div class="kpis">${pk("com", "新建商品住宅均价", "New-home price")}${pk("com", "70 城房价指数", "70-city price index")}${pk("pop", "高校在校生", "Students")}${pk("food", "城镇化率", "Urbanisation")}</div>
-    <div class="panel"><h4>${ZH("本站访客", "Visitors to this site")}<small>${ZH("访客自愿标注，非官方统计", "Self-reported by visitors, not official statistics")}</small></h4>
-      <div style="display:flex;align-items:center;gap:16px">${seal("吾乡", 48)}<div><div class="zhubi" style="font-size:24px;transform:rotate(-1.2deg)">${ZH(`${(1284).toLocaleString()} 位${c.n}老乡在此钤印`, `${(1284).toLocaleString()} natives of ${c.en} stamped here`)}</div><div class="zhubi" style="font-size:15px;opacity:.85">${ZH("今日 +37 · 老乡多在 上海 · 北京 · 深圳", "Today +37 · most now live in Shanghai, Beijing, Shenzhen")}</div></div>${SHI()}</div>
-      <p class="note">${ZH("访客数字用朱笔、手写体，和上面的统计数字从视觉上完全分开。", "Visitor figures are cinnabar brush, visually apart from the statistics above.")}</p></div>`; }
+  if (V4.tab === "sm") return `<div class="panel s7"><h4>${ZH("人去哪儿了", "Where people go")}<small>${ZH("七普 2020 · 2023 年统计公报", "2020 census · 2023 communiqués")}</small></h4>${flowHTML(c)}</div>
+    <div class="panel s5"><h4>${ZH("人口三年", "Population in three years")}</h4><div class="prov"><div class="row"><span>${ZH("七普 · 2020", "Census · 2020")}</span><b class="num">${fmtPopShort(c.pop20)}</b></div><div class="row"><span>${ZH("年末 · 2023", "End 2023")}</span><b class="num">${fmtPopShort(c.pop)}</b></div><div class="row"><span>${ZH("增减", "Change")}</span><b class="num ${c.dpop > 0 ? "up" : "down"}">${c.dpop == null ? "—" : FMTS.wan(c.dpop)}</b></div><div class="row"><span>${ZH("户籍人口", "Registered")}</span>${c.popReg != null ? `<b class="num">${fmtPopShort(c.popReg)}</b>` : PEND("采集中", "collecting")}</div></div></div>
+    <div class="panel"><h4>${ZH("本站访客 · 老乡在哪儿", "Visitors · where fellow natives live")}<small>${ZH("访客自愿标注，非官方统计", "Self-reported by visitors, not official statistics")}</small></h4>
+      <div style="display:flex;align-items:center;gap:16px">${seal("吾乡", 48)}<div><div class="zhubi" style="font-size:24px;transform:rotate(-1.2deg)">${ZH(`1,284 位${c.n}老乡在此钤印`, `1,284 natives of ${c.en} stamped here`)}</div><div class="zhubi" style="font-size:15px;opacity:.85">${ZH("今日 +37 · 老乡多在 上海 · 北京 · 深圳", "Today +37 · most live in Shanghai, Beijing, Shenzhen")}</div></div>${SHI()}</div>
+      <p class="note">${ZH("官方去向用石青色，访客自报用朱笔，永远分开。", "Official flows are azurite; visitor reports are cinnabar brush. They never mix.")}</p></div>`;
   if (V4.tab === "bj") { const grp = [c, ...(c.peers || []).map(id => BYID.get(id)).filter(Boolean)], keys = [["popAny", ZH("常住人口", "Population"), fmtPopShort], ["gdp", "GDP", fmtYuan], ["pc", t("kPc"), fmtPc]];
     const mx = Object.fromEntries(keys.map(([k]) => [k, Math.max(...grp.map(o => o[k] || 0))]));
     return `<div class="panel"><h4>${ZH("和规模相近的城市比", "Against cities of similar size")}<small>2023 · ${ZH("规模按常住人口取最接近的 5 座", "5 nearest by population")}</small></h4>
       <div class="cmp"><span class="h"></span>${keys.map(([, l]) => `<span class="h">${l}</span>`).join("")}
       ${grp.map(o => `<span class="nm ${o === c ? "me" : ""}">${tierImg(o)}${cname(o)}</span>` + keys.map(([k, , f]) => `<div class="bv"><span class="num">${f(o[k])}</span><div class="hbar"><i style="width:${(o[k] || 0) / mx[k] * 100}%;background:${o === c ? "var(--accent)" : "var(--ink-3)"}"></i></div></div>`).join("")).join("")}</div></div>
-    <div class="panel s6"><h4>${ZH("全国名次", "National rank")}</h4><div class="medals">${[["gdp", "GDP", medalSVG("gold")], ["pc", t("lensPc"), medalSVG("pop")], ["sv", t("lensSv"), medalSVG("com")]].map(([k, l, ic]) => `<div class="medal-card"><span class="rk num ${c.rk[k] <= 3 ? "g" + c.rk[k] : ""}">${c.rk[k] || "—"}${ic}</span><span class="k">${l}<br>/ ${N[k]}</span></div>`).join("")}</div></div>
+    <div class="panel s6"><h4>${ZH("全国名次", "National rank")}</h4><div class="medals">${[["gdp", "GDP", medalSVG("gold")], ["pc", t("lensPc"), medalSVG("pop")], ["forest", t("lensForest"), medalSVG("food")]].map(([k, l, ic]) => `<div class="medal-card"><span class="rk num ${c.rk[k] <= 3 ? "g" + c.rk[k] : ""}">${c.rk[k] || "—"}${ic}</span><span class="k">${l}<br>/ ${N[k]}</span></div>`).join("")}</div></div>
     <div class="panel s6"><h4>${ZH("放进对决", "Put them in a compare")}</h4><p class="note">${ZH("一键把这 6 座城放进城市对决（最多 5 座，取前 5）。", "One tap puts these cities into Compare (up to 5).")}</p><button class="btn primary" data-sec="s-duel" style="justify-self:start">${icon("i-versus")}${ZH("去对决", "Open compare")}</button></div>`; }
   if (V4.tab === "zl") return govTenure(c) + `<div class="panel s6"><h4>${ZH("统计", "Statistics")}${SHI()}</h4><div class="prov"><div class="row"><span>${ZH("书记平均任期", "Avg. secretary term")}</span><b class="num">3.4 ${ZH("年", "yrs")}</b></div><div class="row"><span>${ZH("外地调入", "Appointed from outside")}</span><b class="num">2 / 4</b></div><div class="row"><span>${ZH("截至", "As of")}</span><span class="num">2026-11-27</span></div></div><p class="note">${ZH("任期与经济曲线并列时注明：并列不代表因果。", "When terms sit beside economic curves: side by side is not cause and effect.")}</p></div>
     <div class="panel s6"><h4>${ZH("这一层守的红线", "Red lines for this layer")}</h4>${redLines(true)}</div>`;
@@ -1642,27 +1906,44 @@ function renderArc() { const c = BYID.get(V4.city); if (!c) return; const prov =
   $("[data-arc-tabs]").innerHTML = ARC_TABS.map(([id, ic, zh, en]) => `<button role="tab" data-arc-tab="${id}" aria-selected="${V4.tab === id}">${icon(ic, "")}${ZH(zh, en)}</button>`).join("") + `<span class="tab-note note">${ZH("每城一页 · /city/", "One page per city · /city/")}${c.id}</span>`;
   $("[data-arc-body]").innerHTML = arcBody(c); }
 
-/* ---------- 肆 · 城市对决 ---------- */
-const DUEL_ROWS = [["pop", "popAny", ["常住人口", "Population"], v => fmtPopShort(v)], ["gold", "gdp", ["地区生产总值", "GDP"], fmtYuan], ["gold", "pc", ["人均 GDP", "GDP per capita"], fmtPc],
-  ["food", "p1", ["第一产业", "Primary sector"], fmtYuan], ["ind", "p2", ["第二产业", "Secondary sector"], fmtYuan], ["com", "p3", ["第三产业", "Tertiary sector"], fmtYuan],
-  ["com", "sv", ["服务业占比", "Services share"], v => Math.round(v * 100) + "%"], ["trend", "growth", ["人口变化 2020→23", "Pop. change 2020→23"], v => fmtPct(v, true)],
-  ["gold", null, ["人均可支配收入", "Disposable income"]], ["home", null, ["新建商品住宅均价", "New-home price"]], ["people", null, ["高校数量", "Universities"]]];
-function duelData() { const cs = V4.duel.map(id => BYID.get(id)).filter(Boolean), crowns = cs.map(() => 0);
-  const rows = DUEL_ROWS.map(([ic, k, lab, f]) => { if (!k) return { ic, lab, pend: true }; const vals = cs.map(c => c[k]), ok = vals.filter(v => v != null);
-    const best = ok.length ? Math.max(...ok) : null, lead = best == null ? -1 : vals.indexOf(best); if (lead >= 0) crowns[lead]++; const mx = Math.max(...ok.map(Math.abs), 1e-9);
-    return { ic, lab, k, f, vals, lead, mx }; });
+/* ---------- 陆 · 城市对决（回合制） ---------- */
+const DUEL5 = [{ y: "gold", k: "month", lab: ["每月可支配收入", "Monthly disposable income"] }, { y: "ind", k: "day", lab: ["每人每天创造", "Output per person per day"] },
+  { y: "com", k: "dpop", lab: ["三年人口增减", "Population change, 3 yrs"] }, { y: "food", k: "forest", lab: ["森林占比", "Forest share"] },
+  { y: "pop", k: "popAny", lab: ["常住人口", "Population"] }, { ic: "i-map", k: "area", lab: ["地盘（卫星估算）", "Area (satellite est.)"], f: v => FMTS.km2(v) },
+  { y: "gold", k: "gdp", lab: ["地区生产总值", "GDP"], f: v => fmtYuan(v) },
+  { ic: "i-home", k: null, lab: ["买房要攒几年收入", "Years of income for a home"] }, { ic: "i-people", k: null, lab: ["每千人医生", "Doctors per 1,000 people"] }];
+const D5 = { step: -1, timer: 0, showWin: false, sig: "" };
+const D5REAL = DUEL5.filter(r => r.k).length;
+const rowFmt = r => r.f || (r.y ? YIELDS[r.y].short : v => v);
+function duelData(upto = D5REAL) { const cs = V4.duel.map(id => BYID.get(id)).filter(Boolean), crowns = cs.map(() => 0); let ri = 0;
+  const rows = DUEL5.map(r => { if (!r.k) return { ...r, pend: true }; const idx = ri++, vals = cs.map(c => c[r.k]), ok = vals.filter(v => v != null), best = ok.length ? Math.max(...ok) : null, lead = best == null ? -1 : vals.indexOf(best), mx = Math.max(...ok.map(Math.abs), 1e-9);
+    if (lead >= 0 && idx < upto) crowns[lead]++; return { ...r, idx, vals, lead, mx }; });
   return { cs, rows, crowns }; }
-const rowIcon = ic => YIELDS[ic] ? medalSVG(ic) : icon("i-" + ic, "");
-function renderDuel() { const { cs, rows, crowns } = duelData(), n = cs.length, cols = `190px repeat(${n}, minmax(0, 1fr)) ${n < 5 ? "120px" : ""}`;
-  const head = $("[data-duel-head]"); head.style.gridTemplateColumns = cols;
-  head.innerHTML = `<div><b style="font:900 20px/1.2 var(--serif)">${ZH("城市对决", "Compare")}</b><span class="note">${ZH(`${n} 城 · 2023`, `${n} cities · 2023`)}</span></div>` + cs.map((c, i) => `<div><span class="ord" style="background:${ORD[i]}"></span>
-    <div class="who">${seal(c.n.slice(0, 2))}<div><b>${cname(c)}</b><span>${pvOf(c)} · ${kindOf(c)}</span></div></div>
-    <div class="tally">${crowns[i] ? Array.from({ length: crowns[i] }, () => seal(EN() ? "1st" : "冠")).join("") : ""}<span>${ZH(`${crowns[i]} 项领先`, `leads ${crowns[i]}`)}</span></div>
-    ${n > 2 ? `<button class="btn icon ghost x" data-duel-x="${c.id}" aria-label="remove">${icon("i-close")}</button>` : ""}</div>`).join("") + (n < 5 ? `<button class="add" data-v4="duel-add">${icon("i-plus", "")}<span>${ZH("加一城", "Add a city")}</span></button>` : "");
-  $("[data-duel-rows]").innerHTML = rows.map(r => `<div class="drow" style="grid-template-columns:${cols}"><div>${rowIcon(r.ic)}<span>${ZH(...r.lab)}${r.pend ? `<small>${ZH("第 2 期采集", "phase 2")}</small>` : ""}</span></div>` +
-    (r.pend ? cs.map(() => `<div><span class="pendcell pend">${ZH("采集中", "pending")}</span></div>`).join("") : r.vals.map((v, i) => `<div class="${i === r.lead ? "lead" : ""}"><span class="val num">${v == null ? "—" : r.f(v)}${i === r.lead ? seal(EN() ? "1st" : "冠") : ""}</span><div class="hbar"><i style="width:${v == null ? 0 : Math.abs(v) / r.mx * 100}%;background:${r.k === "growth" ? (v < 0 ? "var(--neg)" : "var(--pos)") : ORD[i]}"></i></div></div>`).join("")) + (n < 5 ? "<div></div>" : "") + `</div>`).join("");
-  $("[data-duel-cta]").innerHTML = `<div class="row-gap"><button class="btn primary" data-sec="s-share">${icon("i-share")}${ZH("生成对决长卷", "Make a compare card")}</button><button class="btn">${icon("i-link")}${ZH("复制链接", "Copy link")}</button></div>
-    <code class="note" style="font-family:ui-monospace,monospace">/duel?c=${V4.duel.join(",")}</code><p class="note">${ZH("“冠”只表示该项数值最高，并列比较，不代表优劣。", "The seal marks the highest value only; side by side, not better or worse.")}</p>`; }
+function duelReset() { clearInterval(D5.timer); D5.step = -1; D5.showWin = false; }
+function renderDuel(animIdx = -1) { if (D5.sig !== V4.duel.join()) { duelReset(); D5.sig = V4.duel.join(); }
+  const n = V4.duel.length, rev = D5.step < 0 ? 0 : D5.step, running = D5.step >= 0 && D5.step < D5REAL, fin = D5.step >= D5REAL, { cs, rows, crowns } = duelData(rev);
+  const cols = `200px repeat(${n}, minmax(0, 1fr)) ${n < 5 ? "120px" : ""}`, head = $("[data-duel-head]"); head.style.gridTemplateColumns = cols;
+  const animRow = rows.find(r => r.idx === animIdx);
+  head.innerHTML = `<div><b style="font:900 20px/1.2 var(--serif)">${ZH("城市对决", "Compare")}</b><span class="note">${D5.step < 0 ? ZH(`${n} 城 · ${D5REAL} 回合`, `${n} cities · ${D5REAL} rounds`) : ZH(`第 ${Math.min(rev, D5REAL)} / ${D5REAL} 回合`, `Round ${Math.min(rev, D5REAL)} of ${D5REAL}`)}</span></div>` + cs.map((c, i) => `<div><span class="ord" style="background:${ORD[i]}"></span>
+    <div class="who"><span class="mini-art"><canvas data-art="${c.id}" width="108" height="80"></canvas></span><div><b>${cname(c)}</b><span>${pvOf(c)} · ${ZH(...RAR[rarity(c)])}</span></div></div>
+    <div class="score" aria-live="polite"><span class="num ${animRow && animRow.lead === i ? "bump" : ""}">${crowns[i]}</span><small>${ZH("冠", "wins")}</small>${D5.step < 0 ? "" : Array.from({ length: crowns[i] }, () => seal(ZH("冠", "1st"), 16)).join("")}</div>
+    ${n > 2 && !running ? `<button class="btn icon ghost x" data-duel-x="${c.id}" aria-label="${ZH("移除", "Remove")}">${icon("i-close")}</button>` : ""}</div>`).join("") + (n < 5 && !running ? `<button class="add" data-v4="duel-add">${icon("i-plus", "")}<span>${ZH("加一城", "Add a city")}</span></button>` : n < 5 ? "<div></div>" : "");
+  rows.forEach(r => { if (!r.pend) FMTS["d" + r.idx] = rowFmt(r); });
+  $("[data-duel-rows]").innerHTML = rows.map(r => { const icn = r.y ? medalSVG(r.y) : icon(r.ic, ""), lab = `<div>${icn}<span>${ZH(...r.lab)}${r.pend ? `<small>${ZH("第 2 期采集 · 不计分", "phase 2 · not scored")}</small>` : ""}</span></div>`;
+    if (r.pend) return `<div class="drow" style="grid-template-columns:${cols}">${lab}${cs.map(() => `<div><span class="pendcell pend">${ZH("采集中", "pending")}</span></div>`).join("")}${n < 5 ? "<div></div>" : ""}</div>`;
+    const shown = D5.step < 0 ? false : r.idx < rev, cls = !shown ? "facedown" : r.idx === animIdx ? "reveal cur" : "";
+    return `<div class="drow ${cls}" style="grid-template-columns:${cols}">${lab}${r.vals.map((v, i) => `<div class="${shown && i === r.lead ? "lead" : ""}"><span class="val num"><span${shown && r.idx === animIdx && v != null ? ` data-cu="${v}" data-cuf="d${r.idx}"` : ""}>${v == null ? "—" : rowFmt(r)(v)}</span>${shown && i === r.lead ? (r.idx === animIdx ? `<span class="seal stamp" data-crown><span>${ZH("冠", "1st")}</span></span>` : seal(ZH("冠", "1st"))) : ""}</span><div class="hbar"><i style="width:${v == null ? 0 : Math.abs(v) / r.mx * 100}%;background:${r.k === "dpop" ? (v < 0 ? "var(--neg)" : "var(--pos)") : ORD[i]}"></i></div></div>`).join("")}${n < 5 ? "<div></div>" : ""}</div>`; }).join("");
+  $("[data-duel-cta]").innerHTML = D5.step < 0 ? `<div class="duel-go"><button class="btn primary" data-v5="duel-go">${icon("i-versus", "")}${ZH("开战", "Fight!")}</button><button class="btn ghost" data-v5="duel-skip">${ZH("跳过动画，直接看结果", "Skip to the result")}</button><p class="note">${ZH("七个回合逐个揭晓，每回合数值最高者得一枚“冠”。只比高低，不代表优劣。", "Seven rounds revealed one by one; the highest value takes a seal. Higher, not better.")}</p></div>`
+    : running ? `<div class="duel-go"><span class="eyebrow">${ZH(`第 ${rev} / ${D5REAL} 回合`, `Round ${rev} of ${D5REAL}`)}</span><div class="hbar" style="width:100%"><i style="width:${rev / D5REAL * 100}%;background:var(--accent)"></i></div><button class="btn ghost" data-v5="duel-skip">${ZH("跳到结果", "Skip to the result")}</button></div>`
+    : `<div class="row-gap"><button class="btn primary" data-v5="duel-again">${icon("i-versus")}${ZH("再战", "Rematch")}</button><button class="btn" data-sec="s-share">${icon("i-share")}${ZH("分享战报", "Share result")}</button><button class="btn">${icon("i-link")}${ZH("复制链接", "Copy link")}</button></div><code class="note" style="font-family:ui-monospace,monospace">/duel?c=${V4.duel.join(",")}</code>`;
+  let win = $("[data-duel-win]"); if (!win) { $("[data-duel-rows]").closest(".duel-board").insertAdjacentHTML("beforeend", `<div class="duel-win" data-duel-win hidden></div>`); win = $("[data-duel-win]"); }
+  if (fin && D5.showWin) { const mx = Math.max(...crowns), ws = cs.filter((c, i) => crowns[i] === mx); win.hidden = false;
+    win.innerHTML = `<div class="leaf box"><span class="eyebrow">${ZH("对决结果", "Result")}</span><div class="w">${seal(ZH("冠", "1st"))}${ws.length > 1 ? ZH("平局", "A draw") : cname(ws[0]) + ZH(" 胜", " wins")}</div><div class="sc num">${cs.map((c, i) => `${cname(c)} ${crowns[i]}`).join(" : ")}</div><div class="row-gap"><button class="btn primary" data-v5="duel-again">${icon("i-versus")}${ZH("再战", "Rematch")}</button><button class="btn" data-sec="s-share">${icon("i-share")}${ZH("分享战报", "Share result")}</button><button class="btn" data-v5="duel-close">${ZH("看明细", "See details")}</button></div></div>`; }
+  else win.hidden = true;
+  paintArts(head); if (animIdx >= 0) { const row = $("[data-duel-rows] .drow.cur"); countUp(row); setTimeout(() => { const s = $("[data-crown]"); if (s) { spatter(s, 14); snd("stamp"); } }, 420); } }
+function duelGo(skip) { clearInterval(D5.timer); if (skip || RM()) { D5.step = D5REAL; D5.showWin = true; renderDuel(); snd("win"); return; }
+  D5.step = 0; D5.showWin = false; renderDuel(); snd("flip");
+  D5.timer = setInterval(() => { D5.step++; renderDuel(D5.step - 1); snd("flip"); if (D5.step >= D5REAL) { clearInterval(D5.timer); setTimeout(() => { D5.showWin = true; renderDuel(); snd("win"); spatter($("[data-duel-win] .w .seal"), 28, "#b23a2b", 130); }, 900); } }, 1050); }
 function drawDuelMarks(app, ctx, u, v) { V4.duel.forEach((id, i) => { const c = BYID.get(id); if (!c) return; const [x, y] = toPx(v, c.x, c.y);
   ctx.save(); ctx.strokeStyle = ORD[i]; ctx.lineWidth = 2.4 * u; ctx.beginPath(); ctx.arc(x, y - 4 * u, 13 * u, 0, 7); ctx.stroke();
   ctx.fillStyle = ORD[i]; ctx.beginPath(); ctx.arc(x + 11 * u, y - 14 * u, 7 * u, 0, 7); ctx.fill(); ctx.fillStyle = "#f6efe0"; ctx.font = `700 ${9 * u}px "Noto Serif SC", serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(String(i + 1), x + 11 * u, y - 13.5 * u); ctx.restore(); }); }
@@ -1670,13 +1951,13 @@ function drawDuelMarks(app, ctx, u, v) { V4.duel.forEach((id, i) => { const c = 
 /* ---------- 伍 · 分享长卷 ---------- */
 function renderShare() { const c = BYID.get(V4.city), en = EN(), N = NATION.rankN;
   $("[data-c9-top]").innerHTML = `<div class="ttl"><span class="big">${en ? `<span style="font:900 40px/1 var(--serif)">${c.en}</span>` : c.n}</span>${seal(c.n.slice(0, 2), 46)}<div class="meta">${pvOf(c)}${c.pcap ? ZH(" · 省会", " · capital") : ""}<i>${en ? c.n : (c.en || "").toUpperCase()} · 2023</i></div></div>`;
-  $("[data-c9-bottom]").innerHTML = `<div class="ys">${[["pop", fmtPopShort(c.popAny)], ["gold", fmtYuan(c.gdp)], ["food", fmtYuan(c.p1)], ["ind", fmtYuan(c.p2)], ["com", fmtYuan(c.p3)]].map(([k, s]) => `<div>${medalSVG(k)}<b class="num">${s}</b></div>`).join("")}</div>
-    <div class="facts"><div><span>${t("kPc")}</span><b class="num">${fmtPc(c.pc)} · ${ZH("全国第", "#")}${c.rk.pc}${ZH("", "")}</b></div><div><span>${t("lensSv")}</span><b class="num">${Math.round(c.sv * 100)}% · ${ZH("全国第", "#")}${c.rk.sv}</b></div><div><span>${t("kGrowth")}</span><b class="num ${c.growth > 0 ? "up" : "down"}">${fmtPct(c.growth, true)}</b></div></div>
+  $("[data-c9-bottom]").innerHTML = `<div class="ys">${["pop", "gold", "ind", "food", "com"].map(k => [k, c[YIELDS[k].key] == null ? "—" : YIELDS[k].short(c[YIELDS[k].key])]).map(([k, s]) => `<div>${medalSVG(k)}<b class="num">${s}</b></div>`).join("")}</div>
+    <div class="facts">${prideOf(c).slice(0, 3).map(h => `<div><span>${rankBadge(h)}</span><b style="font:400 12px/1.3 var(--sans);text-align:right">${h.m.ph(c)}</b></div>`).join("")}</div>
     <div class="foot"><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span><span class="src">${ZH(`数据：${c.n}市及国家统计局 2023 年统计公报、七普`, `Data: 2023 communiqués, 2020 census`)}</span><span class="qr">${ZH("扫码<br>看档案", "Scan<br>for more")}</span></div>`;
   const { cs, crowns } = duelData();
   $("[data-c16]").innerHTML = `<div class="t">${cs.map(cname).join(" · ")}<small>${ZH("城市对决 · 2023", "COMPARE · 2023")}</small></div>
     <div class="cols" style="grid-template-columns:repeat(${cs.length},1fr)">${cs.map((o, i) => `<div style="border-color:${ORD[i]}"><b>${cname(o)}${crowns[i] ? Array.from({ length: Math.min(crowns[i], 4) }, () => seal(en ? "1" : "冠")).join("") : ""}</b>
-      <span>${medalSVG("pop", "sm")}${fmtPopShort(o.popAny)}</span><span>${medalSVG("gold", "sm")}${fmtYuan(o.gdp)}</span><span>${medalSVG("com", "sm")}${t("kPc")} ${fmtPc(o.pc)}</span></div>`).join("")}</div>
+      <span>${medalSVG("gold", "sm")}${o.month == null ? "—" : YIELDS.gold.fmt(o.month)}</span><span>${medalSVG("ind", "sm")}${o.day == null ? "—" : YIELDS.ind.fmt(o.day)}</span><span>${medalSVG("com", "sm")}${o.dpop == null ? "—" : FMTS.wan(o.dpop)}</span></div>`).join("")}</div>
     <div class="ft">${seal("图鉴")}<span>${ZH("江山图鉴 · 数据来自各地 2023 年统计公报 · “冠”为该项最高", "Jiangshan Atlas · 2023 communiqués · seal = highest")}</span></div>`;
   const L = V4LENS.pc || LENSES.pc;
   $("[data-poster]").innerHTML = `<div class="ph"><b>${ZH("千里江山 · 人均GDP", "GDP per capita")}</b><span>${ZH("中华人民共和国 · 地级行政区 · 2023", "People's Republic of China · prefecture level · 2023")}<br><span style="color:var(--ink-3)">${ZH("GDP PER CAPITA BY PREFECTURE", "墨分五色 · five strengths of ink")}</span></span>${seal("图鉴")}</div>
@@ -1687,8 +1968,9 @@ function renderShare() { const c = BYID.get(V4.city), en = EN(), N = NATION.rank
 function renderXiang() { const h = BYID.get(V4.home), en = EN(), no = (V4.count + (V4.stamped ? 1 : 0)).toLocaleString("en-US");
   $$("[data-ptop]").forEach(el => el.innerHTML = pTop());
   $("[data-x1]").innerHTML = `<div class="handle"></div><div class="cp-head"><span class="seal" style="--s:44px"><span>${h.n.slice(0, 2)}</span></span><div><h2>${cname(h)}${tierImg(h)}</h2><div class="en">${en ? h.n : h.en}</div><div class="meta">${kindOf(h)} · ${pvOf(h)}</div></div></div>
+    <div style="margin:0 16px">${prideHTML(h, 2, true)}</div>
     <div class="xiang"><div class="slot">${V4.stamped ? `<span class="seal stamp"><span>吾乡</span></span>` : `<span class="ghost">${ZH("钤印处", "seal here")}</span>`}</div>
-      <div class="txt">${V4.stamped ? `<div class="count">${ZH(`你是第 ${no} 位`, `You are no. ${no}`)}<br><small>${ZH(`为${h.n}钤印的老乡`, `to stamp for ${h.en}`)}</small></div><div class="today">${ZH(`今日 +${V4.today + 1}`, `Today +${V4.today + 1}`)} ${SHI()}</div><button class="btn" data-sec="s-xiang" data-v4="x-where">${ZH("老乡在哪儿 →", "Where they live →")}</button>`
+      <div class="txt" aria-live="polite">${V4.stamped ? `<div class="count">${ZH(`你是第 ${no} 位`, `You are no. ${no}`)}<br><small>${ZH(`为${h.n}钤印的老乡`, `to stamp for ${h.en}`)}</small></div><div class="today">${ZH(`今日 +${V4.today + 1}`, `Today +${V4.today + 1}`)} ${SHI()}</div><button class="btn" data-sec="s-xiang" data-v4="x-where">${ZH("老乡在哪儿 →", "Where they live →")}</button>`
         : `<div class="count" style="font-size:19px">${ZH(`已有 ${V4.count.toLocaleString("en-US")} 位老乡在此钤印`, `${V4.count.toLocaleString("en-US")} natives stamped here`)}</div><div class="today">${ZH(`今日 +${V4.today}`, `Today +${V4.today}`)} ${SHI()}</div><button class="btn primary" data-v4="stamp">${ZH("钤印 · 这是我的家乡", "Stamp · my hometown")}</button>`}</div></div>
     <div class="p-row"><label class="field">${icon("i-home")}<input value="${ZH("我现居：成都（可选）", "I live in: Chengdu (optional)")}" aria-label="current city" readonly></label><button class="btn">${ZH("填写", "Set")}</button></div>
     <p class="disclaim">${icon("i-info")}<span>${ZH("本站访客自愿标注，非官方统计。不注册、不定位；只存家乡城、可选现居城与一个随机编号。", "Self-reported by visitors, not official statistics. No sign-up, no location; we keep the hometown, an optional current city and a random ID.")}</span></p>`;
@@ -1696,7 +1978,7 @@ function renderXiang() { const h = BYID.get(V4.home), en = EN(), no = (V4.count 
   $("[data-x2]").innerHTML = `<div class="handle"></div><div class="cp-head" style="grid-template-columns:auto 1fr"><span class="seal" style="--s:40px"><span>吾乡</span></span><div><h2 style="font-size:21px">${ZH(`${h.n}老乡在哪儿`, `Where ${h.en} natives live`)}</h2><div class="meta">${ZH(`${V4.count.toLocaleString("en-US")} 位钤印者中，填了现居城的 61%`, `61% of ${V4.count.toLocaleString("en-US")} stampers gave a current city`)} ${SHI()}</div></div></div>
     <div class="dest">${DEST.slice(0, 6).map(([id, s]) => { const c = BYID.get(id); return `<div class="d"><b>${cname(c)}</b><div class="hbar"><i style="width:${s / DEST[0][1] * 100}%"></i></div><em>${Math.round(s * 100)}%</em></div>`; }).join("")}</div>
     <p class="disclaim">${icon("i-info")}<span>${ZH("不足 10 位的城市不显示，也不画流线。本站访客自愿标注，非官方统计。", "Cities with fewer than 10 are hidden and get no stroke. Self-reported, not official.")}</span></p>`;
-  $("[data-x3a]").innerHTML = `${seal("吾乡")}<div class="line">${ZH(`我为家乡<b>${h.n}</b>钤印`, `I stamped for <b>${h.en}</b>`)}</div><div class="zhubi" style="font-size:17px">${ZH(`第 ${no} 位 · 二〇二六年冬`, `No. ${no} · winter 2026`)}</div>`;
+  $("[data-x3a]").innerHTML = `${seal("吾乡")}<div class="line">${ZH(`我为家乡<b>${h.n}</b>钤印`, `I stamped for <b>${h.en}</b>`)}</div><div class="zhubi" style="font-size:17px">${ZH(`第 ${no} 位 · 二〇二六年冬`, `No. ${no} · winter 2026`)}</div><div style="width:100%">${prideHTML(h, 2, true)}</div>`;
   $("[data-x3b]").innerHTML = `<div class="foot"><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span><span style="flex:1">${ZH("本站访客自愿标注，非官方统计", "Self-reported by visitors, not official")}</span><span class="qr">${ZH("扫码<br>认家乡", "Scan to<br>stamp")}</span></div>`;
   $("[data-sharebar]").innerHTML = [["i-share", ZH("发给朋友", "Send")], ["i-out", ZH("朋友圈", "Moments")], ["i-link", ZH("复制链接", "Copy link")], ["i-download", ZH("保存图片", "Save image")]].map(([ic, l]) => `<div><i>${icon(ic, "")}</i>${l}</div>`).join(""); }
 function drawSealCluster(app, ctx, u, v) { const h = BYID.get(V4.home); if (!h) return; const [x, y] = toPx(v, h.x, h.y), r = rng(41), n = V4.stamped ? 15 : 12;
@@ -1765,7 +2047,7 @@ function renderGov() {
 
 /* ---------- 玖 · 时间轴与年报 ---------- */
 function renderTl() { const en = EN(), yrs = [[2020, ZH("七普", "census"), 1], [2021, ZH("采集中", "pending"), 0], [2022, ZH("采集中", "pending"), 0], [2023, ZH("公报", "bulletin"), 1], [2024, ZH("采集中", "pending"), 0], [2025, ZH("采集中", "pending"), 0]];
-  $("[data-tl-bar]").innerHTML = `<button class="btn icon" title="${ZH("六年齐了以后可以播放", "Plays once all six years are in")}" aria-label="play" style="opacity:.5">${icon("i-play")}</button><div class="tl-years">${yrs.map(([y, s, ok]) => `<button data-tl-year="${y}" aria-pressed="${V4.year === y}"><span class="dot ${ok ? "" : "pend"}" style="${ok ? "" : "background:var(--hatch),var(--leaf)"}">${String(y).slice(2)}</span><b class="num">${y}</b><span>${s}</span></button>`).join("")}</div>
+  $("[data-tl-bar]").innerHTML = `<button class="btn icon" title="${ZH("六年齐了以后可以播放", "Plays once all six years are in")}" aria-label="play" disabled>${icon("i-play")}</button><div class="tl-years">${yrs.map(([y, s, ok]) => `<button data-tl-year="${y}" aria-pressed="${V4.year === y}"><span class="dot ${ok ? "" : "pend"}" style="${ok ? "" : "background:var(--hatch),var(--leaf)"}">${String(y).slice(2)}</span><b class="num">${y}</b><span>${s}</span></button>`).join("")}</div>
     <div style="display:grid;gap:2px;min-width:150px"><b style="font:600 var(--fs-3)/1.2 var(--serif)">${ZH("常住人口", "Population")} · ${V4.year}</b><span class="note">${V4.year === 2020 ? ZH("第七次全国人口普查", "7th national census") : ZH("各地 2023 年统计公报", "2023 communiqués")}</span></div>`;
   const g = CITIES.filter(c => c.growth != null), up = g.filter(c => c.growth > 0).length, down = g.filter(c => c.growth < 0).length;
   const top = g.slice().sort((a, b) => b.growth - a.growth).slice(0, 5), bot = g.slice().sort((a, b) => a.growth - b.growth).slice(0, 5), club = CITIES.filter(c => c.gdp >= 1e12).sort((a, b) => b.gdp - a.gdp);
@@ -1791,7 +2073,7 @@ function initV4() {
   m("c9", box("c9"), sized(box("c9"), { bbox: () => regionAround(V4.city, 190), sel: () => V4.city, lens: () => "none", zb: 2.4, noWonders: true, hl: () => V4.city }));
   m("c16", box("c16"), sized(box("c16"), { bbox: () => regionOf(V4.duel, 80), sel: () => null, lens: () => "none", zb: 2.2, bannerIds: () => new Set(V4.duel), over: drawDuelMarks, noNames: true }));
   m("poster", box("poster"), sized(box("poster"), { sel: () => null, lens: () => "pc", quota: 10, minTier: 2, noDots: true, inset: () => ({ x: box("poster").offsetWidth - 14, y: box("poster").offsetHeight - 6, w: 118 }) }));
-  m("x1", appEl("x1"), { w: 390, h: 844, area: () => [0, 96, 390, 844 - 96 - 376], bbox: () => regionAround(V4.home, 250), sel: () => V4.home, selSeal: () => V4.stamped ? "吾乡" : null, lens: () => "none", zb: 2.4, quota: 10, hl: () => V4.home, over: drawSealCluster, scale: () => null, blocked: () => [[0, 0, 390, 100], [0, 468, 390, 376]] });
+  m("x1", appEl("x1"), { w: 390, h: 844, area: () => [0, 96, 390, 844 - 96 - 520], bbox: () => regionAround(V4.home, 250), sel: () => V4.home, selSeal: () => V4.stamped ? "吾乡" : null, lens: () => "none", zb: 2.4, quota: 10, hl: () => V4.home, over: drawSealCluster, scale: () => null, blocked: () => [[0, 0, 390, 100], [0, 324, 390, 520]] });
   m("x2", appEl("x2"), { w: 390, h: 844, area: () => [0, 96, 390, 844 - 96 - 306], bbox: () => [900, 1500, 5400, 4300], sel: () => null, lens: () => "none", bannerIds: () => new Set(), noNames: true, minTier: 1, noDots: true, under: drawFlows, over: drawFlowLabels, inset: () => ({ x: 390 - 8, y: 844 - 306 - 8, w: 70 }), scale: () => null, blocked: () => [[0, 0, 390, 100], [0, 538, 390, 306]] });
   m("x3", box("x3"), sized(box("x3"), { bbox: () => regionAround(V4.home, 300), sel: () => V4.home, selSeal: () => "吾乡", lens: () => "none", zb: 2, noWonders: true, hl: () => V4.home, over: drawSealCluster }));
   m("gj", appEl("gj"), { w: 1440, h: 900, area: () => [404, 140, 1440 - 404 - 10, 900 - 150], bbox: () => bboxLL(101.5, 18.5, 122.5, 40.5), sel: () => null, lens: () => "none", bannerIds: () => new Set(), noNames: true, over: drawSuRoute,
@@ -1802,7 +2084,7 @@ function initV4() {
     inset: () => ({ x: 1440 - 388, y: 900 - 120, w: 160 }), scale: () => null, blocked: () => [[0, 0, 1440, 54], [1440 - 378, 48, 378, 852], [220, 900 - 120, 820, 120], [1440 - 560, 900 - 330, 180, 220]] });
 }
 function v4Refresh(key, relayout) { const a = V4APPS[key]; if (!a) return; if (a.cfg.hl) a.hoverPref = prefIdx(a.cfg.hl()); if (relayout) layout(a, false); full(a); }
-const TOC = [["s-desk", "壹", "桌面主界面", "Desktop"], ["s-phone", "贰", "手机界面", "Phone"], ["s-archive", "叁", "城市档案", "City archive", 1], ["s-duel", "肆", "城市对决", "Compare", 1], ["s-share", "伍", "分享长卷", "Share cards", 1], ["s-xiang", "陆", "钤印认乡", "Hometown seal", 1], ["s-gujin", "柒", "古今同图", "Then & now", 1], ["s-gov", "捌", "治理层", "Governance", 1], ["s-time", "玖", "时间轴与年报", "Timeline", 1], ["s-icons", "拾", "图标优先", "Icons"], ["s-color", "拾壹", "色彩", "Colour"], ["s-type", "拾贰", "字体", "Type"], ["s-motif", "拾叁", "母题与组件", "Motifs"], ["s-motion", "拾肆", "交互与动效", "Motion"], ["s-bi", "拾伍", "双语与数字", "Bilingual"], ["s-decide", "拾陆", "请你确认", "Decide"]];
+const TOC = [["s-desk", "壹", "桌面主界面", "Desktop"], ["s-phone", "贰", "手机界面", "Phone"], ["s-life", "叁", "骄傲榜与生活账本", "Pride & everyday", 1], ["s-guess", "肆", "猜城", "Guess", 1], ["s-cards", "伍", "卡牌与游历图", "Cards & travel", 1], ["s-duel", "陆", "回合制对决", "Compare duel", 1], ["s-archive", "柒", "城市档案", "City archive"], ["s-share", "捌", "分享长卷", "Share cards"], ["s-xiang", "玖", "钤印认乡", "Hometown seal"], ["s-gujin", "拾", "古今同图", "Then & now"], ["s-gov", "拾壹", "治理层", "Governance"], ["s-time", "拾贰", "时间轴与年报", "Timeline"], ["s-icons", "拾叁", "图标优先", "Icons"], ["s-color", "拾肆", "色彩", "Colour"], ["s-type", "拾伍", "字体", "Type"], ["s-motif", "拾陆", "母题与组件", "Motifs"], ["s-motion", "拾柒", "交互与动效", "Motion"], ["s-bi", "拾捌", "双语与数字", "Bilingual"], ["s-decide", "拾玖", "请你确认", "Decide"]];
 function renderToc() { const el = $("[data-toc]"); if (el) el.innerHTML = TOC.map(([id, n, zh, en, isNew]) => `<a href="#${id}" data-sec="${id}" class="${isNew ? "new" : ""}"><span class="seal"><span>${n}</span></span>${ZH(zh, en)}</a>`).join(""); }
 function renderV4() { if (!CITIES) return; v4Prepare(); renderToc();
   $$("[data-v4top]").forEach(el => el.innerHTML = v4Top(el.dataset.v4top)); $$("[data-v4nav]").forEach(el => el.innerHTML = navHTML(el.dataset.v4nav));
@@ -1824,14 +2106,311 @@ function bindV4() {
     if (b.dataset.tlYear) { const y = +b.dataset.tlYear; if (y !== 2020 && y !== 2023) return; V4.year = y; renderTl(); const a = V4APPS.tl; if (a && !matchMedia("(prefers-reduced-motion: reduce)").matches) { const f = a.fade.getContext("2d"); f.setTransform(1, 0, 0, 1, 0, 0); f.clearRect(0, 0, a.fade.width, a.fade.height); f.drawImage(a.canvas, 0, 0); a.fade.style.transition = "none"; a.fade.style.opacity = 1; full(a); requestAnimationFrame(() => { a.fade.style.transition = ""; a.fade.style.opacity = 0; }); } else v4Refresh("tl"); return; }
   }); }
 
-async function fontsReady() { const txt = CITIES.map(c => c.n + (c.en || "")).join("") + PROVS.map(p => p.zh + p.en).join("") + WONDERS.map(w => w.zh + w.en).join("") + "千里江山中华人民共和国二〇二三年数据图鉴渤黄东南海诸岛公里清淡重浓焦癸卯万亿人金粮工商全国郡州府城郭村都吾乡示意东坡苏轼冠秦汉三国晋南北朝隋唐五代宋元明清今年报0123456789%ILUSTRAVE";
+
+/* ================= 第 5 版 · play, motion and everyday numbers ================= */
+Object.assign(T, {
+  secLife: ["骄傲榜与生活账本", "Pride board & everyday numbers"], secLifeSub: ["普通人先看的数字放最前；每座城都有拿得出手的东西", "Numbers people feel come first; every city has something to boast about"],
+  secGuess: ["猜城 · 比大小", "Guess the city"], secGuessSub: ["每日 5 题，全是真实数字；点一张卡就是你的答案", "Five a day, all real numbers; tap a card to answer"],
+  guessNote: ["题目每天由日期决定，人人同一套，方便比分；连对会累计。数字来自 2023 年统计公报、七普与卫星土地覆盖。", "Questions are set by the date, the same for everyone; streaks carry over. Numbers from 2023 communiqués, the 2020 census and satellite land cover."],
+  secCards: ["城市卡牌与游历图", "City cards & travel map"], secCardsSub: ["看过的城收进游历图；稀有度看“骄傲榜”，不看城市大小", "Cities you open go on your travel map; rarity follows the pride board, not size"],
+  cardsNote: ["点“抽一张”发一张新卡，再点“收入游历图”钤印；凑齐一组就解锁成就（原型里头两张固定是洛阳、安阳，第二张就能集齐七大古都）。游历记录只存在你自己的浏览器里。", "Draw a card, then stamp it onto your map; complete a set to unlock an achievement (the prototype deals Luoyang then Anyang, completing the Seven Ancient Capitals). Progress lives only in your browser."],
+  replay: ["重播开场", "Replay opening"], sndOn: ["音效 开", "Sound on"], sndOff: ["音效 关", "Sound off"],
+  lensMonth: ["每月收入", "Monthly income"], lensForest: ["森林占比", "Forest share"],
+  secDuel5: ["城市对决 · 回合制", "Compare · turn by turn"], secDuelSub: ["七个回合逐个揭晓，每回合最高者得一枚“冠”，冠多者胜", "Seven rounds revealed one by one; the most seals wins"],
+  duelNote5: ["点“开战”看七个回合逐个翻开；可以随时跳到结果。点城市旁的 × 移除，“加一城”最多到 5 座。", "Press Fight to reveal seven rounds; skip any time. Remove with ×; add up to five cities."],
+});
+const RM = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+const sgn = v => v > 0 ? "+" : v < 0 ? "−" : "";
+const FMTS = {
+  int: v => Math.round(v).toLocaleString(EN() ? "en-US" : "zh-CN"),
+  yuan: v => EN() ? "¥" + Math.round(v).toLocaleString("en-US") : Math.round(v).toLocaleString("zh-CN") + " 元",
+  wan: v => sgn(v) + (EN() ? (Math.abs(v) >= 1e6 ? (Math.abs(v) / 1e6).toFixed(2) + "M" : Math.round(Math.abs(v) / 1e3) + "K") : (Math.abs(v) / 1e4).toFixed(Math.abs(v) >= 1e6 ? 0 : 1) + " 万人"),
+  pct: v => Math.round(v * 100) + "%", pct1: v => (v * 100).toFixed(1) + "%",
+  m: v => Math.round(v).toLocaleString("en-US") + (EN() ? " m" : " 米"),
+  km2: v => EN() ? Math.round(v / 100) * 100 + " km²" : (v >= 1e4 ? (v / 1e4).toFixed(2) + " 万 km²" : Math.round(v).toLocaleString("zh-CN") + " km²"),
+  pop: v => fmtPop(v), popS: v => fmtPopShort(v), gdp: v => fmtYuan(v), pc: v => fmtPc(v), gg: v => (v > 0 ? "+" : "") + (+v).toFixed(1) + "%",
+};
+/* 新五赋: 人 · 钱 · 产 · 绿 · 势 — the same five pigments, now everyday quantities */
+Object.assign(YIELDS.pop, { lab5: ["常住人口", "Population"], en5: "People", fmt: v => fmtPop(v), short: v => fmtPopShort(v) });
+Object.assign(YIELDS.gold, { lab5: ["每月可支配", "Monthly income"], en5: "Money", fmt: v => FMTS.yuan(v) + ZH("/月", "/mo"), short: v => EN() ? "¥" + (v / 1e3).toFixed(1) + "K" : Math.round(v).toLocaleString("zh-CN") + "元" });
+Object.assign(YIELDS.ind, { lab5: ["每天创造", "Output per day"], en5: "Daily", fmt: v => FMTS.yuan(v) + ZH("/天", "/day"), short: v => EN() ? "¥" + Math.round(v) : Math.round(v) + "元" });
+Object.assign(YIELDS.food, { lab5: ["森林占比", "Forest share"], en5: "Green", fmt: v => FMTS.pct(v), short: v => FMTS.pct(v) });
+Object.assign(YIELDS.com, { lab5: ["三年人口增减", "3-yr change"], en5: "Momentum", fmt: v => FMTS.wan(v), short: v => sgn(v) + (EN() ? Math.round(Math.abs(v) / 1e3) + "K" : (Math.abs(v) / 1e4).toFixed(Math.abs(v) >= 1e5 ? 0 : 1) + "万") });
+for (const k of Object.keys(YIELDS)) { FMTS["y_" + k] = v => YIELDS[k].short(v); FMTS["yt_" + k] = v => YIELDS[k].fmt(v); }
+const NAT5 = { inc: 39218, incU: 51821, incR: 21691, pc: 89358, dpop: 1409670000 - 1411778724, forest: null };
+let FLOWS = null;
+
+/* ---------- derived per-city numbers, ranks and pride ---------- */
+const PRIDE = [
+  { k: "forest", g: "green", d: 1, est: 1, lab: ["最绿", "Greenest"], b: ["绿", "Green"], ph: c => ZH(`卫星看下去，<b>${FMTS.pct(c.forest)}</b> 的地块以林为主`, `<b>${FMTS.pct(c.forest)}</b> of the land is forest`) },
+  { k: "water", g: "water", d: 1, est: 1, lab: ["水乡", "Water country"], b: ["水乡", "Water"], ph: c => ZH(`水面和湿地占 <b>${FMTS.pct1(c.water)}</b>`, `Water and wetland cover <b>${FMTS.pct1(c.water)}</b>`) },
+  { k: "elev", g: "elev", d: 1, est: 1, lab: ["最高", "Highest"], b: ["海拔", "Altitude"], ph: c => c.elev > 1545 ? ZH(`平均海拔比泰山顶还高 <b>${Math.round(c.elev - 1545).toLocaleString()} 米</b>`, `Average ground <b>${Math.round(c.elev - 1545).toLocaleString()} m</b> above Mount Tai's summit`) : ZH(`平均海拔 <b>${Math.round(c.elev)} 米</b>`, `Average elevation <b>${Math.round(c.elev)} m</b>`) },
+  { k: "area", g: "size", d: 1, est: 1, lab: ["地盘最大", "Largest"], b: ["地盘", "Size"], ph: c => ZH(`地盘能装下 <b>${(c.area / 6340).toFixed(c.area > 63400 ? 0 : 1)}</b> 个上海`, `<b>${(c.area / 6340).toFixed(1)}×</b> the size of Shanghai`) },
+  { k: "landpp", g: "size", d: 1, est: 1, lab: ["最宽敞", "Most room"], b: ["宽敞", "Room"], ph: c => ZH(`每人摊到 <b>${(c.landpp / 7140).toFixed(1)}</b> 个足球场的土地`, `<b>${(c.landpp / 7140).toFixed(1)}</b> football pitches of land per person`) },
+  { k: "dpop", g: "pop", d: 1, lab: ["最吸引人", "Most people arriving"], b: ["人气", "Draw"], ph: c => ZH(`三年多了 <b>${FMTS.wan(c.dpop)}</b>`, `<b>${FMTS.wan(c.dpop)}</b> people in three years`) },
+  { k: "gg", g: "econ", d: 1, lab: ["增长最快", "Fastest growing"], b: ["增速", "Growth"], ph: c => ZH(`2023 年经济增长 <b>${(+c.gg).toFixed(1)}%</b>`, `Economy grew <b>${(+c.gg).toFixed(1)}%</b> in 2023`) },
+  { k: "month", g: "money", d: 1, lab: ["最能挣", "Highest income"], b: ["收入", "Income"], ph: c => ZH(`每人每月可支配 <b>${FMTS.yuan(c.month)}</b>`, `<b>${FMTS.yuan(c.month)}</b> to spend per person per month`) },
+  { k: "incR", g: "money", d: 1, lab: ["农民最富", "Richest farmers"], b: ["农民收入", "Rural income"], ph: c => ZH(`农村居民一年 <b>${FMTS.yuan(c.incR)}</b>`, `Rural residents earn <b>${FMTS.yuan(c.incR)}</b> a year`) },
+  { k: "eq", g: "eq", d: -1, lab: ["城乡最均衡", "Most even"], b: ["均衡", "Even"], ph: c => ZH(`城里人只比乡下人多挣 <b>${Math.round((c.eq - 1) * 100)}%</b>`, `Town earns only <b>${Math.round((c.eq - 1) * 100)}%</b> more than country`) },
+  { k: "day", g: "money", d: 1, lab: ["最能干", "Most productive"], b: ["能干", "Output"], ph: c => ZH(`每人每天创造 <b>${FMTS.yuan(c.day)}</b>`, `<b>${FMTS.yuan(c.day)}</b> produced per person per day`) },
+  { k: "popAny", g: "big", d: 1, lab: ["人最多", "Most people"], b: ["人口", "People"], ph: c => ZH(`住着 <b>${fmtPopShort(c.popAny)}</b> 人`, `Home to <b>${fmtPopShort(c.popAny)}</b> people`) },
+  { k: "gdp", g: "big", d: 1, lab: ["体量最大", "Biggest economy"], b: ["体量", "Economy"], ph: c => ZH(`一年创造 <b>${fmtYuan(c.gdp)}</b>`, `<b>${fmtYuan(c.gdp)}</b> a year`) }];
+const RAR = [["寻常", "Common"], ["稀有", "Rare"], ["珍品", "Epic"], ["传世", "Legendary"]];
+function v5Derive() {
+  const acc = new Map(), z = DEM.z; let natLand = 0, natForest = 0;
+  for (let i = 0; i < PREF.length; i++) { const pi = PREF[i]; if (pi < 0) continue; const c = PREF_CITY[pi], k = LC ? LC[i] : 0; natLand++; if (k === 10) natForest++; if (!c) continue;
+    let a = acc.get(c); if (!a) acc.set(c, a = { n: 0, f: 0, w: 0, zs: 0 }); a.n++; if (k === 10 || k === 95) a.f++; if (k === 80 || k === 90) a.w++; a.zs += Math.max(z[i], 0); }
+  NAT5.forest = natLand ? natForest / natLand : null;
+  if (LC2) { const f2 = new Map(); let nl = 0, nf = 0; for (let y = 0; y < LC2.h; y++) for (let x = 0; x < LC2.w; x++) { const i4 = (y >> 1) * DEM.w + (x >> 1); if (i4 >= PREF.length) continue; const pi = PREF[i4]; if (pi < 0) continue; const k = LC2.d[y * LC2.w + x]; nl++; if (k === 10) nf++; const c = PREF_CITY[pi]; if (!c) continue;
+      let a = f2.get(c); if (!a) f2.set(c, a = { n: 0, f: 0, w: 0 }); a.n++; if (k === 10 || k === 95) a.f++; if (k === 80 || k === 90) a.w++; }
+    NAT5.forest = nl ? nf / nl : NAT5.forest; for (const [c, a] of f2) if (a.n > 8) acc.get(c) && Object.assign(acc.get(c), { f2: a.f / a.n, w2: a.w / a.n }); }
+  for (const c of CITIES) { const a = acc.get(c);
+    if (a && a.n > 3) { c.area = a.n * DEM.km * DEM.km; c.forest = a.f2 ?? (LC ? a.f / a.n : null); c.water = a.w2 ?? (LC ? a.w / a.n : null); c.elev = a.zs / a.n; } else c.area = c.forest = c.water = c.elev = null;
+    c.month = c.inc != null ? c.inc / 12 : null; c.day = c.pc != null ? c.pc / 365 : null; c.dpop = c.pop != null && c.pop20 != null ? c.pop - c.pop20 : null;
+    c.eq = c.incU != null && c.incR != null && c.incR > 0 ? c.incU / c.incR : null; c.landpp = c.area && c.popAny ? c.area * 1e6 / c.popAny : null;
+    c.popReg = c.popReg ?? null; c.prk = {}; }
+  for (const m of PRIDE) { const s = CITIES.filter(c => c[m.k] != null && isFinite(c[m.k])).sort((a, b) => m.d * (b[m.k] - a[m.k])); s.forEach((c, i) => c.prk[m.k] = { r: i + 1, n: s.length }); NATION.rankN[m.k] = s.length; }
+  for (const k of ["month", "day", "forest", "dpop"]) CITIES.forEach(c => c.rk[k] = c.prk[k] ? c.prk[k].r : null);
+}
+function prideOf(c) { if (!c.prk) return []; const all = PRIDE.map(m => c.prk[m.k] ? { m, r: c.prk[m.k].r, n: c.prk[m.k].n, q: c.prk[m.k].r / c.prk[m.k].n } : null).filter(Boolean).sort((a, b) => a.q - b.q || a.r - b.r);
+  const out = [], gs = new Set(); for (const h of all) { if (gs.has(h.m.g)) continue; gs.add(h.m.g); out.push(h); } return out; }
+const rarity = c => { const b = prideOf(c)[0]; return !b ? 0 : b.r <= 3 ? 3 : b.r <= 10 ? 2 : b.r <= 30 ? 1 : 0; };
+const rankBadge = h => h.r <= 30 ? ZH(`${h.m.b[0]}·第${h.r}`, `#${h.r} ${h.m.b[1]}`) : ZH(`${h.m.b[0]}·前${Math.max(1, Math.round(h.q * 100))}%`, `Top ${Math.max(1, Math.round(h.q * 100))}% ${h.m.b[1]}`);
+function prideHTML(c, n = 3, col = false) { const hs = prideOf(c).slice(0, n); if (!hs.length) return `<p class="note">${t("noData")}</p>`;
+  return `<div class="pride ${col ? "col" : ""}">${hs.map(h => { const r = h.r, cls = r <= 3 ? "g" + r : r <= 10 ? "t10" : "";
+    const top = r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b class="num">${r}</b>` : `<small>${ZH("前", "Top")}</small><b class="num">${Math.max(1, Math.round(h.q * 100))}%</b>`;
+    return `<div class="honor ${cls} ${r <= 3 ? "shine" : ""}"><span class="rkb">${top}</span><span class="lab">${ZH(h.m.lab[0], h.m.lab[1])}</span><span class="ph">${h.m.ph(c)}</span>${h.m.est ? `<span class="src5">${ZH("卫星估算", "satellite est.")}</span>` : ""}</div>`; }).join("")}</div>`; }
+
+/* ---------- 生活账本 ---------- */
+function ledgerHTML(c, mode = "full") { const N = NAT5;
+  const month = c.month ?? (c.incU != null ? c.incU / 12 : null), isU = c.month == null && c.incU != null, natM = (isU ? N.incU : N.inc) / 12;
+  const gauge = (v, nat) => { const mx = Math.max(v, nat) * 1.25; return `<span class="gauge"><i class="nat" style="left:${nat / mx * 100}%"><b>${ZH("全国", "China")}</b></i><i class="me" style="--w:${v / mx * 100}%"></i></span>`; };
+  const vsT = (v, nat) => { const r = Math.round((v / nat - 1) * 100); return `<span class="vs ${r >= 0 ? "up" : "down"}">${r >= 0 ? ZH(`比全国高 ${r}%`, `${r}% above China`) : ZH(`比全国低 ${-r}%`, `${-r}% below China`)}</span>`; };
+  const row = (yk, label, v, f, nat, unit) => v == null ? `<div class="lg pend"><span class="ico">${medalSVG(yk)}</span><span class="k">${label}</span><span class="v">${ZH("采集中", "pending")}</span></div>`
+    : `<div class="lg"><span class="ico">${medalSVG(yk)}</span><span class="k">${label}</span><span class="v num"><span data-cu="${v}" data-cuf="${f}">${FMTS[f](v)}</span><small>${unit}</small></span><div class="cmp5">${gauge(v, nat)}${vsT(v, nat)}</div></div>`;
+  const lead = month != null ? ZH(`${c.n}人平均每月可支配 <b>${FMTS.yuan(month)}</b>，${month >= natM ? "比全国平均多" : "比全国平均少"} <b>${Math.abs(Math.round((month / natM - 1) * 100))}%</b>。`, `In ${c.en || c.n}, people have <b>${FMTS.yuan(month)}</b> a month to spend, <b>${Math.abs(Math.round((month / natM - 1) * 100))}%</b> ${month >= natM ? "more" : "less"} than the national average.`)
+    : c.day != null ? ZH(`${c.n}平均每人每天创造 <b>${FMTS.yuan(c.day)}</b>。`, `Each person in ${c.en || c.n} produces <b>${FMTS.yuan(c.day)}</b> a day.`) : "";
+  const dp = c.dpop == null ? `<div class="lg pend"><span class="ico">${medalSVG("com")}</span><span class="k">${ZH("三年来人口增减", "Population change in 3 years")}</span><span class="v">${ZH("采集中", "pending")}</span></div>`
+    : `<div class="lg"><span class="ico">${medalSVG("com")}</span><span class="k">${ZH("三年来人口增减（七普 → 2023）", "Population change (2020 census → 2023)")}</span><span class="v num ${c.dpop > 0 ? "up" : "down"}"><span data-cu="${c.dpop}" data-cuf="wan">${FMTS.wan(c.dpop)}</span></span><div class="cmp5"><span>${c.dpop > 0 ? ZH("全国人口在减少，这里逆势增加", "China shrank; this city grew") : ZH("和全国一样在减少", "Shrinking, like China overall")} · ${ZH("全国", "China")} ${FMTS.wan(N.dpop)}</span></div></div>`;
+  const pend = mode === "panel" ? `<div class="lg pend"><span class="ico">${icon("i-home", "")}</span><span class="k">${ZH("买一套 90 平要攒几年收入", "Years of income for a 90 m² home")}</span><span class="v">${ZH("第 2 期", "phase 2")}</span></div>`
+    : `<div class="lg pend" style="grid-template-columns:34px 1fr"><span class="ico">${icon("i-home", "")}</span><div style="display:flex;flex-wrap:wrap;gap:6px">${[["买房要攒几年收入", "Years of income for a home"], ["平均工资", "Average wage"], ["每千人医生", "Doctors per 1,000"], ["地铁里程", "Metro length"], ["空气优良天数", "Clean-air days"], ["冬天多冷", "How cold in winter"]].map(([a, b]) => `<span class="pchip">${ZH(a, b)} · ${ZH("第 2 期", "phase 2")}</span>`).join("")}</div></div>`;
+  return `<div class="ledger">${mode !== "panel" && lead ? `<div class="lead">${lead}</div>` : ""}
+    ${row("gold", isU ? ZH("城镇居民 · 每人每月可支配", "Urban residents · disposable per month") : ZH("每人每月可支配收入", "Disposable income per person per month"), month, "yuan", natM, ZH("/月", "/mo"))}
+    ${row("ind", ZH("每人每天创造（人均 GDP ÷ 365）", "Output per person per day (GDP per head ÷ 365)"), c.day, "yuan", N.pc / 365, ZH("/天", "/day"))}${dp}${pend}</div>`; }
+function stockHTML(c) { const N = NATION.rankN, r = (k, n) => c.rk[k] ? `<span class="note">${ZH("全国第", "#")}${c.rk[k]} / ${n}</span>` : "";
+  return `<div class="prov"><div class="row"><span>${ZH("常住人口", "Population")}</span><span><b class="num">${fmtPopShort(c.popAny)}</b> ${r("pop", N.pop)}</span></div><div class="row"><span>${ZH("地区生产总值", "GDP")}</span><span><b class="num">${fmtYuan(c.gdp)}</b> ${r("gdp", N.gdp)}</span></div><div class="row"><span>${t("kPc")}</span><span><b class="num">${fmtPc(c.pc)}</b> ${r("pc", N.pc)}</span></div></div>`; }
+
+/* ---------- 人去哪儿了 (official: 七普 by province; city: 户籍 − 常住) ---------- */
+const PROVNAME = id => { const p = PROVS.find(p => p.id === id.slice(0, 2)); return p ? (EN() ? p.en : p.zh) : id; };
+const PROV_CAP = pid => CITIES.find(c => c.prov === pid.slice(0, 2) && (c.pcap || c.kind === "municipality"));
+function flowsOf(c) { if (!FLOWS || !c) return null; const pid = c.prov + "0000", out = FLOWS.out && FLOWS.out[pid], inn = FLOWS.in && FLOWS.in[pid];
+  const to = FLOWS.tot_out ? FLOWS.tot_out[pid] : null, ti = FLOWS.tot_in ? FLOWS.tot_in[pid] : null; const inflow = c.popReg != null ? c.popReg < (c.pop || 0) : (ti || 0) > (to || 0);
+  const list = inflow ? inn : out, tot = inflow ? ti : to; if (!list || !tot) return null; return { pid, inflow, tot, list: list.slice(0, 6).map(([p, n]) => ({ p, n, s: n / tot })) }; }
+function flowHTML(c, compact) { const f = flowsOf(c), pv = PROVNAME(c.prov + "0000"), reg = c.popReg, out = reg != null && c.pop != null ? reg - c.pop : null;
+  const head = out == null ? `<span class="tag">${ZH("户籍人口", "Registered population")} · ${PEND("采集中", "collecting")}</span>`
+    : out > 0 ? `<div class="head">${ZH(`户籍 ${fmtPopShort(reg)}，常住 ${fmtPopShort(c.pop)}：约 <b>${fmtPopShort(out)}</b> 人在外地生活，每 <b>${Math.max(2, Math.round(reg / out))}</b> 个${c.n}人里就有 1 个`, `Registered ${fmtPopShort(reg)}, resident ${fmtPopShort(c.pop)}: about <b>${fmtPopShort(out)}</b> live elsewhere`)}</div>`
+    : `<div class="head">${ZH(`常住比户籍多 <b>${fmtPopShort(-out)}</b>：外地来的人撑起了这座城`, `<b>${fmtPopShort(-out)}</b> more residents than registered: newcomers carry this city`)}</div>`;
+  const dir = f ? `<span class="tag">${f.inflow ? ZH(`外省来${pv}的人，主要来自：`, `People from other provinces in ${pv} come from:`) : ZH(`${pv}人在外省，主要去了：`, `People from ${pv} living in other provinces went to:`)} · ${ZH("七普 2020 · 按省", "2020 census · by province")}</span>
+      <div class="bar2">${f.list.map((d, i) => `<i style="flex:${d.n};background:${["#2d5e78", "#4b7b90", "#6c97a6", "#8fb0b8", "#b2c7c8", "#cfdad6"][i]}" title="${PROVNAME(d.p)}"></i>`).join("")}</div>
+      ${f.list.slice(0, compact ? 3 : 6).map(d => `<div class="dst"><b>${PROVNAME(d.p)}</b><div class="hbar"><i style="width:${d.s / f.list[0].s * 100}%"></i></div><em class="num">${Math.round(d.s * 100)}%</em></div>`).join("")}`
+    : `<span class="tag">${ZH("去向（七普省际流动）", "Destinations (2020 census)")} · ${PEND("采集中", "collecting")}</span>`;
+  return `<div class="flow5">${head}${dir}${c.dpop != null ? `<span class="tag">${ZH("七普 → 2023 常住人口", "Residents, census → 2023")} <b class="num ${c.dpop > 0 ? "up" : "down"}">${FMTS.wan(c.dpop)}</b></span>` : ""}</div>`; }
+
+/* ---------- juice: count-up, ink spatter, sound ---------- */
+function countUp(root) { if (!root) return; $$("[data-cu]", root).forEach(el => { const to = +el.dataset.cu, f = FMTS[el.dataset.cuf || "int"] || FMTS.int; if (!isFinite(to)) return; if (RM()) { el.textContent = f(to); return; }
+  const from = to * (el.dataset.cuf === "wan" ? 0 : .0), ms = 900, t0 = performance.now(); el.textContent = f(from);
+  const step = now => { const p = clamp((now - t0) / ms, 0, 1), e = 1 - Math.pow(1 - p, 3); el.textContent = f(from + (to - from) * e); if (p < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); }); }
+let FXL = null;
+function spatterAt(cx, cy, n = 16, col = "#b23a2b", spread = 64) { if (RM()) return; if (!FXL) { FXL = document.createElement("div"); FXL.className = "fxl"; document.body.appendChild(FXL); }
+  for (let i = 0; i < n; i++) { const d = document.createElement("i"), a = Math.random() * 6.283, dist = spread * (.35 + Math.random() * .85), s = 3 + Math.random() * 8;
+    d.style.cssText = `left:${cx}px;top:${cy}px;width:${s}px;height:${s * (.7 + Math.random() * .6)}px;background:${col}`; FXL.appendChild(d);
+    d.animate([{ transform: "translate(-50%,-50%) scale(1)", opacity: .95 }, { transform: `translate(calc(-50% + ${Math.cos(a) * dist}px), calc(-50% + ${Math.sin(a) * dist}px)) scale(.35)`, opacity: 0 }], { duration: 520 + Math.random() * 420, easing: "cubic-bezier(.15,.75,.25,1)" }).onfinish = () => d.remove(); } }
+function spatter(el, n, col, spread) { if (!el) return; const r = el.getBoundingClientRect(); spatterAt(r.left + r.width / 2, r.top + r.height / 2, n, col, spread); }
+const SND = { on: false, ac: null };
+function tone(f, t, dur, type = "triangle", vol = .25, bend = 1) { const ac = SND.ac, o = ac.createOscillator(), g = ac.createGain(); o.type = type; o.frequency.setValueAtTime(f, t); if (bend !== 1) o.frequency.exponentialRampToValueAtTime(f * bend, t + dur);
+  g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .008); g.gain.exponentialRampToValueAtTime(.0001, t + dur); o.connect(g).connect(ac.destination); o.start(t); o.stop(t + dur + .02); }
+function noise(t, dur, vol = .2, freq = 900) { const ac = SND.ac, n = Math.floor(ac.sampleRate * dur), buf = ac.createBuffer(1, n, ac.sampleRate), d = buf.getChannelData(0); for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 2);
+  const s = ac.createBufferSource(), fl = ac.createBiquadFilter(), g = ac.createGain(); fl.type = "lowpass"; fl.frequency.value = freq; g.gain.value = vol; s.buffer = buf; s.connect(fl).connect(g).connect(ac.destination); s.start(t); }
+function snd(kind) { if (!SND.on) return; try { SND.ac = SND.ac || new (window.AudioContext || window.webkitAudioContext)(); const t = SND.ac.currentTime + .01;
+  if (kind === "stamp") { tone(150, t, .22, "sine", .5, .35); noise(t, .09, .35, 1400); } else if (kind === "pluck") tone(392, t, .6, "triangle", .22, .995);
+  else if (kind === "flip") noise(t, .12, .16, 3200); else if (kind === "tick") tone(1046, t, .05, "triangle", .06);
+  else if (kind === "ok") [523, 659, 784].forEach((f, i) => tone(f, t + i * .07, .4, "triangle", .2));
+  else if (kind === "no") { tone(220, t, .3, "triangle", .22, .9); tone(196, t + .12, .4, "triangle", .2, .9); }
+  else if (kind === "win") [392, 440, 523, 587, 659, 784].forEach((f, i) => tone(f, t + i * .09, .7, "triangle", .2)); } catch (e) { } }
+function renderSnd() { $$("[data-snd]").forEach(b => { b.setAttribute("aria-pressed", String(SND.on)); b.innerHTML = `${icon(SND.on ? "i-sound" : "i-mute")}<span>${t(SND.on ? "sndOn" : "sndOff")}</span>`; }); }
+
+/* ---------- the desk map comes alive: unroll, mist, boats, birds, springy plaques, flows ---------- */
+const FX = { clouds: [], boats: [], birds: [], vis: false, last: 0, ready: false };
+function cloudSprite(r) { const c = document.createElement("canvas"); c.width = 320; c.height = 110; const x = c.getContext("2d");
+  for (let i = 0; i < 8; i++) { const cx = 40 + r() * 240, cy = 40 + r() * 34, rx = 40 + r() * 70; const g = x.createRadialGradient(cx, cy, 2, cx, cy, rx); g.addColorStop(0, "rgba(250,246,236,.9)"); g.addColorStop(.6, "rgba(250,246,236,.45)"); g.addColorStop(1, "rgba(250,246,236,0)"); x.fillStyle = g; x.beginPath(); x.ellipse(cx, cy, rx, rx * .42, 0, 0, 7); x.fill(); }
+  x.strokeStyle = "rgba(90,110,110,.22)"; x.lineWidth = 1.2; for (let i = 0; i < 3; i++) { const cx = 70 + i * 70 + r() * 20, cy = 58 + r() * 10; x.beginPath(); x.arc(cx, cy, 14 + r() * 8, Math.PI * 1.05, Math.PI * 1.95); x.stroke(); } return c; }
+function fxInit(app) { if (FX.ready) return; FX.ready = true; const cv = document.createElement("canvas"); cv.className = "map fxc"; cv.setAttribute("aria-hidden", "true"); app.fade.after(cv); app.fx = cv;
+  const rod = document.createElement("div"); rod.className = "rod"; app.root.appendChild(rod);
+  cv.width = app.canvas.width; cv.height = app.canvas.height; const r = rng(77); FX.imgs = [0, 1, 2].map(() => cloudSprite(r));
+  for (let i = 0; i < 12; i++) FX.clouds.push({ x: r() * FR.w, y: 500 + r() * (FR.h - 1300), s: .7 + r() * .9, v: 10 + r() * 16, img: i % 3 });
+  const lines = []; for (const rv of G.rivers) if (rv.rank <= 3) for (const l of rv.lines) { let L = 0; const cum = [0]; for (let i = 1; i < l.length; i++) { L += Math.hypot(l[i][0] - l[i - 1][0], l[i][1] - l[i - 1][1]); cum.push(L); } if (L > 500) lines.push({ l, cum, L }); }
+  lines.sort((a, b) => b.L - a.L); for (let i = 0; i < 16 && lines.length; i++) { const ln = lines[i % Math.min(lines.length, 6)]; FX.boats.push({ ln, d: r() * ln.L, v: (7 + r() * 9) * (r() < .5 ? -1 : 1) }); }
+  for (let i = 0; i < 3; i++) FX.birds.push({ x: r() * FR.w, y: 900 + r() * 2000, v: 40 + r() * 25, ph: r() * 6 });
+  const io = new IntersectionObserver(es => { for (const e of es) FX.vis = e.isIntersecting; }); io.observe(app.root); requestAnimationFrame(fxLoop); }
+function along(ln, d) { const c = ln.cum; let lo = 0, hi = c.length - 1; while (hi - lo > 1) { const m = (lo + hi) >> 1; if (c[m] < d) lo = m; else hi = m; } const a = ln.l[lo], b = ln.l[hi], t = (d - c[lo]) / Math.max(c[hi] - c[lo], 1e-6); return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, Math.atan2(b[1] - a[1], b[0] - a[0])]; }
+function drawBoat(ctx, x, y, s, dir) { ctx.save(); ctx.translate(x, y); ctx.scale(dir * s, s); ctx.fillStyle = "#3a2a22"; ctx.beginPath(); ctx.moveTo(-6, 0); ctx.quadraticCurveTo(0, 3.4, 6, 0); ctx.lineTo(4.5, -.6); ctx.lineTo(-4.5, -.6); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = "#efe2c4"; ctx.strokeStyle = "#3a2a22"; ctx.lineWidth = .6; ctx.beginPath(); ctx.moveTo(-.4, -1); ctx.lineTo(-.4, -9); ctx.lineTo(4.2, -2.2); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore(); }
+function drawBirds(ctx, x, y, u, ph) { ctx.save(); ctx.strokeStyle = "rgba(43,35,29,.6)"; ctx.lineWidth = 1.1 * u; ctx.lineCap = "round";
+  [[0, 0], [-14, 6], [12, 9]].forEach(([dx, dy], i) => { const w = 5 * u, f = Math.sin(ph + i) * 2.6 * u; ctx.beginPath(); ctx.moveTo(x + dx * u - w, y + dy * u - f); ctx.quadraticCurveTo(x + dx * u - w / 2, y + dy * u - 2.2 * u, x + dx * u, y + dy * u); ctx.quadraticCurveTo(x + dx * u + w / 2, y + dy * u - 2.2 * u, x + dx * u + w, y + dy * u - f); ctx.stroke(); }); ctx.restore(); }
+function drawCityFlows(app, ctx, u, v, now) { const c = S.city && BYID.get(S.city), f = flowsOf(c); if (!f) return; const [x0, y0] = toPx(v, c.x, c.y);
+  f.list.forEach((d, i) => { const cap = PROV_CAP(d.p); if (!cap) return; let [x1, y1] = toPx(v, cap.x, cap.y); let a = [x0, y0], b = [x1, y1]; if (f.inflow) [a, b] = [b, a];
+    const k = .2 * (i % 2 ? -1 : 1), w = (1.2 + d.s * 14) * u; ctx.save(); ctx.strokeStyle = "rgba(45,94,120,.75)"; ctx.lineWidth = w; ctx.lineCap = "round"; ctx.setLineDash([7 * u, 7 * u]); ctx.lineDashOffset = -(now / 28) % (14 * u);
+    ctx.beginPath(); ctx.moveTo(...a); for (let s = 1; s <= 28; s++) ctx.lineTo(...qpt(a, b, k, s / 28)); ctx.stroke(); ctx.setLineDash([]);
+    const e = b, dd = qpt(a, b, k, .95), ang = Math.atan2(e[1] - dd[1], e[0] - dd[0]), L = 5 * u + w; ctx.fillStyle = "rgba(45,94,120,.9)"; ctx.beginPath(); ctx.moveTo(...e); ctx.lineTo(e[0] - L * Math.cos(ang - .5), e[1] - L * Math.sin(ang - .5)); ctx.lineTo(e[0] - L * Math.cos(ang + .5), e[1] - L * Math.sin(ang + .5)); ctx.closePath(); ctx.fill();
+    const lp = f.inflow ? a : b; ctx.font = `600 ${11 * u}px "Noto Serif SC", serif`; ctx.textAlign = "center"; ctx.textBaseline = "bottom"; haloText(ctx, `${PROVNAME(d.p)} ${Math.round(d.s * 100)}%`, lp[0], lp[1] - 9 * u, "#1f4658", "rgba(246,239,224,.92)", 3.2 * u); ctx.restore(); }); }
+function drawFx(app, now) { const cv = app.fx; if (!cv) return; const ctx = cv.getContext("2d"), v = app.view, u = app.u, z = app.zoom(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
+  const dt = FX.last ? Math.min(.1, (now - FX.last) / 1000) : 0; FX.last = now;
+  const ca = clamp((2.8 - z) / 1.3, 0, 1) * .62; if (ca > .01) for (const c of FX.clouds) { c.x += c.v * dt; if (c.x > FR.w + 400) c.x = -400; const [x, y] = toPx(v, c.x, c.y), img = FX.imgs[c.img], w = img.width * c.s * v.s * 2.2, h = img.height * c.s * v.s * 2.2; ctx.globalAlpha = ca; ctx.drawImage(img, x - w / 2, y - h / 2, w, h); }
+  ctx.globalAlpha = 1;
+  if (z > 1.15) { const bs = clamp(z * .5, .75, 1.7) * u; for (const b of FX.boats) { b.d += b.v * dt; if (b.d < 0) b.d += b.ln.L; if (b.d > b.ln.L) b.d -= b.ln.L; const p = along(b.ln, b.d), [x, y] = toPx(v, p[0], p[1]); if (x > -20 && y > -20 && x < cv.width + 20 && y < cv.height + 20) drawBoat(ctx, x, y, bs, Math.cos(p[2]) * Math.sign(b.v) >= 0 ? 1 : -1); } }
+  if (z < 2.2) for (const b of FX.birds) { b.x += b.v * dt; if (b.x > FR.w + 300) b.x = -300; const [x, y] = toPx(v, b.x, b.y + Math.sin(now / 1600 + b.ph) * 40); drawBirds(ctx, x, y, u, now / 170 + b.ph); }
+  drawCityFlows(app, ctx, u, v, now); }
+function fxLoop(now) { const a = APPS[0]; if (a && a.fx && FX.vis && !RM()) drawFx(a, now); requestAnimationFrame(fxLoop); }
+function springK(app, id) { if (app.springId !== id) return 1; const dt = performance.now() - app.springT0; return dt > 900 ? 1.08 : 1.08 - .08 * Math.exp(-dt / 110) * Math.cos(dt / 36); }
+function springHover(a, id) { if (id === a.springId) return; a.springId = id; a.springT0 = performance.now(); if (!id) { frame(a); return; } snd("tick"); if (RM()) { frame(a); return; } const t0 = performance.now(), step = now => { frame(a); if (now - t0 < 650 && a.springId === id) requestAnimationFrame(step); }; requestAnimationFrame(step); }
+function playOpening() { const a = APPS[0]; if (!a || RM()) return; a.root.classList.remove("opening"); void a.root.offsetWidth; a.root.classList.add("opening"); snd("flip");
+  setTimeout(() => countUp($("[data-yields]", a.root)), 700);
+  setTimeout(() => { const s = $("[data-colophon] .seal", a.root); if (s) { s.classList.remove("stamp"); void s.offsetWidth; s.classList.add("stamp"); spatter(s, 14); snd("stamp"); } }, 1650);
+  setTimeout(() => a.root.classList.remove("opening"), 2400); }
+function inkReveal(a, ox, oy) { const f = a.fade, W = f.clientWidth, H = f.clientHeight, R = Math.hypot(W, H), t0 = performance.now(), ms = 800; f.style.transition = "none"; f.style.opacity = 1;
+  const step = now => { const p = clamp((now - t0) / ms, 0, 1), e = 1 - Math.pow(1 - p, 2.2), r = e * R, m = `radial-gradient(circle at ${ox}px ${oy}px, transparent ${r}px, rgba(0,0,0,.6) ${r + 30}px, #000 ${r + 90}px)`;
+    f.style.webkitMaskImage = f.style.maskImage = m; if (p < 1) requestAnimationFrame(step); else { f.style.opacity = 0; f.style.webkitMaskImage = f.style.maskImage = ""; } }; requestAnimationFrame(step); }
+
+/* ---------- 城市卡牌 ---------- */
+function cardArt(cv, c) { const ctx = cv.getContext("2d"), W = cv.width, H = cv.height, r2 = dayRaster2(false), kmW = 330, kmH = kmW * H / W;
+  ctx.fillStyle = DAY.sea; ctx.fillRect(0, 0, W, H); ctx.fillStyle = wavePattern(ctx, 1, "rgba(52,96,104,0.22)"); ctx.fillRect(0, 0, W, H); ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
+  if (r2) { const k = 1 / r2.km; ctx.drawImage(r2.cv, (c.x - kmW / 2) * k, (c.y - kmH * .55) * k, kmW * k, kmH * k, 0, 0, W, H); } else { const k = 1 / DEM.km; ctx.drawImage(dayRaster(false), (c.x - kmW / 2) * k, (c.y - kmH * .55) * k, kmW * k, kmH * k, 0, 0, W, H); }
+  const g = ctx.createRadialGradient(W / 2, H * .55, H * .25, W / 2, H * .55, W * .72); g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(1, "rgba(40,25,10,.38)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  drawTown(ctx, W / 2, H * .64, c.tier, [3.4, 2.5, 2.05, 1.75][c.tier] * W / 240); }
+function paintArts(root) { if (!root || !CITIES) return; $$("canvas[data-art]", root).forEach(cv => { const c = BYID.get(cv.dataset.art); if (c) cardArt(cv, c); }); }
+function cardHTML(c, o = {}) { const rr = rarity(c), best = prideOf(c)[0], hs = prideOf(c).slice(0, 3);
+  const stats = o.statsHTML ?? ["gold", "ind", "food", "com"].map(k => { const Y = YIELDS[k], v = c[Y.key]; return `<div>${medalSVG(k)}<span>${ZH(Y.lab5[0], Y.lab5[1])}</span><b class="num">${v == null ? "—" : Y.short(v)}</b></div>`; }).join("");
+  return `<div class="card5 r${rr} ${o.cls || ""}" data-card="${c.id}"><div class="cd-in"><div class="cd-front">
+    <div class="cd-top"><span class="cd-nm">${cname(c)}</span>${seal(c.n.slice(0, 2))}</div>
+    <div class="cd-art"><canvas data-art="${c.id}" width="${o.big ? 300 : 240}" height="${o.big ? 170 : 140}" role="img" aria-label="${cname(c)}"></canvas><span class="cd-rar">${ZH(...RAR[rr])}</span>${best ? `<span class="cd-hon">${rankBadge(best)}</span>` : ""}</div>
+    <div class="cd-sub">${pvOf(c)} · ${kindOf(c)}</div><div class="cd-stats">${stats}</div>
+    <div class="cd-foot"><span>No.${String(CITIES.indexOf(c) + 1).padStart(3, "0")}</span><span>JIANGSHAN ATLAS</span></div></div>
+    <div class="cd-back">${seal("图鉴")}<b>${cname(c)}</b><div class="bk">${hs.map(h => `${rankBadge(h)}：${h.m.ph(c).replace(/<[^>]+>/g, "")}`).join("<br>")}<br><br>${ZH("数据：2023 年统计公报（中国统计信息网转载）、七普、ESA WorldCover、高程。稀有度按骄傲榜最好的名次：前 3 传世、前 10 珍品、前 30 稀有。", "Data: 2023 communiqués, 2020 census, ESA WorldCover, elevation. Rarity follows the best pride rank: top 3 legendary, top 10 epic, top 30 rare.")}</div></div></div></div>`; }
+
+/* ---------- 叁 · 骄傲榜与生活账本 (section) ---------- */
+function renderLife() { const el = $("[data-life]"); if (!el) return; const ids = ["330100", "511300", "540400", "341000", "230700"].filter(id => BYID.has(id)).slice(0, 3);
+  el.innerHTML = ids.map(id => { const c = BYID.get(id); return `<div class="leaf mingpian"><div class="top">${seal(c.n.slice(0, 2))}<div><b>${cname(c)}</b><span>${pvOf(c)} · ${kindOf(c)} · ${ZH(RAR[rarity(c)][0], RAR[rarity(c)][1])}</span></div>${tierImg(c)}</div>
+    <h4 style="margin:0;font:600 var(--fs-3)/1.2 var(--serif)">${ZH("骄傲榜", "Pride board")}</h4>${prideHTML(c, 3, true)}<h4 style="margin:0;font:600 var(--fs-3)/1.2 var(--serif)">${ZH("生活账本", "Everyday numbers")}</h4>${ledgerHTML(c, "panel")}
+    <button class="btn primary" data-sec="s-share" style="justify-self:start">${icon("i-share")}${ZH(`分享${c.n}名片`, `Share ${c.en}'s card`)}</button></div>`; }).join("");
+  const hz = BYID.get("330100");
+  $("[data-swap]").innerHTML = `<div class="swap"><div class="old"><h4>${ZH("以前放在最前面", "What came first before")}</h4><ul><li><s>${ZH("地区生产总值", "GDP")} ${fmtYuan(hz.gdp)}</s></li><li><s>${ZH("第一产业增加值", "Primary sector")} ${fmtYuan(hz.p1)}</s></li><li><s>${ZH("第二产业增加值", "Secondary sector")} ${fmtYuan(hz.p2)}</s></li><li><s>${ZH("第三产业增加值", "Tertiary sector")} ${fmtYuan(hz.p3)}</s></li><li><s>${ZH("服务业占比", "Services share")} ${Math.round(hz.sv * 100)}%</s></li></ul></div><div class="arrow">→</div>
+    <div class="new"><h4>${ZH("现在放在最前面（以杭州为例）", "What comes first now (Hangzhou)")}</h4><ul><li>${ZH("骄傲榜：", "Pride: ")}${prideOf(hz).slice(0, 3).map(h => rankBadge(h)).join(" · ")}</li><li>${ZH("每人每月可支配", "Monthly disposable income")} ${FMTS.yuan(hz.month)}${ZH("，比全国高", ", above China by ")} ${Math.round((hz.month / (NAT5.inc / 12) - 1) * 100)}%</li><li>${ZH("每人每天创造", "Output per person per day")} ${FMTS.yuan(hz.day)}</li><li>${ZH("三年多了", "Gained")} ${FMTS.wan(hz.dpop)}${ZH("（全国在减少）", " (China shrank)")}</li><li>${ZH("人去哪儿了：户籍与常住之差、七普省际去向", "Where people go: registered vs resident, 2020 census flows")}</li></ul>
+    <p class="note">${ZH("GDP、人口这些“家底”仍然在，只是放到后面；三产结构不再单列。", "GDP and population stay, further down; the sector split is gone.")}</p></div></div>`; }
+
+/* ---------- 肆 · 猜城 ---------- */
+const GQ = [{ k: "month", y: "gold", q: ["哪座城的人，每月可支配的钱更多？", "Where do people have more to spend each month?"] }, { k: "day", y: "ind", q: ["哪座城的人，平均每天创造的更多？", "Where does each person produce more per day?"] },
+  { k: "dpop", y: "com", q: ["这三年，哪座城多出来的人更多？", "Which city gained more people in three years?"] }, { k: "forest", y: "food", q: ["哪座城更绿？", "Which city is greener?"] },
+  { k: "elev", ic: "i-mountain", lab: ["平均海拔", "Average elevation"], f: v => FMTS.m(v), q: ["哪座城海拔更高？", "Which city sits higher?"] }, { k: "area", ic: "i-map", lab: ["面积（估算）", "Area (est.)"], f: v => FMTS.km2(v), q: ["哪座城地盘更大？", "Which city covers more land?"] },
+  { k: "popAny", y: "pop", q: ["哪座城住的人更多？", "Which city has more people?"] }];
+const G5 = { qs: null, i: 0, res: [], picked: null, streak: 3, best: 7, done: false, seed: 0 };
+function dailySeed() { const d = new Date(), s = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; let h = 2166136261; for (const ch of s) h = Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0; return h; }
+function makeQs(seed) { const r = rng(seed), pool = CITIES.filter(c => c.tier >= 1 || rarity(c) >= 2), out = [], used = new Set(); let g = 0;
+  while (out.length < 5 && g++ < 4000) { const m = GQ[Math.floor(r() * GQ.length)]; if (used.has(m.k) && g < 1500) continue; const a = pool[Math.floor(r() * pool.length)], b = pool[Math.floor(r() * pool.length)]; if (a === b || a.prov === b.prov && g < 2000) continue;
+    const va = a[m.k], vb = b[m.k]; if (va == null || vb == null) continue;
+    if (m.k === "dpop") { if (Math.abs(va - vb) < 1e5) continue; } else { const lo = Math.min(va, vb), hi = Math.max(va, vb); if (lo <= 0 || hi / lo < 1.12 || hi / lo > 2.4) continue; }
+    used.add(m.k); out.push({ m, a, b }); } return out; }
+const gqLab = m => m.y ? ZH(...YIELDS[m.y].lab5) : ZH(...m.lab), gqFmt = m => m.y ? YIELDS[m.y].short : m.f, gqIcon = m => m.y ? medalSVG(m.y) : icon(m.ic, "");
+function renderGuess(anim) { const el = $("[data-gs]"); if (!el || !CITIES) return; if (!G5.qs) { G5.seed = dailySeed(); G5.qs = makeQs(G5.seed); } const q = G5.qs[G5.i]; if (!q) return; const m = q.m, st = G5.picked != null, f = gqFmt(m); FMTS.gq = f;
+  const win = q.a[m.k] >= q.b[m.k] ? "a" : "b", ok = G5.res[G5.i];
+  const dots = G5.qs.map((_, i) => { const r = G5.res[i]; return `<span class="gs-dot ${r === true ? "ok" : r === false ? "no" : i === G5.i ? "cur" : ""}">${r === true ? ZH("对", "✓") : r === false ? ZH("错", "✗") : i + 1}</span>`; }).join("");
+  const others = k => ["gold", "ind", "food", "com"].filter(y => YIELDS[y].key !== m.k).slice(0, 2).map(y => { const v = k[YIELDS[y].key]; return `<div>${medalSVG(y)}<span>${ZH(...YIELDS[y].lab5)}</span><b class="num">${v == null ? "—" : YIELDS[y].short(v)}</b></div>`; }).join("");
+  const card = (c, side) => { const v = c[m.k], isW = side === win, chosen = st && G5.picked === side;
+    return `<button class="gs-pick ${st ? (isW ? "win" : "lose") : ""} ${chosen && anim ? "thud" : ""}" data-gpick="${side}" ${st ? "disabled" : ""} aria-label="${cname(c)}" style="position:relative">${cardHTML(c, { big: true, cls: anim === "deal" ? "deal" : "", statsHTML: `<div class="hide">${gqIcon(m)}<span>${gqLab(m)}</span><b class="num"${st ? ` data-cu="${v}" data-cuf="gq"` : ""}>${st ? f(v) : "？"}</b></div>${others(c)}` })}
+      ${chosen ? `<span class="stampmark ${ok ? "" : "ink"}" style="position:absolute;left:50%;top:50%;translate:-50% -50%;z-index:4">${anim ? `<span class="seal stamp" style="--s:96px"><span style="font-size:44px">${ok ? ZH("对", "✓") : ZH("错", "✗")}</span></span>` : seal(ok ? ZH("对", "✓") : ZH("错", "✗"), 96)}</span>` : ""}</button>`; };
+  const W = win === "a" ? q.a : q.b, L = win === "a" ? q.b : q.a, vw = W[m.k], vl = L[m.k];
+  const fact = m.k === "dpop" ? ZH(`${cname(W)}三年 <b>${FMTS.wan(vw)}</b>，${cname(L)} <b>${FMTS.wan(vl)}</b>`, `${cname(W)} <b>${FMTS.wan(vw)}</b>, ${cname(L)} <b>${FMTS.wan(vl)}</b>`)
+    : vw / vl >= 1.15 ? ZH(`${cname(W)}的${gqLab(m)}是${cname(L)}的 <b>${(vw / vl).toFixed(1)}</b> 倍`, `${cname(W)}: <b>${(vw / vl).toFixed(1)}×</b> ${cname(L)}`)
+    : ZH(`${cname(W)} <b>${f(vw)}</b>，${cname(L)} <b>${f(vl)}</b>`, `${cname(W)} <b>${f(vw)}</b> vs ${cname(L)} <b>${f(vl)}</b>`);
+  const last = G5.i === G5.qs.length - 1, score = G5.res.filter(Boolean).length;
+  el.innerHTML = `<div class="gs-head"><div class="rounds"><span class="eyebrow">${ZH(`今日猜城 · 第 ${G5.i + 1} / ${G5.qs.length} 题`, `Today · ${G5.i + 1} of ${G5.qs.length}`)}</span><div class="row5">${dots}</div></div>
+      <div class="gs-q"><span class="chip5">${gqIcon(m)}${gqLab(m)}</span><h3>${ZH(...m.q)}</h3></div>
+      <div class="gs-streak"><span class="fl">${icon("i-flame", "")}</span><div><b class="num ${anim && ok ? "bump" : ""}">${G5.streak}</b><span>${ZH(`连对 · 最佳 ${G5.best}`, `streak · best ${G5.best}`)}</span></div></div></div>
+    <div class="gs-arena">${card(q.a, "a")}<span class="gs-vs">${ZH("比", "vs")}</span>${card(q.b, "b")}</div>
+    <div class="gs-foot">${st ? `<span class="gs-fact rise">${ok ? ZH("答对了！", "Right! ") : ZH("差一点！", "Not quite! ")}${fact}</span><button class="btn primary rise" data-v5="${last ? "g-end" : "g-next"}" style="height:44px;padding:0 20px;font-size:var(--fs-4)">${last ? ZH("看成绩", "See score") : ZH("下一题 →", "Next →")}</button>` : `<span class="note">${ZH("点一张卡作答 · 数字来自统计公报与卫星数据", "Tap a card to answer · official and satellite data")}</span>`}</div>
+    ${G5.done ? `<div class="gs-res"><div class="leaf box"><span class="eyebrow">${ZH("今日猜城 · 成绩", "Today's score")}</span><div class="ttl">${ZH(["初出茅庐", "初出茅庐", "略知一二", "行万里路", "见多识广", "江山在胸"][score], ["Just starting", "Just starting", "Getting there", "Well travelled", "Worldly", "Master of the land"][score])}</div><div class="sc num">${score} / ${G5.qs.length}</div><div class="row5">${dots}</div>
+      <span class="note">${ZH(`连对 ${G5.streak} · 最佳 ${G5.best} · 明天 0 点换新题`, `Streak ${G5.streak} · best ${G5.best} · new questions at midnight`)}</span><div class="row-gap"><button class="btn primary" data-sec="s-share">${icon("i-share")}${ZH("分享战绩", "Share score")}</button><button class="btn" data-v5="g-again">${icon("i-dice")}${ZH("再来一局", "Play again")}</button></div></div></div>` : ""}`;
+  paintArts(el); if (st && anim) { countUp(el); setTimeout(() => { const s = $(".stampmark", el); spatter(s, 20, ok ? "#b23a2b" : "#2b231d"); snd(ok ? "ok" : "no"); }, 260); } }
+function guessPick(side) { if (G5.picked != null) return; const q = G5.qs[G5.i], win = q.a[q.m.k] >= q.b[q.m.k] ? "a" : "b"; G5.picked = side; const ok = side === win; G5.res[G5.i] = ok; G5.streak = ok ? G5.streak + 1 : 0; G5.best = Math.max(G5.best, G5.streak); snd("stamp"); renderGuess(true); }
+
+/* ---------- 伍 · 城市卡牌与游历图 ---------- */
+const AL = { got: ["511300", "510100", "500000", "330100", "310000", "110000", "320500", "320100", "610100", "440300", "420100", "330500", "320400", "410200"], seq: ["410300", "410500"], cur: "330100", drawn: false, flipped: false, newest: null, t0: 0, done: new Set() };
+let ACHS = null;
+function achs() { if (ACHS) return ACHS; const ex = ids => ids.filter(id => BYID.has(id)); const green = CITIES.filter(c => c.prk && c.prk.forest && c.prk.forest.r <= 12).map(c => c.id);
+  ACHS = [{ id: "gd", seal: "古都", zh: "七大古都", en: "Seven ancient capitals", ids: ex(["610100", "410300", "320100", "110000", "410200", "330100", "410500"]) },
+    { id: "jn", seal: "江南", zh: "江南十城", en: "Ten cities of Jiangnan", ids: ex(["320500", "320200", "320400", "320100", "321100", "330100", "330400", "330500", "330600", "330200"]) },
+    { id: "su", seal: "东坡", zh: "苏轼行迹", en: "Su Shi's road", ids: ex([...new Set(SU.map(s => s[1]))]) },
+    { id: "cap", seal: "省会", zh: "省会集齐", en: "Every capital", ids: CITIES.filter(c => c.pcap || c.kind === "municipality").map(c => c.id) },
+    { id: "tr", seal: "万亿", zh: "万亿俱乐部", en: "Trillion club", ids: CITIES.filter(c => c.gdp >= 1e12).map(c => c.id) },
+    { id: "gr", seal: "青绿", zh: "最绿十二城", en: "Twelve greenest", ids: green }];
+  for (const a of ACHS) if (a.ids.every(id => AL.got.includes(id))) AL.done.add(a.id); return ACHS; }
+function renderAlbum(anim) { const box = $("[data-al-card]"); if (!box || !CITIES) return; const c = BYID.get(AL.cur), got = AL.got.includes(AL.cur), provs = new Set(AL.got.map(id => id.slice(0, 2)));
+  $("[data-al-prog]").innerHTML = `<div class="t"><b>${ZH("游历图", "Travel map")}</b><span class="num"${anim === "stamp" ? ` data-cu="${AL.got.length}" data-cuf="int"` : ""}>${AL.got.length}</span><small>/ ${CITIES.length} ${ZH("城", "cities")}</small></div><div class="pb"><i style="width:${AL.got.length / CITIES.length * 100}%"></i></div><span class="note">${ZH(`走过 ${provs.size} 个省份 · 吾乡 南充`, `${provs.size} provinces · hometown Nanchong`)} ${SHI()}</span>`;
+  box.innerHTML = cardHTML(c, { cls: (anim === "deal" ? "deal " : "") + (AL.flipped ? "flipped" : "") });
+  $("[data-al-ctl]").innerHTML = `<button class="btn primary" data-v5="al-draw">${icon("i-dice")}${ZH("抽一张", "Draw a card")}</button>
+    <button class="btn ${!got && AL.drawn ? "pulse" : ""}" data-v5="al-stamp" ${got ? "disabled" : ""}>${seal("已游", 22)}${got ? ZH("已收入游历图", "On your map") : ZH("收入游历图", "Stamp onto map")}</button>
+    <button class="btn" data-v5="al-flip">${icon("i-cards")}${ZH("翻面看出处", "Flip for sources")}</button>
+    <p class="note">${ZH(`稀有度：${RAR.map(r => r[0]).join(" · ")}。按这座城在骄傲榜上最好的名次定，和城市大小无关：小城只要有一项全国前 3，就是传世卡。`, "Rarity follows the city's best pride rank, not its size: any top-3 national rank makes a legendary card.")}</p>`;
+  $("[data-al-ach]").innerHTML = `<h4 style="margin:0 0 8px;font:600 var(--fs-4)/1.2 var(--serif)">${ZH("成就", "Achievements")}</h4><div class="achs">${achs().map(a => { const have = a.ids.filter(id => AL.got.includes(id)).length, done = AL.done.has(a.id);
+    return `<div class="ach ${done ? "done" : ""} ${anim === "unlock:" + a.id ? "unlock" : ""}" data-ach="${a.id}">${seal(a.seal)}<b>${ZH(a.zh, a.en)}</b><div style="display:grid;gap:3px"><div class="hbar"><i style="width:${have / a.ids.length * 100}%"></i></div><span class="n num">${have} / ${a.ids.length}${done ? ZH(" · 已成就", " · done") : ""}</span></div></div>`; }).join("")}</div>`;
+  $("[data-al-hand]").innerHTML = `<h4 style="margin:0 0 6px;font:600 var(--fs-4)/1.2 var(--serif)">${ZH("最近收入", "Recently stamped")}</h4><div class="hand">${AL.got.slice(-7).reverse().map(id => cardHTML(BYID.get(id), {})).join("").replace(/class="card5/g, 'data-al-pick class="card5')}</div>`;
+  $$("[data-al-hand] .card5").forEach(el => { el.setAttribute("role", "button"); el.setAttribute("tabindex", "0"); });
+  paintArts($("[data-app=album]")); if (anim === "stamp") countUp($("[data-al-prog]")); }
+function alDraw() { const pool = CITIES.filter(c => !AL.got.includes(c.id) && (c.tier >= 1 || rarity(c) >= 1)); const id = AL.seq.shift() || pool[Math.floor(Math.random() * pool.length)].id;
+  AL.cur = id; AL.drawn = true; AL.flipped = true; renderAlbum("deal"); snd("flip");
+  setTimeout(() => { AL.flipped = false; const el = $("[data-al-card] .card5"); if (el) el.classList.remove("flipped"); snd("flip"); const r = rarity(BYID.get(id)); if (r >= 2) setTimeout(() => { spatter(el, 22, r === 3 ? "#d9b25a" : "#b8913f", 110); snd("win"); }, 450); }, RM() ? 0 : 650);
+  v4Refresh("album"); }
+function alStamp() { if (AL.got.includes(AL.cur)) return; AL.got.push(AL.cur); AL.newest = AL.cur; AL.t0 = performance.now(); const before = new Set(AL.done); achs().forEach(a => { if (a.ids.every(id => AL.got.includes(id))) AL.done.add(a.id); });
+  const unlocked = [...AL.done].filter(id => !before.has(id)); renderAlbum(unlocked.length ? "unlock:" + unlocked[0] : "stamp"); if (unlocked.length) countUp($("[data-al-prog]"));
+  const card = $("[data-al-card] .card5"); if (card) { card.insertAdjacentHTML("beforeend", `<span class="stampmark"><span class="seal stamp"><span>已游</span></span></span>`); card.classList.add("thud"); spatter(card.querySelector(".stampmark"), 18); }
+  snd("stamp"); const a = V4APPS.album; if (a) { const t0 = performance.now(), step = now => { frame(a); if (now - t0 < 760) requestAnimationFrame(step); }; requestAnimationFrame(step); }
+  if (unlocked.length) { const A = achs().find(x => x.id === unlocked[0]); setTimeout(() => { const host = $("[data-al-toast]"); host.innerHTML = `<div class="toast5">${seal(A.seal)}<span>${ZH("成就达成 · ", "Achievement · ")}${ZH(A.zh, A.en)}</span></div>`; spatter($(".toast5", host), 26, "#d9b25a", 120); snd("win"); setTimeout(() => host.innerHTML = "", 2600); }, 450); } }
+function drawAlbum(app, ctx, u, v) { const pts = AL.got.map(id => BYID.get(id)).filter(Boolean); ctx.save();
+  ctx.strokeStyle = "rgba(178,58,43,.38)"; ctx.lineWidth = 1.3 * u; ctx.setLineDash([3 * u, 4 * u]); ctx.beginPath(); pts.forEach((c, i) => { const [x, y] = toPx(v, c.x, c.y); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke(); ctx.setLineDash([]);
+  for (const c of pts) { const [x, y] = toPx(v, c.x, c.y); let s = 18 * u; ctx.globalAlpha = 1; if (c.id === AL.newest) { const dt = performance.now() - AL.t0; if (dt < 760) { const p = dt / 760; s *= 1 + 1.8 * Math.pow(1 - p, 3); ctx.globalAlpha = Math.min(1, p * 2.5); } } drawSeal(ctx, x, y - 10 * u, s, c.n.slice(0, 2), u, c.id.charCodeAt(3)); }
+  ctx.globalAlpha = 1; const f = BYID.get(AL.cur); if (f && !AL.got.includes(f.id)) { const [x, y] = toPx(v, f.x, f.y); ctx.strokeStyle = DAY.seal; ctx.lineWidth = 2 * u; ctx.setLineDash([4 * u, 3 * u]); ctx.beginPath(); ctx.arc(x, y - 6 * u, 16 * u, 0, 7); ctx.stroke(); ctx.setLineDash([]); ctx.font = `${13 * u}px "Ma Shan Zheng", serif`; ctx.textAlign = "center"; haloText(ctx, ZH("未游", "new"), x, y - 26 * u, DAY.seal, "rgba(246,239,224,.9)", 3 * u); }
+  ctx.restore(); }
+
+/* ---------- init / render / bind ---------- */
+function initV5() { const box = s => $(`[data-app=${s}]`);
+  const al = box("album"); if (al) V4APPS.album = makeApp(al, { w: 1440, h: 900, area: () => [0, 48, 1440 - 560, 852], sel: () => null, lens: () => "none", bannerIds: () => new Set(), noNames: true, minTier: 2, noDots: true, over: drawAlbum,
+    inset: () => ({ x: 1440 - 570, y: 900 - 14, w: 150 }), scale: () => null, blocked: () => [[0, 0, 1440, 54], [1440 - 560, 48, 560, 852], [0, 48, 360, 150]] }); }
+function renderV5() { if (!CITIES) return; renderSnd(); renderLife(); renderGuess(); renderAlbum(); }
+function bindV5() {
+  document.addEventListener("click", e => { const b = e.target.closest("[data-v5],[data-snd],[data-gpick],[data-al-pick]"); if (!b) return;
+    if (b.hasAttribute("data-snd")) { SND.on = !SND.on; renderSnd(); snd("pluck"); return; }
+    if (b.dataset.gpick) { guessPick(b.dataset.gpick); return; }
+    if (b.hasAttribute("data-al-pick")) { AL.cur = b.dataset.card; AL.drawn = false; AL.flipped = false; renderAlbum("deal"); v4Refresh("album"); snd("flip"); return; }
+    const k = b.dataset.v5;
+    if (k === "replay") { b.closest(".sec").scrollIntoView({ behavior: "smooth", block: "start" }); setTimeout(playOpening, 350); }
+    else if (k === "g-next") { G5.i++; G5.picked = null; renderGuess("deal"); snd("flip"); }
+    else if (k === "g-end") { G5.done = true; renderGuess(); snd("win"); spatter($(".gs-res .ttl"), 26, "#b23a2b", 120); }
+    else if (k === "g-again") { G5.seed = (G5.seed * 1103515245 + 12345) >>> 0; G5.qs = makeQs(G5.seed); G5.i = 0; G5.res = []; G5.picked = null; G5.done = false; renderGuess("deal"); }
+    else if (k === "al-draw") alDraw(); else if (k === "al-stamp") alStamp();
+    else if (k === "al-flip") { AL.flipped = !AL.flipped; const el = $("[data-al-card] .card5"); if (el) el.classList.toggle("flipped", AL.flipped); snd("flip"); }
+    else if (k === "duel-go") duelGo(); else if (k === "duel-skip") duelGo(true); else if (k === "duel-again") { duelReset(); duelGo(); } else if (k === "duel-close") { D5.showWin = false; renderDuel(); } });
+  document.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches("[data-al-pick]")) { e.preventDefault(); e.target.click(); } });
+}
+function v5Observe() { const seen = new WeakSet(), io = new IntersectionObserver(es => { for (const en of es) if (en.isIntersecting && !seen.has(en.target)) { seen.add(en.target); countUp(en.target); if (en.target.id === "s-desk") setTimeout(playOpening, 150); } }, { threshold: .35 });
+  ["s-desk", "s-life", "s-archive", "s-cards"].forEach(id => { const s = document.getElementById(id); if (s) io.observe(s); }); }
+
+async function fontsReady() { const txt = CITIES.map(c => c.n + (c.en || "")).join("") + PROVS.map(p => p.zh + p.en).join("") + WONDERS.map(w => w.zh + w.en).join("") + "钱产绿势已游未游对错比古都江南东坡省会万亿青绿初出茅庐略知一二行万里路见多识广江山在胸千里江山中华人民共和国二〇二三年数据图鉴渤黄东南海诸岛公里清淡重浓焦癸卯万亿人金粮工商全国郡州府城郭村都吾乡示意东坡苏轼冠秦汉三国晋南北朝隋唐五代宋元明清今年报0123456789%ILUSTRAVE";
   const fams = ['16px "Ma Shan Zheng"', '400 16px "Noto Sans SC"', '500 16px "Noto Sans SC"', '600 16px "Noto Sans SC"', '700 16px "Noto Sans SC"', '400 16px "Noto Serif SC"', '600 16px "Noto Serif SC"', '700 16px "Noto Serif SC"', '900 16px "Noto Serif SC"'];
   try { await Promise.race([Promise.all(fams.map(f => document.fonts.load(f, txt))), new Promise(r => setTimeout(r, 6000))]); } catch (e) { } }
 async function main() {
-  makeApp($("[data-app=desk]"), DESK); makeApp($("[data-app=phone]"), PHONE); initV4(); bindV4();
+  makeApp($("[data-app=desk]"), DESK); makeApp($("[data-app=phone]"), PHONE); initV4(); bindV4(); initV5(); bindV5();
   scaleScreens(); bind(); renderI18n();
   try { await load(); } catch (e) { $(".lede").textContent = "数据加载失败：" + e.message; return; }
-  await fontsReady(); refresh();
+  await fontsReady(); fxInit(APPS[0]); refresh(); v5Observe();
 }
 main();
 })();
