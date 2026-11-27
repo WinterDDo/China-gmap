@@ -7,6 +7,7 @@
 /* ============================================================================================
    江山图鉴 · design tokens — one committed look: 千里江山 (silk, mineral pigments, ink, cinnabar seals).
    Layout concept: a review document; each screen is a scaled live prototype, followed by the spec.
+   Single theme by design: it reads the same on light and dark hosts.
    ============================================================================================ */
 :root {
   --brush: "Ma Shan Zheng", "Noto Serif SC", "KaiTi", serif;
@@ -14,17 +15,16 @@
   --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
   --fs-1: 11px; --fs-2: 12.5px; --fs-3: 14px; --fs-4: 16px; --fs-5: 20px; --fs-6: 26px; --fs-7: 34px;
   --ease: cubic-bezier(.2,.7,.2,1);
-  /* 千里江山 — single theme by design (it reads the same on light and dark hosts) */
   --ground: #efe4ca; --leaf: #f4ecd9; --leaf-sunk: #e9ddc2; --leaf-raise: #f8f2e4;
   --ink: #2b231d; --ink-2: #5d4e40; --ink-3: #7d6d5c;
   --rule: rgba(58,46,38,.2); --rule-strong: rgba(58,46,38,.42);
   --accent: #b23a2b; --accent-ink: #fbf1e4; --accent-soft: rgba(178,58,43,.1);
+  --gold: #b8913f; --gold-ink: #f3d58a; --lacquer: #2b1d16;
   --water: #d3dfd2; --river: #305c6c;
   --shadow: 0 1px 0 rgba(60,40,20,.05), 0 12px 30px -8px rgba(60,40,20,.22);
-  --glow: none; --leaf-filter: none; --halo: rgba(239,228,202,.92);
   --seq-0: #e2d8bf; --seq-1: #cbc1ab; --seq-2: #aca28f; --seq-3: #867d6e; --seq-4: #57504a;
   --div-0: #2d5e78; --div-1: #86a3a9; --div-2: #e7dcc4; --div-3: #d08d77; --div-4: #b23a2b;
-  --cat-1: #5b927f; --cat-2: #b07a45; --cat-3: #2d5e78;
+  --y-pop: #3b302a; --y-gold: #b8913f; --y-food: #5b927f; --y-ind: #b07a45; --y-com: #2d5e78;
   --pos: #8e3a2a; --neg: #2d5e78;
   --hatch: repeating-linear-gradient(135deg, rgba(58,46,38,.28) 0 1px, transparent 1px 5px);
   --page: #e8dcc0;
@@ -33,25 +33,25 @@
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html, body { background: var(--page); color: var(--ink); }
-body {
-  margin: 0; font-family: var(--sans); font-size: var(--fs-3); line-height: 1.7;
-  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 0 72px; transition: background-color .3s var(--ease), color .3s var(--ease);
-}
+body { margin: 0; font-family: var(--sans); font-size: var(--fs-3); line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 72px; }
 .doc { max-width: 1200px; margin: 0 auto; display: grid; gap: 64px; }
 .ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 .ic.sm { width: 16px; height: 16px; }
 .num { font-variant-numeric: tabular-nums; }
+/* 五赋 medallions (filled glyph in a pigment disc) */
+.medal { width: 22px; height: 22px; flex: none; display: block; }
+.medal.lg { width: 30px; height: 30px; }
+.medal.sm { width: 16px; height: 16px; }
+.medal circle.d { stroke: rgba(43,35,29,.55); stroke-width: .8; }
+.medal .g { fill: #f6efe0; stroke: #f6efe0; }
 
-/* ---------- 裱 · mounted leaf (every panel) ---------- */
-.leaf { position: relative; background: var(--leaf); border: 1px solid var(--rule-strong); border-radius: 2px; box-shadow: var(--shadow);
-  -webkit-backdrop-filter: var(--leaf-filter); backdrop-filter: var(--leaf-filter); }
+/* 裱 · mounted leaf */
+.leaf { position: relative; background: var(--leaf); border: 1px solid var(--rule-strong); border-radius: 2px; box-shadow: var(--shadow); }
 .leaf::before { content: ""; position: absolute; inset: 3px; border: 1px solid var(--rule); border-radius: 1px; pointer-events: none; }
-
-/* ---------- 印 · seal / 灯 · lantern ---------- */
+/* 印 · seal */
 .seal { --s: 32px; position: relative; display: inline-grid; place-items: center; width: var(--s); height: var(--s); flex: none;
-  background: var(--accent); color: var(--accent-ink); border-radius: 2px; font-family: var(--brush); line-height: 1;
-  box-shadow: var(--glow); }
+  background: var(--accent); color: var(--accent-ink); border-radius: 2px; font-family: var(--brush); line-height: 1; }
 .seal > span { writing-mode: vertical-rl; letter-spacing: -.04em; font-size: calc(var(--s) * .4); }
 .seal::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
   background: radial-gradient(circle at 18% 30%, var(--ground) 0 .7px, transparent 1.2px), radial-gradient(circle at 72% 64%, var(--ground) 0 .8px, transparent 1.3px),
@@ -59,23 +59,27 @@ body {
     radial-gradient(circle at 10% 76%, var(--ground) 0 .5px, transparent 1px); opacity: .85; }
 .seal.stamp { animation: stamp .18s var(--ease); }
 @keyframes stamp { from { transform: scale(1.14) rotate(-2.5deg); opacity: .4; } to { transform: none; opacity: 1; } }
+/* 匾 · plaque (UI version of the map banner) */
+.plaque { display: inline-flex; align-items: center; gap: 0; height: 26px; border: 1.5px solid var(--lacquer); border-radius: 2px; background: var(--leaf-raise);
+  font: 600 13px/1 var(--serif); color: var(--ink); padding: 0 10px; position: relative; white-space: nowrap; }
+.plaque.top { background: #a8352a; color: var(--gold-ink); }
+.plaque .pop { margin: 0 8px 0 -10px; height: 100%; display: inline-flex; align-items: center; padding: 0 7px; background: var(--lacquer); color: #f6efe0; font: 600 11px/1 var(--sans); }
 
-/* ---------- controls ---------- */
+/* controls */
 .btn { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 2px; border: 1px solid var(--rule-strong);
-  background: transparent; color: var(--ink); font: 500 var(--fs-2)/1 var(--sans); cursor: pointer; transition: background .2s var(--ease), color .2s var(--ease); }
+  background: transparent; color: var(--ink); font: 500 var(--fs-2)/1 var(--sans); cursor: pointer; transition: background .2s var(--ease); }
 .btn:hover { background: var(--accent-soft); }
-.btn:focus-visible, .seg button:focus-visible, .chip:focus-visible, .lens-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); box-shadow: var(--glow); }
+.btn:focus-visible, .seg button:focus-visible, .chip:focus-visible, .lens-btn:focus-visible, .yield:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 .btn.icon { width: 32px; padding: 0; justify-content: center; }
 .btn.ghost { border-color: transparent; }
-.seg { display: inline-flex; height: 32px; border: 1px solid var(--rule-strong); border-radius: 2px; overflow: hidden; }
-.seg button { display: inline-flex; align-items: center; gap: 5px; border: 0; background: transparent; color: var(--ink-2); padding: 0 10px;
-  font: 500 var(--fs-2)/1 var(--sans); cursor: pointer; border-right: 1px solid var(--rule); }
+.seg { display: inline-flex; height: 32px; border: 1px solid var(--rule-strong); border-radius: 2px; overflow: hidden; flex: none; }
+.seg button { display: inline-flex; align-items: center; gap: 5px; border: 0; background: transparent; color: var(--ink-2); padding: 0 10px; font: 500 var(--fs-2)/1 var(--sans); cursor: pointer; border-right: 1px solid var(--rule); }
 .seg button:last-child { border-right: 0; }
 .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
-.chip { display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 10px; border: 1px solid var(--rule-strong); border-radius: 2px;
-  background: transparent; color: var(--ink); font: 400 var(--fs-2)/1 var(--sans); cursor: pointer; }
+.chip { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 9px 0 5px; border: 1px solid var(--rule-strong); border-radius: 2px; background: transparent; color: var(--ink); font: 400 var(--fs-2)/1 var(--sans); cursor: pointer; }
 .chip:hover { background: var(--accent-soft); }
+.chip img { width: 26px; height: 18px; object-fit: contain; }
 .field { display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 10px; background: var(--leaf-sunk); border: 1px solid var(--rule); border-radius: 2px; color: var(--ink-3); }
 .field input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--ink); font: 400 var(--fs-3)/1 var(--sans); outline: none; }
 .field input::placeholder { color: var(--ink-3); }
@@ -83,139 +87,161 @@ body {
 kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong); border-radius: 2px; padding: 2px 5px; color: var(--ink-3); }
 .eyebrow { font: 500 var(--fs-1)/1.2 var(--sans); letter-spacing: .14em; color: var(--ink-3); text-transform: uppercase; }
 
-/* ---------- document chrome ---------- */
+/* document chrome */
 .doc-head { padding-top: 40px; display: grid; gap: 16px; }
 .doc-head .row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
-.brand-lock { display: flex; align-items: center; gap: 12px; }
+.brand-lock { display: flex; align-items: center; gap: 10px; flex: none; white-space: nowrap; }
 .brand-lock .seal { --s: 46px; }
 .wordmark { display: grid; line-height: 1.05; }
-.wordmark b { font: 400 30px/1.1 var(--brush); }
+.wordmark b { font: 400 30px/1.1 var(--brush); font-weight: 400; }
 .wordmark i { font: 600 10px/1.2 var(--serif); font-style: normal; letter-spacing: .32em; color: var(--ink-2); }
 .doc h1 { margin: 0; font: 900 var(--fs-7)/1.25 var(--serif); text-wrap: balance; }
 .doc h2 { margin: 0; font: 900 var(--fs-6)/1.3 var(--serif); text-wrap: balance; }
 .doc h3 { margin: 0 0 8px; font: 600 var(--fs-4)/1.4 var(--serif); }
 .doc p { margin: 0; max-width: 70ch; }
 .lede { font-size: var(--fs-4); color: var(--ink-2); }
-.toggles { display: flex; gap: 8px; flex-wrap: wrap; position: sticky; top: env(safe-area-inset-top, 0px); }
 .sec { display: grid; gap: 20px; scroll-margin-top: 16px; }
 .sec-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
 .sec-head .seal { --s: 30px; align-self: center; }
 .sec-head .sub { color: var(--ink-3); font-size: var(--fs-2); }
 .note { font-size: var(--fs-2); color: var(--ink-3); }
+.keys { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: var(--fs-2); color: var(--ink-2); }
+.keys b { font-weight: 500; color: var(--ink); }
 
-/* ---------- device frames ---------- */
-.device { position: relative; width: 100%; max-width: 100%; border-radius: 6px; overflow: hidden; border: 1px solid var(--rule-strong); background: var(--ground);
-  box-shadow: 0 30px 60px -30px rgba(0,0,0,.35); }
+/* device frames */
+.device { position: relative; width: 100%; max-width: 100%; border-radius: 6px; overflow: hidden; border: 1px solid var(--rule-strong); background: var(--ground); box-shadow: 0 30px 60px -30px rgba(0,0,0,.35); }
 .device.desk { aspect-ratio: 1440 / 900; }
-.device > .screen { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; transform-origin: 0 0; }
+.device > .screen, .phone > .screen { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.device > .screen { width: 1440px; height: 900px; }
 .phones { display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; }
 .phones > div { width: min(390px, 100%); }
-.phone { width: 100%; aspect-ratio: 390 / 844; position: relative; border-radius: 34px; overflow: hidden; border: 8px solid #1a1a1a;
-  box-shadow: 0 30px 60px -30px rgba(0,0,0,.45); background: var(--ground); }
-.phone > .screen { position: absolute; left: 0; top: 0; width: 390px; height: 844px; transform-origin: 0 0; }
+.phone { width: 100%; aspect-ratio: 390 / 844; position: relative; border-radius: 34px; overflow: hidden; border: 8px solid #1a1a1a; box-shadow: 0 30px 60px -30px rgba(0,0,0,.45); background: var(--ground); }
+.phone > .screen { width: 390px; height: 844px; }
 .phone-cap { text-align: center; font-size: var(--fs-2); color: var(--ink-3); margin-top: 8px; }
 
-/* ---------- the app (inside .screen) ---------- */
+/* the app */
 .app { position: absolute; inset: 0; background: var(--ground); overflow: hidden; font-family: var(--sans); color: var(--ink); }
-.app canvas.map { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; cursor: grab; }
+.app canvas.map { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; touch-action: none; outline: none; }
+.app canvas.map.grab { cursor: grab; } .app canvas.map.grabbing { cursor: grabbing; } .app canvas.map.point { cursor: pointer; }
 .app canvas.fade { pointer-events: none; transition: opacity .24s var(--ease); }
-.topbar { position: absolute; left: 0; right: 0; top: 0; height: 48px; display: flex; align-items: center; gap: 16px; padding: 0 16px;
-  background: var(--leaf); border-bottom: 1px solid var(--rule-strong); -webkit-backdrop-filter: var(--leaf-filter); backdrop-filter: var(--leaf-filter); z-index: 5; }
+.topbar { position: absolute; left: 0; right: 0; top: 0; height: 48px; display: flex; align-items: center; gap: 12px; padding: 0 16px; background: var(--leaf); border-bottom: 1px solid var(--rule-strong); z-index: 6; }
 .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: 2px; border-bottom: 1px solid var(--rule); pointer-events: none; }
-.topbar .brand-lock { flex: none; white-space: nowrap; }
 .topbar .brand-lock .seal { --s: 30px; }
 .topbar .wordmark b { font-size: 21px; }
 .topbar .wordmark i { font-size: 8.5px; letter-spacing: .28em; }
-.yields { display: flex; gap: 4px; margin-left: 8px; }
-.yield { display: flex; align-items: center; gap: 7px; padding: 0 10px; height: 34px; border-left: 1px solid var(--rule); white-space: nowrap; }
-.yields .yr { align-self: center; margin-left: 6px; font: 500 var(--fs-1)/1 var(--sans); color: var(--ink-3); border: 1px solid var(--rule); border-radius: 2px; padding: 3px 5px; white-space: nowrap; }
-.yield .ic { color: var(--ink-2); }
+.yields { display: flex; gap: 2px; margin-left: 6px; align-items: center; }
+.yield { display: flex; align-items: center; gap: 6px; padding: 0 9px; height: 34px; border: 0; border-left: 1px solid var(--rule); background: transparent; color: var(--ink); cursor: pointer; white-space: nowrap; }
+.yield:hover, .yield[aria-expanded="true"] { background: var(--accent-soft); }
 .yield .v { font: 600 var(--fs-4)/1 var(--serif); }
-.yield .k { font: 400 var(--fs-1)/1.1 var(--sans); color: var(--ink-3); }
-.yield > div { display: grid; gap: 3px; }
+.turn { margin-left: 8px; display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 8px; border: 1.5px solid var(--lacquer); border-radius: 2px; font: 600 12px/1 var(--serif); white-space: nowrap; }
+.turn b { font: 400 14px/1 var(--brush); color: var(--accent); }
 .topbar .spacer { flex: 1; }
-.topbar .field { width: 240px; flex: none; }
-.topbar .seg, .topbar .btn { flex: none; }
-.colophon { position: absolute; left: 22px; top: 70px; display: flex; gap: 8px; z-index: 2; pointer-events: none; }
+.topbar .field { width: 220px; flex: none; }
+.topbar .btn { flex: none; }
+.colophon { position: absolute; left: 22px; top: 70px; display: flex; gap: 8px; z-index: 2; pointer-events: none; transition: opacity .3s var(--ease); }
 .colophon .title { font: 400 30px/1.12 var(--brush); writing-mode: vertical-rl; letter-spacing: .06em; color: var(--ink); }
 .colophon .sub { font: 400 12px/1.5 var(--serif); writing-mode: vertical-rl; color: var(--ink-2); letter-spacing: .08em; }
 .colophon .seal { --s: 22px; margin-top: 6px; }
 .colophon .stack { display: flex; flex-direction: column; align-items: center; }
 :root[data-lang="en"] .colophon { flex-direction: column; gap: 4px; }
-:root[data-lang="en"] .colophon .title { writing-mode: horizontal-tb; font: 600 22px/1.15 var(--serif); letter-spacing: .02em; max-width: 280px; }
+:root[data-lang="en"] .colophon .title { writing-mode: horizontal-tb; font: 600 22px/1.15 var(--serif); max-width: 280px; }
 :root[data-lang="en"] .colophon .sub { writing-mode: horizontal-tb; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
 :root[data-lang="en"] .colophon .stack { flex-direction: row; gap: 8px; align-items: center; }
 :root[data-lang="en"] .colophon .seal { margin: 0; }
 
-.lensdock { position: absolute; left: 16px; bottom: 16px; width: 360px; padding: 14px 16px 12px; z-index: 3; display: grid; gap: 10px; }
-.lensdock .head { display: flex; align-items: center; justify-content: space-between; }
-.lens-row { display: flex; flex-wrap: wrap; gap: 6px; }
-.lens-chip { display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 8px; white-space: nowrap; border: 1px solid var(--rule-strong); border-radius: 2px; background: transparent;
-  color: var(--ink-2); font: 400 var(--fs-2)/1 var(--sans); cursor: pointer; }
-.lens-chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); box-shadow: var(--glow); }
-.legend { display: grid; gap: 6px; }
-.legend .title { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.legend .title b { font: 600 var(--fs-3)/1.3 var(--serif); }
-.legend .title span { font-size: var(--fs-1); color: var(--ink-3); }
-.hist { display: flex; gap: 1px; align-items: flex-end; height: 34px; border-bottom: 1px solid var(--rule); }
+.lensdock { position: absolute; left: 16px; bottom: 16px; width: 316px; padding: 12px 14px 12px; z-index: 3; display: grid; gap: 10px; }
+.lens-row { display: flex; gap: 6px; align-items: center; }
+.lens-btn { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--rule-strong); border-radius: 2px; background: var(--leaf-raise); color: var(--ink-2); cursor: pointer; position: relative; padding: 0; }
+.lens-btn svg { width: 24px; height: 24px; }
+.lens-btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.lens-btn[aria-pressed="true"] .medal circle.d { fill: transparent; stroke: transparent; }
+.lens-row .lbl { margin-left: 4px; display: grid; line-height: 1.25; }
+.lens-row .lbl b { font: 600 var(--fs-3)/1.25 var(--serif); }
+.lens-row .lbl span { font-size: var(--fs-1); color: var(--ink-3); }
+.legend { display: grid; gap: 5px; }
+.hist { display: flex; gap: 1px; align-items: flex-end; height: 30px; border-bottom: 1px solid var(--rule); }
 .hist i { display: block; flex: 1; border-radius: 1px 1px 0 0; min-height: 1px; }
 .swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; }
-.swatches span { height: 12px; border-radius: 1px; }
-.ticks { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; font-size: 10px; color: var(--ink-3); line-height: 1.25; }
-.ticks span:nth-child(n) { text-align: center; }
+.swatches span { height: 10px; border-radius: 1px; }
+.ticks { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; font-size: 10px; color: var(--ink-3); line-height: 1.25; text-align: center; }
 .legend .names { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; font: 400 13px/1 var(--brush); color: var(--ink-2); text-align: center; }
 :root[data-lang="en"] .legend .names { display: none; }
 .legend .foot { font-size: var(--fs-1); color: var(--ink-3); display: flex; gap: 8px; align-items: center; }
 .legend .nodata { width: 18px; height: 10px; background: var(--hatch); border: 1px solid var(--rule); }
+.legend .terrain { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; font-size: 10.5px; color: var(--ink-2); }
+.legend .terrain span { display: flex; align-items: center; gap: 5px; }
+.legend .terrain i { width: 14px; height: 10px; border-radius: 1px; display: block; border: 1px solid var(--rule); }
 
 .mapctl { position: absolute; right: 16px; top: 64px; display: grid; gap: 6px; z-index: 3; }
 .mapctl .btn { background: var(--leaf); box-shadow: var(--shadow); }
 .app.has-panel .mapctl { right: 408px; }
+.zoomlv { position: absolute; right: 16px; top: 180px; z-index: 3; writing-mode: vertical-rl; font: 400 12px/1 var(--brush); color: var(--ink-2); letter-spacing: .3em; }
+.app.has-panel .zoomlv { right: 414px; }
 
 .cpanel { position: absolute; right: 12px; top: 60px; bottom: 12px; width: 380px; z-index: 4; display: flex; flex-direction: column; overflow: hidden; }
 .cpanel.unroll { animation: unroll .32s var(--ease); }
 @keyframes unroll { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
-.cp-head { padding: 18px 18px 14px; display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; border-bottom: 1px solid var(--rule); }
+.cp-head { padding: 16px 18px 12px; display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; }
 .cp-head .seal { --s: 54px; }
-.cp-head h2 { margin: 0; font: 900 30px/1.1 var(--serif); }
+.cp-head h2 { margin: 0; font: 900 30px/1.1 var(--serif); display: flex; align-items: center; gap: 8px; }
+.cp-head h2 img { width: 44px; height: 28px; object-fit: contain; }
 .cp-head .en { font: 600 var(--fs-3)/1.3 var(--serif); color: var(--ink-2); }
 .cp-head .meta { font-size: var(--fs-2); color: var(--ink-3); margin-top: 2px; }
-.cp-body { overflow-y: auto; padding: 14px 18px 18px; display: grid; gap: 18px; align-content: start; }
+.cp-yields { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); margin: 0 18px; }
+.cp-yields div { display: grid; justify-items: center; gap: 3px; padding: 9px 2px 8px; border-left: 1px solid var(--rule); min-width: 0; }
+.cp-yields div:first-child { border-left: 0; }
+.cp-yields .v { font: 600 13.5px/1.15 var(--serif); white-space: nowrap; }
+.cp-yields .r { font-size: 10px; color: var(--ink-3); }
+.cp-body { overflow-y: auto; padding: 14px 18px 18px; display: grid; gap: 16px; align-content: start; }
 .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.stat { background: var(--leaf-sunk); border-radius: 2px; padding: 10px 12px; display: grid; gap: 2px; min-width: 0; }
-.stat .k { font-size: var(--fs-1); color: var(--ink-3); letter-spacing: .04em; }
-.stat .v { font: 600 var(--fs-5)/1.25 var(--serif); }
-.stat .s { font-size: var(--fs-1); color: var(--ink-3); }
-.stat .s b { font-weight: 500; color: var(--ink-2); }
+.stat { background: var(--leaf-sunk); border-radius: 2px; padding: 9px 12px; display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; min-width: 0; align-items: center; }
+.stat .medal, .stat .ic { grid-row: span 2; }
+.stat .k { font-size: var(--fs-1); color: var(--ink-3); }
+.stat .v { font: 600 var(--fs-5)/1.2 var(--serif); }
 .up { color: var(--pos); } .down { color: var(--neg); }
 .block h4 { margin: 0 0 8px; font: 600 var(--fs-3)/1.3 var(--serif); display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .block h4 small { font: 400 var(--fs-1)/1 var(--sans); color: var(--ink-3); }
-.sector-bar { display: flex; height: 12px; border-radius: 1px; overflow: hidden; gap: 2px; }
-.sector-bar span { display: block; }
-.sector-list { display: grid; gap: 4px; margin-top: 8px; font-size: var(--fs-2); }
-.sector-list div { display: grid; grid-template-columns: 12px 1fr auto auto; gap: 8px; align-items: center; }
-.sector-list i { width: 10px; height: 10px; border-radius: 1px; display: block; }
-.sector-list .pct { color: var(--ink-3); width: 44px; text-align: right; }
-.ranks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-.rank { border: 1px solid var(--rule); border-radius: 2px; padding: 6px 8px; display: grid; gap: 1px; }
-.rank .k { font-size: var(--fs-1); color: var(--ink-3); }
-.rank .v { font: 600 var(--fs-4)/1.2 var(--serif); }
-.rank .v small { font: 400 var(--fs-1) var(--sans); color: var(--ink-3); }
+.sector-bar { display: flex; height: 14px; border-radius: 1px; overflow: hidden; gap: 2px; }
+.sector-legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; font-size: var(--fs-2); }
+.sector-legend div { display: flex; align-items: center; gap: 6px; }
+.sector-legend b { font: 600 var(--fs-3)/1 var(--serif); }
+.medals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.medal-card { display: grid; justify-items: center; gap: 3px; padding: 8px 4px; border: 1px solid var(--rule); border-radius: 2px; }
+.medal-card .rk { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font: 700 14px/1 var(--serif); color: #f6efe0; background: var(--ink-3); border: 2px solid rgba(43,35,29,.35); position: relative; }
+.medal-card .rk.g1 { background: #b8913f; } .medal-card .rk.g2 { background: #8f9aa0; } .medal-card .rk.g3 { background: #a8693b; }
+.medal-card .rk .medal { position: absolute; right: -6px; bottom: -4px; width: 18px; height: 18px; }
+.medal-card .k { font-size: var(--fs-1); color: var(--ink-3); text-align: center; line-height: 1.3; }
 .peers { display: flex; flex-wrap: wrap; gap: 6px; }
 .src { font-size: var(--fs-1); color: var(--ink-3); border-top: 1px solid var(--rule); padding-top: 10px; display: flex; gap: 6px; align-items: flex-start; }
 .src a { color: var(--river); }
 
-.search-pop { position: absolute; top: 46px; width: 320px; z-index: 8; padding: 6px; display: grid; gap: 2px; }
-.search-pop button { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; text-align: left; border: 0; background: transparent; color: var(--ink); padding: 7px 10px; border-radius: 2px; cursor: pointer; font: inherit; }
-.search-pop button:hover, .search-pop button.on { background: var(--accent-soft); }
-.search-pop b { font: 600 var(--fs-3)/1.2 var(--serif); }
-.search-pop span { font-size: var(--fs-1); color: var(--ink-3); }
-.search-pop em { font-style: normal; grid-row: span 2; align-self: center; font-size: var(--fs-1); color: var(--ink-3); }
+.pop { position: absolute; z-index: 8; padding: 6px; display: grid; gap: 2px; }
+.search-pop { top: 46px; width: 320px; }
+.pop button { display: grid; grid-template-columns: auto 1fr auto; gap: 0 10px; align-items: center; text-align: left; border: 0; background: transparent; color: var(--ink); padding: 6px 10px; border-radius: 2px; cursor: pointer; font: inherit; }
+.pop button:hover, .pop button.on { background: var(--accent-soft); }
+.pop button img { width: 30px; height: 20px; object-fit: contain; grid-row: span 2; }
+.pop b { font: 600 var(--fs-3)/1.25 var(--serif); }
+.pop span { font-size: var(--fs-1); color: var(--ink-3); grid-column: 2; }
+.pop em { font-style: normal; grid-row: 1 / span 2; grid-column: 3; font-size: var(--fs-2); color: var(--ink-2); }
+.board { top: 48px; width: 360px; padding: 12px; }
+.board .bh { display: flex; align-items: center; gap: 8px; padding: 2px 6px 8px; border-bottom: 1px solid var(--rule); margin-bottom: 4px; }
+.board .bh b { font: 600 var(--fs-4)/1.2 var(--serif); }
+.board .bh span { font-size: var(--fs-1); color: var(--ink-3); margin-left: auto; }
+.board button { grid-template-columns: 22px 30px 1fr auto; gap: 8px; padding: 5px 6px; }
+.board button > * { grid-row: 1 !important; }
+.board .no { grid-column: 1 !important; } .board button img { grid-column: 2 !important; } .board .nm { grid-column: 3 !important; display: grid; gap: 3px; } .board button em { grid-column: 4 !important; }
+.board .nm b { font: 600 var(--fs-3)/1.2 var(--serif); }
+.board .no { font: 700 12px/1 var(--serif); width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; color: #f6efe0; background: var(--ink-3); grid-row: auto; }
+.board .no.g1 { background: #b8913f; } .board .no.g2 { background: #8f9aa0; } .board .no.g3 { background: #a8693b; }
+.board .nm .bar { display: block; height: 4px; border-radius: 2px; }
+.board .nm { display: grid; }
+.board em { font: 600 var(--fs-3)/1 var(--serif); color: var(--ink); grid-row: auto; grid-column: 4; }
 
-.tip { position: absolute; z-index: 9; padding: 8px 12px; pointer-events: none; min-width: 140px; }
-.tip b { font: 600 var(--fs-4)/1.2 var(--serif); display: block; }
-.tip span { font-size: var(--fs-1); color: var(--ink-3); }
-.tip .row { display: flex; gap: 12px; font-size: var(--fs-2); margin-top: 3px; }
+.tip { position: absolute; z-index: 9; padding: 8px 12px; pointer-events: none; min-width: 150px; display: grid; gap: 4px; }
+.tip b { font: 600 var(--fs-4)/1.2 var(--serif); }
+.tip .sub { font-size: var(--fs-1); color: var(--ink-3); }
+.tip .row { display: flex; gap: 10px; font-size: var(--fs-2); align-items: center; }
+.tip .row span { display: inline-flex; align-items: center; gap: 4px; }
 
 .almanac { position: absolute; inset: 70px 120px; z-index: 10; display: grid; grid-template-columns: 200px 1fr; overflow: hidden; }
 .almanac nav { border-right: 1px solid var(--rule); padding: 20px 10px; display: grid; gap: 2px; align-content: start; }
@@ -233,34 +259,34 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .almanac .close { position: absolute; right: 14px; top: 14px; }
 .scrim { position: absolute; inset: 48px 0 0; background: rgba(20,14,8,.25); z-index: 9; }
 
-/* phone layout */
-.p-top { position: absolute; left: 0; right: 0; top: 0; height: 96px; padding: 44px 14px 0; display: flex; align-items: center; gap: 10px; background: var(--leaf); border-bottom: 1px solid var(--rule-strong); z-index: 5;
-  -webkit-backdrop-filter: var(--leaf-filter); backdrop-filter: var(--leaf-filter); }
+/* phone */
+.p-top { position: absolute; left: 0; right: 0; top: 0; height: 96px; padding: 44px 14px 0; display: flex; align-items: center; gap: 8px; background: var(--leaf); border-bottom: 1px solid var(--rule-strong); z-index: 5; }
 .p-top .brand-lock .seal { --s: 28px; }
 .p-top .wordmark b { font-size: 19px; }
 .p-top .wordmark i { font-size: 7.5px; }
 .p-top .spacer { flex: 1; }
-.p-lens { position: absolute; left: 0; right: 0; bottom: 316px; padding: 0 12px; display: flex; gap: 6px; overflow-x: auto; z-index: 3; scrollbar-width: none; }
-.p-lens .lens-chip { background: var(--leaf); flex: none; box-shadow: var(--shadow); }
-.p-lens .lens-chip[aria-pressed="true"] { background: var(--accent); }
-.p-sheet { position: absolute; left: 0; right: 0; bottom: 0; height: 306px; border-radius: 10px 10px 0 0; z-index: 4; padding: 10px 16px 24px; display: grid; gap: 12px; align-content: start; }
+.p-yields { position: absolute; left: 0; right: 0; top: 96px; height: 38px; display: flex; justify-content: space-around; align-items: center; background: var(--leaf-raise); border-bottom: 1px solid var(--rule); z-index: 5; }
+.p-yields span { display: inline-flex; align-items: center; gap: 4px; font: 600 12.5px/1 var(--serif); }
+.p-lens { position: absolute; left: 12px; bottom: 318px; display: flex; gap: 6px; z-index: 3; }
+.p-lens .lens-btn { width: 38px; height: 38px; box-shadow: var(--shadow); }
+.p-sheet { position: absolute; left: 0; right: 0; bottom: 0; height: 306px; border-radius: 10px 10px 0 0; z-index: 4; padding: 10px 0 24px; display: grid; gap: 10px; align-content: start; }
 .p-sheet::before { border-radius: 8px 8px 0 0; }
 .p-sheet .handle { width: 40px; height: 4px; border-radius: 2px; background: var(--rule-strong); margin: 0 auto; }
-.p-sheet .cp-head { padding: 0 0 10px; }
+.p-sheet .cp-head { padding: 0 16px 4px; }
 .p-sheet .cp-head .seal { --s: 44px; }
 .p-sheet .cp-head h2 { font-size: 24px; }
+.p-sheet .cp-yields { margin: 0 16px; }
 
-/* ---------- spec sections ---------- */
+/* spec */
 .tokens { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 10px; }
 .tok { display: grid; grid-template-columns: 48px 1fr; gap: 10px; align-items: center; padding: 8px; }
 .tok i { display: block; width: 48px; height: 48px; border-radius: 2px; border: 1px solid var(--rule); }
 .tok b { font: 600 var(--fs-3)/1.3 var(--serif); }
-.tok code { font: 400 var(--fs-1)/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ink-3); display: block; }
-.pigments { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 130px), 1fr)); gap: 10px; }
+.tok code, .pig code { font: 400 var(--fs-1)/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ink-3); display: block; }
+.pigments { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 120px), 1fr)); gap: 10px; }
 .pig { display: grid; gap: 6px; }
-.pig i { display: block; height: 64px; border-radius: 2px; border: 1px solid var(--rule); }
+.pig i { display: block; height: 56px; border-radius: 2px; border: 1px solid var(--rule); }
 .pig b { font: 600 var(--fs-3)/1.2 var(--serif); }
-.pig code { font: 400 var(--fs-1) ui-monospace, Menlo, monospace; color: var(--ink-3); }
 .scales { display: grid; gap: 14px; }
 .scale { display: grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: center; }
 .scale .bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; }
@@ -277,171 +303,181 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 6px; }
 .icons div { display: grid; justify-items: center; gap: 6px; padding: 12px 4px; font-size: var(--fs-1); color: var(--ink-3); text-align: center; }
 .icons .ic { width: 24px; height: 24px; color: var(--ink); }
+.yieldspec { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.yieldspec div { display: grid; justify-items: center; gap: 6px; text-align: center; padding: 14px 6px; }
+.yieldspec b { font: 600 var(--fs-4)/1.2 var(--serif); }
+.yieldspec span { font-size: var(--fs-1); color: var(--ink-3); line-height: 1.4; }
+.picto-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 10px; }
+.picto { display: grid; justify-items: center; gap: 4px; padding: 10px 6px 12px; text-align: center; }
+.picto canvas { width: 120px; height: 84px; }
+.picto b { font: 600 var(--fs-3)/1.2 var(--serif); }
+.picto span { font-size: var(--fs-1); color: var(--ink-3); line-height: 1.35; }
 .lettering { position: relative; height: 230px; overflow: hidden; border-radius: 2px; }
 .lettering canvas { width: 100%; height: 100%; display: block; }
 .motion-demo { height: 120px; display: grid; place-items: center; background: var(--leaf-sunk); border-radius: 2px; position: relative; overflow: hidden; }
 .motion-demo .mini { width: 160px; height: 84px; padding: 12px; display: grid; gap: 6px; }
 .motion-demo .mini i { display: block; height: 8px; background: var(--rule-strong); border-radius: 1px; }
 .motion-demo .ink { width: 100%; height: 100%; }
-.fmt { width: 100%; border-collapse: collapse; font-size: var(--fs-2); }
+.ilist { margin: 0; padding: 18px 20px; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px; }
+.ilist li { display: grid; grid-template-columns: 110px 1fr; gap: 10px; font-size: var(--fs-2); border-bottom: 1px solid var(--rule); padding-bottom: 8px; }
+.ilist b { font-weight: 500; color: var(--ink); }
+.ilist span { color: var(--ink-2); }
+.fmt { width: 100%; border-collapse: collapse; font-size: var(--fs-2); min-width: 520px; }
 .fmt th, .fmt td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--rule); }
 .fmt th { font-weight: 500; color: var(--ink-3); }
-.decide { display: grid; gap: 10px; }
-.decide li { margin: 0; }
 .decide ol { margin: 0; padding-left: 1.3em; display: grid; gap: 10px; max-width: 78ch; }
 .tablewrap { overflow-x: auto; }
-@media (max-width: 860px) { .grid2, .grid3 { grid-template-columns: minmax(0, 1fr); } .scale, .type-row { grid-template-columns: minmax(0, 1fr); gap: 6px; } }
+@media (max-width: 860px) { .grid2, .grid3, .ilist { grid-template-columns: minmax(0, 1fr); } .yieldspec { grid-template-columns: repeat(3, minmax(0, 1fr)); } .scale, .type-row { grid-template-columns: minmax(0, 1fr); gap: 6px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" id="sprite">
   <symbol id="i-search" viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M12.6 12.6 17 17"/></symbol>
   <symbol id="i-share" viewBox="0 0 20 20"><path d="M10 3v10M6.5 6.5 10 3l3.5 3.5"/><path d="M5 10H4v7h12v-7h-1"/></symbol>
   <symbol id="i-book" viewBox="0 0 20 20"><path d="M3 4.5c2.5-1 5-1 7 .5 2-1.5 4.5-1.5 7-.5V16c-2.5-1-5-1-7 .5-2-1.5-4.5-1.5-7-.5z"/><path d="M10 5v11.5"/></symbol>
-  <symbol id="i-sun" viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.5"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.3 4.3l1.4 1.4M14.3 14.3l1.4 1.4M4.3 15.7l1.4-1.4M14.3 5.7l1.4-1.4"/></symbol>
-  <symbol id="i-moon" viewBox="0 0 20 20"><path d="M15.5 12.5A6.5 6.5 0 0 1 7.5 4.5a6.5 6.5 0 1 0 8 8z"/></symbol>
   <symbol id="i-lang" viewBox="0 0 20 20"><path d="M3 5h7M6.5 3v2M4.5 5c.5 3 2.5 5 5 6M8.5 5c-.5 2.5-2.5 5-5 6"/><path d="m11 17 3-7 3 7M12 15h4"/></symbol>
   <symbol id="i-close" viewBox="0 0 20 20"><path d="m5 5 10 10M15 5 5 15"/></symbol>
   <symbol id="i-plus" viewBox="0 0 20 20"><path d="M10 4v12M4 10h12"/></symbol>
   <symbol id="i-minus" viewBox="0 0 20 20"><path d="M4 10h12"/></symbol>
   <symbol id="i-lens" viewBox="0 0 20 20"><path d="m10 3 7 3.5-7 3.5-7-3.5z"/><path d="m3 10 7 3.5 7-3.5M3 13.5 10 17l7-3.5"/></symbol>
-  <symbol id="i-people" viewBox="0 0 20 20"><circle cx="7.5" cy="7" r="2.5"/><path d="M3 16c0-2.8 2-4.5 4.5-4.5S12 13.2 12 16"/><circle cx="13.5" cy="7.5" r="2"/><path d="M13 11.6c2.3 0 4 1.5 4 4"/></symbol>
-  <symbol id="i-coin" viewBox="0 0 20 20"><ellipse cx="10" cy="6" rx="6" ry="2.5"/><path d="M4 6v4c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V6M4 10v4c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-4"/></symbol>
-  <symbol id="i-percap" viewBox="0 0 20 20"><circle cx="7" cy="6" r="2.5"/><path d="M3 15c0-2.5 1.8-4.2 4-4.2"/><circle cx="13.5" cy="12.5" r="3.5"/><path d="M13.5 10.8v3.4M12.3 12.5h2.4"/></symbol>
-  <symbol id="i-city" viewBox="0 0 20 20"><path d="M3 17V8l4-2v11M7 17V3l6 3v11M13 17V9l4 2v6M2 17h16"/><path d="M9.5 7.5v1M9.5 10.5v1M9.5 13.5v1"/></symbol>
   <symbol id="i-trend" viewBox="0 0 20 20"><path d="m3 14 4.5-4.5 3 3L17 6"/><path d="M12.5 6H17v4.5"/></symbol>
-  <symbol id="i-factory" viewBox="0 0 20 20"><path d="M3 17V9l4 2.5V9l4 2.5V9l4 2.5V4h2v13z"/><path d="M2 17h16"/></symbol>
-  <symbol id="i-sprout" viewBox="0 0 20 20"><path d="M10 17v-6"/><path d="M10 11C10 7 7.5 5 4 5c0 3.5 2.5 6 6 6zM10 11c0-3.5 2-5.5 6-5.5 0 3.5-2.5 5.5-6 5.5z"/></symbol>
-  <symbol id="i-hall" viewBox="0 0 20 20"><path d="M3 8 10 4l7 4M4 8h12M5 8v7M8.3 8v7M11.7 8v7M15 8v7M3 15h14M2 17h16"/></symbol>
   <symbol id="i-info" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M10 9v5M10 6.5v.2"/></symbol>
   <symbol id="i-out" viewBox="0 0 20 20"><path d="M11 4h5v5M16 4l-7 7"/><path d="M14 12v4H4V6h4"/></symbol>
   <symbol id="i-compass" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="m12.8 7.2-1.6 4-4 1.6 1.6-4z"/></symbol>
   <symbol id="i-chev" viewBox="0 0 20 20"><path d="m8 5 5 5-5 5"/></symbol>
   <symbol id="i-menu" viewBox="0 0 20 20"><path d="M3 6h14M3 10h14M3 14h14"/></symbol>
-  <symbol id="i-water" viewBox="0 0 20 20"><path d="M2 8c2-2 4-2 6 0s4 2 6 0 3-1.5 4-1M2 12.5c2-2 4-2 6 0s4 2 6 0 3-1.5 4-1"/></symbol>
-  <symbol id="i-seal" viewBox="0 0 20 20"><rect x="4" y="4" width="12" height="12" rx="1"/><path d="M8 7.5v5M12 7.5v5M8 10h4"/></symbol>
+  <symbol id="i-mountain" viewBox="0 0 20 20"><path d="m2 16 5.5-8.5 3 4.5 2.5-3.5 5 7.5z"/></symbol>
+  <symbol id="i-wonder" viewBox="0 0 20 20"><path d="M3 17h14M5 17v-6h10v6M4 11l6-5 6 5M8 17v-3h4v3M10 6V3"/></symbol>
+  <symbol id="i-res" viewBox="0 0 20 20"><path d="m10 3 6 4v6l-6 4-6-4V7z"/><path d="M10 3v14M4 7l6 4 6-4"/></symbol>
 </svg>
 
 <div class="doc">
   <header class="doc-head">
     <div class="row">
       <div class="brand-lock"><span class="seal"><span>图鉴</span></span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div>
-      <div class="toggles" role="group" aria-label="预览设置">
-        <div class="seg" role="group" aria-label="语言"><button data-set-lang="zh" aria-pressed="true">中</button><button data-set-lang="en" aria-pressed="false">EN</button></div>
-      </div>
+      <div class="seg" role="group" aria-label="语言"><button data-set-lang="zh" aria-pressed="true">中</button><button data-set-lang="en" aria-pressed="false">EN</button></div>
     </div>
-    <div class="eyebrow">设计定稿 · 第 2 版 · 待确认</div>
-    <h1>千里江山：一套完整的设计语言</h1>
-    <p class="lede">这页是最终产品的高保真原型和完整设计规范，只有“千里江山”一种风格：绢本、矿物颜料、墨线、朱砂印。右上角的“中 / EN”会同时切换下面所有界面、规范和地图注记。原型可以操作：点击地图上的城市、切换透镜、搜索、打开百科。数据都是真实的：标准地图边界、全国高程，以及 338 个城市 2023 年统计公报的人口和 GDP。</p>
+    <div class="eyebrow">设计定稿 · 第 3 版 · 待确认</div>
+    <h1>千里江山，做成一张能玩的地图</h1>
+    <p class="lede">风格已确认为“千里江山”。这一版加入了原版最好玩的两样东西：<b>游戏式的交互</b>（拖动、缩放、飞到城市、钤印、排行榜）和<b>图标优先</b>（五赋徽章、城池图形、奇观图画、透镜图标），文字只作补充。下面的桌面原型可以直接上手玩，所有数据都是真实的。</p>
   </header>
 
   <section class="sec" id="s-desk">
-    <div class="sec-head"><span class="seal"><span>壹</span></span><h2>桌面主界面</h2><span class="sub">1440 × 900，等比缩放显示</span></div>
+    <div class="sec-head"><span class="seal"><span>壹</span></span><h2 data-t="secDesk">桌面主界面</h2><span class="sub" data-t="secDeskSub">1440 × 900，等比缩放显示，可直接操作</span></div>
     <div class="device desk" id="desk"><div class="screen"><div class="app" data-app="desk">
-      <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
+      <canvas class="map grab" tabindex="0" aria-label="地图"></canvas><canvas class="map fade" style="opacity:0"></canvas>
       <header class="topbar">
         <div class="brand-lock"><span class="seal"><span>图鉴</span></span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div>
         <div class="yields" data-yields></div>
+        <span class="turn" data-turn></span>
         <div class="spacer"></div>
-        <label class="field" data-search><svg class="ic sm"><use href="#i-search"/></svg><input type="search" data-t-ph="search" placeholder="搜索城市、省份" aria-label="搜索"><kbd>/</kbd></label>
+        <label class="field" data-search><svg class="ic sm"><use href="#i-search"/></svg><input type="search" data-t-ph="search" placeholder="搜索城市" aria-label="搜索"><kbd>/</kbd></label>
         <div class="seg" role="group"><button data-set-lang="zh" aria-pressed="true">中</button><button data-set-lang="en" aria-pressed="false">EN</button></div>
-        <button class="btn icon" aria-label="分享"><svg class="ic sm"><use href="#i-share"/></svg></button>
-        <button class="btn" data-open-almanac><svg class="ic sm"><use href="#i-book"/></svg><span data-t="almanac">百科</span></button>
+        <button class="btn icon" aria-label="分享" title="分享"><svg class="ic sm"><use href="#i-share"/></svg></button>
+        <button class="btn icon" data-open-almanac aria-label="百科" title="百科"><svg class="ic sm"><use href="#i-book"/></svg></button>
       </header>
       <div class="colophon" data-colophon></div>
-      <div class="mapctl"><button class="btn icon" aria-label="放大"><svg class="ic sm"><use href="#i-plus"/></svg></button><button class="btn icon" aria-label="缩小"><svg class="ic sm"><use href="#i-minus"/></svg></button><button class="btn icon" aria-label="全国"><svg class="ic sm"><use href="#i-compass"/></svg></button></div>
+      <div class="mapctl"><button class="btn icon" data-zoom="in" aria-label="放大" title="放大"><svg class="ic sm"><use href="#i-plus"/></svg></button><button class="btn icon" data-zoom="out" aria-label="缩小" title="缩小"><svg class="ic sm"><use href="#i-minus"/></svg></button><button class="btn icon" data-zoom="home" aria-label="全国" title="全国"><svg class="ic sm"><use href="#i-compass"/></svg></button></div>
+      <div class="zoomlv" data-zoomlv></div>
       <section class="leaf lensdock" data-lensdock></section>
       <aside class="leaf cpanel" data-panel hidden></aside>
-      <div class="leaf search-pop" data-search-pop hidden></div>
+      <div class="leaf pop search-pop" data-search-pop hidden></div>
+      <div class="leaf pop board" data-board hidden></div>
       <div class="leaf tip" data-tip hidden></div>
       <div class="scrim" data-scrim hidden></div>
       <div class="leaf almanac" data-almanac hidden></div>
     </div></div></div>
-    <p class="note" data-t="deskNote">试试：点击任一城市印章或红点；换一个透镜；在搜索框输入“苏州”或“su”；点“百科”。</p>
+    <div class="keys" data-keys></div>
   </section>
 
   <section class="sec" id="s-phone">
-    <div class="sec-head"><span class="seal"><span>贰</span></span><h2>手机界面</h2><span class="sub">390 × 844，同一套组件</span></div>
-    <div class="phones">
-      <div><div class="phone" id="phone"><div class="screen"><div class="app" data-app="phone">
-        <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
-        <header class="p-top"><div class="brand-lock"><span class="seal"><span>图鉴</span></span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div><span class="spacer"></span>
-          <button class="btn icon ghost" aria-label="搜索"><svg class="ic"><use href="#i-search"/></svg></button><button class="btn icon ghost" data-set-lang-toggle aria-label="中/EN"><svg class="ic"><use href="#i-lang"/></svg></button><button class="btn icon ghost" aria-label="菜单"><svg class="ic"><use href="#i-menu"/></svg></button></header>
-        <div class="p-lens" data-plens></div>
-        <section class="leaf p-sheet" data-psheet></section>
-      </div></div></div><div class="phone-cap" data-t="phoneCap">底部抽屉：上滑展开完整城市卷</div></div>
-    </div>
+    <div class="sec-head"><span class="seal"><span>贰</span></span><h2 data-t="secPhone">手机界面</h2><span class="sub" data-t="secPhoneSub">390 × 844，同一套组件</span></div>
+    <div class="phones"><div><div class="phone" id="phone"><div class="screen"><div class="app" data-app="phone">
+      <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
+      <header class="p-top"><div class="brand-lock"><span class="seal"><span>图鉴</span></span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div><span class="spacer"></span>
+        <button class="btn icon ghost" aria-label="搜索"><svg class="ic"><use href="#i-search"/></svg></button><button class="btn icon ghost" data-set-lang-toggle aria-label="中/EN"><svg class="ic"><use href="#i-lang"/></svg></button><button class="btn icon ghost" aria-label="菜单"><svg class="ic"><use href="#i-menu"/></svg></button></header>
+      <div class="p-yields" data-pyields></div>
+      <div class="p-lens" data-plens></div>
+      <section class="leaf p-sheet" data-psheet></section>
+    </div></div></div><div class="phone-cap" data-t="phoneCap">底部抽屉：上滑展开完整城市卷</div></div></div>
+  </section>
+
+  <section class="sec" id="s-icons">
+    <div class="sec-head"><span class="seal"><span>叁</span></span><h2 data-t="secIcons">图标优先</h2><span class="sub" data-t="secIconsSub">能用图形说的，不用文字说</span></div>
+    <h3 data-t="hYields">五赋 · 五种产出徽章</h3>
+    <div class="yieldspec" data-yieldspec></div>
+    <h3 data-t="hTowns">城池 · 按常住人口分四级</h3>
+    <div class="picto-row" data-towns></div>
+    <h3 data-t="hBanner">匾额 · 地图上的城市旗标</h3>
+    <div class="leaf card"><canvas data-bannerspec style="width:100%;height:150px;display:block"></canvas><p class="cap" data-t="bannerCap">左侧黑底为常住人口；GDP 前十的城市用朱漆金字匾，其余为素匾；放大后匾下显示五赋。选中的城市在匾旁钤印。</p></div>
+    <h3 data-t="hWonders">奇观 · 世界遗产画在所在地</h3>
+    <div class="picto-row" data-wonders></div>
+    <h3 data-t="hRes">资源与图层（后续阶段）</h3>
+    <div class="picto-row" data-resources></div>
   </section>
 
   <section class="sec" id="s-color">
-    <div class="sec-head"><span class="seal"><span>叁</span></span><h2 data-t="secColor">色彩</h2><span class="sub" data-t="secColorSub">每个颜色都是有名字的颜料，按角色使用</span></div>
-    <h3 data-t="roles">界面角色</h3>
-    <div class="tokens" data-tokens></div>
-    <h3 data-t="pigments">地图颜料</h3>
-    <div class="pigments" data-pigments></div>
-    <h3 data-t="scales">数据色阶</h3>
-    <div class="scales" data-scales></div>
+    <div class="sec-head"><span class="seal"><span>肆</span></span><h2 data-t="secColor">色彩</h2><span class="sub" data-t="secColorSub">每个颜色都是有名字的颜料，按角色使用</span></div>
+    <h3 data-t="roles">界面角色</h3><div class="tokens" data-tokens></div>
+    <h3 data-t="pigments">地图颜料</h3><div class="pigments" data-pigments></div>
+    <h3 data-t="scales">数据色阶</h3><div class="scales" data-scales></div>
   </section>
 
   <section class="sec" id="s-type">
-    <div class="sec-head"><span class="seal"><span>肆</span></span><h2 data-t="secType">字体</h2><span class="sub" data-t="secTypeSub">三种字体，七级字号，中英同一套</span></div>
+    <div class="sec-head"><span class="seal"><span>伍</span></span><h2 data-t="secType">字体</h2><span class="sub" data-t="secTypeSub">三种字体，七级字号，中英同一套</span></div>
     <div class="type-spec" data-typespec></div>
     <h3 data-t="lettering">地图注记</h3>
     <div class="leaf lettering"><canvas data-lettering></canvas></div>
   </section>
 
   <section class="sec" id="s-motif">
-    <div class="sec-head"><span class="seal"><span>伍</span></span><h2 data-t="secMotif">母题与组件</h2><span class="sub" data-t="secMotifSub">每个母题只表达一种意思</span></div>
+    <div class="sec-head"><span class="seal"><span>陆</span></span><h2 data-t="secMotif">母题与组件</h2><span class="sub" data-t="secMotifSub">每个母题只表达一种意思</span></div>
     <div class="grid3">
-      <div class="leaf card"><h3 data-t="mSeal">印 · 唯一的强调</h3><div class="row-gap"><span class="seal" style="--s:56px"><span>上海</span></span><span class="seal" style="--s:44px"><span>图鉴</span></span><span class="seal" style="--s:30px"><span>壹</span></span><button class="btn" data-restamp><span data-t="restamp">重新钤印</span></button></div><p class="cap" data-t="mSealCap">品牌、GDP 前十城市、选中项、当前透镜、章节号。昼为朱砂石印，夜为同形的灯。</p></div>
-      <div class="leaf card"><h3 data-t="mLeaf">裱 · 所有面板都是册页</h3><div class="leaf" style="padding:16px;box-shadow:none"><div class="eyebrow" data-t="mLeafE">册页 LEAF</div><div style="font:600 18px/1.3 var(--serif)" data-t="mLeafT">双线框 · 圆角 2px</div></div><p class="cap" data-t="mLeafCap">外细线 + 内 3px 第二条线。昼是纸面轻投影，夜是毛玻璃。不使用其它卡片样式。</p></div>
-      <div class="leaf card"><h3 data-t="mWater">水纹 · 只表示水</h3><canvas data-ripple style="width:100%;height:70px;border-radius:2px;display:block"></canvas><p class="cap" data-t="mWaterCap">海面、湖面与加载状态。夜间水面全暗，不画水纹。</p></div>
+      <div class="leaf card"><h3 data-t="mSeal">印 · 唯一的强调</h3><div class="row-gap"><span class="seal" style="--s:56px"><span>上海</span></span><span class="seal" style="--s:44px"><span>图鉴</span></span><span class="seal" style="--s:30px"><span>壹</span></span><button class="btn" data-restamp><span data-t="restamp">重新钤印</span></button></div><p class="cap" data-t="mSealCap">品牌、选中的城市、当前透镜、章节号。</p></div>
+      <div class="leaf card"><h3 data-t="mLeaf">裱 · 所有面板都是册页</h3><div class="leaf" style="padding:16px;box-shadow:none"><div class="eyebrow" data-t="mLeafE">册页 LEAF</div><div style="font:600 18px/1.3 var(--serif)" data-t="mLeafT">双线框 · 圆角 2px</div></div><p class="cap" data-t="mLeafCap">外细线 + 内 3px 第二条线，熟绢底，纸面轻投影。</p></div>
+      <div class="leaf card"><h3 data-t="mPlaque">匾 · 名称牌</h3><div class="row-gap"><span class="plaque top"><span class="pop">2487万</span>上海</span><span class="plaque"><span class="pop">1296万</span>苏州</span></div><p class="cap" data-t="mPlaqueCap">漆框匾额。前十为朱漆金字。地图与界面共用。</p></div>
     </div>
     <div class="grid2">
       <div class="leaf card"><h3 data-t="mCtl">控件</h3>
-        <div class="row-gap"><button class="btn primary"><svg class="ic sm"><use href="#i-share"/></svg><span data-t="share">分享</span></button><button class="btn"><svg class="ic sm"><use href="#i-book"/></svg><span data-t="almanac">百科</span></button><button class="btn ghost" data-t="cancel">取消</button><button class="btn icon" aria-label="关闭"><svg class="ic sm"><use href="#i-close"/></svg></button></div>
-        <div class="row-gap"><div class="seg"><button aria-pressed="true">中</button><button aria-pressed="false">EN</button></div><div class="seg"><button aria-pressed="false" data-t="lensNone">地形</button><button aria-pressed="true" data-t="lensPc">人均GDP</button><button aria-pressed="false" data-t="lensGrowth">人口增长</button></div></div>
-        <label class="field" style="max-width:300px"><svg class="ic sm"><use href="#i-search"/></svg><input type="search" data-t-ph="search" placeholder="搜索城市、省份"><kbd>/</kbd></label>
-        <div class="row-gap"><button class="chip" data-t="c1">苏州</button><button class="chip" data-t="c2">成都</button><button class="chip" data-t="c3">杭州</button></div>
+        <div class="row-gap"><button class="btn primary"><svg class="ic sm"><use href="#i-share"/></svg><span data-t="share">分享</span></button><button class="btn"><svg class="ic sm"><use href="#i-book"/></svg><span data-t="almanac">百科</span></button><button class="btn icon" aria-label="关闭"><svg class="ic sm"><use href="#i-close"/></svg></button><div class="seg"><button aria-pressed="true">中</button><button aria-pressed="false">EN</button></div></div>
+        <div class="lens-row" data-lens-demo></div>
+        <label class="field" style="max-width:300px"><svg class="ic sm"><use href="#i-search"/></svg><input type="search" data-t-ph="search" placeholder="搜索城市"><kbd>/</kbd></label>
       </div>
-      <div class="leaf card"><h3 data-t="mData">数据组件</h3>
-        <div class="stats"><div class="stat"><span class="k" data-t="kPop">常住人口 · 2023</span><span class="v num" data-t="vPop">2,487万</span><span class="s"><b data-t="rk2">全国第 2</b></span></div><div class="stat"><span class="k" data-t="kGrowth">人口变化 2020→23</span><span class="v num up">+0.0%</span><span class="s" data-t="kGrowthS">七普以来</span></div></div>
-        <div class="ranks"><div class="rank"><span class="k">GDP</span><span class="v num">1<small> / 320</small></span></div><div class="rank"><span class="k" data-t="lensPc">人均GDP</span><span class="v num">9<small> / 284</small></span></div><div class="rank"><span class="k" data-t="lensSv">服务业占比</span><span class="v num">2<small> / 280</small></span></div></div>
-        <div class="legend" data-legend-demo></div>
-      </div>
+      <div class="leaf card"><h3 data-t="mData">数据组件</h3><div data-data-demo style="display:grid;gap:12px"></div></div>
     </div>
-    <div class="leaf card"><h3 data-t="mIcons">墨线图标 · 20px 网格 · 1.5px 圆头</h3><div class="icons" data-icons></div></div>
+    <div class="leaf card"><h3 data-t="mIcons">墨线图标 · 20px 网格 · 1.5px 圆头（界面操作专用）</h3><div class="icons" data-icons></div></div>
   </section>
 
   <section class="sec" id="s-motion">
-    <div class="sec-head"><span class="seal"><span>陆</span></span><h2 data-t="secMotion">动效</h2><span class="sub" data-t="secMotionSub">三个时刻，其余一律 200ms 缓出</span></div>
+    <div class="sec-head"><span class="seal"><span>柒</span></span><h2 data-t="secMotion">交互与动效</h2><span class="sub" data-t="secMotionSub">像游戏一样即时反馈</span></div>
+    <ul class="leaf card ilist" data-ilist></ul>
     <div class="grid3">
-      <div class="leaf card"><h3 data-t="mo1">钤印 · 选中城市</h3><div class="motion-demo"><span class="seal" style="--s:60px" data-mo-seal><span>成都</span></span></div><button class="btn" data-mo="seal" data-t="replay">重放</button><p class="cap">180ms · 1.14 → 1 倍 · 回正 2.5°</p></div>
+      <div class="leaf card"><h3 data-t="mo1">钤印 · 选中城市</h3><div class="motion-demo"><span class="seal" style="--s:60px" data-mo-seal><span>成都</span></span></div><button class="btn" data-mo="seal" data-t="replay">重放</button><p class="cap">180ms · 1.14 → 1 · 回正 2.5°</p></div>
       <div class="leaf card"><h3 data-t="mo2">展卷 · 打开面板</h3><div class="motion-demo"><div class="leaf mini" data-mo-leaf><i style="width:60%"></i><i></i><i style="width:80%"></i><i style="width:40%"></i></div></div><button class="btn" data-mo="leaf" data-t="replay">重放</button><p class="cap">320ms · 由右向左展开</p></div>
       <div class="leaf card"><h3 data-t="mo3">晕墨 · 切换透镜</h3><div class="motion-demo"><canvas class="ink" data-mo-ink></canvas></div><button class="btn" data-mo="ink" data-t="replay">重放</button><p class="cap">240ms · 新旧画面交叉淡入</p></div>
     </div>
   </section>
 
   <section class="sec" id="s-bi">
-    <div class="sec-head"><span class="seal"><span>柒</span></span><h2 data-t="secBi">双语与数字</h2><span class="sub" data-t="secBiSub">一次只显示一种语言；品牌字永远中英并列</span></div>
+    <div class="sec-head"><span class="seal"><span>捌</span></span><h2 data-t="secBi">双语与数字</h2><span class="sub" data-t="secBiSub">一次只显示一种语言；品牌字永远中英并列</span></div>
     <div class="leaf card tablewrap"><table class="fmt" data-fmt></table></div>
   </section>
 
   <section class="sec" id="s-decide">
-    <div class="sec-head"><span class="seal"><span>捌</span></span><h2>请你确认</h2></div>
+    <div class="sec-head"><span class="seal"><span>玖</span></span><h2>请你确认</h2></div>
     <div class="leaf card decide"><ol>
-      <li><b>整体观感</b>：“千里江山”的绢本、石青石绿、朱砂印，是否就是你要的最终气质？</li>
-      <li><b>名称</b>：工作名“江山图鉴 · Jiangshan Atlas”，可以改。</li>
-      <li><b>题跋</b>：地图左上角竖排“千里江山”加小印，保留还是去掉？</li>
-      <li><b>城市标记</b>：GDP 前十用朱砂印，其余用朱点。这个层级是否合适？</li>
-      <li><b>透镜</b>：用“墨分五色”的墨色深浅表达多少，用石青↔朱砂表达增减。这样表达数据你是否接受？</li>
-      <li><b>右侧城市面板</b>的内容与顺序：四个关键数、全国排名、产业结构、规模相近城市、出处。</li>
-      <li>以上之外，任何想改的颜色、字体或细节，直接告诉我即可。</li>
+      <li><b>五赋</b>：人（常住人口）、金（GDP）、粮（第一产业）、工（第二产业）、商（第三产业）。这个对应是否合适？以后有了数据可以加“文”“学”等。</li>
+      <li><b>城市旗标</b>：漆框匾额 + 黑底人口数，前十为朱漆金字匾。</li>
+      <li><b>城池四级</b>：村 → 城 → 府 → 都（300 万 / 800 万 / 1500 万为界）。</li>
+      <li><b>奇观</b>：画成小幅界画/山水；正式版按世界遗产全部名录与公开规则选取。</li>
+      <li><b>排行榜</b>：点顶栏任一徽章，弹出全国前十。</li>
+      <li><b>名称与题跋</b>：“江山图鉴 · Jiangshan Atlas”；左上角竖排“千里江山”加小印。</li>
+      <li>以上之外，任何想改的颜色、图形或细节，直接告诉我即可。</li>
     </ol></div>
   </section>
 
   <footer class="note" style="display:grid;gap:6px;border-top:1px solid var(--rule);padding-top:18px">
-    <p data-t="foot1">数据：行政区划与南海断续线取自阿里云 DataV.GeoAtlas（依据标准地图）；高程取自 AWS Terrain Tiles；河湖与邻国取自 Natural Earth；城市人口与 GDP 为各地 2023 年统计公报（第一阶段经 chinaciv 汇编）；全国合计为国家统计局 2023 年统计公报。</p>
+    <p data-t="foot1">数据：行政区划与南海断续线取自阿里云 DataV.GeoAtlas（依据标准地图）；高程取自 AWS Terrain Tiles；土地覆盖取自 ESA WorldCover 2021；河湖与邻国取自 Natural Earth；城市人口与 GDP 为各地 2023 年统计公报（第一阶段经 chinaciv 汇编）；全国合计为国家统计局 2023 年统计公报。奇观位置为示意。</p>
     <p data-t="foot2">本原型仅供设计确认，未申请审图号。</p>
   </footer>
 </div>
@@ -456,58 +492,72 @@ const mix = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[
 function ramp(stops, v) { if (v <= stops[0][0]) return stops[0][1]; for (let i = 1; i < stops.length; i++) if (v <= stops[i][0]) { const t = (v - stops[i - 1][0]) / (stops[i][0] - stops[i - 1][0]); return mix(stops[i - 1][1], stops[i][1], t); } return stops[stops.length - 1][1]; }
 const R = s => s.map(([v, c]) => [v, hex(c)]);
 function rng(seed) { let s = seed >>> 0 || 1; return () => { s ^= s << 13; s >>>= 0; s ^= s >> 17; s ^= s << 5; s >>>= 0; return s / 4294967296; }; }
-function boxBlur(a, w, h, r) { const t = new Float32Array(a.length), o = new Float32Array(a.length), n = 2 * r + 1;
-  for (let y = 0; y < h; y++) { let acc = 0; const row = y * w; for (let x = -r; x <= r; x++) acc += a[row + clamp(x, 0, w - 1)];
-    for (let x = 0; x < w; x++) { t[row + x] = acc / n; acc += a[row + Math.min(x + r + 1, w - 1)] - a[row + Math.max(x - r, 0)]; } }
-  for (let x = 0; x < w; x++) { let acc = 0; for (let y = -r; y <= r; y++) acc += t[clamp(y, 0, h - 1) * w + x];
-    for (let y = 0; y < h; y++) { o[y * w + x] = acc / n; acc += t[Math.min(y + r + 1, h - 1) * w + x] - t[Math.max(y - r, 0) * w + x]; } }
-  return o; }
 function vnoise(w, h, cell, seed) { const r = rng(seed), gw = Math.ceil(w / cell) + 2, gh = Math.ceil(h / cell) + 2, g = new Float32Array(gw * gh);
   for (let i = 0; i < g.length; i++) g[i] = r(); const out = new Float32Array(w * h);
   for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const fx = x / cell, fy = y / cell, ix = fx | 0, iy = fy | 0, tx = fx - ix, ty = fy - iy, sx = tx * tx * (3 - 2 * tx), sy = ty * ty * (3 - 2 * ty);
     const a = g[iy * gw + ix], b = g[iy * gw + ix + 1], c = g[(iy + 1) * gw + ix], d = g[(iy + 1) * gw + ix + 1]; out[y * w + x] = a + (b - a) * sx + (c - a) * sy + (a - b - c + d) * sx * sy; }
   return out; }
+const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
-/* ---------------- state + i18n ---------------- */
-const S = { theme: "day", lang: "zh", lens: "pc", city: "310000", userTheme: false };
+/* ================= state + i18n ================= */
+const S = { lang: "zh", lens: "none", city: "310000", board: null };
 const T = {
-  day: ["昼", "Day"], night: ["夜", "Night"], almanac: ["百科", "Almanac"], search: ["搜索城市、省份", "Search cities & provinces"], share: ["分享", "Share"], cancel: ["取消", "Cancel"],
-  yPop: ["常住人口", "Population"], yGdp: ["国内生产总值", "GDP"], yPc: ["人均GDP", "Per capita"], yUrban: ["城镇化率", "Urban"],
+  almanac: ["百科", "Almanac"], search: ["搜索城市", "Search cities"], share: ["分享", "Share"],
+  yPop: ["人 · 常住人口", "People · population"], yGold: ["金 · 地区生产总值", "Gold · GDP"], yFood: ["粮 · 第一产业增加值", "Grain · primary sector"], yInd: ["工 · 第二产业增加值", "Craft · secondary sector"], yCom: ["商 · 第三产业增加值", "Trade · tertiary sector"],
   lens: ["透镜", "Lens"], lensNone: ["地形", "Terrain"], lensPc: ["人均GDP", "GDP per capita"], lensPop: ["常住人口", "Population"], lensGrowth: ["人口增长", "Pop. change"], lensSv: ["服务业占比", "Services share"],
-  colTitleDay: ["千里江山", "A Thousand Li of Rivers and Mountains"], colTitleNight: ["万家灯火", "Ten Thousand Lights"],
-  colSub: ["中华人民共和国 · 二〇二三年数据", "People's Republic of China · 2023 data"],
-  kPop: ["常住人口 · 2023", "Population · 2023"], kGdp: ["地区生产总值 · 2023", "GDP · 2023"], kPc: ["人均GDP", "GDP per capita"], kGrowth: ["人口变化 2020→23", "Pop. change 2020→23"], kGrowthS: ["七普以来", "since 2020 census"],
-  nat: ["全国第", "No."], of: ["/", "of"], sectors: ["产业结构", "Economy by sector"], s1: ["第一产业", "Primary"], s2: ["第二产业", "Secondary"], s3: ["第三产业", "Tertiary"],
-  ranks: ["全国排名", "National rank"], peers: ["规模相近的城市", "Cities of similar size"], census: ["七普常住人口", "2020 census"], src: ["出处", "Source"],
+  colTitle: ["千里江山", "A Thousand Li of Rivers and Mountains"], colSub: ["中华人民共和国 · 二〇二三年数据", "People's Republic of China · 2023 data"],
+  kPc: ["人均GDP", "GDP per capita"], kGrowth: ["人口变化 2020→23", "Pop. change 2020→23"], sectors: ["三产结构", "Economy by sector"],
+  ranks: ["全国名次", "National rank"], peers: ["规模相近的城市", "Cities of similar size"], src: ["出处", "Source"],
   srcText: ["各地 2023 年国民经济和社会发展统计公报（第一阶段经 chinaciv 汇编）", "2023 Statistical Communiqués of each city (compiled by chinaciv in phase 1)"],
-  srcLink: ["查看全部出处", "All sources"], noData: ["无数据", "No data"], legendFoot: ["2023 · 地级区 · 统计公报", "2023 · prefecture level · communiqués"],
-  deskNote: ["试试：点击任一城市印章或红点；换一个透镜；在搜索框输入“苏州”或“su”；点“百科”。", "Try it: click any city seal or dot, switch lenses, search for “Suzhou” or “su”, open the Almanac."],
+  srcLink: ["查看全部出处", "All sources"], noData: ["无数据", "No data"], legendFoot: ["2023 · 地级区", "2023 · prefecture level"],
   phoneCap: ["底部抽屉：上滑展开完整城市卷", "Bottom sheet: swipe up for the full city leaf"],
+  secDesk: ["桌面主界面", "Desktop"], secDeskSub: ["1440 × 900，等比缩放显示，可直接操作", "1440 × 900, scaled; fully playable"], secPhone: ["手机界面", "Phone"], secPhoneSub: ["390 × 844，同一套组件", "390 × 844, same components"],
+  secIcons: ["图标优先", "Icons first"], secIconsSub: ["能用图形说的，不用文字说", "If a picture can say it, no words"], hYields: ["五赋 · 五种产出徽章", "Five yields · medallions"], hTowns: ["城池 · 按常住人口分四级", "Towns · four tiers by population"],
+  hBanner: ["匾额 · 地图上的城市旗标", "Plaques · city banners on the map"], bannerCap: ["左侧黑底为常住人口；GDP 前十的城市用朱漆金字匾，其余为素匾；放大后匾下显示五赋。选中的城市在匾旁钤印。", "Black tab: population. Top-10 GDP cities get red-lacquer plaques with gold letters, the rest plain ones; zoom in to see their yields. The selected city gets a seal."],
+  hWonders: ["奇观 · 世界遗产画在所在地", "Wonders · World Heritage sites, painted in place"], hRes: ["资源与图层（后续阶段）", "Resources & layers (later phases)"],
   secColor: ["色彩", "Colour"], secColorSub: ["每个颜色都是有名字的颜料，按角色使用", "Every colour is a named pigment, used by role"], roles: ["界面角色", "Interface roles"], pigments: ["地图颜料", "Map pigments"], scales: ["数据色阶", "Data scales"],
   secType: ["字体", "Type"], secTypeSub: ["三种字体，七级字号，中英同一套", "Three faces, seven sizes, one set for both languages"], lettering: ["地图注记", "Map lettering"],
   secMotif: ["母题与组件", "Motifs & components"], secMotifSub: ["每个母题只表达一种意思", "Each motif means exactly one thing"],
-  mSeal: ["印 · 唯一的强调", "Seal · the only emphasis"], restamp: ["重新钤印", "Stamp again"], mSealCap: ["品牌、GDP 前十城市、选中项、当前透镜、章节号。朱砂石印，边缘带磨损。", "Brand, top-10 GDP cities, the selection, the active lens, section numbers. Cinnabar stone with worn edges."],
-  mLeaf: ["裱 · 所有面板都是册页", "Mounting · every panel is an album leaf"], mLeafE: ["册页 LEAF", "ALBUM LEAF"], mLeafT: ["双线框 · 圆角 2px", "Double rule · 2px radius"], mLeafCap: ["外细线 + 内 3px 第二条线，熟绢底色，纸面轻投影。不使用其它卡片样式。", "Outer hairline plus a second line 3px inside, on mellowed silk with a light paper lift. No other card style."],
-  mWater: ["水纹 · 只表示水", "Ripple · water only"], mWaterCap: ["海面、湖面与加载状态，不用于装饰。", "Seas, lakes and loading states, never decoration."],
-  mCtl: ["控件", "Controls"], mData: ["数据组件", "Data components"], mIcons: ["墨线图标 · 20px 网格 · 1.5px 圆头", "Ink-line icons · 20px grid · 1.5px round caps"],
-  c1: ["苏州", "Suzhou"], c2: ["成都", "Chengdu"], c3: ["杭州", "Hangzhou"], vPop: ["2,487万", "24.87 M"], rk2: ["全国第 2", "No. 2 nationally"],
-  secMotion: ["动效", "Motion"], secMotionSub: ["三个时刻，其余一律 200ms 缓出", "Three moments; everything else is a 200ms ease-out"], mo1: ["钤印 · 选中城市", "Stamp · select a city"], mo2: ["展卷 · 打开面板", "Unroll · open a panel"], mo3: ["晕墨 · 切换透镜", "Ink spread · change lens"], replay: ["重放", "Replay"],
+  mSeal: ["印 · 唯一的强调", "Seal · the only emphasis"], restamp: ["重新钤印", "Stamp again"], mSealCap: ["品牌、选中的城市、当前透镜、章节号。", "Brand, the selected city, the active lens, section numbers."],
+  mLeaf: ["裱 · 所有面板都是册页", "Mounting · every panel is an album leaf"], mLeafE: ["册页 LEAF", "ALBUM LEAF"], mLeafT: ["双线框 · 圆角 2px", "Double rule · 2px radius"], mLeafCap: ["外细线 + 内 3px 第二条线，熟绢底，纸面轻投影。", "Outer hairline plus a second line 3px inside, on mellowed silk."],
+  mPlaque: ["匾 · 名称牌", "Plaque · name board"], mPlaqueCap: ["漆框匾额。前十为朱漆金字。地图与界面共用。", "Lacquer-framed plaque; red with gold for the top ten. Shared by map and UI."],
+  mCtl: ["控件", "Controls"], mData: ["数据组件", "Data components"], mIcons: ["墨线图标 · 20px 网格 · 1.5px 圆头（界面操作专用）", "Ink-line icons · 20px grid · 1.5px round caps (UI actions only)"],
+  secMotion: ["交互与动效", "Interaction & motion"], secMotionSub: ["像游戏一样即时反馈", "Instant feedback, like a game"], mo1: ["钤印 · 选中城市", "Stamp · select a city"], mo2: ["展卷 · 打开面板", "Unroll · open a panel"], mo3: ["晕墨 · 切换透镜", "Ink spread · change lens"], replay: ["重放", "Replay"],
   secBi: ["双语与数字", "Bilingual & numbers"], secBiSub: ["一次只显示一种语言；品牌字永远中英并列", "One language at a time; the wordmark always shows both"],
-  foot1: ["数据：行政区划与南海断续线取自阿里云 DataV.GeoAtlas（依据标准地图）；高程取自 AWS Terrain Tiles；河湖与邻国取自 Natural Earth；城市人口与 GDP 为各地 2023 年统计公报（第一阶段经 chinaciv 汇编）；全国合计为国家统计局 2023 年统计公报。", "Data: boundaries and the South China Sea dashed line from Alibaba DataV.GeoAtlas (standard map); elevation from AWS Terrain Tiles; rivers, lakes and neighbours from Natural Earth; city population and GDP from each city's 2023 statistical communiqué (compiled by chinaciv in phase 1); national totals from the NBS 2023 communiqué."],
-  foot2: ["本原型仅供设计确认，未申请审图号。", "This prototype is for design review only and has no map review number."],
-  inset: ["南海诸岛", "South China Sea Islands"], km: ["公里", "km"],
+  foot1: ["数据：行政区划与南海断续线取自阿里云 DataV.GeoAtlas（依据标准地图）；高程取自 AWS Terrain Tiles；土地覆盖取自 ESA WorldCover 2021；河湖与邻国取自 Natural Earth；城市人口与 GDP 为各地 2023 年统计公报（第一阶段经 chinaciv 汇编）；全国合计为国家统计局 2023 年统计公报。奇观位置为示意。", "Data: boundaries and the dashed line from Alibaba DataV.GeoAtlas (standard map); elevation from AWS Terrain Tiles; land cover from ESA WorldCover 2021; rivers, lakes and neighbours from Natural Earth; city population and GDP from each city's 2023 communiqué (compiled by chinaciv in phase 1); national totals from the NBS 2023 communiqué. Wonder positions are indicative."],
+  foot2: ["本原型仅供设计确认，未申请审图号。", "Design review only; no map review number."],
+  inset: ["南海诸岛", "South China Sea Islands"], km: ["公里", "km"], top10: ["全国前十", "Top ten"], clickRow: ["点一行飞到该城市", "Click a row to fly there"],
+  zoom: [["全国", "郡国", "州府", "城郭"], ["Nation", "Region", "Prefecture", "City"]],
 };
 const t = k => (T[k] || [k, k])[S.lang === "en" ? 1 : 0];
+const EN = () => S.lang === "en";
 const KIND = { municipality: ["直辖市", "Municipality"], city: ["地级市", "Prefecture-level city"], prefecture: ["地区", "Prefecture"], autonomous_prefecture: ["自治州", "Autonomous prefecture"], league: ["盟", "League"], sar: ["特别行政区", "Special administrative region"] };
-const cname = c => S.lang === "en" ? (c.en || c.n) : c.n;
-function fmtPop(v) { if (v == null) return "—"; if (S.lang === "en") return v >= 1e9 ? (v / 1e9).toFixed(2) + " B" : v >= 1e6 ? (v / 1e6).toFixed(2) + " M" : Math.round(v / 1e3) + " K";
+const cname = c => EN() ? (c.en || c.n) : c.n;
+function fmtPop(v) { if (v == null) return "—"; if (EN()) return v >= 1e9 ? (v / 1e9).toFixed(2) + " B" : v >= 1e6 ? (v / 1e6).toFixed(1) + " M" : Math.round(v / 1e3) + " K";
   return v >= 1e8 ? (v / 1e8).toFixed(2) + "亿" : v >= 1e7 ? Math.round(v / 1e4).toLocaleString("en-US") + "万" : (v / 1e4).toFixed(1) + "万"; }
-function fmtYuan(v) { if (v == null) return "—"; if (S.lang === "en") return v >= 1e12 ? "¥" + (v / 1e12).toFixed(2) + " T" : v >= 1e9 ? "¥" + (v / 1e9).toFixed(1) + " B" : "¥" + Math.round(v).toLocaleString("en-US");
+function fmtYuan(v) { if (v == null) return "—"; if (EN()) return v >= 1e12 ? "¥" + (v / 1e12).toFixed(2) + "T" : v >= 1e9 ? "¥" + (v / 1e9).toFixed(0) + "B" : "¥" + Math.round(v).toLocaleString("en-US");
   return v >= 1e12 ? (v / 1e12).toFixed(2) + "万亿" : v >= 1e8 ? Math.round(v / 1e8).toLocaleString("en-US") + "亿" : v >= 1e4 ? (v / 1e4).toFixed(2) + "万" : Math.round(v) + "元"; }
+const fmtPopShort = v => v == null ? "—" : EN() ? (v / 1e6).toFixed(v >= 1e7 ? 0 : 1) + "M" : Math.round(v / 1e4) + "万";
 const fmtPct = (v, sign) => v == null ? "—" : (sign && v > 0 ? "+" : "") + (v * 100).toFixed(Math.abs(v) < .01 ? 2 : 1) + "%";
 
-/* ---------------- data ---------------- */
-let G, CITIES, PROVS, NATION, DEM, LC = null, URB = null, FR, proj, BYID;
+/* ================= 五赋 glyphs: one source for SVG and canvas ================= */
+const YIELDS = {
+  pop: { col: "#3b302a", key: "popAny", tk: "yPop", ch: "人", fill: ["M10 3.2a2.8 2.8 0 1 1 0 5.6a2.8 2.8 0 0 1 0-5.6z", "M4.6 16.4c0-3.5 2.4-6.1 5.4-6.1s5.4 2.6 5.4 6.1z"] },
+  gold: { col: "#b8913f", key: "gdp", tk: "yGold", ch: "金", stroke: ["M10 4.3a5.7 5.7 0 1 1 0 11.4a5.7 5.7 0 0 1 0-11.4z"], fill: ["M8 8h4v4H8z"], hole: true },
+  food: { col: "#5b927f", key: "p1", tk: "yFood", ch: "粮", stroke: ["M10 17V7.5"], fill: ["M10 3.6c1.2 1 1.2 2.7 0 3.7-1.2-1-1.2-2.7 0-3.7z", "M10 8c-2-.1-3.3-1.3-3.6-3.1 1.9.1 3.3 1.2 3.6 3.1z", "M10 8c2-.1 3.3-1.3 3.6-3.1-1.9.1-3.3 1.2-3.6 3.1z", "M10 11.3c-2-.1-3.3-1.3-3.6-3.1 1.9.1 3.3 1.2 3.6 3.1z", "M10 11.3c2-.1 3.3-1.3 3.6-3.1-1.9.1-3.3 1.2-3.6 3.1z", "M10 14.6c-2-.1-3.3-1.3-3.6-3.1 1.9.1 3.3 1.2 3.6 3.1z", "M10 14.6c2-.1 3.3-1.3 3.6-3.1-1.9.1-3.3 1.2-3.6 3.1z"] },
+  ind: { col: "#b07a45", key: "p2", tk: "yInd", ch: "工", fill: ["M3.6 16.2V9.6l3.3 2V9.6l3.3 2V9.6l3.3 2V4.4h2.9v11.8z"] },
+  com: { col: "#2d5e78", key: "p3", tk: "yCom", ch: "商", stroke: ["M10 4v11.5M6.5 15.5h7M4.5 6.2h11"], fill: ["M4.5 6.6 2.6 10.8h3.8z", "M15.5 6.6l-1.9 4.2h3.8z", "M10 3a1 1 0 1 1 0 2a1 1 0 0 1 0-2z"] },
+};
+const LENS_GLYPH = { none: "mountain", pc: "gold", pop: "pop", growth: "trend", sv: "com" };
+function medalSVG(k, cls = "") { const y = YIELDS[k]; return `<svg class="medal ${cls}" viewBox="0 0 20 20" aria-hidden="true"><circle class="d" cx="10" cy="10" r="9.3" fill="${y.col}"/>${(y.fill || []).map(d => `<path class="g" d="${d}" stroke="none"/>`).join("")}${(y.stroke || []).map(d => `<path d="${d}" fill="none" stroke="#f6efe0" stroke-width="1.4" stroke-linecap="round"/>`).join("")}</svg>`; }
+const P2D = {}; for (const [k, y] of Object.entries(YIELDS)) P2D[k] = { fill: (y.fill || []).map(d => new Path2D(d)), stroke: (y.stroke || []).map(d => new Path2D(d)) };
+function drawMedal(ctx, k, x, y, r) { const Y = YIELDS[k]; ctx.save(); ctx.fillStyle = Y.col; ctx.strokeStyle = "rgba(43,35,29,.6)"; ctx.lineWidth = Math.max(.6, r * .09);
+  ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); ctx.stroke(); ctx.translate(x - r, y - r); ctx.scale(r / 10, r / 10);
+  ctx.fillStyle = "#f6efe0"; ctx.strokeStyle = "#f6efe0"; ctx.lineWidth = 1.4; ctx.lineCap = "round"; for (const p of P2D[k].fill) ctx.fill(p); for (const p of P2D[k].stroke) ctx.stroke(p); ctx.restore(); }
+function lensIcon(id) { const g = LENS_GLYPH[id]; return YIELDS[g] ? medalSVG(g) : `<svg class="ic" style="width:22px;height:22px"><use href="#i-${g}"/></svg>`; }
+
+/* ================= data ================= */
+let G, CITIES, PROVS, NATION, DEM, LC = null, LC2 = null, FR, proj, BYID;
 async function loadImg(src) { const img = new Image(); img.src = src; await img.decode(); const cv = document.createElement("canvas"); cv.width = img.width; cv.height = img.height;
   const cx = cv.getContext("2d", { willReadFrequently: true }); cx.drawImage(img, 0, 0); return cx.getImageData(0, 0, img.width, img.height); }
 async function load() {
@@ -519,8 +569,8 @@ async function load() {
   const im = await loadImg("data/dem.png"); const z = new Float32Array(dj.w * dj.h);
   for (let i = 0; i < z.length; i++) z[i] = im.data[i * 4] * 256 + im.data[i * 4 + 1] - dj.offset;
   DEM = { w: dj.w, h: dj.h, km: dj.km_per_px, z };
-  try { const a = await loadImg("data/lc.png"), b = await loadImg("data/urban.png"); LC = new Uint8Array(z.length); URB = new Uint8Array(z.length);
-    for (let i = 0; i < z.length; i++) { LC[i] = a.data[i * 4]; URB[i] = b.data[i * 4]; } } catch (e) { LC = null; }
+  try { const a = await loadImg("data/lc.png"); LC = new Uint8Array(z.length); for (let i = 0; i < z.length; i++) LC[i] = a.data[i * 4]; } catch (e) { LC = null; }
+  try { const a = await loadImg("data/lc2.png"); LC2 = { w: a.width, h: a.height, km: DEM.km / 2, d: new Uint8Array(a.width * a.height) }; for (let i = 0; i < LC2.d.length; i++) LC2.d[i] = a.data[i * 4]; } catch (e) { LC2 = null; }
   prepare();
 }
 const P = {};
@@ -554,29 +604,30 @@ function prepare() {
     const sl = Math.atan(Math.hypot(dzdx, dzdy)), asp = Math.atan2(dzdy, -dzdx);
     SHADE[i] = clamp(Math.cos(Math.PI / 2 - alt) * Math.cos(sl) + Math.sin(Math.PI / 2 - alt) * Math.sin(sl) * Math.cos(az - Math.PI / 2 - asp), 0, 1); }
   PREF_CITY = P.prefs.map(p => { if (BYID.has(p.id)) return BYID.get(p.id); const pr = p.id.slice(0, 2); return ["11", "12", "31", "50", "81", "82"].includes(pr) ? BYID.get(pr + "0000") || null : null; });
-  const area = new Map(); for (let i = 0; i < PREF.length; i++) if (PREF[i] >= 0) { const c = PREF_CITY[PREF[i]]; if (c) area.set(c.id, (area.get(c.id) || 0) + DEM.km * DEM.km); }
-  for (const c of CITIES) { c.area = area.get(c.id) || null; c.popAny = c.pop || c.pop20; }
-  RANKED = CITIES.filter(c => c.gdp).sort((a, b) => b.gdp - a.gdp);
-  NZ = vnoise(w, h, 6, 7).map((v, i) => v);  // paper mottling
-  const nz2 = vnoise(w, h, 40, 9); for (let i = 0; i < NZ.length; i++) NZ[i] = NZ[i] * .6 + nz2[i] * .4;
+  for (const c of CITIES) { c.popAny = c.pop || c.pop20; c.tier = c.popAny >= 1.5e7 ? 3 : c.popAny >= 8e6 ? 2 : c.popAny >= 3e6 ? 1 : 0; }
+  RANKED = CITIES.filter(c => c.gdp).sort((a, b) => b.gdp - a.gdp); RANKED.forEach((c, i) => c.gdpIdx = i);
+  NZ = vnoise(w, h, 6, 7); const nz2 = vnoise(w, h, 40, 9); for (let i = 0; i < NZ.length; i++) NZ[i] = NZ[i] * .6 + nz2[i] * .4;
   for (const L of Object.values(LENSES)) if (L.key) L.breaks = L.makeBreaks();
+  WONDERS.forEach(wd => { const [x, y] = proj(wd.lon, wd.lat); wd.x = x; wd.y = y; });
+  TIER_IMG = [0, 1, 2, 3].map(tierImage);
 }
 
-/* ---------------- lenses ---------------- */
+/* ================= lenses ================= */
 function quantBreaks(vals) { const s = vals.filter(v => v != null && isFinite(v)).sort((a, b) => a - b); return [.2, .4, .6, .8].map(q => s[Math.floor(q * s.length)]); }
 const LENSES = {
   none: { key: null, name: "lensNone" },
-  pc: { key: "pc", name: "lensPc", kind: "seq", unit: ["元 / 人", "¥ per person"], fmt: v => S.lang === "en" ? "¥" + Math.round(v / 1e3) + "K" : (v / 1e4).toFixed(1) + "万", makeBreaks() { return quantBreaks(CITIES.map(c => c.pc)); } },
-  pop: { key: "popAny", name: "lensPop", kind: "seq", unit: ["人", "people"], fmt: v => S.lang === "en" ? (v / 1e6).toFixed(1) + "M" : Math.round(v / 1e4) + "万", makeBreaks() { return quantBreaks(CITIES.map(c => c.popAny)); } },
+  pc: { key: "pc", name: "lensPc", kind: "seq", unit: ["元 / 人", "¥ per person"], fmt: v => EN() ? "¥" + Math.round(v / 1e3) + "K" : (v / 1e4).toFixed(1) + "万", makeBreaks() { return quantBreaks(CITIES.map(c => c.pc)); } },
+  pop: { key: "popAny", name: "lensPop", kind: "seq", unit: ["人", "people"], fmt: v => EN() ? (v / 1e6).toFixed(1) + "M" : Math.round(v / 1e4) + "万", makeBreaks() { return quantBreaks(CITIES.map(c => c.popAny)); } },
   growth: { key: "growth", name: "lensGrowth", kind: "div", unit: ["2020→2023", "2020→2023"], fmt: v => (v > 0 ? "+" : "") + (v * 100).toFixed(0) + "%", makeBreaks() { return [-0.04, -0.01, 0.01, 0.04]; } },
   sv: { key: "sv", name: "lensSv", kind: "seq", unit: ["占 GDP", "of GDP"], fmt: v => Math.round(v * 100) + "%", makeBreaks() { return quantBreaks(CITIES.map(c => c.sv)); } },
 };
 const lensClass = (L, c) => { const v = c && c[L.key]; return v == null ? -1 : L.breaks.filter(b => v >= b).length; };
-function cssv(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
-function lensColors(L) { return [0, 1, 2, 3, 4].map(i => cssv((L.kind === "div" ? "--div-" : "--seq-") + i)); }
-function lensLabels(L) { const b = L.breaks; return [`< ${L.fmt(b[0])}`, `${L.fmt(b[0])}–${L.fmt(b[1])}`, `${L.fmt(b[1])}–${L.fmt(b[2])}`, `${L.fmt(b[2])}–${L.fmt(b[3])}`, `≥ ${L.fmt(b[3])}`]; }
+const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const lensColors = L => [0, 1, 2, 3, 4].map(i => cssv((L.kind === "div" ? "--div-" : "--seq-") + i));
+const lensLabels = L => { const b = L.breaks; return [`< ${L.fmt(b[0])}`, `${L.fmt(b[0])}–${L.fmt(b[1])}`, `${L.fmt(b[1])}–${L.fmt(b[2])}`, `${L.fmt(b[2])}–${L.fmt(b[3])}`, `≥ ${L.fmt(b[3])}`]; };
+const INK5 = [.05, .14, .27, .43, .62];
 
-/* ---------------- map views ---------------- */
+/* ================= map helpers ================= */
 function bboxLL(l0, b0, l1, b1) { let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
   for (let i = 0; i <= 20; i++) for (const [lo, la] of [[l0 + (l1 - l0) * i / 20, b0], [l0 + (l1 - l0) * i / 20, b1], [l0, b0 + (b1 - b0) * i / 20], [l1, b0 + (b1 - b0) * i / 20]]) { const [x, y] = proj(lo, la); x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); }
   return [x0, y0, x1, y1]; }
@@ -593,24 +644,35 @@ function haloText(ctx, s, x, y, fill, halo, hw) { if (halo) { ctx.lineJoin = "ro
 function spaced(ctx, s, x, y, gap, fill, halo, hw) { const ch = [...s], ws = ch.map(c => ctx.measureText(c).width), tot = ws.reduce((a, b) => a + b, 0) + gap * (ch.length - 1); let cx = x - tot / 2; ctx.textAlign = "left"; ch.forEach((c, i) => { haloText(ctx, c, cx, y, fill, halo, hw); cx += ws[i] + gap; }); ctx.textAlign = "center"; }
 const SEAS = [["渤海", "Bohai Sea", 120.2, 38.9], ["黄海", "Yellow Sea", 123.2, 35.2], ["东海", "East China Sea", 124.6, 29.4], ["南海", "South China Sea", 114.5, 18.6]];
 
-/* ---------------- 昼 · 千里江山 ---------------- */
+/* ================= 千里江山 painter ================= */
 const DAY = { paper: hex("#eee3c9"), paperDark: hex("#e2d4b4"), sea: "#d3dfd2", ink: "#2b231d", seal: "#b23a2b",
   elev: R([[0, "#e2d2a8"], [250, "#d8cd9c"], [600, "#b5c48f"], [1200, "#86ad86"], [2200, "#5b927f"], [3400, "#3d7787"], [4600, "#2d5e78"], [5400, "#5d7f8f"], [6000, "#e9e6dc"]]),
-  lc: { 10: hex("#6f9c78"), 20: hex("#a3ad7c"), 30: hex("#c4c48f"), 40: hex("#d8cc97"), 50: hex("#b9a88c"), 60: hex("#e7d4a4"), 70: hex("#f4f0e6"), 80: hex("#c9d9cf"), 90: hex("#9ebfa9"), 95: hex("#7fa98f"), 100: hex("#bfbf9c") } };
-const RCACHE = {};
-function dayRaster(plain) {
-  const key = "day" + (plain ? "p" : "") + (LC ? "lc" : ""); if (RCACHE[key]) return RCACHE[key];
-  return RCACHE[key] = raster(i => { const m = MASK[i], sh = SHADE[i], e = DEM.z[i], n = NZ[i];
+  lc: { 10: hex("#6a9a76"), 20: hex("#a3ad7c"), 30: hex("#c2c58e"), 40: hex("#ddcf98"), 50: hex("#c3ae8c"), 60: hex("#e9d6a5"), 70: hex("#f4f0e6"), 80: hex("#c9d9cf"), 90: hex("#9ebfa9"), 95: hex("#7fa98f"), 100: hex("#c4c09c") } };
+const TERRAIN_KEYS = [[10, ["林", "Forest"]], [40, ["田", "Farmland"]], [30, ["草", "Grassland"]], [60, ["漠", "Desert"]], [50, ["城", "Built-up"]], [70, ["雪", "Snow"]], [80, ["水", "Water"]], [90, ["泽", "Wetland"]]];
+const RC = {};
+function dayRaster(plain) { const key = "d" + (plain ? "p" : ""); if (RC[key]) return RC[key];
+  return RC[key] = raster(i => { const m = MASK[i], sh = SHADE[i], e = DEM.z[i], n = NZ[i];
     if (m === 0 || m === 3) return null;
     if (m === 2) return [...mix(DAY.paper, DAY.paperDark, clamp((0.75 - sh) * 1.6, 0, 1) * 0.8), 235];
     if (plain) return mix(DAY.paper, DAY.paperDark, clamp((0.8 - sh) * 1.4, 0, 1) * 0.9 + n * 0.1);
     let c = ramp(DAY.elev, e + (n - .5) * 500);
-    if (LC && LC[i] && DAY.lc[LC[i]]) { const lc = DAY.lc[LC[i]], hi = clamp((e - 1800) / 2600, 0, 1);  // land cover rules the plains, elevation the mountains
-      c = mix(lc, c, LC[i] === 70 ? 0.1 : 0.25 + hi * 0.6); }
-    const k = 0.58 + 0.55 * sh; c = [c[0] * k, c[1] * k * .99, c[2] * k * .97];
-    c = mix(c, hex("#2c241e"), clamp((0.45 - sh) * .9, 0, .35));
-    return mix(c, DAY.paper, 0.12 + n * 0.08); });
-}
+    if (LC && LC[i] && DAY.lc[LC[i]]) { const lc = DAY.lc[LC[i]], hi = clamp((e - 1800) / 2600, 0, 1); c = mix(lc, c, LC[i] === 70 ? .1 : .22 + hi * .6); }
+    const k = .58 + .55 * sh; c = [c[0] * k, c[1] * k * .99, c[2] * k * .97];
+    c = mix(c, hex("#2c241e"), clamp((.45 - sh) * .9, 0, .35));
+    return mix(c, DAY.paper, .12 + n * .08); }); }
+function dayRaster2(plain) { const key = "d2" + (plain ? "p" : ""); if (RC[key]) return RC[key]; if (!LC2) return null;
+  const w = LC2.w, h = LC2.h, km = LC2.km, cv = document.createElement("canvas"); cv.width = w; cv.height = h; const cx = cv.getContext("2d", { willReadFrequently: true });
+  cx.setTransform(1 / km, 0, 0, 1 / km, 0, 0); cx.fillStyle = "rgb(0,0,255)"; cx.fill(P.nbr); cx.fillStyle = "rgb(255,0,0)"; cx.fill(P.provAll); cx.fillStyle = "rgb(0,255,0)"; cx.fill(P.lakes);
+  const md = cx.getImageData(0, 0, w, h).data; cx.setTransform(1, 0, 0, 1, 0, 0); const im = cx.createImageData(w, h), d = im.data, W4 = DEM.w, H4 = DEM.h, r = rng(5);
+  const bl = (A, fx, fy) => { const x0 = Math.min(fx | 0, W4 - 2), y0 = Math.min(fy | 0, H4 - 2), tx = fx - x0, ty = fy - y0, i = y0 * W4 + x0; return A[i] * (1 - tx) * (1 - ty) + A[i + 1] * tx * (1 - ty) + A[i + W4] * (1 - tx) * ty + A[i + W4 + 1] * tx * ty; };
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const i = y * w + x, R_ = md[i * 4], G_ = md[i * 4 + 1], B_ = md[i * 4 + 2]; const m = G_ > 128 ? 3 : R_ > 128 ? 1 : B_ > 128 ? 2 : 0; if (m === 0 || m === 3) continue;
+    const fx = clamp((x + .5) / 2 - .5, 0, W4 - 1.001), fy = clamp((y + .5) / 2 - .5, 0, H4 - 1.001), sh = bl(SHADE, fx, fy), e = bl(DEM.z, fx, fy), n = bl(NZ, fx, fy) * .85 + r() * .15;
+    let c; if (m === 2) { c = mix(DAY.paper, DAY.paperDark, clamp((.75 - sh) * 1.6, 0, 1) * .8); d[i * 4] = c[0]; d[i * 4 + 1] = c[1]; d[i * 4 + 2] = c[2]; d[i * 4 + 3] = 235; continue; }
+    if (plain) c = mix(DAY.paper, DAY.paperDark, clamp((.8 - sh) * 1.4, 0, 1) * .9 + n * .1);
+    else { c = ramp(DAY.elev, e + (n - .5) * 500); const L = LC2.d[i]; if (L && DAY.lc[L]) { const hi = clamp((e - 1800) / 2600, 0, 1); c = mix(DAY.lc[L], c, L === 70 ? .1 : .22 + hi * .6); }
+      const k = .58 + .55 * sh; c = [c[0] * k, c[1] * k * .99, c[2] * k * .97]; c = mix(c, hex("#2c241e"), clamp((.45 - sh) * .9, 0, .35)); c = mix(c, DAY.paper, .12 + n * .08); }
+    d[i * 4] = c[0]; d[i * 4 + 1] = c[1]; d[i * 4 + 2] = c[2]; d[i * 4 + 3] = 255; }
+  cx.putImageData(im, 0, 0); RC[key] = { cv, km }; return RC[key]; }
 let PAPER = null;
 function paperPattern(ctx) { if (!PAPER) { const s = document.createElement("canvas"); s.width = s.height = 256; const c = s.getContext("2d"), r = rng(3); c.fillStyle = "#efe4ca"; c.fillRect(0, 0, 256, 256);
     for (let i = 0; i < 2600; i++) { c.fillStyle = `rgba(120,95,60,${r() * .06})`; c.fillRect(r() * 256, r() * 256, 1 + r() * 2, 1); }
@@ -619,346 +681,386 @@ function paperPattern(ctx) { if (!PAPER) { const s = document.createElement("can
 function wavePattern(ctx, u, col) { const w = Math.round(34 * u), h = Math.round(14 * u), s = document.createElement("canvas"); s.width = w; s.height = h; const c = s.getContext("2d"); c.strokeStyle = col; c.lineWidth = .8 * u;
   for (const [oy, ox] of [[h * .3, 0], [h * .8, w / 2]]) { c.beginPath(); for (let k = -1; k <= 1; k++) { const x0 = ox + k * w; c.moveTo(x0, oy); c.bezierCurveTo(x0 + w * .2, oy - h * .28, x0 + w * .3, oy - h * .28, x0 + w * .5, oy); } c.stroke(); }
   return ctx.createPattern(s, "repeat"); }
-function drawSeal(ctx, x, y, size, text, u, seed, night) {
-  const r = rng(seed), s = size; ctx.save(); ctx.translate(x, y); ctx.rotate((r() - .5) * .06);
-  const j = () => (r() - .5) * s * .05;
+function drawSeal(ctx, x, y, size, text, u, seed) {
+  const r = rng(seed), s = size; ctx.save(); ctx.translate(x, y); ctx.rotate((r() - .5) * .08); const j = () => (r() - .5) * s * .05;
   ctx.beginPath(); ctx.moveTo(-s / 2 + j(), -s / 2 + j()); ctx.lineTo(s / 2 + j(), -s / 2 + j()); ctx.lineTo(s / 2 + j(), s / 2 + j()); ctx.lineTo(-s / 2 + j(), s / 2 + j()); ctx.closePath();
-  if (night) { ctx.shadowColor = "rgba(255,196,118,.8)"; ctx.shadowBlur = 12 * u; ctx.fillStyle = "rgba(10,14,24,.78)"; ctx.fill(); ctx.shadowBlur = 0; ctx.strokeStyle = "#ffc476"; ctx.lineWidth = 1.4 * u; ctx.stroke(); }
-  else { ctx.fillStyle = DAY.seal; ctx.fill(); ctx.globalCompositeOperation = "destination-out"; for (let i = 0; i < 26; i++) { ctx.fillStyle = `rgba(0,0,0,${.25 + r() * .5})`; ctx.beginPath(); ctx.arc((r() - .5) * s, (r() - .5) * s, r() * s * .035 + .3 * u, 0, 7); ctx.fill(); } ctx.globalCompositeOperation = "source-over"; }
-  ctx.fillStyle = night ? "#ffd89a" : "#fbf1e4"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; const ch = [...text]; const fs = ch.length <= 2 ? s * .42 : s * .3; ctx.font = `${fs}px "Ma Shan Zheng", serif`;
-  if (night) { ctx.shadowColor = "rgba(255,196,118,.9)"; ctx.shadowBlur = 6 * u; }
-  if (ch.length <= 2) ch.forEach((c, i) => ctx.fillText(c, 0, (i - (ch.length - 1) / 2) * fs * 1.02));
-  else { const cols = [ch.slice(0, 2), ch.slice(2)]; cols.forEach((col, ci) => col.forEach((c, i) => ctx.fillText(c, (.5 - ci) * fs * 1.1, (i - .5) * fs * 1.05))); }
+  ctx.fillStyle = DAY.seal; ctx.fill(); ctx.globalCompositeOperation = "destination-out"; for (let i = 0; i < 26; i++) { ctx.fillStyle = `rgba(0,0,0,${.25 + r() * .5})`; ctx.beginPath(); ctx.arc((r() - .5) * s, (r() - .5) * s, r() * s * .035 + .3 * u, 0, 7); ctx.fill(); } ctx.globalCompositeOperation = "source-over";
+  ctx.fillStyle = "#fbf1e4"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; const ch = [...text]; const fs = ch.length <= 2 ? s * .42 : s * .3; ctx.font = `${fs}px "Ma Shan Zheng", serif`;
+  if (ch.length <= 2) ch.forEach((c, i) => ctx.fillText(c, 0, (i - (ch.length - 1) / 2) * fs * 1.02)); else { const cols = [ch.slice(0, 2), ch.slice(2)]; cols.forEach((col, ci) => col.forEach((c, i) => ctx.fillText(c, (.5 - ci) * fs * 1.1, (i - .5) * fs * 1.05))); }
   ctx.restore(); }
 
-/* ---------------- 夜 · 万家灯火 ---------------- */
-function nightRaster() { if (RCACHE.night) return RCACHE.night;
-  return RCACHE.night = raster(i => { const m = MASK[i], sh = SHADE[i]; if (m === 0 || m === 3) return null;
-    const base = m === 1 ? hex("#111a2b") : hex("#0b111c"), hi = m === 1 ? hex("#243148") : hex("#141c2a"); return mix(base, hi, clamp(sh - .35, 0, 1) * 1.1); }); }
-let LIGHTS = null;
-function lightPoints() { if (LIGHTS) return LIGHTS;
-  const r = rng(2023), pts = [], per = 30000, w = DEM.w, km = DEM.km;
-  const byCity = new Map(); P.prefs.forEach((p, i) => { const c = PREF_CITY[i]; if (!c) return; if (!byCity.has(c.id)) byCity.set(c.id, []); byCity.get(c.id).push(i); });
-  if (URB) { // dasymetric: population spread over built-up land (strong) and farmland (weak) inside each prefecture
-    const cells = new Map();
-    for (let i = 0; i < PREF.length; i++) { const p = PREF[i]; if (p < 0) continue; const c = PREF_CITY[p]; if (!c) continue;
-      const wgt = URB[i] / 255 * 1 + (LC[i] === 40 ? .05 : LC[i] === 10 || LC[i] === 30 || LC[i] === 20 ? .012 : 0); if (wgt <= 0) continue;
-      if (!cells.has(c.id)) cells.set(c.id, []); cells.get(c.id).push(i, wgt); }
-    for (const c of CITIES) { const L = cells.get(c.id); if (!L || !c.popAny) continue; let tot = 0; for (let k = 1; k < L.length; k += 2) tot += L[k];
-      const n = Math.round(c.popAny / per); for (let q = 0; q < n; q++) { let tgt = r() * tot, k = 1; while (k < L.length - 1 && (tgt -= L[k]) > 0) k += 2;
-        const i = L[k - 1], gx = i % w, gy = (i / w) | 0; pts.push([(gx + r()) * km, (gy + r()) * km, c]); } }
-    return LIGHTS = pts; }
-  for (const c of CITIES) { const pi = byCity.get(c.id); if (!pi || !c.popAny) continue; const n = Math.round(c.popAny / per), sig = Math.max(8, Math.sqrt(c.area || 1000) * .22), ok = new Set(pi); let made = 0, tries = 0;
-    while (made < n && tries < n * 40) { tries++; const far = r() < .35, s = far ? sig * 2.6 : sig * (.25 + r() * .75), a = r() * 6.2832, rr = Math.sqrt(-2 * Math.log(r() + 1e-9)) * s;
-      const x = c.x + Math.cos(a) * rr, y = c.y + Math.sin(a) * rr, gx = (x / km) | 0, gy = (y / km) | 0; if (gx < 0 || gy < 0 || gx >= w || gy >= DEM.h || !ok.has(PREF[gy * w + gx])) continue; pts.push([x, y, c]); made++; } }
-  return LIGHTS = pts; }
-function drawLights(ctx, v, u, L, cols) {
-  const pts = lightPoints(), W = ctx.canvas.width, H = ctx.canvas.height, n = W * H, lens = !!L.key;
-  const acc = new Float32Array(n), cr = lens ? new Float32Array(n) : null, cg = lens ? new Float32Array(n) : null, cb = lens ? new Float32Array(n) : null;
-  for (const [x, y, c] of pts) { const X = (v.ox + x * v.s) | 0, Y = (v.oy + y * v.s) | 0; if (X < 0 || Y < 0 || X >= W || Y >= H) continue; const i = Y * W + X; acc[i] += 1;
-    if (lens) { const k = lensClass(L, c), col = k < 0 ? [120, 120, 130] : cols[k]; cr[i] += col[0]; cg[i] += col[1]; cb[i] += col[2]; } }
-  const r1 = Math.max(1, Math.round(1.2 * u)), r2 = Math.max(2, Math.round(7 * u)), r3 = Math.max(4, Math.round(22 * u));
-  const b3 = (a, r) => boxBlur(boxBlur(boxBlur(a, W, H, r), W, H, r), W, H, r);
-  const core = boxBlur(acc, W, H, r1), halo = b3(acc, r2), wide = b3(acc, r3);
-  const tint = lens ? [b3(cr, r2), b3(cg, r2), b3(cb, r2)] : null;
-  const area = (2 * r1 + 1) ** 2, gain = (u * u) / 1.2 * (v.s > .5 ? 1.6 : 1) / Math.max(.6, Math.min(1.6, v.s / .18));
-  const img = ctx.getImageData(0, 0, W, H), d = img.data;
-  for (let i = 0; i < n; i++) { const e = core[i] * area * .35 + (halo[i] * 2.2 + wide[i] * .7) * gain; if (e < .0006) continue; const I = 1 - Math.exp(-e);
-    let col; if (lens) { const hh = halo[i] || 1e-6; col = [tint[0][i] / hh, tint[1][i] / hh, tint[2][i] / hh]; col = mix(col, [255, 252, 240], clamp((I - .75) * 2.5, 0, .6)); }
-    else col = I < .5 ? mix([150, 80, 30], [255, 190, 105], I * 2) : mix([255, 190, 105], [255, 248, 230], (I - .5) * 2);
-    const a = clamp(I * 1.05, 0, 1); d[i * 4] = d[i * 4] * (1 - a) + col[0] * a; d[i * 4 + 1] = d[i * 4 + 1] * (1 - a) + col[1] * a; d[i * 4 + 2] = d[i * 4 + 2] * (1 - a) + col[2] * a; }
-  ctx.putImageData(img, 0, 0); }
+/* ---------- 城池 · towns in 界画 style; anchored at the bottom centre, k = px per unit ---------- */
+const INKL = "rgba(43,35,29,.85)", WALL = "#cdb084", WALL_D = "#a9895c", ROOF = "#2f5d6b", ROOF2 = "#4f8a70", GATE = "#3a2a22";
+function roof(ctx, cx, y, w, h, col) { ctx.beginPath(); ctx.moveTo(cx - w / 2, y); ctx.quadraticCurveTo(cx - w * .3, y - h * .25, cx - w * .2, y - h); ctx.lineTo(cx + w * .2, y - h); ctx.quadraticCurveTo(cx + w * .3, y - h * .25, cx + w / 2, y); ctx.closePath(); ctx.fillStyle = col; ctx.fill(); ctx.stroke(); }
+function block(ctx, cx, y, w, h, col) { ctx.fillStyle = col; ctx.fillRect(cx - w / 2, y - h, w, h); ctx.strokeRect(cx - w / 2, y - h, w, h); }
+function drawTown(ctx, x, y, tier, k) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(k, k); ctx.lineWidth = .55; ctx.strokeStyle = INKL; ctx.lineJoin = "round";
+  // soft ground shadow
+  ctx.fillStyle = "rgba(43,35,29,.18)"; ctx.beginPath(); ctx.ellipse(0, 0.6, [5, 9, 12, 15][tier], 1.6, 0, 0, 7); ctx.fill();
+  if (tier === 0) { block(ctx, -1.5, 0, 5, 3.2, "#e1c99c"); roof(ctx, -1.5, -3.2, 7, 2.6, ROOF2); block(ctx, 3, 0, 3.4, 2.4, "#e1c99c"); roof(ctx, 3, -2.4, 5, 2, ROOF); }
+  else {
+    const W = [0, 15, 20, 25][tier], Hh = [0, 4.2, 5, 6][tier];
+    block(ctx, 0, 0, W, Hh, WALL); ctx.fillStyle = WALL_D; ctx.fillRect(-W / 2, -Hh, W, 1); // crenellation band
+    for (let i = -W / 2 + 1; i < W / 2 - .5; i += 2) { ctx.fillStyle = WALL_D; ctx.fillRect(i, -Hh - 1, 1, 1); }
+    ctx.fillStyle = GATE; ctx.beginPath(); ctx.moveTo(-1.4, 0); ctx.lineTo(-1.4, -2.2); ctx.arc(0, -2.2, 1.4, Math.PI, 0); ctx.lineTo(1.4, 0); ctx.closePath(); ctx.fill();
+    const tw = [0, 7, 9, 11][tier]; let ty = -Hh - 1; block(ctx, 0, ty, tw - 2, 2.6, "#c0392b"); ty -= 2.6; roof(ctx, 0, ty, tw + 3, 3, ROOF);
+    if (tier >= 2) { ty -= 3; block(ctx, 0, ty, tw - 5, 2, "#c0392b"); ty -= 2; roof(ctx, 0, ty, tw - 1, 2.6, ROOF); }
+    if (tier >= 3) { ty -= 2.6; block(ctx, 0, ty, tw - 7, 1.6, "#c0392b"); ty -= 1.6; roof(ctx, 0, ty, tw - 4, 2.2, ROOF); }
+    if (tier >= 2) { // pagoda on the right
+      let px = W / 2 - 3, py = -Hh - 1; const n = tier === 3 ? 5 : 3; for (let i = 0; i < n; i++) { block(ctx, px, py, 2.2 - i * .2, 1.5, "#e6d3ad"); py -= 1.5; roof(ctx, px, py, 4.2 - i * .4, 1.2, ROOF2); py -= 1.2; }
+      ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px, py - 1.6); ctx.stroke(); }
+    if (tier >= 1) { const hx = -W / 2 + 3.5; block(ctx, hx, -Hh - 1, 4, 1.8, "#e6d3ad"); roof(ctx, hx, -Hh - 2.8, 5.6, 2, ROOF2); }
+    if (tier === 3) { const hx = -W / 2 + 8; block(ctx, hx, -Hh - 1, 3.4, 1.6, "#e6d3ad"); roof(ctx, hx, -Hh - 2.6, 4.8, 1.8, ROOF); }
+  }
+  ctx.restore(); }
+const TOWN_H = [6, 10.5, 16, 21]; // glyph height in units (for banner placement)
+let TIER_IMG = [];
+function tierImage(t) { const c = document.createElement("canvas"); c.width = 120; c.height = 80; const x = c.getContext("2d"); drawTown(x, 60, 70, t, [5.4, 3.6, 2.9, 2.5][t]); return c.toDataURL(); }
 
-/* ---------------- one renderer for both 时辰 ---------------- */
-function renderMap(app) {
-  const ctx = app.ctx, W = ctx.canvas.width, H = ctx.canvas.height, u = app.u, night = S.theme === "night", L = LENSES[S.lens], v = app.view;
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-  if (night) { const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#060a13"); g.addColorStop(1, "#04070d"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); drawRaster(ctx, v, nightRaster()); fillMap(ctx, v, P.lakes, "#0a1424"); }
-  else { ctx.fillStyle = paperPattern(ctx); ctx.fillRect(0, 0, W, H); ctx.save(); ctx.globalAlpha = .9; ctx.fillStyle = DAY.sea; ctx.fillRect(0, 0, W, H); ctx.restore();
-    ctx.save(); ctx.fillStyle = wavePattern(ctx, u * Math.max(.8, Math.min(1.6, v.s * 2.2)), "rgba(52,96,104,0.2)"); ctx.fillRect(0, 0, W, H); ctx.restore();
-    drawRaster(ctx, v, dayRaster(!!L.key)); ctx.save(); ctx.globalCompositeOperation = "multiply"; ctx.globalAlpha = .4; ctx.fillStyle = paperPattern(ctx); ctx.fillRect(0, 0, W, H); ctx.restore();
-    fillMap(ctx, v, P.lakes, "#c9d9cf"); strokeMap(ctx, v, P.lakes, "rgba(50,85,95,.6)", .6 * u); }
-  const cols = lensColors(L).map(c => c.startsWith("#") ? hex(c) : [128, 128, 128]);
-  if (L.key) withMap(ctx, v, () => { P.prefs.forEach((p, i) => { const c = PREF_CITY[i], k = lensClass(L, c);
-      if (night) { if (k < 0) return; ctx.fillStyle = `rgba(${cols[k].join(",")},.16)`; ctx.fill(p.path); return; }
-      if (k < 0) { ctx.fillStyle = "rgba(58,46,38,.05)"; ctx.fill(p.path); return; }
-      if (L.kind === "div") { ctx.fillStyle = `rgba(${cols[k].join(",")},${k === 2 ? .0 : .62})`; } else { ctx.fillStyle = `rgba(28,22,18,${[.05, .14, .27, .43, .62][k]})`; }
-      ctx.fill(p.path); }); });
-  if (L.key) strokeMap(ctx, v, P.prefAll, night ? "rgba(150,190,255,.12)" : "rgba(250,240,220,.4)", .5 * u);
-  const rw = v.s > .5 ? 1.6 : 1;
-  if (night) { strokeMap(ctx, v, P.rivers[0], "rgba(90,140,210,.28)", .9 * u); strokeMap(ctx, v, P.rivers[1], "rgba(90,140,210,.16)", .6 * u);
-    strokeMap(ctx, v, P.provAll, "rgba(130,170,230,.16)", .6 * u); strokeMap(ctx, v, P.border, "rgba(120,180,255,.18)", 5 * u); strokeMap(ctx, v, P.border, "rgba(150,200,255,.6)", .9 * u);
-    strokeMap(ctx, v, P.coast, "rgba(150,200,255,.35)", .7 * u); fillMap(ctx, v, P.jd, "rgba(150,200,255,.6)"); drawLights(ctx, v, u, L, cols); }
-  else { strokeMap(ctx, v, P.rivers[2], "rgba(48,92,108,.35)", .5 * u * rw); strokeMap(ctx, v, P.rivers[1], "rgba(48,92,108,.55)", .85 * u * rw); strokeMap(ctx, v, P.rivers[0], "rgba(40,82,100,.75)", 1.4 * u * rw);
-    strokeMap(ctx, v, P.provAll, "rgba(70,50,38,.38)", .7 * u, [5 * u, 2.5 * u]); strokeMap(ctx, v, P.border, "rgba(178,58,43,.34)", 4.2 * u); strokeMap(ctx, v, P.border, "#3a2e26", 1.2 * u);
-    strokeMap(ctx, v, P.coast, "rgba(40,70,80,.8)", .9 * u); fillMap(ctx, v, P.jd, "#3a2e26"); }
-  drawLabels(app, ctx, v, u, night, L);
-  drawInset(app, ctx, u, night);
-  drawScale(ctx, v, u, night, app);
+/* ---------- 奇观 · wonders (indicative positions) ---------- */
+const WONDERS = [
+  { id: "wall", zh: "长城", en: "Great Wall", lon: 115.6, lat: 40.7, draw: "wall" },
+  { id: "potala", zh: "布达拉宫", en: "Potala Palace", lon: 91.12, lat: 29.66, draw: "potala" },
+  { id: "terracotta", zh: "秦始皇陵及兵马俑", en: "Terracotta Army", lon: 109.28, lat: 34.38, draw: "warrior" },
+  { id: "mogao", zh: "莫高窟", en: "Mogao Caves", lon: 94.8, lat: 40.04, draw: "grotto" },
+  { id: "huangshan", zh: "黄山", en: "Mount Huangshan", lon: 118.17, lat: 30.13, draw: "peaks" },
+  { id: "karst", zh: "中国南方喀斯特（桂林）", en: "South China Karst (Guilin)", lon: 110.42, lat: 24.78, draw: "karst" },
+  { id: "taishan", zh: "泰山", en: "Mount Tai", lon: 117.1, lat: 36.25, draw: "tai" },
+  { id: "jiuzhai", zh: "九寨沟", en: "Jiuzhaigou Valley", lon: 103.92, lat: 33.26, draw: "lake" },
+];
+function drawWonder(ctx, kind, x, y, k) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(k, k); ctx.lineWidth = .55; ctx.strokeStyle = INKL; ctx.lineJoin = "round"; ctx.lineCap = "round";
+  // paper cartouche behind every wonder so it reads as a picture, not terrain
+  ctx.fillStyle = "rgba(246,239,224,.82)"; ctx.beginPath(); ctx.ellipse(0, -5.5, 11, 8, 0, 0, 7); ctx.fill(); ctx.strokeStyle = "rgba(43,35,29,.35)"; ctx.stroke(); ctx.strokeStyle = INKL;
+  const pine = (px, py, s) => { ctx.fillStyle = "#3f6f56"; ctx.beginPath(); ctx.moveTo(px, py - 3 * s); ctx.lineTo(px - 1.6 * s, py - .6 * s); ctx.lineTo(px + 1.6 * s, py - .6 * s); ctx.closePath(); ctx.fill(); ctx.beginPath(); ctx.moveTo(px, py - .6 * s); ctx.lineTo(px, py); ctx.stroke(); };
+  if (kind === "wall") { ctx.fillStyle = "#b5c48f"; ctx.beginPath(); ctx.moveTo(-10, -1); ctx.quadraticCurveTo(-5, -9, 0, -5); ctx.quadraticCurveTo(5, -11, 10, -3); ctx.lineTo(10, -1); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = "#8b6a44"; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(-9.5, -2.2); ctx.quadraticCurveTo(-5, -8.5, 0, -5); ctx.quadraticCurveTo(5, -10.4, 9.5, -3.4); ctx.stroke(); ctx.lineWidth = .55; ctx.strokeStyle = INKL;
+    for (const [tx, tyy] of [[-5.6, -6.6], [3.6, -8.4]]) { block(ctx, tx, tyy, 2.2, 2.6, "#cdb084"); roof(ctx, tx, tyy - 2.6, 3.4, 1.2, ROOF); } }
+  else if (kind === "potala") { block(ctx, 0, -1, 17, 5, "#f2ece0"); block(ctx, 0, -6, 7, 4.6, "#9b2f22"); block(ctx, 0, -10.6, 4.4, 1, "#c9a24a");
+    ctx.fillStyle = INKL; for (let i = -6; i <= 6; i += 2) ctx.fillRect(i - .3, -4.2, .6, 1.1); ctx.fillStyle = "#b5c48f"; ctx.fillRect(-10, -1, 20, 1); }
+  else if (kind === "warrior") { ctx.fillStyle = "#b98e5c"; ctx.beginPath(); ctx.arc(0, -10.3, 1.5, 0, 7); ctx.fill(); ctx.stroke(); block(ctx, 0, -5, 4.6, 3.8, "#a97b4b"); block(ctx, 0, -1, 4, 4, "#b98e5c");
+    ctx.beginPath(); ctx.moveTo(-1, -1); ctx.lineTo(-1, -5); ctx.moveTo(1, -1); ctx.lineTo(1, -5); ctx.stroke(); for (const sx of [-6.5, 6.5]) { ctx.globalAlpha = .7; ctx.fillStyle = "#b98e5c"; ctx.beginPath(); ctx.arc(sx, -7.6, 1.1, 0, 7); ctx.fill(); ctx.fillRect(sx - 1.5, -6.6, 3, 5.6); ctx.globalAlpha = 1; } }
+  else if (kind === "grotto") { ctx.fillStyle = "#d9b98a"; ctx.beginPath(); ctx.moveTo(-10, -1); ctx.lineTo(-8, -11); ctx.lineTo(8, -12); ctx.lineTo(10, -1); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = GATE; for (const [gx, gy, gs] of [[-4.5, -3, 1.4], [0, -3, 1.6], [4.5, -3, 1.4], [-2.2, -8, 1.1], [2.5, -8, 1.1]]) { ctx.beginPath(); ctx.moveTo(gx - gs, gy); ctx.lineTo(gx - gs, gy - gs); ctx.arc(gx, gy - gs, gs, Math.PI, 0); ctx.lineTo(gx + gs, gy); ctx.closePath(); ctx.fill(); }
+    block(ctx, 0, -1, 4, 2.2, "#c0392b"); roof(ctx, 0, -3.2, 6, 1.6, ROOF); }
+  else if (kind === "peaks" || kind === "tai") { const cols = ["#5b927f", "#3d7787", "#86ad86"]; [[-5, -1, 5, 11], [2, -1, 6, 13], [7, -1, 4, 8]].forEach(([px, py, w, h], i) => { ctx.fillStyle = cols[i]; ctx.beginPath(); ctx.moveTo(px - w, py); ctx.quadraticCurveTo(px - w * .4, py - h * .9, px, py - h); ctx.quadraticCurveTo(px + w * .4, py - h * .9, px + w, py); ctx.closePath(); ctx.fill(); ctx.stroke(); });
+    if (kind === "peaks") { pine(-6, -8, .9); pine(4, -10.5, .9); } else { ctx.strokeStyle = "#f6efe0"; ctx.lineWidth = .7; ctx.beginPath(); ctx.moveTo(2, -1.5); ctx.lineTo(1, -5); ctx.lineTo(2.4, -8); ctx.lineTo(1.6, -11.4); ctx.stroke(); ctx.strokeStyle = INKL; ctx.lineWidth = .55; block(ctx, 2, -12.6, 2.4, 1.2, "#c0392b"); roof(ctx, 2, -13.8, 3.6, 1.2, ROOF); } }
+  else if (kind === "karst") { ctx.fillStyle = "#c9d9cf"; ctx.fillRect(-10, -2.2, 20, 2.2); [[-7, 6, 2.4], [-3, 10, 2.8], [1.5, 8, 2.4], [5.6, 11, 2.6], [8.6, 6, 1.8]].forEach(([px, h, w]) => { ctx.fillStyle = "#5b927f"; ctx.beginPath(); ctx.moveTo(px - w, -2); ctx.bezierCurveTo(px - w, -h, px + w, -h, px + w, -2); ctx.closePath(); ctx.fill(); ctx.stroke(); });
+    ctx.strokeStyle = "rgba(52,96,104,.6)"; ctx.beginPath(); ctx.moveTo(-8, -1); ctx.lineTo(-4, -1); ctx.moveTo(1, -.8); ctx.lineTo(6, -.8); ctx.stroke(); }
+  else if (kind === "lake") { ctx.fillStyle = "#7fb3b0"; ctx.beginPath(); ctx.ellipse(0, -2.5, 8, 2.4, 0, 0, 7); ctx.fill(); ctx.stroke(); pine(-7, -3, 1.1); pine(-4.5, -4.5, 1.3); pine(6, -3.4, 1.2); pine(3.5, -5, 1); ctx.fillStyle = "#e9d6a5"; ctx.beginPath(); ctx.moveTo(-2, -5); ctx.quadraticCurveTo(0, -12, 3, -6); ctx.closePath(); ctx.fill(); ctx.stroke(); }
+  ctx.restore(); }
+
+/* ---------- 匾额 · banner ---------- */
+function bannerMetrics(ctx, c, u) { const nm = cname(c); ctx.font = `600 ${12 * u}px "Noto Serif SC", serif`; const nw = ctx.measureText(nm).width; ctx.font = `600 ${10.5 * u}px "Noto Sans SC", sans-serif`; const pw = ctx.measureText(fmtPopShort(c.popAny)).width;
+  return { nm, nw, pw, h: 19 * u, w: nw + pw + 26 * u }; }
+function drawBanner(ctx, c, x, y, u, opts) {
+  const m = bannerMetrics(ctx, c, u), top = c.gdpIdx != null && c.gdpIdx < 10, x0 = x - m.w / 2, y0 = y - m.h;
+  ctx.save();
+  if (opts.selected) { ctx.shadowColor = "rgba(178,58,43,.65)"; ctx.shadowBlur = 10 * u; }
+  ctx.fillStyle = "#2b1d16"; ctx.fillRect(x0 - 2 * u, y0 - 1.5 * u, m.w + 4 * u, 2 * u); // cap board
+  ctx.fillStyle = top ? "#a8352a" : "#f8f2e4"; ctx.fillRect(x0, y0, m.w, m.h); ctx.shadowBlur = 0;
+  ctx.lineWidth = 1.5 * u; ctx.strokeStyle = "#2b1d16"; ctx.strokeRect(x0, y0, m.w, m.h);
+  ctx.fillStyle = "#2b1d16"; ctx.fillRect(x0, y0, m.pw + 10 * u, m.h);
+  ctx.textBaseline = "middle"; ctx.textAlign = "center";
+  ctx.font = `600 ${10.5 * u}px "Noto Sans SC", sans-serif`; ctx.fillStyle = "#f6efe0"; ctx.fillText(fmtPopShort(c.popAny), x0 + (m.pw + 10 * u) / 2, y0 + m.h / 2 + .5 * u);
+  ctx.font = `600 ${12 * u}px "Noto Serif SC", serif`; ctx.fillStyle = top ? "#f3d58a" : "#2b231d"; ctx.fillText(m.nm, x0 + m.pw + 10 * u + (m.w - m.pw - 10 * u) / 2, y0 + m.h / 2 + .5 * u);
+  // post connecting plaque to the town
+  ctx.strokeStyle = "rgba(43,29,22,.7)"; ctx.lineWidth = 1 * u; ctx.beginPath(); ctx.moveTo(x, y0 + m.h); ctx.lineTo(x, y + 4 * u); ctx.stroke();
+  let bottom = y0 + m.h;
+  if (opts.yields) { const ks = ["gold", "food", "ind", "com"], vals = [c.gdp, c.p1, c.p2, c.p3]; ctx.font = `600 ${9.5 * u}px "Noto Sans SC", sans-serif`;
+    const items = ks.map((k, i) => [k, vals[i] == null ? "—" : EN() ? (vals[i] / 1e9 >= 1000 ? (vals[i] / 1e12).toFixed(1) + "T" : Math.round(vals[i] / 1e9) + "B") : (vals[i] >= 1e12 ? (vals[i] / 1e12).toFixed(1) + "万亿" : Math.round(vals[i] / 1e8) + "亿")]);
+    const iw = items.map(([, s]) => ctx.measureText(s).width + 14 * u), tw = iw.reduce((a, b) => a + b, 0) + 6 * u; let ix = x - tw / 2 + 3 * u; const iy = bottom + 9 * u;
+    ctx.fillStyle = "rgba(246,239,224,.92)"; ctx.fillRect(x - tw / 2, bottom + 1 * u, tw, 16 * u); ctx.strokeStyle = "rgba(43,29,22,.35)"; ctx.lineWidth = .8 * u; ctx.strokeRect(x - tw / 2, bottom + 1 * u, tw, 16 * u);
+    items.forEach(([k, s], i) => { drawMedal(ctx, k, ix + 5 * u, iy, 5 * u); ctx.fillStyle = "#2b231d"; ctx.textAlign = "left"; ctx.fillText(s, ix + 11.5 * u, iy + .5 * u); ix += iw[i]; }); bottom += 17 * u; }
+  ctx.restore();
+  return [x0 - 2 * u, y0 - 2 * u, m.w + 4 * u, bottom - y0 + 2 * u];
 }
-function drawLabels(app, ctx, v, u, night, L) {
-  const W = ctx.canvas.width, H = ctx.canvas.height, Lb = Labeler(W, H), en = S.lang === "en", zoomed = v.s > .5; app.hits = [];
-  if (app.blocked) for (const b of app.blocked) Lb.add(b);
-  ctx.textAlign = "center"; ctx.textBaseline = "middle";
-  if (!zoomed) for (const p of PROVS) { if (["81", "82", "11", "12", "31"].includes(p.id)) continue; const [x, y] = toPx(v, p.lc[0], p.lc[1]);
-    if (en) { ctx.font = `600 ${10 * u}px "Noto Serif SC", serif`; spaced(ctx, p.en.toUpperCase(), x, y, 2.2 * u, night ? "rgba(170,190,225,.38)" : "rgba(70,48,36,.5)"); }
-    else { ctx.font = `600 ${13.5 * u}px "Noto Serif SC", serif`; spaced(ctx, p.zh, x, y, 5 * u, night ? "rgba(170,190,225,.34)" : "rgba(70,48,36,.46)"); } }
+
+/* ================= map rendering: base layer (cached) + overlays (every frame) ================= */
+function renderBase(app) {
+  const ctx = app.bctx, W = app.base.width, H = app.base.height, u = app.u, L = LENSES[S.lens], v = app.view;
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = paperPattern(ctx); ctx.fillRect(0, 0, W, H);
+  ctx.save(); ctx.globalAlpha = .9; ctx.fillStyle = DAY.sea; ctx.fillRect(0, 0, W, H); ctx.restore();
+  ctx.save(); ctx.fillStyle = wavePattern(ctx, u * clamp(v.s * 2.2, .8, 1.6), "rgba(52,96,104,0.2)"); ctx.fillRect(0, 0, W, H); ctx.restore();
+  const r2 = app.zoom() > 1.8 ? dayRaster2(!!L.key) : null;
+  if (r2) { ctx.save(); ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high"; ctx.drawImage(r2.cv, v.ox, v.oy, r2.cv.width * r2.km * v.s, r2.cv.height * r2.km * v.s); ctx.restore(); } else drawRaster(ctx, v, dayRaster(!!L.key));
+  ctx.save(); ctx.globalCompositeOperation = "multiply"; ctx.globalAlpha = .4; ctx.fillStyle = paperPattern(ctx); ctx.fillRect(0, 0, W, H); ctx.restore();
+  fillMap(ctx, v, P.lakes, "#c9d9cf"); strokeMap(ctx, v, P.lakes, "rgba(50,85,95,.6)", .6 * u);
+  if (L.key) { const cols = lensColors(L).map(hex); withMap(ctx, v, () => { P.prefs.forEach((p, i) => { const k = lensClass(L, PREF_CITY[i]);
+      ctx.fillStyle = k < 0 ? "rgba(58,46,38,.05)" : L.kind === "div" ? `rgba(${cols[k].join(",")},${k === 2 ? 0 : .62})` : `rgba(28,22,18,${INK5[k]})`; ctx.fill(p.path); }); });
+    strokeMap(ctx, v, P.prefAll, "rgba(250,240,220,.4)", .5 * u); }
+  const rw = clamp(v.s * 2.2, 1, 2.2);
+  strokeMap(ctx, v, P.rivers[2], "rgba(48,92,108,.35)", .5 * u * rw); strokeMap(ctx, v, P.rivers[1], "rgba(48,92,108,.55)", .85 * u * rw); strokeMap(ctx, v, P.rivers[0], "rgba(40,82,100,.75)", 1.4 * u * rw);
+  if (app.zoom() > 2.2) strokeMap(ctx, v, P.prefAll, "rgba(70,50,38,.22)", .5 * u, [2 * u, 2 * u]);
+  strokeMap(ctx, v, P.provAll, "rgba(70,50,38,.38)", .7 * u, [5 * u, 2.5 * u]); strokeMap(ctx, v, P.border, "rgba(178,58,43,.34)", 4.2 * u); strokeMap(ctx, v, P.border, "#3a2e26", 1.2 * u);
+  strokeMap(ctx, v, P.coast, "rgba(40,70,80,.8)", .9 * u); fillMap(ctx, v, P.jd, "#3a2e26");
+  // province + sea names live in the base
+  ctx.textAlign = "center"; ctx.textBaseline = "middle"; const en = EN();
+  if (app.zoom() < 3) for (const p of PROVS) { if (["81", "82", "11", "12", "31"].includes(p.id)) continue; const [x, y] = toPx(v, p.lc[0], p.lc[1]);
+    if (en) { ctx.font = `600 ${10 * u}px "Noto Serif SC", serif`; spaced(ctx, p.en.toUpperCase(), x, y, 2.2 * u, "rgba(70,48,36,.5)"); } else { ctx.font = `600 ${13.5 * u}px "Noto Serif SC", serif`; spaced(ctx, p.zh, x, y, 5 * u, "rgba(70,48,36,.46)"); } }
   for (const [zh, enn, lo, la] of SEAS) { const [x, y] = toPx(v, ...proj(lo, la)); if (x < 0 || x > W || y < 0 || y > H) continue;
-    if (en) { ctx.font = `italic 400 ${11 * u}px "Noto Serif SC", serif`; spaced(ctx, enn, x, y, 1.5 * u, night ? "rgba(120,160,220,.55)" : "rgba(40,80,92,.65)"); }
-    else { ctx.font = `${15 * u}px "Ma Shan Zheng", serif`; spaced(ctx, zh, x, y, 8 * u, night ? "rgba(120,160,220,.55)" : "rgba(40,80,92,.6)"); } }
-  const sel = S.city && BYID.get(S.city);
-  const list = RANKED.filter(c => { const [x, y] = toPx(v, c.x, c.y); return x > -20 && y > -20 && x < W + 20 && y < H + 20; });
-  const nSeals = 10, top = RANKED[0].gdp;
-  // selection ring first so labels avoid it
-  if (sel) { const [x, y] = toPx(v, sel.x, sel.y); ctx.save(); ctx.strokeStyle = night ? "rgba(255,196,118,.95)" : "#b23a2b"; ctx.lineWidth = 1.6 * u; ctx.setLineDash([3 * u, 3 * u]);
-    ctx.beginPath(); ctx.arc(x, y, 22 * u, 0, 7); ctx.stroke(); ctx.restore(); }
-  list.forEach((c, idx) => { const [x, y] = toPx(v, c.x, c.y), isSel = sel && c.id === sel.id;
-    if (idx < nSeals || isSel) { const s = (isSel ? 34 : 20 + 13 * Math.sqrt(c.gdp / top)) * u, b = [x - s / 2 - 2 * u, y - s / 2 - 2 * u, s + 4 * u, s + 4 * u];
-      if (!Lb.free(b) && !isSel) { dot(ctx, x, y, 2.6 * u, night); app.hits.push([x, y, 8 * u, c]); return; }
-      Lb.add(b); drawSeal(ctx, x, y, s, c.n.slice(0, 3), u, idx + 11, night); app.hits.push([x, y, s / 2 + 3 * u, c]);
-      if (en) { ctx.font = `600 ${12 * u}px "Noto Serif SC", serif`; const tw = ctx.measureText(cname(c)).width, bb = [x + s / 2 + 3 * u, y - 7 * u, tw + 4 * u, 14 * u];
-        if (Lb.free(bb)) { Lb.add(bb); ctx.textAlign = "left"; haloText(ctx, cname(c), x + s / 2 + 4 * u, y + .5 * u, night ? "#fff3da" : DAY.ink, night ? "rgba(4,7,14,.8)" : "rgba(238,227,201,.85)", 3 * u); ctx.textAlign = "center"; } }
-      return; }
-    const r = (zoomed ? 3.2 : 1.3 + 2 * Math.sqrt(c.gdp / top)) * u; dot(ctx, x, y, r, night); app.hits.push([x, y, Math.max(r, 5 * u), c]);
-    if (idx < (zoomed ? 60 : 44)) { const nm = cname(c); ctx.font = night ? `400 ${(en ? 10.5 : 11) * u}px "Noto Sans SC", sans-serif` : `600 ${(en ? 10.5 : 11) * u}px "Noto Serif SC", serif`;
-      const tw = ctx.measureText(nm).width, b = [x + r + 2 * u, y - 7 * u, tw + 2 * u, 14 * u];
-      if (Lb.free(b)) { Lb.add(b); ctx.textAlign = "left"; haloText(ctx, nm, x + r + 3 * u, y + .5 * u, night ? "rgba(236,228,210,.92)" : DAY.ink, night ? "rgba(4,7,14,.8)" : "rgba(238,227,201,.8)", 3 * u); ctx.textAlign = "center"; } } });
+    if (en) { ctx.font = `italic 400 ${11 * u}px "Noto Serif SC", serif`; spaced(ctx, enn, x, y, 1.5 * u, "rgba(40,80,92,.65)"); } else { ctx.font = `${15 * u}px "Ma Shan Zheng", serif`; spaced(ctx, zh, x, y, 8 * u, "rgba(40,80,92,.6)"); } }
+  app.baseView = { ...v };
 }
-function dot(ctx, x, y, r, night) { if (night) { ctx.fillStyle = "rgba(255,214,150,.95)"; ctx.shadowColor = "rgba(255,190,110,.9)"; ctx.shadowBlur = 6; ctx.beginPath(); ctx.arc(x, y, r * .8, 0, 7); ctx.fill(); ctx.shadowBlur = 0; }
-  else { ctx.fillStyle = DAY.seal; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); } }
-function drawInset(app, ctx, u, night) {
+function drawOverlays(app) {
+  const ctx = app.ctx, W = app.canvas.width, H = app.canvas.height, u = app.u, v = app.view, z = app.zoom(), Lb = Labeler(W, H), L = LENSES[S.lens];
+  app.hits = []; if (app.blocked) for (const b of app.blocked) Lb.add(b);
+  // hovered prefecture outline
+  if (app.hoverPref != null && app.hoverPref >= 0) { const p = P.prefs[app.hoverPref]; strokeMap(ctx, v, p.path, "rgba(246,239,224,.95)", 4 * u); strokeMap(ctx, v, p.path, "#2b231d", 1.4 * u); }
+  const sel = S.city && BYID.get(S.city), k = clamp(.5 * Math.pow(z, .55), .5, 1.5) * u;
+  const vis = CITIES.filter(c => { const [x, y] = toPx(v, c.x, c.y); return x > -30 && y > -30 && x < W + 30 && y < H + 30; }).sort((a, b) => a.y - b.y);
+  const minTier = z < 1.6 ? 1 : 0, kOf = c => k * (c.tier === 0 ? .9 : 1);
+  // 1. banners claim space by importance (selected city first, then GDP rank)
+  const order = vis.slice().sort((a, b) => (b.id === S.city) - (a.id === S.city) || (a.gdpIdx ?? 999) - (b.gdpIdx ?? 999));
+  const quota = z < 1.6 ? 16 : z < 2.6 ? 44 : 999, withYields = z >= 3.2, banners = [], hasBanner = new Set();
+  for (const c of order) { const isSel = c.id === S.city; if (!isSel && (banners.length >= quota || c.tier < minTier)) continue;
+    const [x, y] = toPx(v, c.x, c.y), m = bannerMetrics(ctx, c, u), by = y - TOWN_H[c.tier] * kOf(c) - 5 * u, extra = withYields || isSel ? 17 * u : 0;
+    const box = [x - m.w / 2 - 2 * u, by - m.h - 2 * u, m.w + 4 * u, m.h + 2 * u + extra];
+    if (Lb.free(box) || isSel) { Lb.add(box); banners.push([c, x, by]); hasBanner.add(c.id); } }
+  // wonders (drawn under towns and banners; they never block a banner)
+  for (const wd of WONDERS) { const [x, y] = toPx(v, wd.x, wd.y); if (x < -40 || y < -40 || x > W + 40 || y > H + 40) continue; const kk = k * 1.15;
+    drawWonder(ctx, wd.draw, x, y, kk); Lb.add([x - 11 * kk, y - 14 * kk, 22 * kk, 15 * kk]); app.hits.push({ x, y: y - 5 * kk, r: 11 * kk, wonder: wd });
+    if (z > 2.4) { ctx.font = `600 ${10.5 * u}px "Noto Serif SC", serif`; ctx.textAlign = "center"; ctx.textBaseline = "top"; haloText(ctx, EN() ? wd.en : wd.zh, x, y + 3 * u, "#5a3a20", "rgba(246,239,224,.9)", 3 * u); } }
+  // 2. towns, back to front
+  for (const c of vis) { const [x, y] = toPx(v, c.x, c.y);
+    if (c.tier < minTier && c.id !== S.city) { ctx.fillStyle = DAY.seal; ctx.beginPath(); ctx.arc(x, y, 1.8 * u, 0, 7); ctx.fill(); app.hits.push({ x, y, r: 6 * u, city: c }); continue; }
+    const kk = kOf(c); drawTown(ctx, x, y, c.tier, kk); const hw = [5, 9, 12, 14][c.tier] * kk, hh = TOWN_H[c.tier] * kk; app.hits.push({ x, y: y - hh / 2, r: Math.max(hw, 7 * u), city: c }); }
+  // 3. banners (least important first so the important ones sit on top)
+  for (const [c, x, by] of banners.slice().reverse()) { const isSel = c.id === S.city; const b = drawBanner(ctx, c, x, by, u, { selected: isSel, yields: withYields || isSel }); app.hits.push({ rect: b, city: c });
+    if (isSel) drawSeal(ctx, b[0] - 13 * u, b[1] + 9 * u, 22 * u, c.n.slice(0, 2), u, 7); }
+  // 4. plain names under the remaining towns
+  if (z >= 1.25) { for (const c of vis) { const [x, y] = toPx(v, c.x, c.y); if (c.tier >= minTier) { const hw = [5, 9, 12, 14][c.tier] * kOf(c); Lb.add([x - hw * .7, y - TOWN_H[c.tier] * kOf(c) * .6, hw * 1.4, TOWN_H[c.tier] * kOf(c) * .6]); } }
+    for (const c of order) { if (hasBanner.has(c.id) || c.tier < minTier) continue; const [x, y] = toPx(v, c.x, c.y), nm = cname(c); ctx.font = `600 ${(c.tier >= 1 ? 11 : 10) * u}px "Noto Serif SC", serif`;
+      const tw = ctx.measureText(nm).width, bx = [x - tw / 2 - 1 * u, y + 2 * u, tw + 2 * u, 13 * u];
+      if (Lb.free(bx)) { Lb.add(bx); ctx.textAlign = "center"; ctx.textBaseline = "top"; haloText(ctx, nm, x, y + 2.5 * u, DAY.ink, "rgba(238,227,201,.88)", 3 * u); } } }
+  drawInset(app, ctx, u); drawScale(ctx, v, u, app);
+}
+function drawInset(app, ctx, u) {
   if (!app.inset) return; const bb = bboxLL(106.5, 3.2, 122.8, 23.8), asp = (bb[3] - bb[1]) / (bb[2] - bb[0]);
   const iw = app.inset.w * u, ih = iw * asp, x = app.inset.x * u - iw, y = app.inset.y * u - ih, s = iw / (bb[2] - bb[0]), v = { s, ox: x - bb[0] * s, oy: y - bb[1] * s };
-  ctx.save(); ctx.fillStyle = night ? "#060a13" : "#d3dfd2"; ctx.fillRect(x, y, iw, ih); ctx.beginPath(); ctx.rect(x, y, iw, ih); ctx.clip();
-  if (!night) { ctx.fillStyle = wavePattern(ctx, u * .8, "rgba(52,96,104,0.16)"); ctx.fillRect(x, y, iw, ih); }
-  fillMap(ctx, v, P.nbr, night ? "#0c121e" : "#ece2c8"); strokeMap(ctx, v, P.nbr, night ? "rgba(150,190,255,.15)" : "rgba(70,50,38,.3)", .5 * u);
-  fillMap(ctx, v, P.provAll, night ? "#141d2e" : "#cdbf8e"); fillMap(ctx, v, P.islands, night ? "#9cc6ff" : "#3a2e26"); strokeMap(ctx, v, P.islands, night ? "#9cc6ff" : "#3a2e26", .6 * u);
-  fillMap(ctx, v, P.jd, night ? "rgba(150,200,255,.7)" : "#3a2e26"); ctx.restore();
-  ctx.strokeStyle = night ? "rgba(150,190,255,.45)" : "rgba(58,46,38,.6)"; ctx.lineWidth = 1 * u; ctx.strokeRect(x + .5, y + .5, iw - 1, ih - 1); ctx.strokeRect(x + 3.5 * u, y + 3.5 * u, iw - 7 * u, ih - 7 * u);
-  ctx.font = S.lang === "en" ? `600 ${9.5 * u}px "Noto Serif SC", serif` : `${12 * u}px "Ma Shan Zheng", serif`; ctx.fillStyle = night ? "#cfd8ea" : "#3a2e26"; ctx.textAlign = "right"; ctx.textBaseline = "alphabetic";
-  ctx.fillText(t("inset"), x + iw - 9 * u, y + ih - 10 * u); app.insetBox = [x, y, iw, ih];
-}
-function drawScale(ctx, v, u, night, app) { if (!app.scale) return; const target = 90 * u / v.s, nice = [50, 100, 200, 250, 500, 1000].reduce((a, b) => Math.abs(b - target) < Math.abs(a - target) ? b : a), w = nice * v.s;
-  const x = app.scale.x * u - w, y = app.scale.y * u; ctx.save(); ctx.strokeStyle = ctx.fillStyle = night ? "rgba(200,210,230,.8)" : "#3a2e26"; ctx.lineWidth = 1.2 * u;
-  ctx.beginPath(); ctx.moveTo(x, y - 4 * u); ctx.lineTo(x, y); ctx.lineTo(x + w, y); ctx.lineTo(x + w, y - 4 * u); ctx.stroke();
-  ctx.font = `${10.5 * u}px "Noto Sans SC", sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "alphabetic"; ctx.fillText(`${nice} ${t("km")}`, x + w / 2, y - 7 * u); ctx.restore(); }
+  ctx.save(); ctx.fillStyle = "#d3dfd2"; ctx.fillRect(x, y, iw, ih); ctx.beginPath(); ctx.rect(x, y, iw, ih); ctx.clip();
+  ctx.fillStyle = wavePattern(ctx, u * .8, "rgba(52,96,104,0.16)"); ctx.fillRect(x, y, iw, ih);
+  fillMap(ctx, v, P.nbr, "#ece2c8"); strokeMap(ctx, v, P.nbr, "rgba(70,50,38,.3)", .5 * u); fillMap(ctx, v, P.provAll, "#cdbf8e");
+  fillMap(ctx, v, P.islands, "#3a2e26"); strokeMap(ctx, v, P.islands, "#3a2e26", .6 * u); fillMap(ctx, v, P.jd, "#3a2e26"); ctx.restore();
+  ctx.strokeStyle = "rgba(58,46,38,.6)"; ctx.lineWidth = 1 * u; ctx.strokeRect(x + .5, y + .5, iw - 1, ih - 1); ctx.strokeRect(x + 3.5 * u, y + 3.5 * u, iw - 7 * u, ih - 7 * u);
+  ctx.font = EN() ? `600 ${9.5 * u}px "Noto Serif SC", serif` : `${12 * u}px "Ma Shan Zheng", serif`; ctx.fillStyle = "#3a2e26"; ctx.textAlign = "right"; ctx.textBaseline = "alphabetic"; ctx.fillText(t("inset"), x + iw - 9 * u, y + ih - 10 * u); }
+function drawScale(ctx, v, u, app) { if (!app.scale) return; const target = 90 * u / v.s, nice = [10, 20, 50, 100, 200, 250, 500, 1000].reduce((a, b) => Math.abs(b - target) < Math.abs(a - target) ? b : a), w = nice * v.s;
+  const x = app.scale.x * u - w, y = app.scale.y * u; ctx.save(); ctx.strokeStyle = ctx.fillStyle = "#3a2e26"; ctx.lineWidth = 1.2 * u;
+  ctx.beginPath(); ctx.moveTo(x, y - 4 * u); ctx.lineTo(x, y); ctx.lineTo(x + w, y); ctx.lineTo(x + w, y - 4 * u); ctx.stroke(); ctx.font = `${10.5 * u}px "Noto Sans SC", sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "alphabetic"; ctx.fillText(`${nice} ${t("km")}`, x + w / 2, y - 7 * u); ctx.restore(); }
 
-/* ---------------- app instances ---------------- */
+/* ================= apps: camera, cache, interaction ================= */
 const APPS = [];
-function makeApp(root, cfg) {
-  const canvases = $$("canvas.map", root), app = { root, cfg, canvas: canvases[0], fade: canvases[1], ctx: canvases[0].getContext("2d", { willReadFrequently: true }), hits: [] };
-  APPS.push(app); return app;
-}
-function layout(app) {
-  const W0 = app.cfg.w, H0 = app.cfg.h, dpr = Math.min(window.devicePixelRatio || 1, 2), box = app.root.getBoundingClientRect(), scaleShown = box.width / W0;
-  const u = clamp(dpr * scaleShown, 1, 2.2); // render at the resolution it is shown at
-  app.u = u; app.canvas.width = Math.round(W0 * u); app.canvas.height = Math.round(H0 * u); app.fade.width = app.canvas.width; app.fade.height = app.canvas.height;
-  const area = app.cfg.area(app);
-  const bb = app.cfg.bbox ? app.cfg.bbox() : [0, 0, FR.w, FR.h];
-  const f = fit(bb, area[0] * u, area[1] * u, area[2] * u, area[3] * u); app.view = { s: f.s, ox: f.ox, oy: f.oy };
-  app.inset = app.cfg.inset ? app.cfg.inset(app) : null; app.scale = app.cfg.scale ? app.cfg.scale(app) : null; app.blocked = app.cfg.blocked ? app.cfg.blocked(app).map(b => b.map(q => q * u)) : null;
-}
-function paint(app, crossfade) {
-  if (crossfade && !matchMedia("(prefers-reduced-motion: reduce)").matches) { const f = app.fade.getContext("2d"); f.drawImage(app.canvas, 0, 0); app.fade.style.transition = "none"; app.fade.style.opacity = 1; }
-  renderMap(app);
-  if (crossfade) requestAnimationFrame(() => { app.fade.style.transition = ""; app.fade.style.opacity = 0; });
-}
-const DESK = { w: 1440, h: 900,
-  area: app => S.city ? [0, 48, 1440 - 392, 852] : [0, 48, 1440, 852],
-  inset: app => ({ x: (S.city ? 1440 - 392 : 1440) - 14, y: 900 - 14, w: 190 }),
-  scale: app => ({ x: (S.city ? 1440 - 392 : 1440) - 214, y: 900 - 22 }),
-  blocked: app => [[0, 0, 1440, 60], [0, 900 - 280, 370, 280], [0, 48, 190, 230]] };
-const PHONE = { w: 390, h: 844, area: app => [0, 96, 390, 844 - 96 - 330], bbox: () => [700, 1150, 5500, 4350], inset: () => ({ x: 390 - 8, y: 844 - 330 - 8, w: 78 }), scale: () => null, blocked: () => [[0, 0, 390, 104], [0, 470, 390, 374], [300, 400, 90, 120]] };
+function makeApp(root, cfg) { const cv = $$("canvas.map", root), app = { root, cfg, canvas: cv[0], fade: cv[1], ctx: cv[0].getContext("2d"), base: document.createElement("canvas"), hits: [], hoverPref: -1 };
+  app.bctx = app.base.getContext("2d"); app.zoom = () => app.view.s / app.home.s; APPS.push(app); return app; }
+function layout(app, keepView) {
+  const W0 = app.cfg.w, H0 = app.cfg.h, dpr = Math.min(window.devicePixelRatio || 1, 2), box = app.root.getBoundingClientRect(), u = clamp(dpr * box.width / W0, 1, 2.2);
+  const old = app.u; app.u = u; app.canvas.width = app.base.width = app.fade.width = Math.round(W0 * u); app.canvas.height = app.base.height = app.fade.height = Math.round(H0 * u);
+  const a = app.cfg.area(), f = fit(app.cfg.bbox ? app.cfg.bbox() : [0, 0, FR.w, FR.h], a[0] * u, a[1] * u, a[2] * u, a[3] * u); app.home = { s: f.s, ox: f.ox, oy: f.oy };
+  if (!keepView || !app.view || !old) app.view = { ...app.home }; else { const r = u / old; app.view = { s: app.view.s * r, ox: app.view.ox * r, oy: app.view.oy * r }; }
+  app.inset = app.cfg.inset ? app.cfg.inset() : null; app.scale = app.cfg.scale ? app.cfg.scale() : null; app.blocked = app.cfg.blocked ? app.cfg.blocked().map(b => b.map(q => q * u)) : null; }
+function frame(app) { const ctx = app.ctx, b = app.baseView, v = app.view; ctx.setTransform(1, 0, 0, 1, 0, 0);
+  if (!b || Math.abs(b.s - v.s) > 1e-9 || b.ox !== v.ox || b.oy !== v.oy) { ctx.fillStyle = "#dfe3d4"; ctx.fillRect(0, 0, app.canvas.width, app.canvas.height); }
+  if (b) { const k = v.s / b.s; ctx.setTransform(k, 0, 0, k, v.ox - b.ox * k, v.oy - b.oy * k); ctx.imageSmoothingEnabled = true; ctx.drawImage(app.base, 0, 0); ctx.setTransform(1, 0, 0, 1, 0, 0); }
+  drawOverlays(app); if (app.cfg === DESK) { const col = $("[data-colophon]", app.root); if (col) col.style.opacity = app.zoom() > 1.5 ? 0 : 1; } }
+function full(app) { renderBase(app); frame(app); }
+let settleT = new Map();
+function settle(app, ms = 140) { clearTimeout(settleT.get(app)); settleT.set(app, setTimeout(() => full(app), ms)); }
+function clampView(app, v) { const s = clamp(v.s, app.home.s * .85, app.home.s * 9); const k = s / v.s, W = app.canvas.width, H = app.canvas.height, cx = W / 2, cy = H / 2;
+  let ox = cx - (cx - v.ox) * k, oy = cy - (cy - v.oy) * k; if (k === 1) { ox = v.ox; oy = v.oy; }
+  const mx = FR.w * s, my = FR.h * s; ox = clamp(ox, W * .5 - mx, W * .5); oy = clamp(oy, H * .5 - my, H * .5); return { s, ox, oy }; }
+function zoomAt(app, px, py, f) { const v = app.view, s = clamp(v.s * f, app.home.s * .85, app.home.s * 9), k = s / v.s; app.view = { s, ox: px - (px - v.ox) * k, oy: py - (py - v.oy) * k }; frame(app); settle(app); updateZoomLabel(); }
+let flying = null;
+function flyTo(app, target, ms = 650) { const from = { ...app.view }, t0 = performance.now(); cancelAnimationFrame(flying);
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { app.view = target; full(app); updateZoomLabel(); return; }
+  const step = now => { const p = ease(clamp((now - t0) / ms, 0, 1)); const s = Math.exp(Math.log(from.s) + (Math.log(target.s) - Math.log(from.s)) * p);
+    app.view = { s, ox: from.ox + (target.ox - from.ox) * p, oy: from.oy + (target.oy - from.oy) * p }; frame(app); if (p < 1) flying = requestAnimationFrame(step); else { full(app); updateZoomLabel(); } };
+  flying = requestAnimationFrame(step); }
+function viewOn(app, c, zoom) { const a = app.cfg.area(), u = app.u, s = Math.max(app.view.s, app.home.s * zoom); const cx = (a[0] + a[2] / 2) * u, cy = (a[1] + a[3] * .55) * u; return { s, ox: cx - c.x * s, oy: cy - c.y * s }; }
+function updateZoomLabel() { const a = APPS[0]; if (!a || !a.view) return; const z = a.zoom(), i = z < 1.6 ? 0 : z < 2.6 ? 1 : z < 4.5 ? 2 : 3; $$("[data-zoomlv]").forEach(el => el.textContent = T.zoom[EN() ? 1 : 0][i]); }
 
-/* ---------------- UI ---------------- */
-function renderYields() { $$("[data-yields]").forEach(el => { const n = NATION;
-  el.innerHTML = [["i-people", fmtPop(n.population), "yPop"], ["i-coin", fmtYuan(n.gdp), "yGdp"], ["i-percap", S.lang === "en" ? "¥" + n.pcgdp.toLocaleString("en-US") : (n.pcgdp / 1e4).toFixed(2) + "万", "yPc"], ["i-city", (n.urban * 100).toFixed(2) + "%", "yUrban"]]
-    .map(([ic, v, k]) => `<div class="yield" title="${t(k)} · 2023"><svg class="ic sm"><use href="#${ic}"/></svg><div><span class="v num">${v}</span><span class="k">${t(k)}</span></div></div>`).join("") + `<span class="yr num">2023</span>`; }); }
-function renderColophon() { $$("[data-colophon]").forEach(el => { const night = S.theme === "night";
-  el.innerHTML = `<span class="title">${t(night ? "colTitleNight" : "colTitleDay")}</span><span class="stack"><span class="sub">${t("colSub")}</span><span class="seal"><span>图鉴</span></span></span>`; }); }
+const DESK = { w: 1440, h: 900, area: () => S.city ? [0, 48, 1440 - 392, 852] : [0, 48, 1440, 852],
+  inset: () => ({ x: (S.city ? 1440 - 392 : 1440) - 14, y: 900 - 14, w: 190 }), scale: () => ({ x: (S.city ? 1440 - 392 : 1440) - 214, y: 900 - 22 }),
+  blocked: () => [[0, 0, 1440, 54], [0, 900 - 250, 340, 250], [0, 48, 120, 210], ...(S.city ? [[1440 - 392, 48, 392, 852]] : []), [(S.city ? 1440 - 392 : 1440) - 210, 900 - 285, 210, 285], [(S.city ? 1440 - 392 : 1440) - 60, 54, 60, 160]] };
+const PHONE = { w: 390, h: 844, area: () => [0, 134, 390, 844 - 134 - 330], bbox: () => [900, 1500, 5400, 4300], inset: () => ({ x: 390 - 8, y: 844 - 330 - 8, w: 72 }), scale: () => null, blocked: () => [[0, 0, 390, 138], [0, 470, 390, 374], [306, 404, 84, 110]] };
+
+/* ================= UI ================= */
+function natYields() { const n = NATION; return [["pop", n.population], ["gold", n.gdp], ["food", 8.9755e12], ["ind", 48.2589e12], ["com", 68.8238e12]]; }
+function renderYields() {
+  $$("[data-yields]").forEach(el => el.innerHTML = natYields().map(([k, v]) => `<button class="yield" data-board-key="${k}" aria-expanded="${S.board === k}" title="${t(YIELDS[k].tk)} · 2023">${medalSVG(k)}<span class="v num">${k === "pop" ? fmtPop(v) : fmtYuan(v)}</span></button>`).join(""));
+  $$("[data-turn]").forEach(el => el.innerHTML = EN() ? `<span class="num">2023</span>` : `<b>癸卯</b><span class="num">2023</span>`);
+  $$("[data-pyields]").forEach(el => el.innerHTML = natYields().map(([k, v]) => `<span title="${t(YIELDS[k].tk)}">${medalSVG(k, "sm")}<span class="num">${k === "pop" ? fmtPop(v) : fmtYuan(v)}</span></span>`).join(""));
+}
+function renderBoard() { const el = $("[data-board]"); if (!S.board) { el.hidden = true; return; } const k = S.board, Y = YIELDS[k];
+  const list = CITIES.filter(c => c[Y.key] != null).sort((a, b) => b[Y.key] - a[Y.key]).slice(0, 10), mx = list[0][Y.key];
+  const btn = $(`[data-board-key="${k}"]`), rr = $("[data-app=desk]").getBoundingClientRect(), bb = btn.getBoundingClientRect(), kf = 1440 / rr.width; el.style.left = ((bb.left - rr.left) * kf) + "px";
+  el.innerHTML = `<div class="bh">${medalSVG(k, "lg")}<b>${t(Y.tk)}</b><span>${t("top10")} · 2023</span></div>` + list.map((c, i) => `<button data-goto="${c.id}"><span class="no ${i < 3 ? "g" + (i + 1) : ""}">${i + 1}</span><img src="${TIER_IMG[c.tier]}" alt=""><span class="nm"><b>${cname(c)}</b><span class="bar" style="width:${c[Y.key] / mx * 100}%;background:${Y.col}"></span></span><em class="num">${k === "pop" ? fmtPop(c[Y.key]) : fmtYuan(c[Y.key])}</em></button>`).join("") + `<p class="note" style="margin:6px 6px 0">${t("clickRow")}</p>`;
+  el.hidden = false; }
+function renderColophon() { $$("[data-colophon]").forEach(el => el.innerHTML = `<span class="title">${t("colTitle")}</span><span class="stack"><span class="sub">${t("colSub")}</span><span class="seal"><span>图鉴</span></span></span>`); }
 function legendHTML(L) {
-  if (!L.key) return `<div class="legend"><div class="title"><b>${t("lensNone")}</b><span>${S.lang === "en" ? "Elevation & land cover" : "高程与地貌"}</span></div><p class="note" style="margin:0">${S.lang === "en" ? "Pick a lens to colour every prefecture by a figure." : "选一个透镜，按指标给每个地级区着色。"}</p></div>`;
+  if (!L.key) return `<div class="legend"><div class="terrain">${TERRAIN_KEYS.map(([c, n]) => `<span><i style="background:rgb(${DAY.lc[c].join(",")})"></i>${n[EN() ? 1 : 0]}</span>`).join("")}</div></div>`;
   const cols = lensColors(L), names = ["清", "淡", "重", "浓", "焦"], vals = CITIES.map(c => c[L.key]).filter(v => v != null && isFinite(v)), nod = CITIES.length - vals.length;
-  const sorted = vals.slice().sort((a, b) => a - b), lo = sorted[Math.floor(sorted.length * .01)], hi = sorted[Math.floor(sorted.length * .99)], NB = 28;
-  const logk = L.kind === "seq" && lo > 0, f = v => logk ? Math.log(v) : v, a0 = f(lo), a1 = f(hi), bins = new Array(NB).fill(0);
+  const so = vals.slice().sort((a, b) => a - b), lo = so[Math.floor(so.length * .01)], hi = so[Math.floor(so.length * .99)], NB = 28, logk = L.kind === "seq" && lo > 0, f = v => logk ? Math.log(v) : v, a0 = f(lo), a1 = f(hi), bins = new Array(NB).fill(0);
   for (const v of vals) bins[clamp(Math.floor((f(clamp(v, lo, hi)) - a0) / (a1 - a0 || 1) * NB), 0, NB - 1)]++;
   const mx = Math.max(...bins), binCol = i => { const mid = logk ? Math.exp(a0 + (i + .5) / NB * (a1 - a0)) : a0 + (i + .5) / NB * (a1 - a0); return cols[L.breaks.filter(b => mid >= b).length]; };
-  return `<div class="legend"><div class="title"><b>${t(L.name)}</b><span>${L.unit[S.lang === "en" ? 1 : 0]}</span></div>
-    <div class="hist" title="${S.lang === "en" ? "Distribution of cities" : "城市分布"}">${bins.map((n, i) => `<i style="height:${n ? Math.max(4, n / mx * 100) : 0}%;background:${binCol(i)}"></i>`).join("")}</div>
+  return `<div class="legend"><div class="hist">${bins.map((n, i) => `<i style="height:${n ? Math.max(4, n / mx * 100) : 0}%;background:${binCol(i)}"></i>`).join("")}</div>
     <div class="swatches">${cols.map(c => `<span style="background:${c}"></span>`).join("")}</div>
     ${L.kind === "seq" ? `<div class="names">${names.map(n => `<span>${n}</span>`).join("")}</div>` : ""}
     <div class="ticks num">${lensLabels(L).map(s => `<span>${s}</span>`).join("")}</div>
-    <div class="foot"><span class="nodata"></span><span>${t("noData")} ${nod}</span><span>·</span><span>${t("legendFoot")}</span></div></div>`;
-}
-function renderLensDock() {
-  const chips = Object.entries(LENSES).map(([id, L]) => `<button class="lens-chip" data-lens="${id}" aria-pressed="${S.lens === id}">${t(L.name)}</button>`).join("");
-  $$("[data-lensdock]").forEach(el => { el.innerHTML = `<div class="head"><span class="eyebrow">${t("lens")}</span><svg class="ic sm" style="color:var(--ink-3)"><use href="#i-lens"/></svg></div><div class="lens-row">${chips}</div>${legendHTML(LENSES[S.lens])}`; });
-  $$("[data-plens]").forEach(el => el.innerHTML = chips);
-  $$("[data-legend-demo]").forEach(el => el.innerHTML = legendHTML(LENSES.pc));
-}
+    <div class="foot"><span class="nodata"></span><span>${t("noData")} ${nod}</span><span>·</span><span>${t("legendFoot")}</span></div></div>`; }
+function lensButtons() { return Object.keys(LENSES).map(id => `<button class="lens-btn" data-lens="${id}" aria-pressed="${S.lens === id}" title="${t(LENSES[id].name)}" aria-label="${t(LENSES[id].name)}">${lensIcon(id)}</button>`).join(""); }
+function renderLensDock() { const L = LENSES[S.lens];
+  $$("[data-lensdock]").forEach(el => el.innerHTML = `<div class="lens-row">${lensButtons()}</div><div class="lens-row"><span class="lbl"><b>${t(L.name)}</b><span>${L.key ? L.unit[EN() ? 1 : 0] : (EN() ? "Land cover & elevation" : "地貌与高程")}</span></span></div>${legendHTML(L)}`);
+  $$("[data-plens]").forEach(el => el.innerHTML = lensButtons());
+  $$("[data-lens-demo]").forEach(el => el.innerHTML = lensButtons()); }
 function cityHTML(c, compact) {
-  const kind = KIND[c.kind] ? KIND[c.kind][S.lang === "en" ? 1 : 0] : c.kindZh, prov = PROVS.find(p => p.id === c.prov), pv = prov ? (S.lang === "en" ? prov.en : prov.zh) : "";
-  const N = NATION.rankN, rk = (k, n) => c.rk && c.rk[k] ? `${c.rk[k]}<small> / ${n}</small>` : "—";
-  const head = `<div class="cp-head"><span class="seal stamp"><span>${c.n.slice(0, 2)}</span></span><div><h2>${S.lang === "en" ? (c.en || c.n) : c.n}</h2>
-    <div class="en">${S.lang === "en" ? c.n : (c.en || "")}</div><div class="meta">${kind}${pv && c.kind !== "municipality" && c.kind !== "sar" ? " · " + pv : ""}</div></div>
-    ${compact ? "" : `<button class="btn icon ghost" data-close aria-label="close"><svg class="ic sm"><use href="#i-close"/></svg></button>`}</div>`;
-  const g = c.growth, stats = `<div class="stats">
-    <div class="stat"><span class="k">${t("kPop")}</span><span class="v num">${fmtPop(c.pop)}</span><span class="s">${c.rk.pop ? `<b>${t("nat")} ${c.rk.pop}</b>` : ""}</span></div>
-    <div class="stat"><span class="k">${t("kGdp")}</span><span class="v num">${fmtYuan(c.gdp)}</span><span class="s">${c.rk.gdp ? `<b>${t("nat")} ${c.rk.gdp}</b>` : ""}</span></div>
-    ${compact ? "" : `<div class="stat"><span class="k">${t("kPc")}</span><span class="v num">${c.pc ? (S.lang === "en" ? "¥" + Math.round(c.pc).toLocaleString("en-US") : (c.pc / 1e4).toFixed(2) + "万") : "—"}</span><span class="s">${S.lang === "en" ? "national ¥89,358" : "全国 8.94万"}</span></div>
-    <div class="stat"><span class="k">${t("kGrowth")}</span><span class="v num ${g > 0 ? "up" : g < 0 ? "down" : ""}">${fmtPct(g, true)}</span><span class="s">${t("kGrowthS")}</span></div>`}</div>`;
-  if (compact) return head + stats;
-  const tot = c.gdp || 1, secs = [["p1", "s1", "--cat-1", "i-sprout"], ["p2", "s2", "--cat-2", "i-factory"], ["p3", "s3", "--cat-3", "i-hall"]];
-  const sector = c.p1 != null ? `<div class="block"><h4>${t("sectors")}<small>2023</small></h4><div class="sector-bar">${secs.map(([k, , col]) => `<span style="flex:${c[k] || 0};background:var(${col})"></span>`).join("")}</div>
-    <div class="sector-list">${secs.map(([k, n, col]) => `<div><i style="background:var(${col})"></i><span>${t(n)}</span><span class="num">${fmtYuan(c[k])}</span><span class="pct num">${((c[k] || 0) / tot * 100).toFixed(1)}%</span></div>`).join("")}</div></div>` : "";
-  const ranks = `<div class="block"><h4>${t("ranks")}<small>${S.lang === "en" ? "of cities with data" : "在有数据的城市中"}</small></h4><div class="ranks">
-    <div class="rank"><span class="k">GDP</span><span class="v num">${rk("gdp", N.gdp)}</span></div><div class="rank"><span class="k">${t("lensPc")}</span><span class="v num">${rk("pc", N.pc)}</span></div><div class="rank"><span class="k">${t("lensSv")}</span><span class="v num">${rk("sv", N.sv)}</span></div></div></div>`;
-  const census = `<div class="block"><h4>${t("census")}<small>2020-11-01</small></h4><div class="num" style="font:600 var(--fs-4)/1.3 var(--serif)">${fmtPop(c.pop20)}</div></div>`;
-  const peers = c.peers ? `<div class="block"><h4>${t("peers")}</h4><div class="peers">${c.peers.map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-goto="${o.id}">${cname(o)}<span class="num" style="color:var(--ink-3)">${fmtPop(o.pop)}</span></button>`).join("")}</div></div>` : "";
+  const kind = KIND[c.kind] ? KIND[c.kind][EN() ? 1 : 0] : c.kindZh, prov = PROVS.find(p => p.id === c.prov), pv = prov ? (EN() ? prov.en : prov.zh) : "", N = NATION.rankN;
+  const head = `<div class="cp-head"><span class="seal stamp"><span>${c.n.slice(0, 2)}</span></span><div><h2>${cname(c)}<img src="${TIER_IMG[c.tier]}" alt=""></h2><div class="en">${EN() ? c.n : (c.en || "")}</div><div class="meta">${kind}${pv && !["municipality", "sar"].includes(c.kind) ? " · " + pv : ""}</div></div>${compact ? "" : `<button class="btn icon ghost" data-close aria-label="close"><svg class="ic sm"><use href="#i-close"/></svg></button>`}</div>`;
+  const yv = [["pop", c.popAny, c.rk.pop, N.pop], ["gold", c.gdp, c.rk.gdp, N.gdp], ["food", c.p1], ["ind", c.p2], ["com", c.p3]];
+  const yields = `<div class="cp-yields">${yv.map(([k, v, r, n]) => `<div title="${t(YIELDS[k].tk)}">${medalSVG(k)}<span class="v num">${k === "pop" ? fmtPopShort(v) : fmtYuan(v)}</span>${r ? `<span class="r num">#${r}</span>` : `<span class="r">&nbsp;</span>`}</div>`).join("")}</div>`;
+  if (compact) return head + yields;
+  const g = c.growth, stats = `<div class="stats"><div class="stat">${medalSVG("gold")}<span class="k">${t("kPc")}</span><span class="v num">${c.pc ? (EN() ? "¥" + Math.round(c.pc).toLocaleString("en-US") : (c.pc / 1e4).toFixed(2) + "万") : "—"}</span></div>
+    <div class="stat"><svg class="ic" style="color:var(--ink-2)"><use href="#i-trend"/></svg><span class="k">${t("kGrowth")}</span><span class="v num ${g > 0 ? "up" : g < 0 ? "down" : ""}">${fmtPct(g, true)}</span></div></div>`;
+  const tot = c.gdp || 1, secs = [["p1", "food"], ["p2", "ind"], ["p3", "com"]];
+  const sector = c.p1 != null ? `<div class="block"><h4>${t("sectors")}<small>2023</small></h4><div class="sector-bar">${secs.map(([k, y]) => `<span style="flex:${c[k] || 0};background:${YIELDS[y].col}"></span>`).join("")}</div>
+    <div class="sector-legend">${secs.map(([k, y]) => `<div>${medalSVG(y, "sm")}<b class="num">${((c[k] || 0) / tot * 100).toFixed(0)}%</b></div>`).join("")}</div></div>` : "";
+  const medal = (key, icon, n, label) => { const r = c.rk[key]; return `<div class="medal-card"><span class="rk num ${r && r <= 3 ? "g" + r : ""}">${r || "—"}${icon}</span><span class="k">${label}<br>/ ${n}</span></div>`; };
+  const ranks = `<div class="block"><h4>${t("ranks")}</h4><div class="medals">${medal("gdp", medalSVG("gold"), N.gdp, "GDP")}${medal("pc", medalSVG("pop"), N.pc, t("lensPc"))}${medal("sv", medalSVG("com"), N.sv, t("lensSv"))}</div></div>`;
+  const peers = c.peers ? `<div class="block"><h4>${t("peers")}</h4><div class="peers">${c.peers.map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-goto="${o.id}"><img src="${TIER_IMG[o.tier]}" alt="">${cname(o)}</button>`).join("")}</div></div>` : "";
   const src = `<div class="src"><svg class="ic sm"><use href="#i-info"/></svg><span>${t("src")}：${t("srcText")} · <a href="#" data-open-almanac>${t("srcLink")}</a></span></div>`;
-  return head + `<div class="cp-body">${stats}${sector}${ranks}${census}${peers}${src}</div>`;
-}
-function renderPanels(anim) {
-  const c = S.city && BYID.get(S.city);
-  $$("[data-panel]").forEach(el => { if (!c) { el.hidden = true; el.closest(".app").classList.remove("has-panel"); return; } el.hidden = false; el.closest(".app").classList.add("has-panel"); el.innerHTML = cityHTML(c, false);
+  return head + yields + `<div class="cp-body">${stats}${sector}${ranks}${peers}${src}</div>`; }
+function renderPanels(anim) { const c = S.city && BYID.get(S.city);
+  $$("[data-panel]").forEach(el => { const app = el.closest(".app"); if (!c) { el.hidden = true; app.classList.remove("has-panel"); return; } el.hidden = false; app.classList.add("has-panel"); el.innerHTML = cityHTML(c, false);
     if (anim) { el.classList.remove("unroll"); void el.offsetWidth; el.classList.add("unroll"); } else { const s = el.querySelector(".seal"); s && s.classList.remove("stamp"); } });
-  $$("[data-psheet]").forEach(el => { el.innerHTML = `<div class="handle"></div>` + (c ? cityHTML(c, true) : ""); if (!anim) { const s = el.querySelector(".seal"); s && s.classList.remove("stamp"); } });
-}
-function almanacHTML(page) {
-  const pages = [["about", "关于", "About"], ["map", "地图说明", "About the map"], ["sources", "数据来源", "Sources"], ["lenses", "透镜", "Lenses"]];
-  const en = S.lang === "en";
-  const body = {
-    about: en ? `<h2>Jiangshan Atlas</h2><p>The real People's Republic of China drawn as a painted strategy map. Terrain comes from elevation and land cover, cities carry real population and GDP, and lenses colour every prefecture by a figure. Every number traces back to a public source on the Sources page.</p><p>Adapted from Andrej Karpathy's usaciv (MIT).</p>`
-      : `<h2>江山图鉴</h2><p>把真实的中华人民共和国画成一幅可以操作的设色地图：地貌来自高程与土地覆盖，城市带着真实的人口与 GDP，透镜按指标为每个地级区着色。每一个数字都能在“数据来源”页追溯到公开出处。</p><p>改编自 Andrej Karpathy 的 usaciv（MIT 许可）。</p>`,
-    map: en ? `<h2>About the map</h2><p>China's borders, provincial boundaries and the South China Sea dashed line follow DataV.GeoAtlas data based on the standard map; the South China Sea Islands are shown in the inset, which never covers Taiwan. Land borders and coastlines are drawn differently. This map has no map review number and is for personal study only.</p>`
-      : `<h2>地图说明</h2><p>国界、省界与南海断续线依据阿里云 DataV.GeoAtlas（依据标准地图）绘制；南海诸岛画在右下角附图中，附图不遮挡台湾；陆地国界与海岸线用不同画法区分。本图未申请审图号，仅供个人学习。</p>`,
-    sources: `<h2>${en ? "Sources" : "数据来源"}</h2><div class="srcs">
-      <div><b>${en ? "Administrative boundaries" : "行政区划边界"}</b><span>阿里云 DataV.GeoAtlas · ${en ? "based on the standard map" : "依据标准地图"}</span></div>
-      <div><b>${en ? "Population & GDP, nation" : "全国人口与 GDP"}</b><span>国家统计局《2023年国民经济和社会发展统计公报》</span></div>
-      <div><b>${en ? "Population & GDP, cities" : "城市人口与 GDP"}</b><span>${en ? "2023 statistical communiqués of each city; compiled by chinaciv (phase 1)" : "各地 2023 年统计公报；第一阶段经 chinaciv 汇编"}</span></div>
-      <div><b>${en ? "Elevation" : "高程"}</b><span>AWS Terrain Tiles（SRTM · GMTED2010 · ETOPO1）</span></div>
-      <div><b>${en ? "Land cover" : "土地覆盖"}</b><span>ESA WorldCover 2021 v200</span></div>
-      <div><b>${en ? "Rivers, lakes, neighbours" : "河流、湖泊、邻国"}</b><span>Natural Earth 1:10m</span></div></div>`,
-    lenses: en ? `<h2>Lenses</h2><p>A lens is ink: five strengths of the same ink on silk (清 淡 重 浓 焦) for amounts, and azurite against cinnabar for change, azurite meaning falling and cinnabar rising. Prefectures without data stay uncoloured, never zero.</p>`
-      : `<h2>透镜</h2><p>透镜是墨：同一种墨在绢上的五种浓度（清、淡、重、浓、焦）表达多少；石青与朱砂表达增减，石青为减，朱砂为增。没有数据的地区不着色，从不画成 0。</p>`,
-  }[page];
-  return `<button class="btn icon ghost close" data-close-almanac aria-label="close"><svg class="ic sm"><use href="#i-close"/></svg></button>
-    <nav>${pages.map(([id, zh, enn]) => `<button data-alm="${id}" aria-current="${id === page}"><span class="seal"><span>${zh[0]}</span></span>${en ? enn : zh}</button>`).join("")}</nav><article>${body}</article>`;
-}
+  $$("[data-psheet]").forEach(el => { el.innerHTML = `<div class="handle"></div>` + (c ? cityHTML(c, true) : ""); if (!anim) { const s = el.querySelector(".seal"); s && s.classList.remove("stamp"); } }); }
+function almanacHTML(page) { const en = EN(), pages = [["about", "关于", "About"], ["map", "地图说明", "About the map"], ["sources", "数据来源", "Sources"], ["lenses", "透镜", "Lenses"]];
+  const body = { about: en ? `<h2>Jiangshan Atlas</h2><p>The real People's Republic of China as a painted, playable map. Terrain comes from elevation and land cover, cities carry real population and output, and lenses colour every prefecture by a figure. Every number traces back to a public source.</p><p>Adapted from Andrej Karpathy's usaciv (MIT).</p>` : `<h2>江山图鉴</h2><p>把真实的中华人民共和国画成一幅可以玩的设色地图：地貌来自高程与土地覆盖，城市带着真实的人口与产出，透镜按指标为每个地级区着色。每一个数字都能追溯到公开出处。</p><p>改编自 Andrej Karpathy 的 usaciv（MIT 许可）。</p>`,
+    map: en ? `<h2>About the map</h2><p>Borders and the South China Sea dashed line follow DataV.GeoAtlas data based on the standard map; the inset never covers Taiwan; land borders and coastlines are drawn differently. No map review number; personal study only.</p>` : `<h2>地图说明</h2><p>国界、省界与南海断续线依据阿里云 DataV.GeoAtlas（依据标准地图）绘制；南海诸岛附图不遮挡台湾；陆地国界与海岸线用不同画法区分。本图未申请审图号，仅供个人学习。</p>`,
+    sources: `<h2>${en ? "Sources" : "数据来源"}</h2><div class="srcs"><div><b>${en ? "Boundaries" : "行政区划边界"}</b><span>阿里云 DataV.GeoAtlas</span></div><div><b>${en ? "Nation" : "全国人口与 GDP"}</b><span>国家统计局《2023年国民经济和社会发展统计公报》</span></div><div><b>${en ? "Cities" : "城市人口与 GDP"}</b><span>${en ? "2023 city communiqués; compiled by chinaciv (phase 1)" : "各地 2023 年统计公报；第一阶段经 chinaciv 汇编"}</span></div><div><b>${en ? "Elevation" : "高程"}</b><span>AWS Terrain Tiles</span></div><div><b>${en ? "Land cover" : "土地覆盖"}</b><span>ESA WorldCover 2021 v200 (CC BY 4.0)</span></div><div><b>${en ? "Rivers, lakes, neighbours" : "河流、湖泊、邻国"}</b><span>Natural Earth 1:10m</span></div></div>`,
+    lenses: en ? `<h2>Lenses</h2><p>A lens is ink: five strengths of the same ink on silk for amounts, azurite against cinnabar for change. Prefectures without data stay uncoloured, never zero.</p>` : `<h2>透镜</h2><p>透镜是墨：同一种墨的五种浓度表达多少；石青与朱砂表达增减。没有数据的地区不着色，从不画成 0。</p>` }[page];
+  return `<button class="btn icon ghost close" data-close-almanac aria-label="close"><svg class="ic sm"><use href="#i-close"/></svg></button><nav>${pages.map(([id, zh, enn]) => `<button data-alm="${id}" aria-current="${id === page}"><span class="seal"><span>${zh[0]}</span></span>${en ? enn : zh}</button>`).join("")}</nav><article>${body}</article>`; }
 let ALM = null;
-function renderAlmanac() { $$("[data-almanac]").forEach(el => { el.hidden = !ALM; $(".scrim", el.closest(".app")).hidden = !ALM; if (ALM) { el.innerHTML = almanacHTML(ALM); } }); }
-function renderI18n() {
-  document.documentElement.lang = S.lang === "en" ? "en" : "zh-CN"; document.documentElement.dataset.lang = S.lang;
+function renderAlmanac() { $$("[data-almanac]").forEach(el => { el.hidden = !ALM; $(".scrim", el.closest(".app")).hidden = !ALM; if (ALM) el.innerHTML = almanacHTML(ALM); }); }
+function renderI18n() { document.documentElement.lang = EN() ? "en" : "zh-CN"; document.documentElement.dataset.lang = S.lang;
   $$("[data-t]").forEach(el => el.textContent = t(el.dataset.t)); $$("[data-t-ph]").forEach(el => el.placeholder = t(el.dataset.tPh));
   $$("[data-set-lang]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.setLang === S.lang)));
-  $$("[data-set-theme]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.setTheme === S.theme)));
-}
+  $("[data-keys]").innerHTML = (EN() ? [["Drag", "pan"], ["Wheel / double-click", "zoom"], ["Click a town", "fly there, stamp, open"], ["Click a medallion", "leaderboard"], ["/", "search"], ["+ −", "zoom"]] : [["拖动", "平移"], ["滚轮 / 双击", "缩放"], ["点城池", "飞过去、钤印、展卷"], ["点顶栏徽章", "排行榜"], ["/", "搜索"], ["+ −", "缩放"]]).map(([a, b]) => `<span><b>${a}</b> ${b}</span>`).join(""); }
 
-/* spec sections */
+/* ================= spec ================= */
 function renderSpec() {
-  const roles = [["--ground", "绢 · 底 Ground"], ["--leaf", "熟绢 · 册页 Leaf"], ["--leaf-sunk", "册页内凹 Leaf sunk"], ["--ink", "焦墨 · 主文字 Ink"], ["--ink-2", "淡墨 · 次文字 Ink 2"], ["--ink-3", "清墨 · 注释 Ink 3"], ["--accent", "朱砂 · 强调 Accent"], ["--water", "青瓷 · 水 Water"], ["--river", "黛 · 河流 River"]];
+  const en = EN();
+  $("[data-yieldspec]").innerHTML = Object.entries(YIELDS).map(([k, y]) => `<div class="leaf">${medalSVG(k, "lg")}<b>${y.ch} ${en ? ["", "People", "Gold", "Grain", "Craft", "Trade"][Object.keys(YIELDS).indexOf(k) + 1] : ""}</b><span>${t(y.tk).split(" · ")[1]}</span></div>`).join("");
+  const tierNames = [["村", "Village", "< 300万", "< 3M"], ["城", "Town", "300–800万", "3–8M"], ["府", "Prefecture city", "800–1500万", "8–15M"], ["都", "Metropolis", "≥ 1500万", "≥ 15M"]];
+  $("[data-towns]").innerHTML = tierNames.map((n, i) => `<div class="leaf picto"><img src="${TIER_IMG[i]}" alt="" style="width:120px;height:80px"><b>${en ? n[1] : n[0]}</b><span>${en ? n[3] : n[2]} · ${CITIES.filter(c => c.tier === i).length}${en ? " cities" : " 座"}</span></div>`).join("");
+  $("[data-wonders]").innerHTML = WONDERS.map(w => `<div class="leaf picto"><canvas data-wpic="${w.draw}" width="240" height="168"></canvas><b>${en ? w.en : w.zh}</b></div>`).join("");
+  $$("[data-wpic]").forEach(cv => { const c = cv.getContext("2d"); c.clearRect(0, 0, 240, 168); drawWonder(c, cv.dataset.wpic, 120, 150, 9); });
+  const res = [["煤", "Coal", "#2b231d", "M4 14l3-6 4 1 3-4 2 9z"], ["油气", "Oil & gas", "#5d4e40", "M10 3v12M6 15h8M7 7h6M8 11h4M10 3 6 15M10 3l4 12"], ["水电", "Hydro", "#2d5e78", "M3 6h14v4c-2 3-5 5-7 5s-5-2-7-5zM6 10v3M10 10v4M14 10v3"], ["风电", "Wind", "#5b927f", "M10 9 10 17M10 9 4 6M10 9l6-3M10 9V2"], ["光伏", "Solar", "#b8913f", "M3 13l3-7h11l-3 7zM8 6l-2 7M12.5 6l-2 7M4.5 9.5h11"], ["核电", "Nuclear", "#b07a45", "M6 16c1-4 1-8 0-11h8c-1 3-1 7 0 11zM8.5 7.5h3"]];
+  $("[data-resources]").innerHTML = res.map(([zh, enn, col, d]) => `<div class="leaf picto"><svg viewBox="0 0 20 20" style="width:44px;height:44px"><circle cx="10" cy="10" r="9.3" fill="${col}" stroke="rgba(43,35,29,.55)" stroke-width=".8"/><path d="${d}" fill="none" stroke="#f6efe0" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" transform="translate(1.2 1.2) scale(.88)"/></svg><b>${en ? enn : zh}</b><span>${en ? "later phase" : "后续阶段"}</span></div>`).join("");
+  drawBannerSpec();
+  const roles = [["--ground", "绢 · 底 Ground"], ["--leaf", "熟绢 · 册页 Leaf"], ["--leaf-sunk", "册页内凹 Leaf sunk"], ["--ink", "焦墨 · 主文字 Ink"], ["--ink-2", "淡墨 · 次文字 Ink 2"], ["--ink-3", "清墨 · 注释 Ink 3"], ["--accent", "朱砂 · 强调 Accent"], ["--gold", "泥金 · 金 Gold"], ["--lacquer", "漆 · 匾框 Lacquer"], ["--water", "青瓷 · 水 Water"], ["--river", "黛 · 河流 River"]];
   $("[data-tokens]").innerHTML = roles.map(([v, n]) => `<div class="leaf tok"><i style="background:var(${v})"></i><div><b>${n}</b><code>${v} · ${cssv(v)}</code></div></div>`).join("");
-  const pig = S.theme === "night" ? [["夜青", "#6f9cff"], ["苔光", "#6fc3a8"], ["琥珀", "#d9a066"], ["灯黄", "#ffcf73"], ["灯火", "#ffc476"], ["夜墨", "#05080f"], ["月白", "#e8eef7"]]
-    : [["石青", "#2d5e78"], ["石绿", "#5b927f"], ["赭石", "#b07a45"], ["藤黄", "#d9a43c"], ["朱砂", "#b23a2b"], ["墨", "#1c1612"], ["蛤白", "#f6f2e8"]];
-  $("[data-pigments]").innerHTML = pig.map(([n, c]) => `<div class="pig"><i style="background:${c}"></i><b>${n}</b><code>${c}</code></div>`).join("");
+  $("[data-pigments]").innerHTML = [["石青", "#2d5e78"], ["石绿", "#5b927f"], ["赭石", "#b07a45"], ["泥金", "#b8913f"], ["朱砂", "#b23a2b"], ["墨", "#1c1612"], ["蛤白", "#f6f2e8"]].map(([n, c]) => `<div class="pig"><i style="background:${c}"></i><b>${n}</b><code>${c}</code></div>`).join("");
   const sc = (vars, labels) => `<div class="bar">${[0, 1, 2, 3, 4].map(i => `<span style="background:var(${vars}${i});${i >= 3 ? "color:#f4ecd9" : ""}">${labels ? labels[i] : ""}</span>`).join("")}</div>`;
-  $("[data-scales]").innerHTML = `<div class="scale"><b>${S.lang === "en" ? "Sequential" : "顺序"}</b>${sc("--seq-", S.theme === "day" ? ["清", "淡", "重", "浓", "焦"] : null)}</div>
-    <div class="scale"><b>${S.lang === "en" ? "Diverging" : "发散"}</b>${sc("--div-")}</div>
-    <div class="scale"><b>${S.lang === "en" ? "Sectors" : "类别（三产）"}</b><div class="bar" style="grid-template-columns:repeat(3,1fr)">${[1, 2, 3].map(i => `<span style="background:var(--cat-${i})"></span>`).join("")}</div></div>
-    <div class="scale"><b>${S.lang === "en" ? "No data" : "无数据"}</b><div class="bar" style="grid-template-columns:1fr"><span style="background:var(--hatch);border:1px solid var(--rule)"></span></div></div>`;
-  const rows = [["--fs-1", "11", "var(--sans)", 400, S.lang === "en" ? "CAPTION · SOURCE · 2023" : "注释 · 出处 · 二〇二三"],
-    ["--fs-2", "12.5", "var(--sans)", 400, S.lang === "en" ? "Secondary text and table cells" : "次要文字、表格单元"],
-    ["--fs-3", "14", "var(--sans)", 400, S.lang === "en" ? "Body text: every number traces back to a public source." : "正文：每一个数字都能追溯到公开出处。"],
-    ["--fs-4", "16", "var(--serif)", 600, S.lang === "en" ? "Block heading · Economy by sector" : "区块标题 · 产业结构"],
-    ["--fs-5", "20", "var(--serif)", 600, "4.72万亿 · ¥4.72 T"],
-    ["--fs-6", "26", "var(--serif)", 900, S.lang === "en" ? "Panel title · Shanghai" : "面板标题 · 上海"],
-    ["--fs-7", "34", "var(--serif)", 900, S.lang === "en" ? "Page title" : "页面标题"],
-    ["", "30", "var(--brush)", 400, "江山图鉴 · 千里江山 · 南海诸岛"]];
-  $("[data-typespec]").innerHTML = rows.map(([v, px, f, w, s]) => `<div class="type-row"><div class="meta"><b>${f.includes("brush") ? (S.lang === "en" ? "Brush · Ma Shan Zheng" : "题字 · 马善政楷书") : f.includes("serif") ? (S.lang === "en" ? "Display · Noto Serif SC" : "标题 · 思源宋体") : (S.lang === "en" ? "UI · Noto Sans SC" : "正文 · 思源黑体")} ${w}</b>${px}px${v ? " · " + v : ""}</div><div style="font:${w} ${px}px/1.35 ${f}">${s}</div></div>`).join("");
-  const icons = [["i-search", "搜索 search"], ["i-share", "分享 share"], ["i-book", "百科 almanac"], ["i-sun", "昼 day"], ["i-moon", "夜 night"], ["i-lang", "语言 lang"], ["i-lens", "透镜 lens"], ["i-people", "人口 people"], ["i-coin", "GDP"], ["i-percap", "人均 per cap"], ["i-city", "城市 city"], ["i-trend", "增长 growth"], ["i-sprout", "一产 primary"], ["i-factory", "二产 secondary"], ["i-hall", "三产 tertiary"], ["i-water", "水 water"], ["i-compass", "全国 nation"], ["i-info", "出处 source"], ["i-out", "外链 link"], ["i-plus", "放大 zoom in"], ["i-minus", "缩小 zoom out"], ["i-close", "关闭 close"], ["i-chev", "展开 more"], ["i-menu", "菜单 menu"]];
-  $("[data-icons]").innerHTML = icons.map(([i, n]) => `<div><svg class="ic"><use href="#${i}"/></svg>${n}</div>`).join("");
-  const ex = [[S.lang === "en" ? "Population" : "人口", "1,409,670,000", "14.10亿", "1.41 B"], [S.lang === "en" ? "Population (city)" : "城市人口", "24,874,500", "2,487万", "24.87 M"], ["GDP", "126,058,200,000,000", "126.06万亿", "¥126.06 T"],
-    ["GDP (city)", "174,600,000,000", "1,746亿", "¥174.6 B"], [S.lang === "en" ? "GDP per capita" : "人均GDP", "89,358", "8.94万", "¥89,358"], [S.lang === "en" ? "Change" : "变化", "0.0169", "+1.7%", "+1.7%"], [S.lang === "en" ? "Missing" : "缺失", "null", "—", "—"],
-    [S.lang === "en" ? "Place names" : "地名", "乌鲁木齐 / 呼和浩特", "乌鲁木齐 / 呼和浩特", "Ürümqi / Hohhot"]];
-  $("[data-fmt]").innerHTML = `<thead><tr><th></th><th>${S.lang === "en" ? "Raw value" : "原始值"}</th><th>中文</th><th>English</th></tr></thead><tbody>${ex.map(r => `<tr>${r.map((c, i) => `<td class="${i ? "num" : ""}">${c}</td>`).join("")}</tr>`).join("")}</tbody>`;
-  drawLettering(); drawRipple(); drawInkDemo(0);
+  $("[data-scales]").innerHTML = `<div class="scale"><b>${en ? "Sequential · ink" : "顺序 · 墨分五色"}</b>${sc("--seq-", ["清", "淡", "重", "浓", "焦"])}</div><div class="scale"><b>${en ? "Diverging" : "发散 · 石青↔朱砂"}</b>${sc("--div-")}</div>
+    <div class="scale"><b>${en ? "Five yields" : "五赋"}</b><div class="bar">${Object.values(YIELDS).map(y => `<span style="background:${y.col};color:#f6efe0">${y.ch}</span>`).join("")}</div></div>
+    <div class="scale"><b>${en ? "No data" : "无数据"}</b><div class="bar" style="grid-template-columns:1fr"><span style="background:var(--hatch);border:1px solid var(--rule)"></span></div></div>`;
+  const rows = [["--fs-1", "11", "var(--sans)", 400, en ? "CAPTION · SOURCE · 2023" : "注释 · 出处 · 二〇二三"], ["--fs-2", "12.5", "var(--sans)", 400, en ? "Secondary text" : "次要文字、表格单元"], ["--fs-3", "14", "var(--sans)", 400, en ? "Body text." : "正文：每一个数字都能追溯到公开出处。"],
+    ["--fs-4", "16", "var(--serif)", 600, en ? "Block heading" : "区块标题 · 三产结构"], ["--fs-5", "20", "var(--serif)", 600, "4.72万亿 · ¥4.72T"], ["--fs-6", "26", "var(--serif)", 900, en ? "Panel title · Shanghai" : "面板标题 · 上海"], ["--fs-7", "34", "var(--serif)", 900, en ? "Page title" : "页面标题"], ["", "30", "var(--brush)", 400, "江山图鉴 · 千里江山 · 癸卯"]];
+  $("[data-typespec]").innerHTML = rows.map(([v, px, f, w, s]) => `<div class="type-row"><div class="meta"><b>${f.includes("brush") ? (en ? "Brush · Ma Shan Zheng" : "题字 · 马善政楷书") : f.includes("serif") ? (en ? "Display · Noto Serif SC" : "标题 · 思源宋体") : (en ? "UI · Noto Sans SC" : "正文 · 思源黑体")} ${w}</b>${px}px${v ? " · " + v : ""}</div><div style="font:${w} ${px}px/1.35 ${f}">${s}</div></div>`).join("");
+  $("[data-icons]").innerHTML = [["i-search", "搜索 search"], ["i-share", "分享 share"], ["i-book", "百科 almanac"], ["i-lang", "语言 lang"], ["i-lens", "透镜 lens"], ["i-mountain", "地形 terrain"], ["i-trend", "增长 growth"], ["i-wonder", "奇观 wonder"], ["i-res", "资源 resource"], ["i-compass", "全国 nation"], ["i-info", "出处 source"], ["i-out", "外链 link"], ["i-plus", "放大 zoom in"], ["i-minus", "缩小 zoom out"], ["i-close", "关闭 close"], ["i-chev", "展开 more"], ["i-menu", "菜单 menu"]].map(([i, n]) => `<div><svg class="ic"><use href="#${i}"/></svg>${n}</div>`).join("");
+  const c = BYID.get("320500");
+  $("[data-data-demo]").innerHTML = c ? cityHTML(c, true).replace(/<div class="cp-head">[\s\S]*?<\/div><\/div>/, "") + `<div class="stats"><div class="stat">${medalSVG("gold")}<span class="k">${t("kPc")}</span><span class="v num">${EN() ? "¥190,280" : "19.03万"}</span></div><div class="stat"><svg class="ic" style="color:var(--ink-2)"><use href="#i-trend"/></svg><span class="k">${t("kGrowth")}</span><span class="v num up">+1.7%</span></div></div>` + legendHTML(LENSES.pc) : "";
+  $("[data-ilist]").innerHTML = (en ? [["Drag", "Pan the map; it follows the hand with no lag"], ["Wheel · pinch · double-click", "Zoom around the pointer; detail unfolds by level: nation → region → prefecture → city"], ["Hover a town", "Its plaque lifts, a card shows its yields"], ["Hover land (with a lens)", "The prefecture is outlined, its value shown"], ["Click a town", "Camera flies there, the seal is stamped, the city leaf unrolls"], ["Click a medallion", "A top-ten leaderboard; click a row to fly there"], ["Lens buttons", "Ink spreads in with a cross-fade"], ["Keyboard", "/ search · + − zoom · arrows pan · Esc close"]]
+    : [["拖动", "平移地图，跟手无延迟"], ["滚轮 · 双指 · 双击", "以指针为中心缩放；细节按级展开：全国 → 郡国 → 州府 → 城郭"], ["悬停城池", "匾额浮起，卡片显示五赋"], ["悬停土地（开透镜时）", "勾出该地级区轮廓并显示数值"], ["点城池", "镜头飞过去，钤印，城市卷展开"], ["点徽章", "弹出全国前十榜单，点一行飞到该城市"], ["透镜按钮", "墨色交叉晕开"], ["键盘", "/ 搜索 · + − 缩放 · 方向键平移 · Esc 关闭"]]).map(([a, b]) => `<li><b>${a}</b><span>${b}</span></li>`).join("");
+  const ex = [[en ? "Population" : "人口", "1,409,670,000", "14.10亿", "1.41 B"], [en ? "City population" : "城市人口", "24,874,500", "2,487万", "24.9 M"], ["GDP", "126,058,200,000,000", "126.06万亿", "¥126.06T"], [en ? "GDP per capita" : "人均GDP", "89,358", "8.94万", "¥89,358"], [en ? "Change" : "变化", "0.0169", "+1.7%", "+1.7%"], [en ? "Missing" : "缺失", "null", "—", "—"], [en ? "Place names" : "地名", "乌鲁木齐 / 呼和浩特", "乌鲁木齐 / 呼和浩特", "Ürümqi / Hohhot"]];
+  $("[data-fmt]").innerHTML = `<thead><tr><th></th><th>${en ? "Raw value" : "原始值"}</th><th>中文</th><th>English</th></tr></thead><tbody>${ex.map(r => `<tr>${r.map((x, i) => `<td class="${i ? "num" : ""}">${x}</td>`).join("")}</tr>`).join("")}</tbody>`;
+  drawLettering(); drawInkDemo(0);
 }
-function drawLettering() {
-  const cv = $("[data-lettering]"); const box = cv.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2); cv.width = Math.round(box.width * dpr); cv.height = Math.round(box.height * dpr);
-  const ctx = cv.getContext("2d"), u = dpr, night = S.theme === "night", W = cv.width, H = cv.height, en = S.lang === "en";
-  if (night) { ctx.fillStyle = "#0b111c"; ctx.fillRect(0, 0, W, H); } else { ctx.fillStyle = paperPattern(ctx); ctx.fillRect(0, 0, W, H); }
-  ctx.textAlign = "center"; ctx.textBaseline = "middle";
-  const col = [W * .18, W * .5, W * .82];
-  ctx.font = en ? `600 ${12 * u}px "Noto Serif SC", serif` : `600 ${18 * u}px "Noto Serif SC", serif`; spaced(ctx, en ? "SICHUAN" : "四川", col[0], H * .28, (en ? 3 : 8) * u, night ? "rgba(170,190,225,.5)" : "rgba(70,48,36,.55)");
-  ctx.font = `400 ${11 * u}px "Noto Sans SC", sans-serif`; ctx.fillStyle = night ? "#7d8aa3" : "#7d6d5c"; ctx.fillText(en ? "Province · spaced serif" : "省名 · 疏排宋体", col[0], H * .75);
-  drawSeal(ctx, col[1] - 30 * u, H * .3, 34 * u, "成都", u, 5, night); dot(ctx, col[1] + 26 * u, H * .3, 3 * u, night);
-  ctx.textAlign = "left"; ctx.font = night ? `400 ${12 * u}px "Noto Sans SC", sans-serif` : `600 ${12 * u}px "Noto Serif SC", serif`;
-  haloText(ctx, en ? "Mianyang" : "绵阳", col[1] + 32 * u, H * .3, night ? "rgba(236,228,210,.92)" : "#2b231d", night ? "rgba(4,7,14,.8)" : "rgba(238,227,201,.85)", 3 * u);
-  ctx.textAlign = "center"; ctx.font = `400 ${11 * u}px "Noto Sans SC", sans-serif`; ctx.fillStyle = night ? "#7d8aa3" : "#7d6d5c"; ctx.fillText(en ? "Cities · seal (top 10) / dot" : "城市 · 印（前十）/ 点", col[1], H * .75);
-  ctx.font = en ? `italic 400 ${13 * u}px "Noto Serif SC", serif` : `${20 * u}px "Ma Shan Zheng", serif`; spaced(ctx, en ? "East China Sea" : "东海", col[2], H * .3, (en ? 1.5 : 10) * u, night ? "rgba(120,160,220,.7)" : "rgba(40,80,92,.75)");
-  ctx.font = `400 ${11 * u}px "Noto Sans SC", sans-serif`; ctx.fillStyle = night ? "#7d8aa3" : "#7d6d5c"; ctx.fillText(en ? "Water · river colour, spaced" : "水体 · 黛色、疏排", col[2], H * .75);
-}
-function drawRipple() { const cv = $("[data-ripple]"); const b = cv.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2); cv.width = Math.round(b.width * dpr); cv.height = Math.round(b.height * dpr); const ctx = cv.getContext("2d");
-  if (S.theme === "night") { ctx.fillStyle = "#070c16"; ctx.fillRect(0, 0, cv.width, cv.height); return; } ctx.fillStyle = "#d3dfd2"; ctx.fillRect(0, 0, cv.width, cv.height); ctx.fillStyle = wavePattern(ctx, dpr * 1.2, "rgba(52,96,104,0.3)"); ctx.fillRect(0, 0, cv.width, cv.height); }
+function drawBannerSpec() { const cv = $("[data-bannerspec]"), b = cv.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2); cv.width = Math.round(b.width * dpr); cv.height = Math.round(b.height * dpr);
+  const ctx = cv.getContext("2d"), u = dpr * 1.25, W = cv.width; ctx.fillStyle = paperPattern(ctx); ctx.fillRect(0, 0, W, cv.height);
+  const sh = BYID.get("310000"), sz = BYID.get("320500"), dl = BYID.get("210200") || CITIES[40];
+  [[sh, W * .2, false, false], [sz, W * .5, true, false], [dl, W * .8, false, true]].forEach(([c, x, yields, sel]) => { const y = cv.height * .78; drawTown(ctx, x, y, c.tier, .95 * u); const by = y - TOWN_H[c.tier] * .95 * u - 5 * u;
+    const bb = drawBanner(ctx, c, x, by, u, { yields, selected: sel }); if (sel) drawSeal(ctx, bb[0] - 13 * u, bb[1] + 9 * u, 22 * u, c.n.slice(0, 2), u, 7); }); }
+function drawLettering() { const cv = $("[data-lettering]"); const box = cv.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2); cv.width = Math.round(box.width * dpr); cv.height = Math.round(box.height * dpr);
+  const ctx = cv.getContext("2d"), u = dpr, W = cv.width, H = cv.height, en = EN(); ctx.fillStyle = paperPattern(ctx); ctx.fillRect(0, 0, W, H); ctx.textAlign = "center"; ctx.textBaseline = "middle"; const col = [W * .18, W * .5, W * .82];
+  ctx.font = en ? `600 ${12 * u}px "Noto Serif SC", serif` : `600 ${18 * u}px "Noto Serif SC", serif`; spaced(ctx, en ? "SICHUAN" : "四川", col[0], H * .32, (en ? 3 : 8) * u, "rgba(70,48,36,.55)");
+  ctx.font = `400 ${11 * u}px "Noto Sans SC", sans-serif`; ctx.fillStyle = "#7d6d5c"; ctx.fillText(en ? "Province · spaced serif" : "省名 · 疏排宋体", col[0], H * .8);
+  const mc = BYID.get("510700"); if (mc) { drawTown(ctx, col[1], H * .48, mc.tier, 1.3 * u); ctx.font = `600 ${11 * u}px "Noto Serif SC", serif`; ctx.textBaseline = "top"; haloText(ctx, cname(mc), col[1], H * .48 + 3 * u, "#2b231d", "rgba(238,227,201,.88)", 3 * u); ctx.textBaseline = "middle"; }
+  ctx.font = `400 ${11 * u}px "Noto Sans SC", sans-serif`; ctx.fillStyle = "#7d6d5c"; ctx.fillText(en ? "Town · picture + serif name" : "城池 · 图形 + 宋体名", col[1], H * .8);
+  ctx.font = en ? `italic 400 ${13 * u}px "Noto Serif SC", serif` : `${20 * u}px "Ma Shan Zheng", serif`; spaced(ctx, en ? "East China Sea" : "东海", col[2], H * .32, (en ? 1.5 : 10) * u, "rgba(40,80,92,.75)");
+  ctx.font = `400 ${11 * u}px "Noto Sans SC", sans-serif`; ctx.fillStyle = "#7d6d5c"; ctx.fillText(en ? "Water · river colour, spaced" : "水体 · 黛色、疏排", col[2], H * .8); }
 function drawInkDemo(p) { const cv = $("[data-mo-ink]"); const b = cv.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2); cv.width = Math.round(b.width * dpr); cv.height = Math.round(b.height * dpr);
-  const ctx = cv.getContext("2d"), W = cv.width, H = cv.height, cols = S.theme === "night" ? ["#4f7dff", "#8fb3ff", "#e8e4d8", "#ffcf73", "#ff8a4c"] : null;
-  ctx.fillStyle = S.theme === "night" ? "#121b2c" : "#e9ddc2"; ctx.fillRect(0, 0, W, H);
-  for (let i = 0; i < 5; i++) { const x = W * (.1 + i * .17), w = W * .14; const a = [.06, .17, .32, .5, .72][4 - i], b2 = [.06, .17, .32, .5, .72][i];
-    ctx.fillStyle = cols ? cols[4 - i] : `rgba(28,22,18,${a})`; ctx.globalAlpha = 1 - p; ctx.fillRect(x, H * .25, w, H * .5); ctx.fillStyle = cols ? cols[i] : `rgba(28,22,18,${b2})`; ctx.globalAlpha = p; ctx.fillRect(x, H * .25, w, H * .5); } ctx.globalAlpha = 1; }
+  const ctx = cv.getContext("2d"), W = cv.width, H = cv.height; ctx.fillStyle = "#e9ddc2"; ctx.fillRect(0, 0, W, H);
+  for (let i = 0; i < 5; i++) { const x = W * (.1 + i * .17), w = W * .14; ctx.fillStyle = `rgba(28,22,18,${INK5[4 - i]})`; ctx.globalAlpha = 1 - p; ctx.fillRect(x, H * .25, w, H * .5); ctx.fillStyle = `rgba(28,22,18,${INK5[i]})`; ctx.globalAlpha = p; ctx.fillRect(x, H * .25, w, H * .5); } ctx.globalAlpha = 1; }
 
-/* ---------------- interactions ---------------- */
-function setTheme(th, user) { S.theme = th; if (user) S.userTheme = true; document.documentElement.dataset.shichen = th; refresh(true); }
-function setLang(l) { S.lang = l; refresh(false); }
-function refresh(themeChanged) { renderI18n(); renderYields(); renderColophon(); renderLensDock(); renderPanels(false); renderAlmanac(); renderSpec(); for (const a of APPS) { layout(a); paint(a, false); } }
-function selectCity(id) { S.city = id; renderPanels(true); for (const a of APPS) { layout(a); paint(a, false); } }
+/* ================= interactions ================= */
+function setLang(l) { S.lang = l; refresh(); }
+function refresh() { renderI18n(); renderYields(); renderBoard(); renderColophon(); renderLensDock(); renderPanels(false); renderAlmanac(); renderSpec(); for (const a of APPS) { layout(a, true); full(a); } updateZoomLabel(); }
+function selectCity(id, fly = true) { const had = !!S.city; S.city = id; S.board = null; renderBoard(); renderYields(); renderPanels(true);
+  for (const a of APPS) { const keep = { ...a.view }; layout(a, true); a.view = keep; const c = BYID.get(id);
+    if (a.cfg === DESK && fly) flyTo(a, viewOn(a, c, 2.4)); else if (a.cfg === PHONE) { a.view = { ...a.home }; full(a); } else full(a); } }
+function lensChange(id) { S.lens = id; renderLensDock(); for (const a of APPS) { if (!matchMedia("(prefers-reduced-motion: reduce)").matches) { const f = a.fade.getContext("2d"); f.setTransform(1, 0, 0, 1, 0, 0); f.clearRect(0, 0, a.fade.width, a.fade.height); f.drawImage(a.canvas, 0, 0); a.fade.style.transition = "none"; a.fade.style.opacity = 1; }
+  full(a); requestAnimationFrame(() => { a.fade.style.transition = ""; a.fade.style.opacity = 0; }); } }
 function scaleScreens() { $$(".device, .phone").forEach(d => { const sc = d.querySelector(".screen"); const w = d.getBoundingClientRect().width - (d.classList.contains("phone") ? 16 : 2); sc.style.transform = `scale(${w / parseFloat(getComputedStyle(sc).width)})`; }); }
 function bind() {
-  document.addEventListener("click", e => {
-    const b = e.target.closest("button, a"); if (!b) return;
-    if (b.dataset.setTheme) setTheme(b.dataset.setTheme, true);
-    else if (b.dataset.setLang) setLang(b.dataset.setLang);
+  document.addEventListener("click", e => { const b = e.target.closest("button, a"); if (!b) return;
+    if (b.dataset.setLang) setLang(b.dataset.setLang);
     else if (b.hasAttribute("data-set-lang-toggle")) setLang(S.lang === "zh" ? "en" : "zh");
-    else if (b.dataset.lens) { S.lens = b.dataset.lens; renderLensDock(); for (const a of APPS) paint(a, true); }
+    else if (b.dataset.lens) lensChange(b.dataset.lens);
     else if (b.dataset.goto) selectCity(b.dataset.goto);
-    else if (b.hasAttribute("data-close")) { S.city = null; renderPanels(false); for (const a of APPS) { layout(a); paint(a, false); } }
+    else if (b.dataset.boardKey) { S.board = S.board === b.dataset.boardKey ? null : b.dataset.boardKey; renderYields(); renderBoard(); }
+    else if (b.dataset.zoom) { const a = APPS[0], W = a.canvas.width, H = a.canvas.height; if (b.dataset.zoom === "home") flyTo(a, { ...a.home }); else zoomAt(a, W / 2, H / 2, b.dataset.zoom === "in" ? 1.6 : 1 / 1.6); }
+    else if (b.hasAttribute("data-close")) { S.city = null; renderPanels(false); const a = APPS[0]; const keep = { ...a.view }; layout(a, true); a.view = keep; full(a); for (const p of APPS.slice(1)) full(p); }
     else if (b.hasAttribute("data-open-almanac")) { e.preventDefault(); ALM = "sources"; renderAlmanac(); }
     else if (b.hasAttribute("data-close-almanac")) { ALM = null; renderAlmanac(); }
     else if (b.dataset.alm) { ALM = b.dataset.alm; renderAlmanac(); }
-    else if (b.hasAttribute("data-restamp")) $$(".card .seal").forEach(s => { s.classList.remove("stamp"); void s.offsetWidth; s.classList.add("stamp"); });
+    else if (b.hasAttribute("data-restamp")) $$(".card .seal").forEach(s => { s.classList.remove("stamp"); void s.offsetWidth; s.classList.add("stamp"); })
     else if (b.dataset.mo === "seal") { const s = $("[data-mo-seal]"); s.classList.remove("stamp"); void s.offsetWidth; s.classList.add("stamp"); }
-    else if (b.dataset.mo === "leaf") { const s = $("[data-mo-leaf]"); s.classList.remove("unroll"); void s.offsetWidth; s.style.animation = "none"; void s.offsetWidth; s.style.animation = "unroll .32s cubic-bezier(.2,.7,.2,1)"; }
-    else if (b.dataset.mo === "ink") { const t0 = performance.now(); const step = now => { const p = clamp((now - t0) / 240, 0, 1); drawInkDemo(p); if (p < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
-  });
-  const desk = APPS[0];
-  const toLocal = (app, e) => { const r = app.root.getBoundingClientRect(), k = app.cfg.w / r.width; return [(e.clientX - r.left) * k, (e.clientY - r.top) * k]; };
-  const hit = (app, e) => { const [x, y] = toLocal(app, e), X = x * app.u, Y = y * app.u; let best = null, bd = 1e9; for (const [hx, hy, r, c] of app.hits) { const d = Math.hypot(hx - X, hy - Y); if (d < r + 4 * app.u && d < bd) { bd = d; best = c; } } return [best, x, y]; };
-  desk.canvas.addEventListener("click", e => { const [c] = hit(desk, e); if (c) selectCity(c.id); });
-  const tip = $("[data-tip]", desk.root);
-  desk.canvas.addEventListener("mousemove", e => { const [c, x, y] = hit(desk, e); desk.canvas.style.cursor = c ? "pointer" : "grab"; if (!c) { tip.hidden = true; return; }
-    tip.hidden = false; tip.innerHTML = `<b>${cname(c)}</b><span>${S.lang === "en" ? c.n : (c.en || "")}</span><div class="row num"><span>${fmtPop(c.pop)}</span><span>${fmtYuan(c.gdp)}</span></div>`;
-    tip.style.left = (x + 14) + "px"; tip.style.top = (y + 14) + "px"; });
-  desk.canvas.addEventListener("mouseleave", () => tip.hidden = true);
-  const inp = $("[data-search] input", desk.root), pop = $("[data-search-pop]", desk.root);
+    else if (b.dataset.mo === "leaf") { const s = $("[data-mo-leaf]"); s.style.animation = "none"; void s.offsetWidth; s.style.animation = "unroll .32s cubic-bezier(.2,.7,.2,1)"; }
+    else if (b.dataset.mo === "ink") { const t0 = performance.now(); const step = now => { const p = clamp((now - t0) / 240, 0, 1); drawInkDemo(p); if (p < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); } });
+  document.addEventListener("click", e => { if (S.board && !e.target.closest("[data-board], [data-board-key]")) { S.board = null; renderYields(); renderBoard(); } });
+  const a = APPS[0], cv = a.canvas, tip = $("[data-tip]", a.root);
+  const loc = e => { const r = a.root.getBoundingClientRect(), k = 1440 / r.width; return [(e.clientX - r.left) * k, (e.clientY - r.top) * k]; };
+  const hitAt = (x, y) => { const X = x * a.u, Y = y * a.u; let best = null, bd = 1e9; for (const h of a.hits) { if (h.rect) { const [rx, ry, rw, rh] = h.rect; if (X >= rx && X <= rx + rw && Y >= ry && Y <= ry + rh) return h; continue; } const d = Math.hypot(h.x - X, h.y - Y); if (d < h.r && d < bd) { bd = d; best = h; } } return best; };
+  let drag = null, moved = 0;
+  cv.addEventListener("pointerdown", e => { drag = { x: e.clientX, y: e.clientY, v: { ...a.view } }; moved = 0; cv.setPointerCapture(e.pointerId); cv.classList.add("grabbing"); tip.hidden = true; });
+  cv.addEventListener("pointermove", e => { const [x, y] = loc(e);
+    if (drag) { const r = a.root.getBoundingClientRect(), k = 1440 / r.width * a.u, dx = (e.clientX - drag.x) * k, dy = (e.clientY - drag.y) * k; moved = Math.max(moved, Math.hypot(dx, dy));
+      if (moved > 3) { a.view = clampView(a, { s: drag.v.s, ox: drag.v.ox + dx, oy: drag.v.oy + dy }); a.hoverPref = -1; frame(a); } return; }
+    const h = hitAt(x, y); cv.classList.toggle("point", !!h);
+    let pref = -1; if (!h && S.lens !== "none") { const mx = (x * a.u - a.view.ox) / a.view.s, my = (y * a.u - a.view.oy) / a.view.s, gx = (mx / DEM.km) | 0, gy = (my / DEM.km) | 0; if (gx >= 0 && gy >= 0 && gx < DEM.w && gy < DEM.h) pref = PREF[gy * DEM.w + gx]; }
+    if (pref !== a.hoverPref) { a.hoverPref = pref; frame(a); }
+    if (h && h.city) { const c = h.city; tip.innerHTML = `<b>${cname(c)}</b><span class="sub">${EN() ? c.n : (c.en || "")}</span><div class="row num"><span>${medalSVG("pop", "sm")}${fmtPopShort(c.popAny)}</span><span>${medalSVG("gold", "sm")}${fmtYuan(c.gdp)}</span></div>`; }
+    else if (h && h.wonder) { tip.innerHTML = `<b>${EN() ? h.wonder.en : h.wonder.zh}</b><span class="sub">${EN() ? "World Heritage" : "世界遗产"}</span>`; }
+    else if (pref >= 0) { const c = PREF_CITY[pref], L = LENSES[S.lens], p = P.prefs[pref], v = c && c[L.key]; tip.innerHTML = `<b>${c ? cname(c) : p.name}</b><span class="sub">${t(L.name)}</span><div class="row num"><span>${v == null ? t("noData") : L.key === "growth" ? fmtPct(v, true) : L.key === "sv" ? Math.round(v * 100) + "%" : L.key === "pc" ? (EN() ? "¥" + Math.round(v).toLocaleString("en-US") : (v / 1e4).toFixed(2) + "万") : fmtPop(v)}</span></div>`; }
+    else { tip.hidden = true; return; }
+    tip.hidden = false; tip.style.left = (x + 16) + "px"; tip.style.top = (y + 16) + "px"; });
+  const end = e => { if (!drag) return; cv.classList.remove("grabbing"); const wasDrag = moved > 3; drag = null; if (wasDrag) { full(a); return; } const [x, y] = loc(e), h = hitAt(x, y); if (h && h.city) selectCity(h.city.id); };
+  cv.addEventListener("pointerup", end); cv.addEventListener("pointercancel", () => { drag = null; cv.classList.remove("grabbing"); });
+  cv.addEventListener("pointerleave", () => { tip.hidden = true; if (a.hoverPref !== -1) { a.hoverPref = -1; frame(a); } });
+  cv.addEventListener("wheel", e => { e.preventDefault(); const [x, y] = loc(e); zoomAt(a, x * a.u, y * a.u, Math.exp(-e.deltaY * .0016)); }, { passive: false });
+  cv.addEventListener("dblclick", e => { const [x, y] = loc(e); const v = a.view, f = 2, s = clamp(v.s * f, a.home.s * .85, a.home.s * 9), k = s / v.s, px = x * a.u, py = y * a.u; flyTo(a, { s, ox: px - (px - v.ox) * k, oy: py - (py - v.oy) * k }, 380); });
+  cv.addEventListener("keydown", e => { const W = cv.width, H = cv.height, st = 80 * a.u;
+    if (e.key === "+" || e.key === "=") zoomAt(a, W / 2, H / 2, 1.4); else if (e.key === "-") zoomAt(a, W / 2, H / 2, 1 / 1.4);
+    else if (e.key.startsWith("Arrow")) { const d = { ArrowLeft: [st, 0], ArrowRight: [-st, 0], ArrowUp: [0, st], ArrowDown: [0, -st] }[e.key]; a.view = clampView(a, { ...a.view, ox: a.view.ox + d[0], oy: a.view.oy + d[1] }); frame(a); settle(a); e.preventDefault(); } });
+  const inp = $("[data-search] input", a.root), pop = $("[data-search-pop]", a.root);
   const doSearch = () => { const q = inp.value.trim().toLowerCase(); if (!q) { pop.hidden = true; return; }
-    const res = CITIES.filter(c => c.n.includes(q) || (c.full || "").includes(q) || (c.en || "").toLowerCase().startsWith(q)).slice(0, 7);
-    const fb = $("[data-search]", desk.root).getBoundingClientRect(), rr = desk.root.getBoundingClientRect(), k = 1440 / rr.width;
-    pop.style.left = ((fb.left - rr.left) * k) + "px"; pop.hidden = !res.length;
-    pop.innerHTML = res.map((c, i) => { const pv = PROVS.find(p => p.id === c.prov); return `<button data-goto="${c.id}" class="${i ? "" : "on"}"><b>${cname(c)}</b><em class="num">${fmtPop(c.pop)}</em><span>${S.lang === "en" ? c.n : (c.en || "")}${pv ? " · " + (S.lang === "en" ? pv.en : pv.zh) : ""}</span></button>`; }).join(""); };
+    const res = CITIES.filter(c => c.n.includes(q) || (c.full || "").includes(q) || (c.en || "").toLowerCase().startsWith(q)).sort((x, y) => (y.popAny || 0) - (x.popAny || 0)).slice(0, 7);
+    const fb = $("[data-search]", a.root).getBoundingClientRect(), rr = a.root.getBoundingClientRect(), k = 1440 / rr.width; pop.style.left = ((fb.left - rr.left) * k) + "px"; pop.hidden = !res.length;
+    pop.innerHTML = res.map((c, i) => { const pv = PROVS.find(p => p.id === c.prov); return `<button data-goto="${c.id}" class="${i ? "" : "on"}"><img src="${TIER_IMG[c.tier]}" alt=""><b>${cname(c)}</b><em class="num">${fmtPopShort(c.popAny)}</em><span>${EN() ? c.n : (c.en || "")}${pv ? " · " + (EN() ? pv.en : pv.zh) : ""}</span></button>`; }).join(""); };
   inp.addEventListener("input", doSearch); inp.addEventListener("focus", doSearch);
   inp.addEventListener("keydown", e => { if (e.key === "Enter") { const f = pop.querySelector("button"); if (f) { selectCity(f.dataset.goto); pop.hidden = true; inp.blur(); } } if (e.key === "Escape") { pop.hidden = true; inp.blur(); } });
-  document.addEventListener("click", e => { if (!e.target.closest("[data-search], [data-search-pop]")) pop.hidden = true; else if (e.target.closest("[data-search-pop] button")) pop.hidden = true; });
-  let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { scaleScreens(); for (const a of APPS) { layout(a); paint(a, false); } drawLettering(); drawRipple(); drawInkDemo(0); }, 250); });
-  S.theme = "day"; document.documentElement.dataset.shichen = "day";
+  document.addEventListener("click", e => { if (!e.target.closest("[data-search], [data-search-pop]") || e.target.closest("[data-search-pop] button")) pop.hidden = true; });
+  document.addEventListener("keydown", e => { if (e.key === "/" && document.activeElement.tagName !== "INPUT") { const r = a.root.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) { e.preventDefault(); inp.focus(); } } if (e.key === "Escape") { ALM = null; renderAlmanac(); S.board = null; renderBoard(); } });
+  let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { scaleScreens(); for (const x of APPS) { layout(x, true); full(x); } drawLettering(); drawInkDemo(0); drawBannerSpec(); }, 250); });
 }
-async function fontsReady() { const txt = CITIES.map(c => c.n + (c.en || "")).join("") + PROVS.map(p => p.zh + p.en).join("") + "千里江山万家灯火中华人民共和国二〇二三年数据图鉴渤黄东南海诸岛公里清淡重浓焦上海成都壹贰叁肆伍陆柒捌关于地图说明数据来源透镜";
-  const fams = ['16px "Ma Shan Zheng"', '400 16px "Noto Sans SC"', '300 16px "Noto Sans SC"', '500 16px "Noto Sans SC"', '700 16px "Noto Sans SC"', '400 16px "Noto Serif SC"', '600 16px "Noto Serif SC"', '900 16px "Noto Serif SC"', 'italic 400 16px "Noto Serif SC"'];
+async function fontsReady() { const txt = CITIES.map(c => c.n + (c.en || "")).join("") + PROVS.map(p => p.zh + p.en).join("") + WONDERS.map(w => w.zh + w.en).join("") + "千里江山中华人民共和国二〇二三年数据图鉴渤黄东南海诸岛公里清淡重浓焦癸卯万亿人金粮工商全国郡州府城郭村都";
+  const fams = ['16px "Ma Shan Zheng"', '400 16px "Noto Sans SC"', '500 16px "Noto Sans SC"', '600 16px "Noto Sans SC"', '700 16px "Noto Sans SC"', '400 16px "Noto Serif SC"', '600 16px "Noto Serif SC"', '700 16px "Noto Serif SC"', '900 16px "Noto Serif SC"'];
   try { await Promise.race([Promise.all(fams.map(f => document.fonts.load(f, txt))), new Promise(r => setTimeout(r, 6000))]); } catch (e) { } }
 async function main() {
   makeApp($("[data-app=desk]"), DESK); makeApp($("[data-app=phone]"), PHONE);
-  bind(); scaleScreens(); renderI18n();
+  scaleScreens(); bind(); renderI18n();
   try { await load(); } catch (e) { $(".lede").textContent = "数据加载失败：" + e.message; return; }
-  await fontsReady();
-  refresh(true);
+  await fontsReady(); refresh();
 }
 main();
 })();

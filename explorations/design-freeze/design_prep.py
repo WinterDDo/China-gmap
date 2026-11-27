@@ -105,6 +105,13 @@ if os.path.exists(lc_path):
     urban = ((blocks == 50).sum(-1) * 255 // (k * k)).astype(np.uint8)
     Image.fromarray(maj, "L").save(os.path.join(OUT, "lc.png"), optimize=True)
     Image.fromarray(urban, "L").save(os.path.join(OUT, "urban.png"), optimize=True)
+    # 2 km majority for the zoomed-in painting
+    k2 = 2; h2, w2 = h4 * 2, w4 * 2
+    pad2 = np.zeros((h2 * k2, w2 * k2), np.uint8); aa = np.asarray(Image.open(lc_path))[: h2 * k2, : w2 * k2]; pad2[: aa.shape[0], : aa.shape[1]] = aa
+    bl = pad2.reshape(h2, k2, w2, k2).transpose(0, 2, 1, 3).reshape(h2, w2, k2 * k2)
+    cnt = np.stack([(bl == cd).sum(-1) for cd in codes], -1); cnt[..., 0] = 0
+    m2 = codes[cnt.argmax(-1)]; m2[cnt.sum(-1) == 0] = 0
+    Image.fromarray(m2, "L").save(os.path.join(OUT, "lc2.png"), optimize=True)
     print("landcover 4km written", maj.shape, "urban cells", int((urban > 0).sum()))
 else:
     print("no landcover yet")
