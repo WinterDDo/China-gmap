@@ -7,8 +7,10 @@ ever go down: to add a rule, remove one first (see "一条新规则该放哪" in
 
 import datetime
 import json
+import os
 import re
 import subprocess
+import sys
 
 from conftest import ROOT
 
@@ -74,6 +76,32 @@ def test_status_md_fits_the_session_start_window():
     # bottom are silently cut. Chinese is 3 bytes a character, so this is ~2000 characters.
     size = len((ROOT / "STATUS.md").read_bytes())
     assert size <= 6000, f"STATUS.md is {size} bytes; trim 最近的变化 or archive old lines"
+
+
+def _commit_hook(project, command, cwd=None):
+    payload = json.dumps({"tool_input": {"command": command}, "cwd": str(cwd or project)})
+    return subprocess.run(
+        [sys.executable, str(ROOT / ".claude/hooks/test-before-commit.py")],
+        input=payload, capture_output=True, text=True,
+        env={**os.environ, "CLAUDE_PROJECT_DIR": str(project)},
+    )
+
+
+def test_commit_hook_blocks_red_and_lets_green_through(tmp_path):
+    # A throwaway project, so the hook does not re-run this very suite.
+    tests = tmp_path / "tests"
+    tests.mkdir()
+    (tests / "test_a.py").write_text("def test_a():\n    assert 1 + 1 == 3\n", encoding="utf-8")
+
+    blocked = _commit_hook(tmp_path, 'git add -A && git commit -q -m "x"')
+    assert blocked.returncode == 2 and "提交被拦下" in blocked.stderr
+
+    assert _commit_hook(tmp_path, "git status && git log --grep commit").returncode == 0
+    assert _commit_hook(tmp_path, "git -C /somewhere/else commit -m x").returncode == 0
+
+    # Different length on purpose: same size + same second would reuse the stale bytecode.
+    (tests / "test_a.py").write_text("def test_a():\n    assert True\n", encoding="utf-8")
+    assert _commit_hook(tmp_path, "git -c user.name=x commit -m x").returncode == 0
 
 
 def test_claude_md_within_line_budget():
