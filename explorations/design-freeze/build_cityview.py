@@ -137,6 +137,9 @@ for cid, items in by_city.items():
 out = {"counties": counties, "sites": sites,
        "sources": {"counties": "阿里云 DataV.GeoAtlas 行政区划（infos.json）；英文名取 names.json，没有的用拼音", "sites": "chinaciv 汇编（MIT）：联合国教科文组织世界遗产名录、国家公园、5A 景区、双一流高校、民航机场生产统计公报 2025、主要港口、Global Energy Monitor 电厂与矿山"},
        "shift": [round(dx, 2), round(dy, 2)]}
+plates_p = os.path.join(out_dir, "plates.json")  # the hometown card's plate prefix, checked city by city in build_plates.py
+if os.path.exists(plates_p):
+    out["plates"] = {cid: v["plate"] for cid, v in json.load(open(plates_p, encoding="utf-8"))["plates"].items()}
 json.dump(out, open(os.path.join(out_dir, "cityview.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 print("counties for", len(counties), "cities,", sum(len(v) for v in counties.values()), "units; sites for", len(sites), "cities,",
       sum(len(v) for v in sites.values()), "sites; chinaciv shift", round(dx, 2), round(dy, 2),

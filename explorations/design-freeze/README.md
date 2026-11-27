@@ -21,3 +21,13 @@ python3 build_cityview.py <infos.json> <chinaciv/web/data> data
 python3 build_transport.py <jiangshan_osm_lines.zip> data
 ```
 
+「到家卡」（搜到家乡时：`川R，到家了。`，再点一下精确到县，地图上把这个县标出来）用两份数据：
+
+- `data/plates.json`：每座城的车牌字头，由 `build_plates.py` 生成。维基数据和另一份读数一致的才收，缺的逐条查证并记下出处，查不到的留空（拉萨）。区号、邮编、身份证开头先不放，原因见 `docs/DECISIONS.md` 和 `TODOS.md`。
+- `data/counties/<省码>.json`：各县轮廓，由 `build_counties.py` 从 DataV.GeoAtlas 生成，每省一个小文件，打开这个省的城市时才下载。
+
+```bash
+python3 build_plates.py <维基数据查询结果.json> data
+python3 build_counties.py <缓存目录> data
+python3 build_cityview.py <infos.json> <chinaciv/web/data> data   # 把车牌并进 cityview.json
+```

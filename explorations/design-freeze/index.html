@@ -1307,6 +1307,11 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .cz-leg i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 3px; vertical-align: 0; }
 .cz-row.pend .cz-t { color: var(--ink-3); }
 .cv-sites { display: grid; gap: 8px; } .cv-g { display: grid; grid-template-columns: 22px auto; gap: 2px 8px; align-items: center; } .cv-g > b { font: 600 13px/1.2 var(--serif); } .cv-g > div { grid-column: 2; display: flex; flex-wrap: wrap; gap: 4px; }
+.hello { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; font: 400 26px/1.2 var(--brush); color: var(--ink); } .hello b { font-weight: 400; color: var(--accent); } .hello small { font: 400 12px/1.2 var(--sans); color: var(--ink-3); }
+.where { display: grid; gap: 6px; } .where > span { font: 600 13px/1.2 var(--serif); color: var(--ink-2); } .cty { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; } .cty::-webkit-scrollbar { display: none; }
+.cty .chip { flex: none; height: 32px; padding: 0 10px; } .cty .chip.on { border-color: var(--accent); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.homeblk { display: grid; gap: 10px; } .homeblk .cty { flex-wrap: wrap; overflow: visible; }
+i.plate { display: inline-block; white-space: nowrap; font-style: normal; font: 700 11px/1 var(--sans); letter-spacing: .5px; color: #f6f2e8; background: #2d5e78; border-radius: 3px; padding: 2px 5px; }
 .cv-ln { display: grid; grid-template-columns: 30px auto; gap: 2px 6px; align-items: center; } .cv-ln > b { font: 600 13px/1.2 var(--serif); } .cv-ln > div { grid-column: 2; display: flex; flex-wrap: wrap; gap: 4px; } .cv-sw { grid-row: span 2; align-self: start; padding-top: 4px; }
 .cv-ln .chip { height: auto; min-height: 30px; padding: 4px 10px; gap: 6px; } .cv-ln .chip.on { border-color: var(--accent); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
 .cv-ref { display: inline-block; padding: 0 5px; border-radius: 3px; background: #b07a45; color: #f6f2e8; font: 700 11px/16px var(--sans); } .chip.on .cv-ref { background: var(--accent); }
@@ -1638,6 +1643,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   <section class="sec" id="s-decide">
     <div class="sec-head"><span class="seal"><span>拾玖</span></span><h2>请你确认</h2></div>
     <div class="leaf card decide"><ol>
+      <li><b>到家卡（5.12 新）</b>：搜到家乡时，先看到“川R，到家了。”，再问一句“你是南充哪里的？”，点一下就精确到县，地图把这个县标出来。只放了车牌和选县两样，每个车牌都核对过。问候语这个语气对味吗？下一样先加哪个：区号、邮编，还是“身份证开头”（要做成新老两个号）？我的推荐：区号，认得的人最多，等拿到官方表就加。</li>
       <li><b>城市视图（5.10 新）</b>：点开一座城，整个市亮起来，周围变淡；地图上标出区县、宝藏点印章（遗 园 景 学 机 港 电 矿 油）和城区小屋顶；面板多了“这座城的人”“城里有什么”“下辖区县”。下一步先借鉴 Karpathy 的哪一项？A 铁路和高速：看这座城怎么连到外面；B 代表性城市的专属地标小画（成都的熊猫、杭州的西湖）；C 先不加新东西，等七普数据把“多大年纪”“念过什么书”两排补齐。我的推荐：A，数据现成，也能和“人去哪儿了”连起来。</li>
       <li><b>新五赋</b>：人 · 钱 · 产 · 绿 · 势（常住人口、每月可支配收入、每人每天创造、森林占比、三年人口增减），代替原来的 人 · 金 · 粮 · 工 · 商。颜色和形制不变，只换内容。</li>
       <li><b>宝藏点</b>：从 13 项全国排名里，每座城自动挑最好的三项，配一句大白话（“地盘能装下 9 个上海”“每 10 块地有 8 块是林子”）。这样的说法你喜欢吗？还想加哪些能让小城骄傲的维度？</li>
@@ -2108,12 +2114,12 @@ function renderLensDock() { const L = LENSES[S.lens];
   $$("[data-lens-demo]").forEach(el => el.innerHTML = lensButtons()); }
 function cityHTML(c, compact) {
   const kind = kindOf(c), pv = pvOf(c);
-  const head = `<div class="cp-head"><span class="seal stamp"><span>${c.n.slice(0, 2)}</span></span><div><h2>${cname(c)}<img src="${TIER_IMG[c.tier]}" alt="" width="120" height="80"></h2><div class="en">${EN() ? c.n : (c.en || "")}</div><div class="meta">${kind}${pv && !["municipality", "sar"].includes(c.kind) ? " · " + pv : ""} · ${ZH(...RAR[rarity(c)])}</div></div>${compact ? "" : `<button class="btn icon ghost" data-close aria-label="${ZH("关闭", "Close")}">${icon("i-close")}</button>`}</div>`;
+  const head = `<div class="cp-head"><span class="seal stamp"><span>${c.n.slice(0, 2)}</span></span><div><h2>${cname(c)}<img src="${TIER_IMG[c.tier]}" alt="" width="120" height="80"></h2><div class="en">${EN() ? c.n : (c.en || "")}</div><div class="meta">${kind}${pv && !["municipality", "sar"].includes(c.kind) ? " · " + pv : ""}${plateOf(c) ? ` · <i class="plate">${plateOf(c)}</i>` : ""} · ${ZH(...RAR[rarity(c)])}</div></div>${compact ? "" : `<button class="btn icon ghost" data-close aria-label="${ZH("关闭", "Close")}">${icon("i-close")}</button>`}</div>`;
   if (compact) return head + yieldsRow(c);
   const iB = k => `<button class="m-i" data-dexp="${k}" aria-label="${ZH("这是什么", "What is this")}" title="${ZH("定义、算法、出处", "Definition, method, source")}">ⓘ</button>`;
   const peers = c.peers ? `<div class="block"><h4>${t("peers")}</h4><div class="peers">${c.peers.map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-goto="${o.id}"><img src="${TIER_IMG[o.tier]}" alt="" width="120" height="80">${cname(o)}</button>`).join("")}</div></div>` : "";
   const src = `<div class="src">${icon("i-info")}<span>${t("src")}：${ZH("2023 年统计公报（本项目采集，附原文句子）、七普、ESA WorldCover", "2023 communiqués (collected with source sentences), 2020 census, ESA WorldCover")} · <button class="btn ghost" style="height:auto;padding:0;color:var(--river)" data-open-almanac>${t("srcLink")}</button><span class="asof">${ZH("数据截至 2023 年公报 · 2026-11 更新", "As of 2023 communiqués · updated 2026-11")} · <button class="lnk" data-dm="fix">${ZH("这个数不对？纠错", "Wrong? Report it")}</button></span></span></div>`;
-  return head + dToolsHTML(c) + yieldsRow(c) + `<div class="cp-body"><div class="block"><h4>${ZH("宝藏点", "Hidden gems")}${iB("gems")}<small>${ZH("全国排名最能打的三项", "best three national ranks")}</small></h4>${prideHTML(c, 3, true)}</div>
+  return head + dToolsHTML(c) + yieldsRow(c) + `<div class="cp-body">${c.id === dHome() ? `<div class="block homeblk">${helloHTML(c, S.homeCounty)}${countyPickHTML(c, S.county, "data-dcounty", true)}</div>` : ""}<div class="block"><h4>${ZH("宝藏点", "Hidden gems")}${iB("gems")}<small>${ZH("全国排名最能打的三项", "best three national ranks")}</small></h4>${prideHTML(c, 3, true)}</div>
     <div class="block"><h4>${ZH("这座城的人", "The people")}<small>${ZH("每排 10 个小人", "rows of 10")}</small></h4>${citizensHTML(c)}</div>
     <div class="block"><h4>${ZH("生活账本", "Everyday numbers")}${iB(c.month != null ? "month" : "day")}<small>2023</small></h4>${ledgerHTML(c, "panel", 1)}</div>
     <div class="block"><h4>${ZH("人去哪儿了", "Where people go")}${iB("flows")}<small>${ZH("七普 · 公报", "census · communiqués")}</small></h4>${flowHTML(c, true)}</div>
@@ -2188,7 +2194,7 @@ function drawInkDemo(p) { const cv = $("[data-mo-ink]"); const b = cv.getBoundin
 /* ================= interactions ================= */
 function setLang(l) { S.lang = l; try { localStorage.setItem(LANGKEY, l); } catch (e) { } const n = document.querySelector(".lang-note"); if (n) n.remove(); refresh(); }
 function refresh() { const dl = $("[data-dloading]"); if (dl) dl.remove(); renderI18n(); renderYields(); renderBoard(); renderColophon(); renderLensDock(); renderPanels(false); renderAlmanac(); renderSpec(); renderV4(); renderV5(); renderV6(); if (!M.loaded) { M.loaded = true; if (location.hash.startsWith("#m/")) mRestore(location.hash); else if (location.hash.startsWith("#d/")) setTimeout(() => { dRestore(location.hash); const sd = document.getElementById("s-desk"); if (sd) sd.scrollIntoView(); }, 0); } renderMob(); renderScore(); renderDScore(); renderLangSec(); for (const a of APPS) { layout(a, true); full(a); } updateZoomLabel(); }
-function selectCity(id, fly = true) { const had = !!S.city; S.city = id; S.board = null; S.dexp = null; S.dfix = false; if (BYID.has(id)) { mVisit(id); dPush(); } renderBoard(); renderYields(); renderPanels(true); snd("stamp"); setTimeout(() => { const p = $("[data-panel]:not([hidden])"); if (p) { countUp(p); spatter(p.querySelector(".cp-head .seal"), 16); } }, 90);
+function selectCity(id, fly = true) { const had = !!S.city; S.city = id; S.county = S.countyNext || (id === dHome() ? S.homeCounty || null : null); S.countyNext = null; S.board = null; S.dexp = null; S.dfix = false; if (BYID.has(id)) { mVisit(id); dPush(); } renderBoard(); renderYields(); renderPanels(true); snd("stamp"); setTimeout(() => { const p = $("[data-panel]:not([hidden])"); if (p) { countUp(p); spatter(p.querySelector(".cp-head .seal"), 16); } }, 90);
   for (const a of APPS.filter(x => x.cfg === DESK || x.cfg === PHONE)) { const keep = { ...a.view }; layout(a, true); a.view = keep; const c = BYID.get(id);
     if (a.cfg === DESK && fly) flyTo(a, prefFit(a, c) || viewOn(a, c, 2.4)); else if (a.cfg === PHONE) { a.view = { ...a.home }; full(a); } else full(a); } }
 function lensChange(id) { S.lens = id; dPush(true); renderLensDock(); snd("flip"); for (const a of APPS.filter(x => !x.cfg.lens)) { const anim = !RM(); if (anim) { const f = a.fade.getContext("2d"); f.setTransform(1, 0, 0, 1, 0, 0); f.clearRect(0, 0, a.fade.width, a.fade.height); f.drawImage(a.canvas, 0, 0); }
@@ -2237,7 +2243,7 @@ function bind() {
     else if (e.key.startsWith("Arrow")) { const d = { ArrowLeft: [st, 0], ArrowRight: [-st, 0], ArrowUp: [0, st], ArrowDown: [0, -st] }[e.key]; a.view = clampView(a, { ...a.view, ox: a.view.ox + d[0], oy: a.view.oy + d[1] }); frame(a); settle(a); e.preventDefault(); } });
   const inp = $("[data-search] input", a.root), pop = $("[data-search-pop]", a.root);
   const pvn = c => { const pv = PROVS.find(p => p.id === c.prov); return pv ? (EN() ? pv.en : pv.zh) : ""; };
-  const dRow = (c, on, label, sub, q) => `<button data-goto="${c.id}" data-dq="${escH(q || "")}" class="${on ? "on" : ""}"><img src="${TIER_IMG[c.tier]}" alt=""><b>${escH(label)}</b><em class="num">${fmtPopShort(c.popAny)}</em><span>${sub}</span></button>`;
+  const dRow = (c, on, label, sub, q, cty) => `<button data-goto="${c.id}"${cty ? ` data-dcty="${cty}"` : ""} data-dq="${escH(q || "")}" class="${on ? "on" : ""}"><img src="${TIER_IMG[c.tier]}" alt=""><b>${escH(label)}</b><em class="num">${fmtPopShort(c.popAny)}</em><span>${sub}</span></button>`;
   const doSearch = () => { const q = inp.value.trim(), ql = q.toLowerCase(); const fb = $("[data-search]", a.root).getBoundingClientRect(), rr = a.root.getBoundingClientRect(), k = 1440 / rr.width; pop.style.left = Math.min((fb.left - rr.left) * k, 1440 - 330) + "px";
     if (!q) { const fav = M.fav.map(id => BYID.get(id)).filter(Boolean).slice(0, 5), rec = M.recent.filter(id => !M.fav.includes(id)).map(id => BYID.get(id)).filter(Boolean).slice(0, 5);
       pop.innerHTML = (M.searches.length ? `<div class="sp-h">${ZH("最近搜过", "Recent searches")}<button class="sp-clr" data-dclr>${ZH("清空", "Clear")}</button></div><div class="sp-chips">${M.searches.slice(0, 6).map(x => `<button class="chip" data-dqfill="${escH(x)}">${escH(x)}</button>`).join("")}</div>` : "")
@@ -2246,18 +2252,18 @@ function bind() {
         + `<div class="sp-empty"><span>${ZH("中文、拼音（nanchong）、首字母（nc）、县名（阆中）都能搜", "Chinese, pinyin (nanchong), initials (nc) or a county (Langzhong)")}</span></div>`;
       pop.hidden = false; return; }
     const rows = SEARCH ? mFind(ql).map(r => [BYID.get(r[4]), r]).filter(x => x[0]) : CITIES.filter(c => c.n.includes(ql) || (c.en || "").toLowerCase().startsWith(ql)).map(c => [c, null]);
-    pop.innerHTML = rows.length ? rows.slice(0, 8).map(([c, r], i) => dRow(c, !i, r ? r[0] : cname(c), r && r[5] === "x" ? ZH(`属于 ${cname(c)} · ${pvn(c)}`, `in ${c.en || c.n} · ${pvn(c)}`) : `${EN() ? c.n : (c.en || "")} · ${pvn(c)}`, q)).join("")
+    pop.innerHTML = rows.length ? rows.slice(0, 8).map(([c, r], i) => dRow(c, !i, r ? r[0] : cname(c), r && r[5] === "x" ? ZH(`属于 ${cname(c)} · ${pvn(c)}`, `in ${c.en || c.n} · ${pvn(c)}`) : `${EN() ? c.n : (c.en || "")} · ${pvn(c)}`, q, r && r[5] === "x" ? (countiesOf(c).find(k => k[1] === r[0]) || [""])[0] : "")).join("")
       : `<div class="sp-empty"><b>${ZH(`没找到“${escH(q)}”`, `Nothing for “${escH(q)}”`)}</b><span>${ZH("试试拼音（nanchong）、首字母（nc）或县名（阆中）", "Try pinyin, initials or a county name")}</span></div>`;
     pop.hidden = false; };
   inp.addEventListener("input", doSearch); inp.addEventListener("focus", doSearch);
   inp.addEventListener("keydown", e => { const bs = [...pop.querySelectorAll("button[data-goto]")]; let i = bs.findIndex(x => x.classList.contains("on"));
     if ((e.key === "ArrowDown" || e.key === "ArrowUp") && bs.length) { e.preventDefault(); if (i >= 0) bs[i].classList.remove("on"); i = e.key === "ArrowDown" ? (i + 1) % bs.length : (i <= 0 ? bs.length - 1 : i - 1); bs[i].classList.add("on"); bs[i].scrollIntoView({ block: "nearest" }); }
-    if (e.key === "Enter") { const f = bs[i >= 0 ? i : 0]; if (f) { dSaveQ(inp.value); selectCity(f.dataset.goto); pop.hidden = true; inp.blur(); } }
+    if (e.key === "Enter") { const f = bs[i >= 0 ? i : 0]; if (f) { dSaveQ(inp.value); S.countyNext = f.dataset.dcty || null; selectCity(f.dataset.goto); pop.hidden = true; inp.blur(); } }
     if (e.key === "Escape") { pop.hidden = true; inp.blur(); } });
   pop.addEventListener("click", e => { const f = e.target.closest("[data-dqfill]"), cl = e.target.closest("[data-dclr]"), g = e.target.closest("[data-goto]");
     if (f) { inp.value = f.dataset.dqfill; doSearch(); inp.focus(); e.stopPropagation(); return; }
     if (cl) { M.searches = []; mSave(); doSearch(); inp.focus(); e.stopPropagation(); return; }
-    if (g && g.dataset.dq) dSaveQ(g.dataset.dq); });
+    if (g) S.countyNext = g.dataset.dcty || null; if (g && g.dataset.dq) dSaveQ(g.dataset.dq); });
   document.addEventListener("click", e => { if (!e.target.closest("[data-search], [data-search-pop]") || e.target.closest("[data-search-pop] button")) pop.hidden = true; });
   document.addEventListener("keydown", e => { if (e.key === "/" && document.activeElement.tagName !== "INPUT") { const r = a.root.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) { e.preventDefault(); inp.focus(); } } if (e.key === "Escape") { ALM = null; renderAlmanac(); S.board = null; renderBoard(); } });
   let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { scaleScreens(); for (const x of APPS) { layout(x, true); full(x); } drawLettering(); drawInkDemo(0); drawBannerSpec(); }, 250); });
@@ -2658,7 +2664,7 @@ Object.assign(YIELDS.food, { lab5: ["森林占比", "Forest share"], en5: "Green
 Object.assign(YIELDS.com, { lab5: ["三年人口增减", "3-yr change"], en5: "Momentum", fmt: v => FMTS.wan(v), short: v => sgn(v) + (EN() ? Math.round(Math.abs(v) / 1e3) + "K" : (Math.abs(v) / 1e4).toFixed(Math.abs(v) >= 1e5 ? 0 : 1) + "万") });
 for (const k of Object.keys(YIELDS)) { FMTS["y_" + k] = v => YIELDS[k].short(v); FMTS["yt_" + k] = v => YIELDS[k].fmt(v); }
 const NAT5 = { inc: 39218, incU: 51821, incR: 21691, pc: 89358, dpop: 1409670000 - 1411778724, forest: null };
-let FLOWS = null, CV = null, BUILT = null, TR = null, CVHL = null; const CVBOX = new Map(), CVPATH = new Map();
+let FLOWS = null, CV = null, BUILT = null, TR = null, CVHL = null; const CNT = new Map(); const CVBOX = new Map(), CVPATH = new Map();
 
 /* ---------- derived per-city numbers, ranks and pride ---------- */
 const PRIDE = [
@@ -3041,9 +3047,10 @@ function mPeekHTML() { const c = M.city && BYID.get(M.city);
       <button class="btn primary" data-mgo="${f.id}" style="height:44px;justify-content:center;border-radius:10px">${ZH("去看看 →", "Take a look →")}</button></div>`; }
   const hs = prideOf(c), h = hs[0], rr = rarity(c), mini = [["gold", c.month, ZH("每月可支配", "monthly")], ["ind", c.day, ZH("每天创造", "per day")], ["com", c.dpop, ZH("三年人口", "3-yr change")], ["food", c.forest, ZH("森林占比", "forest")], ["pop", c.popAny, ZH("常住人口", "people")]].filter(x => x[1] != null).slice(0, 3);
   return `<div class="m-handle" data-m="expand"></div><div class="m-sc">
-    <div class="m-head">${seal(c.n.slice(0, 2))}<div><b>${cname(c)}</b><span>${pvOf(c)} · ${kindOf(c)} · <span class="m-chip r${rr}">${ZH(...RAR[rr])}</span></span></div>${mFavBtn(c)}</div>
-    ${h ? `<div class="m-hon1"><span class="rk">${h.r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b>${h.r}</b>` : `<small>${ZH("全国前", "Top")}</small><b>${Math.max(1, Math.round(h.q * 100))}%</b>`}</span><div class="t"><b>${ZH(...h.m.lab)}</b><span>${h.m.ph(c)}</span></div></div>` : ""}
-    <div class="m-mini">${mini.map(([y, v, l]) => `<div>${medalSVG(y)}<b class="num">${v == null ? "—" : YIELDS[y].short(v)}</b><span>${l}</span></div>`).join("")}</div>
+    <div class="m-head">${seal(c.n.slice(0, 2))}<div><b>${cname(c)}</b><span>${pvOf(c)} · ${kindOf(c)}${plateOf(c) ? ` · <i class="plate">${plateOf(c)}</i>` : ""} · <span class="m-chip r${rr}">${ZH(...RAR[rr])}</span></span></div>${mFavBtn(c)}</div>
+    ${c.id === M.home ? helloHTML(c, M.homeCounty) + countyPickHTML(c, M.county, "data-mcounty", true) : M.county ? countyPickHTML(c, M.county, "data-mcounty", false) : ""}
+    ${c.id === M.home || M.county ? "" : h ? `<div class="m-hon1"><span class="rk">${h.r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b>${h.r}</b>` : `<small>${ZH("全国前", "Top")}</small><b>${Math.max(1, Math.round(h.q * 100))}%</b>`}</span><div class="t"><b>${ZH(...h.m.lab)}</b><span>${h.m.ph(c)}</span></div></div>` : ""}
+    ${c.id === M.home || M.county ? "" : `<div class="m-mini">${mini.map(([y, v, l]) => `<div>${medalSVG(y)}<b class="num">${v == null ? "—" : YIELDS[y].short(v)}</b><span>${l}</span></div>`).join("")}</div>`}
     <div class="m-acts"><button class="btn primary" data-m="expand">${ZH("看完整档案 ▲", "Full archive ▲")}</button><button class="btn" data-m="stamp">${seal("打卡", 20)}${AL.got.includes(c.id) ? ZH("已打卡", "Stamped") : ZH("打卡", "Stamp")}</button><button class="btn" data-m="topk">${icon("i-versus")}PK</button></div></div>`; }
 function mFullHTML() { const c = BYID.get(M.city); if (!c) return ""; const rr = rarity(c), km = c.coastKm;
   return `<div class="m-sc" style="padding-top:12px">
@@ -3105,10 +3112,10 @@ function mMeHTML() { const h = M.home && BYID.get(M.home); const days = ZH(["一
 function mOnboardHTML() { const q = M.q.trim().toLowerCase(), sub = new Map(), hits = !q ? [] : SEARCH ? mFind(q).filter(r => { if (sub.has(r[4])) return false; sub.set(r[4], r[5] === "x" ? r[0] : ""); return BYID.has(r[4]); }).slice(0, 6).map(r => BYID.get(r[4])) : CITIES.filter(x => x.n.includes(q) || (x.full || "").includes(q) || (x.en || "").toLowerCase().startsWith(q)).slice(0, 6);
   if (M.ob === 0) return `<div class="box"><span class="seal" style="--s:54px"><span>图鉴</span></span><div class="ttl">${ZH("你从哪儿来？", "Where are you from?")}</div><p class="sub">${ZH("选你的家乡，看看它在全国排第几", "Pick your hometown and see where it ranks")}</p>
     <label class="field">${icon("i-search")}<input data-mq value="${M.q.replace(/"/g, "&quot;")}" placeholder="${ZH("城市、县名或拼音，比如 阆中…", "City, county or pinyin…")}" aria-label="${ZH("搜索家乡", "Search hometown")}" autocomplete="off"></label>
-    ${hits.length ? `<div class="st-hits">${hits.map(x => `<button class="chip" data-mob="${x.id}">${tierImg(x)}${cname(x)}${sub.get(x.id) ? `<span class="note">${ZH(`含${sub.get(x.id)}`, `incl. ${sub.get(x.id)}`)}</span>` : ""}</button>`).join("")}</div>` : q ? `<p class="note" style="margin:0">${ZH("没找到，试试拼音或县名", "No match; try pinyin or a county")}</p>` : ""}
+    ${hits.length ? `<div class="st-hits">${hits.map(x => `<button class="chip" data-mob="${x.id}" data-mobc="${sub.get(x.id) || ""}">${tierImg(x)}${cname(x)}${sub.get(x.id) ? `<span class="note">${ZH(`含${sub.get(x.id)}`, `incl. ${sub.get(x.id)}`)}</span>` : ""}</button>`).join("")}</div>` : q ? `<p class="note" style="margin:0">${ZH("没找到，试试拼音或县名", "No match; try pinyin or a county")}</p>` : ""}
     <span class="eyebrow">${ZH("最近出圈的城", "Trending lately")}</span><div class="st-hits">${TREND.filter(id => BYID.has(id)).map(id => `<button class="chip" data-mob="${id}">${cname(BYID.get(id))}</button>`).join("")}</div>
     <span class="note">${ZH("不注册、不定位，随时可改", "No sign-up, no location; change any time")}</span><button class="btn ghost" data-m="skip-ob" style="height:44px">${ZH("先随便逛逛", "Just look around")}</button></div>`;
-  if (M.ob === 2) { const c = BYID.get(M.home); return `<div class="box"><span class="eyebrow">${ZH("你的家乡卡", "Your hometown card")}</span><div data-mobcard>${cardHTML(c, { cls: "deal flipped" })}</div>${prideHTML(c, 3, true)}<button class="btn primary" data-m="ob-done">${ZH("收下，开始逛 →", "Keep it and explore →")}</button><button class="btn ghost" data-m="share" style="height:44px">${icon("i-share")}${ZH("先晒一下", "Share it first")}</button></div>`; }
+  if (M.ob === 2) { const c = BYID.get(M.home); return `<div class="box">${helloHTML(c, M.homeCounty)}<span class="eyebrow">${ZH("你的家乡卡", "Your hometown card")}</span><div data-mobcard>${cardHTML(c, { cls: "deal flipped" })}</div>${prideHTML(c, 3, true)}<button class="btn primary" data-m="ob-done">${ZH("收下，开始逛 →", "Keep it and explore →")}</button><button class="btn ghost" data-m="share" style="height:44px">${icon("i-share")}${ZH("先晒一下", "Share it first")}</button></div>`; }
   return ""; }
 function mCoachHTML() { if (!M.coach) return ""; const steps = [
     { ring: [120, 300, 150, 150], tip: [60, 470, "up", 110], t: ZH("拖动地图，双指或 +/− 缩放", "Drag; pinch or +/− to zoom"), s: ZH("点任意城池，底部会弹出它的宝藏点", "Tap any town to see its hidden gems") },
@@ -3165,11 +3172,11 @@ function bindMobMap(a) { const cv = a.canvas; let drag = null, moved = 0, pinch 
     for (const h of a.hits) { if (!h.city) continue; if (h.rect) { const [rx, ry, rw, rh] = h.rect; if (X >= rx && X <= rx + rw && Y >= ry && Y <= ry + rh) { best = h; break; } continue; } const d = Math.hypot(h.x - X, h.y - Y); if (d < Math.max(h.r, 16 * a.u) && d < bd) { bd = d; best = h; } }
     if (best) { spatterAt(e.clientX, e.clientY, 12); mSelect(best.city.id); } });
   cv.addEventListener("wheel", e => { e.preventDefault(); const [x, y] = loc(e); zoomAt(a, x, y, Math.exp(-e.deltaY * .0016)); }, { passive: false }); }
-function mSelect(id, zoom = 2.6) { const c = BYID.get(id); if (!c) return; M.tab = M.tab === "album" ? "album" : "map"; M.city = id; M.sheet = "peek"; M.view = null; mVisit(id); renderMob("count"); mPush(); snd("pluck"); if (MAPP) flyTo(MAPP, prefFit(MAPP, c, 6.5, [8, 104, 374, 300]) || mTarget(c, zoom), RM() ? 0 : 700); }
+function mSelect(id, zoom = 2.6, county) { const c = BYID.get(id); if (!c) return; M.tab = M.tab === "album" ? "album" : "map"; M.city = id; M.county = county || (id === M.home ? M.homeCounty || null : null); M.sheet = "peek"; M.view = null; mVisit(id); renderMob("count"); mPush(); snd("pluck"); if (MAPP) flyTo(MAPP, prefFit(MAPP, c, 9, [8, 104, 374, 330]) || mTarget(c, zoom), RM() ? 0 : 700); }
 function mStamp() { const c = BYID.get(M.city); if (!c || AL.got.includes(c.id)) return; AL.got.push(c.id); AL.newest = c.id; AL.t0 = performance.now(); const before = new Set(AL.done); achs().forEach(a => { if (a.ids.every(id => AL.got.includes(id))) AL.done.add(a.id); });
   const un = [...AL.done].filter(x => !before.has(x)); snd("stamp"); spatter($("[data-m=stamp]"), 16); mTask("stamp"); renderMob(); full(MAPP); renderAlbum(); if (!un.length) setTimeout(() => mToast(`${seal("打卡")}<span>${ZH(`已打卡 ${c.n} · 共 ${AL.got.length} 城。下一步：拉它去 PK，或晒一晒`, `Stamped ${c.en} · ${AL.got.length} total. Next: PK it or share`)}</span>`, 3000), 500);
   if (un.length) { const A = achs().find(x => x.id === un[0]); setTimeout(() => { mToast(`${seal(A.seal)}<span>${ZH("成就达成 · ", "Achievement · ")}${ZH(A.zh, A.en)}</span>`); snd("win"); }, 600); } }
-function mObPick(id) { const c = BYID.get(id); if (!c) return; M.home = id; M.ob = 1; M.city = id; renderMob(); snd("pluck"); flyTo(MAPP, mTarget(c, 3), RM() ? 0 : 1300);
+function mObPick(id, cty) { const c = BYID.get(id); if (!c) return; const hit = cty && countiesOf(c).find(k => k[1] === cty); M.home = id; M.homeCounty = hit ? hit[0] : null; M.county = M.homeCounty; M.ob = 1; M.city = id; renderMob(); snd("pluck"); flyTo(MAPP, mTarget(c, 3), RM() ? 0 : 1300);
   setTimeout(() => { full(MAPP); const r = MAPP.canvas.getBoundingClientRect(), k = r.width / MAPP.canvas.width, v = MAPP.view; spatterAt(r.left + (v.ox + c.x * v.s) * k, r.top + (v.oy + c.y * v.s) * k - 20, 22); snd("stamp");
     mToast(`${seal("吾乡")}<span>${ZH(`已认 ${c.n} 为家乡 · 你是第 1,285 位`, `${c.en} is your hometown · No. 1,285`)}</span>`); setTimeout(() => { M.ob = 2; renderMob("card"); }, RM() ? 0 : 900); }, RM() ? 50 : 1400); }
 function initMob() { const el = $("[data-mmap]"); if (!el) return;
@@ -3178,8 +3185,8 @@ function initMob() { const el = $("[data-mmap]"); if (!el) return;
   bindMobMap(MAPP); mLoad();
   document.addEventListener("click", e => { const r = mRoot(); if (!r || (!r.contains(e.target) && !e.target.closest('[data-m="restart"]'))) return; const b = e.target.closest("[data-mtab],[data-m],[data-mgo],[data-mob],[data-m6pick],[data-m6pk]"); if (!b) return; const k = b.dataset.m;
     if (b.dataset.mtab) { M.tab = b.dataset.mtab; M.view = null; if (M.tab !== "map") M.sheet = "peek"; renderMob("count"); mPush(); snd("tick"); if (MAPP) { MAPP.hoverPref = -1; full(MAPP); } return; }
-    if (b.dataset.mgo) { M.tab = "map"; mSelect(b.dataset.mgo); return; }
-    if (b.dataset.mob) { mObPick(b.dataset.mob); return; }
+    if (b.dataset.mgo) { M.tab = "map"; mSelect(b.dataset.mgo, 2.6, b.dataset.mcty); return; }
+    if (b.dataset.mob) { mObPick(b.dataset.mob, b.dataset.mobc); return; }
     if (b.dataset.m6pick) { if (G6.picked != null) return; const q = G6.qs[G6.i], w = gwin(q), ok = b.dataset.m6pick === w; G6.picked = b.dataset.m6pick; G6.res[G6.i] = ok; G6.streak = ok ? G6.streak + 1 : 0; G6.best = Math.max(G6.best, G6.streak); snd("stamp"); renderMob("count"); setTimeout(() => { spatter($("[data-mview] .stampmark"), 18, ok ? "#b23a2b" : "#2b231d"); snd(ok ? "ok" : "no"); }, 250); return; }
     if (b.dataset.m6pk) { const [x, y] = b.dataset.m6pk.split(","); P6.a = x; P6.b = y; P6.step = -1; clearInterval(P6.timer); renderMob(); snd("flip"); return; }
     if (k === "expand") { M.sheet = "full"; renderMob("count"); mPush(); } else if (k === "collapse") { M.sheet = "peek"; renderMob(); mPush(); }
@@ -3191,9 +3198,9 @@ function initMob() { const el = $("[data-mmap]"); if (!el) return;
     else if (k === "swap-a" || k === "swap-b") { const pool = ["330100", "320100", "320500", "420100", "610100", "440300", "440100", "510100", "500000", "540400"]; const cur = k === "swap-a" ? P6.a : P6.b; const nx = pool[(pool.indexOf(cur) + 1) % pool.length]; if (k === "swap-a") P6.a = nx; else P6.b = nx; renderMob(); }
     else if (k === "draw") { const pool = CITIES.filter(c => !AL.got.includes(c.id) && rarity(c) >= 1); const c = pool[Math.floor(Math.random() * pool.length)]; M.tab = "map"; mSelect(c.id, 2.4); mToast(`${icon("i-dice", "")}<span>${ZH(`抽到 ${c.n} · ${RAR[rarity(c)][0]}卡`, `Drew ${c.en} · ${RAR[rarity(c)][1]}`)}</span>`); }
     else if (k === "tasks") { M.tab = "me"; renderMob(); mPush(); }
-    else if (k === "ob-done") { M.ob = 3; M.coach = 1; M.city = null; M.sheet = "peek"; renderMob(); if (MAPP) flyTo(MAPP, { ...MAPP.home }, 700); } else if (k === "skip-ob") { M.ob = 3; M.coach = 1; renderMob(); if (MAPP) flyTo(MAPP, { ...MAPP.home }, 500); }
+    else if (k === "ob-done") { M.ob = 3; M.coach = 1; M.sheet = "peek"; mSelect(M.home); } else if (k === "skip-ob") { M.ob = 3; M.coach = 1; renderMob(); if (MAPP) flyTo(MAPP, { ...MAPP.home }, 500); }
     else if (k === "coach-next") { M.coach = M.coach >= 3 ? 0 : M.coach + 1; renderMob(); }
-    else if (k === "onboard" || k === "restart") { Object.assign(M, { tab: "map", ob: 0, home: null, city: null, sheet: "peek", coach: 0, q: "", modal: null }); renderMob(); if (MAPP) flyTo(MAPP, { ...MAPP.home }, 600); } });
+    else if (k === "onboard" || k === "restart") { Object.assign(M, { tab: "map", ob: 0, home: null, homeCounty: null, county: null, city: null, sheet: "peek", coach: 0, q: "", modal: null }); renderMob(); if (MAPP) flyTo(MAPP, { ...MAPP.home }, 600); } });
   document.addEventListener("input", e => { if (e.target.matches && e.target.matches("[data-mq]")) { M.q = e.target.value; const pos = e.target.selectionStart; renderMob(); const i = $("[data-mq]"); if (i) { i.focus(); i.setSelectionRange(pos, pos); } } }); }
 function mZoom(f) { if (!MAPP) return; const W = MAPP.canvas.width, H = MAPP.canvas.height; zoomAt(MAPP, W / 2, H * .38, f); }
 document.addEventListener("click", e => { const b = e.target.closest("[data-mzoomb]"); if (b) mZoom(b.dataset.mzoomb === "in" ? 1.6 : 1 / 1.6); });
@@ -3224,7 +3231,7 @@ function renderScore() { const el = $("[data-mscore]"); if (!el) return; const i
 let SEARCH = null;
 Object.assign(M, { recent: [], fav: [], searches: [], lens: "none", year: 2023, view: null, rankK: "month", rankProv: "", rankAsc: false, exp: null, fix: null, wx: false, wxGuide: false, big: false, loaded: false });
 const MKEY = "jsatlas.mobile.v1";
-function mSave() { try { localStorage.setItem(MKEY, JSON.stringify({ recent: M.recent, fav: M.fav, searches: M.searches, home: M.home, big: M.big })); } catch (e) { } }
+function mSave() { try { localStorage.setItem(MKEY, JSON.stringify({ recent: M.recent, fav: M.fav, searches: M.searches, home: M.home, homeCounty: M.homeCounty || null, big: M.big })); } catch (e) { } }
 function mLoad() { try { const d = JSON.parse(localStorage.getItem(MKEY) || "null"); if (d) { Object.assign(M, { recent: d.recent || [], fav: d.fav || [], searches: d.searches || [], big: !!d.big }); } } catch (e) { } }
 function mVisit(id) { M.recent = [id, ...M.recent.filter(x => x !== id)].slice(0, 12); mSave(); }
 /* ---- search: Chinese, pinyin, initials, counties → their city ---- */
@@ -3235,7 +3242,7 @@ function mFind(q) { q = q.trim().toLowerCase(); if (!q || !SEARCH) return []; co
   out.sort((a, b) => a[0] - b[0] || (rec.has(b[1][4]) - rec.has(a[1][4])) || pop(b[1]) - pop(a[1]) || a[1][0].length - b[1][0].length);
   return out.filter(([, r]) => { const k = r[0] + r[4]; if (seen.has(k)) return false; seen.add(k); return true; }).slice(0, 12).map(([, r]) => r); }
 function mSearchHTML() { const res = mFind(M.q), q = M.q.trim();
-  const row = r => { const c = BYID.get(r[4]); return c ? `<button class="m-res" data-mgo="${c.id}" data-mq-save="${q}">${tierImg(c)}<span><b>${r[0]}</b><small>${r[5] === "x" ? ZH(`属于 ${c.n} · ${pvOf(c)}`, `in ${c.en} · ${pvOf(c)}`) : pvOf(c)}</small></span>${M.fav.includes(c.id) ? `<em>⭐</em>` : ""}</button>` : ""; };
+  const row = r => { const c = BYID.get(r[4]); return c ? `<button class="m-res" data-mgo="${c.id}"${r[5] === "x" ? ` data-mcty="${(countiesOf(c).find(k => k[1] === r[0]) || [""])[0]}"` : ""} data-mq-save="${q}">${tierImg(c)}<span><b>${r[0]}</b><small>${r[5] === "x" ? ZH(`属于 ${c.n} · ${pvOf(c)}`, `in ${c.en} · ${pvOf(c)}`) : pvOf(c)}</small></span>${M.fav.includes(c.id) ? `<em>⭐</em>` : ""}</button>` : ""; };
   return `<div class="m-srch"><div class="m-srch-bar"><button class="btn icon ghost" data-m="back" aria-label="${ZH("返回", "Back")}" style="width:44px;height:44px">${icon("i-chev", "")}</button><label class="field">${icon("i-search")}<input data-mq2 value="${q.replace(/"/g, "&quot;")}" placeholder="${ZH("城市、区县、拼音或首字母…", "City, county or pinyin…")}" aria-label="${ZH("搜索", "Search")}" autocomplete="off" inputmode="search"></label></div>
     ${q ? (res.length ? `<div class="m-reslist">${res.map(row).join("")}</div>` : `<div class="m-empty"><b>${ZH(`没找到“${q}”`, `Nothing for “${q}”`)}</b><span>${ZH("试试拼音（nanchong）、首字母（nc）或县名（阆中）", "Try pinyin, initials or a county name")}</span></div>`)
       : `${M.searches.length ? `<div class="m-sec"><h4>${ZH("最近搜过", "Recent searches")}<small><button class="btn ghost" data-m="clear-searches" style="height:28px;padding:0 6px">${ZH("清空", "Clear")}</button></small></h4><div class="st-hits">${M.searches.map(s => `<button class="chip" data-mq-fill="${s}">${icon("i-search")}${s}</button>`).join("")}</div></div>` : ""}
@@ -3338,12 +3345,35 @@ function cvUnder(app, ctx, u, v, z, sel) {
         cvRoof(ctx, px, py, G * v.s * (.62 + .42 * fill), dense >= 7 && fill > .8, ((b[0] * 7) | 0) ^ ((b[1] * 13) | 0)); } ctx.restore(); } }
   if (!sel) return; const pa = CVPATH.get(sel); if (!pa) return; const W = app.canvas.width, H = app.canvas.height, m = new DOMMatrix([v.s, 0, 0, v.s, v.ox, v.oy]); cvLines(app, ctx, u, v, z, null);
   const mask = new Path2D(); mask.rect(0, 0, W, H); mask.addPath(pa, m); ctx.save(); ctx.fillStyle = "rgba(240,231,210,.58)"; ctx.fill(mask, "evenodd"); ctx.restore();
-  const outline = new Path2D(); outline.addPath(pa, m); ctx.save(); ctx.lineJoin = "round"; ctx.strokeStyle = "rgba(201,162,74,.45)"; ctx.lineWidth = 7 * u; ctx.stroke(outline); ctx.shadowColor = "rgba(178,58,43,.55)"; ctx.shadowBlur = 10 * u; ctx.strokeStyle = "#b23a2b"; ctx.lineWidth = 1.8 * u; ctx.stroke(outline); ctx.restore(); if (CVHL && CVHL.city === sel) cvLines(app, ctx, u, v, z, CVHL.i); }
+  const outline = new Path2D(); outline.addPath(pa, m); ctx.save(); ctx.lineJoin = "round"; ctx.strokeStyle = "rgba(201,162,74,.45)"; ctx.lineWidth = 7 * u; ctx.stroke(outline); ctx.shadowColor = "rgba(178,58,43,.55)"; ctx.shadowBlur = 10 * u; ctx.strokeStyle = "#b23a2b"; ctx.lineWidth = 1.8 * u; ctx.stroke(outline); ctx.restore(); cvCounties(app, ctx, u, v, sel); if (CVHL && CVHL.city === sel) cvLines(app, ctx, u, v, z, CVHL.i); }
 function cvRoof(ctx, x, y, w, tall, seed) { const r = rng(seed), h = w * (tall ? .62 : .42), ry = y - h * .5, lift = w * .1;
   ctx.fillStyle = "rgba(43,35,29,.16)"; ctx.fillRect(x - w * .44, y + h * .5 - w * .04, w * .92, w * .08);
   ctx.fillStyle = "#efe6d2"; ctx.fillRect(x - w * .36, ry + w * .1, w * .72, h + w * .02 - w * .1); ctx.fillStyle = "#8a3a2c"; ctx.fillRect(x - w * .07, y + h * .5 - w * .2, w * .14, w * .2);
   const eave = (yy, ww) => { ctx.beginPath(); ctx.moveTo(x - ww * .56, yy - lift); ctx.quadraticCurveTo(x - ww * .4, yy, x - ww * .3, yy - ww * .02); ctx.lineTo(x - ww * .2, yy - ww * .3); ctx.lineTo(x + ww * .2, yy - ww * .3); ctx.lineTo(x + ww * .3, yy - ww * .02); ctx.quadraticCurveTo(x + ww * .4, yy, x + ww * .56, yy - lift); ctx.lineTo(x + ww * .5, yy + ww * .05); ctx.lineTo(x - ww * .5, yy + ww * .05); ctx.closePath(); ctx.fill(); };
   ctx.fillStyle = r() < .5 ? "#4a4036" : "#545a5c"; eave(ry + w * .12, w); if (tall) { ctx.fillStyle = "#efe6d2"; ctx.fillRect(x - w * .22, ry - w * .3, w * .44, w * .2); ctx.fillStyle = "#4a4036"; eave(ry - w * .26, w * .66); } }
+/* ---------- 到家卡：车牌问候、家乡精确到县（用户 2026-11-27 选定：到县、只放官方有据的、越精简越好） ---------- */
+const plateOf = c => (CV && CV.plates && CV.plates[c.id]) || "";
+const countiesOf = c => (CV && CV.counties && CV.counties[c.id]) || [];
+const countyRow = (c, code) => code ? countiesOf(c).find(r => r[0] === code) || null : null;
+const countyName = r => EN() ? r[5] || r[1] : r[1];
+const dHome = () => (typeof M !== "undefined" && M.home) || V4.home;
+/* the greeting: the county once one is picked, else the plate everyone from the city knows, else the city's name */
+function helloHTML(c, code) { const r = countyRow(c, code), pl = plateOf(c), who = r ? countyName(r) : pl || cname(c);
+  return `<div class="hello"><span><b>${who}</b>${ZH("，到家了。", " — you're home.")}</span>${r ? `<small>${cname(c)}${pl ? " · " + pl : ""}</small>` : ""}</div>`; }
+function countyPickHTML(c, code, attr, ask) { const cs = countiesOf(c); if (!cs.length) return "";
+  return `<div class="where"><span>${ask ? ZH(`你是${c.n}哪里的？`, `Which part of ${c.en || c.n}?`) : ZH("下辖区县", "Counties")}</span><div class="cty">${[...cs].sort((a, b) => (b[0] === code) - (a[0] === code)).map(r => `<button class="chip${r[0] === code ? " on" : ""}" ${attr}="${r[0]}" aria-pressed="${r[0] === code}">${countyName(r)}</button>`).join("")}</div></div>`; }
+/* county outlines: one small file per province, fetched the first time a city of that province is opened */
+function cntGet(cid) { const pp = cid.slice(0, 2), e = CNT.get(pp); if (e) return e.d ? e.d.get(cid) || null : null; const rec = { d: null }; CNT.set(pp, rec);
+  fetch(`data/counties/${pp}.json`).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(j => { const d = new Map(); for (const [id, cs] of Object.entries(j)) { const m = new Map(); for (const [code, rings] of Object.entries(cs)) { const pa = new Path2D();
+        for (const q of rings) { let x = q[0], y = q[1]; pa.moveTo(x / 10, y / 10); for (let i = 2; i < q.length; i += 2) { x += q[i]; y += q[i + 1]; pa.lineTo(x / 10, y / 10); } pa.closePath(); } m.set(code, pa); } d.set(id, m); } rec.d = d; APPS.forEach(a => a.view && frame(a)); }).catch(() => { rec.d = new Map(); });
+  return null; }
+function cvCounties(app, ctx, u, v, sel) { const d = cntGet(sel); if (!d) return; const m = new DOMMatrix([v.s, 0, 0, v.s, v.ox, v.oy]), all = new Path2D(); for (const pa of d.values()) all.addPath(pa, m);
+  ctx.save(); ctx.lineJoin = "round"; ctx.strokeStyle = "rgba(43,35,29,.3)"; ctx.lineWidth = .8 * u; ctx.setLineDash([3 * u, 3 * u]); ctx.stroke(all);
+  const code = app === MAPP ? M.county : S.county, pa = code && d.get(code); if (pa) { const one = new Path2D(); one.addPath(pa, m); ctx.setLineDash([]); ctx.fillStyle = "rgba(178,58,43,.13)"; ctx.fill(one); ctx.strokeStyle = "#b23a2b"; ctx.lineWidth = 2 * u; ctx.stroke(one); }
+  ctx.restore(); }
+document.addEventListener("click", e => { const b = e.target.closest("[data-mcounty],[data-dcounty]"); if (!b) return; const mob = b.dataset.mcounty != null, code = mob ? b.dataset.mcounty : b.dataset.dcounty, st = mob ? M : S, cid = mob ? M.city : S.city, c = BYID.get(cid); if (!c) return;
+  const home = cid === (mob ? M.home : dHome()); st.county = st.county === code && !home ? null : code; if (home) { st.homeCounty = st.homeCounty === code ? null : code; st.county = st.homeCounty; if (mob) mSave(); }
+  if (mob) renderMob(); else renderPanels(false); const app = mob ? MAPP : APPS[0]; if (app && app.view) { if (app.zoom() < 2.1) flyTo(app, prefFit(app, c, mob ? 9 : 6.5, mob ? [8, 104, 374, 330] : undefined) || viewOn(app, c, 2.4)); else frame(app); } snd("stamp"); });
 /* ---------- 城市视图的铁路与高速（OpenStreetMap，用户 2026-11-27 选定） ---------- */
 function trLoad() { fetch("data/transport.json").then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => { TR = trIndex(d); APPS.forEach(a => a.view && frame(a)); if (S.city) renderPanels(false); if (M.city && M.sheet === "full") renderMob(); }).catch(e => { TR = e === 404 ? "pending" : false; if (S.city) renderPanels(false); }); }
 function trIndex(d) { d.L = d.lines.map(r => { const n = (r.length - 1) / 2, pts = new Float32Array(n * 2); let x = r[1], y = r[2], b = [1e9, 1e9, -1e9, -1e9];
@@ -3383,15 +3413,16 @@ function linksHTML(c) { if (TR === null) return `<p class="note">${ZH("线路加
   return `<div class="cv-sites">${rows.join("")}</div><p class="note" style="margin:6px 0 0">${EN() ? TR.source.en : TR.source.zh}</p>`; }
 document.addEventListener("click", e => { const b = e.target.closest("[data-cvline]"); if (!b) return; const i = +b.dataset.cvline, inMob = b.closest(".m-app"), cid = inMob ? M.city : S.city, c = BYID.get(cid), app = inMob ? MAPP : APPS[0]; if (!c || !app) return;
   CVHL = CVHL && CVHL.i === i && CVHL.city === cid ? null : { i, city: cid }; $$("[data-cvline]").forEach(x => { const on = !!CVHL && +x.dataset.cvline === CVHL.i; x.classList.toggle("on", on); x.setAttribute("aria-pressed", on); });
-  if (inMob && M.sheet === "full") { M.sheet = "peek"; renderMob(); } if (app.zoom() < 2.1) flyTo(app, prefFit(app, c, 6.5, inMob ? [8, 104, 374, 300] : undefined) || viewOn(app, c, 2.4)); else APPS.forEach(a => a.view && frame(a)); snd("pluck"); });
+  if (inMob && M.sheet === "full") { M.sheet = "peek"; renderMob(); } if (app.zoom() < 2.1) flyTo(app, prefFit(app, c, inMob ? 9 : 6.5, inMob ? [8, 104, 374, 330] : undefined) || viewOn(app, c, 2.4)); else APPS.forEach(a => a.view && frame(a)); snd("pluck"); });
 /* over the banners: county seats and the city's sites as seal badges, kept clear of each other */
 function cvOver(app, ctx, u, v, z, sel, Lb, tu) { if (!CV) return; const c = BYID.get(sel); if (!c) return;
   const cs = (CV.counties || {})[sel] || [], st = (CV.sites || {})[sel] || [];
   ctx.save(); ctx.textBaseline = "middle";
-  for (const [code, nm, , x, y, en] of cs) { const [px, py] = toPx(v, x, y); if (Math.hypot(px - toPx(v, c.x, c.y)[0], py - toPx(v, c.x, c.y)[1]) < 16 * u) continue; ctx.font = `600 ${11 * tu}px "Noto Serif SC", serif`;
-    const label = EN() ? (en || nm) : nm, w = ctx.measureText(label).width, box = [px - 3 * u, py - 7 * tu, w + 10 * u, 14 * tu]; if (!Lb.free(box)) continue; Lb.add(box);
+  const pick = app === MAPP ? M.county : S.county;
+  for (const [code, nm, , x, y, en] of [...cs].sort((a, b) => (b[0] === pick) - (a[0] === pick))) { const [px, py] = toPx(v, x, y), on = code === pick; if (on) ctx.font = `700 ${12.5 * tu}px "Noto Serif SC", serif`; if (Math.hypot(px - toPx(v, c.x, c.y)[0], py - toPx(v, c.x, c.y)[1]) < 16 * u) continue; if (!on) ctx.font = `600 ${11 * tu}px "Noto Serif SC", serif`;
+    const label = EN() ? (en || nm) : nm, w = ctx.measureText(label).width, box = [px - 3 * u, py - 7 * tu, w + 10 * u, 14 * tu]; if (!on && !Lb.free(box)) continue; Lb.add(box);
     ctx.fillStyle = "#6b5040"; ctx.beginPath(); ctx.arc(px, py, 2.4 * u, 0, 7); ctx.fill(); ctx.strokeStyle = "#f6efe0"; ctx.lineWidth = 1 * u; ctx.stroke();
-    ctx.textAlign = "left"; haloText(ctx, label, px + 5 * u, py, "#4a3628", "rgba(246,239,224,.9)", 3 * tu); }
+    ctx.textAlign = "left"; haloText(ctx, label, px + 5 * u, py, on ? "#b23a2b" : "#4a3628", "rgba(246,239,224,.92)", 3 * tu); }
   for (const [kind, zh, x, y, , , en] of st) { const k = CVK[cvKind(kind)]; if (!k) continue; const nm = EN() && en ? cvShort(en) : zh, [px, py] = toPx(v, x, y), r = 8 * tu; ctx.font = `600 ${11 * tu}px "Noto Serif SC", serif`;
     const w = ctx.measureText(nm).width, box = [px - r, py - r, r * 2 + w + 8 * u, r * 2]; if (!Lb.free(box)) { if (!Lb.free([px - r, py - r, r * 2, r * 2])) continue; Lb.add([px - r, py - r, r * 2, r * 2]); cvBadge(ctx, px, py, r, k, tu); continue; } Lb.add(box);
     cvBadge(ctx, px, py, r, k, tu); ctx.textAlign = "left"; haloText(ctx, nm, px + r + 4 * u, py, "#2b231d", "rgba(246,239,224,.92)", 3 * tu); }
@@ -3427,8 +3458,8 @@ function countiesHTML(c) { const cs = (CV && CV.counties && CV.counties[c.id]) |
   const kinds = { 区: 0, 县: 0, 市: 0, 旗: 0 }; for (const [, nm] of cs) { const k = nm.endsWith("区") ? "区" : nm.endsWith("旗") ? "旗" : nm.endsWith("市") ? "市" : "县"; kinds[k]++; }
   const EK = { 区: ["district", "districts"], 县: ["county", "counties"], 市: ["county-level city", "county-level cities"], 旗: ["banner", "banners"] }, parts = Object.entries(kinds).filter(([, n]) => n);
   const sum = ZH(parts.map(([k, n]) => `${n} 个${k}`).join("、"), parts.map(([k, n]) => `${n} ${EK[k][n > 1 ? 1 : 0]}`).join(", "));
-  return `<p class="note" style="margin:0 0 6px">${ZH(`下辖 ${sum}`, `Governs ${sum}`)}</p><div class="st-hits">${cs.map(([code, nm, , x, y, en]) => `<button class="chip" data-cvgo="${x},${y}">${EN() ? en || nm : nm}</button>`).join("")}</div>`; }
-document.addEventListener("click", e => { const b = e.target.closest("[data-cvgo]"); if (!b) return; const [x, y] = b.dataset.cvgo.split(",").map(Number); const inMob = b.closest(".m-app"), app = inMob ? MAPP : APPS[0]; if (!app) return;
+  return `<p class="note" style="margin:0 0 6px">${ZH(`下辖 ${sum}`, `Governs ${sum}`)}</p><div class="st-hits">${cs.map(([code, nm, , x, y, en]) => `<button class="chip" data-cvgo="${x},${y}" data-cvc="${code}">${EN() ? en || nm : nm}</button>`).join("")}</div>`; }
+document.addEventListener("click", e => { const b = e.target.closest("[data-cvgo]"); if (!b) return; const [x, y] = b.dataset.cvgo.split(",").map(Number); const inMob = b.closest(".m-app"), app = inMob ? MAPP : APPS[0]; if (!app) return; if (b.dataset.cvc) (inMob ? M : S).county = b.dataset.cvc;
   if (inMob && M.sheet === "full") { M.sheet = "peek"; renderMob(); } const a = app.cfg.area(), u = app.u, s = Math.max(app.view.s, app.home.s * 5.2), cx = (a[0] + a[2] / 2) * u, cy = (a[1] + a[3] / 2) * u; flyTo(app, { s, ox: cx - x * s, oy: cy - y * s }); snd("pluck"); });
 /* ================= 中英双语：按地点 + 浏览器语言自动选，自己选过就记住 ================= */
 const LANGKEY = "jsatlas.lang";
