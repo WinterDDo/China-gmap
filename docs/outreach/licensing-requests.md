@@ -2,12 +2,13 @@
 
 由项目负责人本人发出。方括号处请替换；发出前请核对收件地址。
 
-| 收件方 | 地址 | 依据 |
+| 收件方 | 地址 | 状态 |
 |---|---|---|
-| CBDB 项目负责人 Hongsu Wang | hongsuwang@fas.harvard.edu | CBDB 官网首页公布 |
-| CHGIS | **待核对**：官网 chgis.fas.harvard.edu 的 Contact 页；旧元数据中有 mberman@fas.harvard.edu（约 2007 年，可能已失效） | 搜索未找到当前官方邮箱 |
+| CBDB 项目负责人 Hongsu Wang | hongsuwang@fas.harvard.edu（CBDB 官网首页公布） | 2026-11-27 已发送；收到空白自动回复 |
+| CHGIS · 包弼德（Peter K. Bol） | pkbol@fas.harvard.edu | 2026-11-27 已发送；自动回复：12 月 10 日前回复会延迟 |
+| CHGIS 项目邮箱 | chgis@fas.harvard.edu（抄送复旦历史地理研究中心 ichg@fudan.edu.cn），见 chgis.fas.harvard.edu/pages/contact | Gmail 草稿已备好，是否加发由项目负责人决定 |
 
-建议两封都用英文发送（附上中文版本作为补充）。附件用本目录下的 `preview-1-map.png`（全国地图）、`preview-2-zoomed.png`（放大后的城市旗标与城市卷）、`preview-3-pictograms.png`（五赋、城池、奇观图形）。不需要项目链接；有了公测版也可以再补发链接。
+建议两封都用英文发送（附上中文版本作为补充）。附件用本目录下的 `preview-1-map.jpg`（全国地图）、`preview-2-zoomed.jpg`（放大后的城市旗标与城市卷）、`preview-3-pictograms.jpg`（五赋、城池、奇观图形），是同名 PNG 的压缩版（合计约 1 MB）。不需要项目链接；有了公测版也可以再补发链接。
 
 ---
 

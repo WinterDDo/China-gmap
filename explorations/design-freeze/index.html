@@ -329,6 +329,321 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .tablewrap { overflow-x: auto; }
 @media (max-width: 860px) { .grid2, .grid3, .ilist { grid-template-columns: minmax(0, 1fr); } .yieldspec { grid-template-columns: repeat(3, minmax(0, 1fr)); } .scale, .type-row { grid-template-columns: minmax(0, 1fr); gap: 6px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* ============================================================================================
+   第 4 版 · new screens. Same tokens, same motifs; nothing new is invented except the 示意 tag
+   (hatch = not real data, the same meaning hatch already has for "no data").
+   ============================================================================================ */
+.toc { display: flex; flex-wrap: wrap; gap: 6px; }
+.toc a { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px 0 5px; border: 1px solid var(--rule-strong); border-radius: 2px; color: var(--ink); text-decoration: none; font-size: var(--fs-2); background: var(--leaf); }
+.toc a:hover { background: var(--accent-soft); }
+.toc a .seal { --s: 20px; }
+.toc a .seal > span { font-size: 8px; }
+.toc a.new { border-color: rgba(178,58,43,.55); }
+.toc a.new::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.newtag { align-self: center; font: 600 10px/1 var(--sans); letter-spacing: .14em; color: var(--accent); border: 1px solid var(--accent); border-radius: 2px; padding: 4px 6px; }
+.shi { display: inline-flex; align-items: center; gap: 4px; height: 19px; padding: 0 6px; border: 1px solid var(--rule-strong); border-radius: 2px; background: var(--hatch), var(--leaf); font: 500 10.5px/1 var(--sans); color: var(--ink-2); white-space: nowrap; vertical-align: middle; letter-spacing: .02em; }
+.pend { background: var(--hatch) !important; border: 1px dashed var(--rule-strong); color: var(--ink-3); }
+.frames { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; justify-content: center; }
+.frames > figure { margin: 0; display: grid; gap: 8px; }
+.frames figcaption { text-align: center; font-size: var(--fs-2); color: var(--ink-3); }
+.frame { position: relative; width: 100%; overflow: hidden; border-radius: 3px; border: 1px solid var(--rule-strong); background: var(--ground); box-shadow: 0 24px 50px -28px rgba(0,0,0,.45); }
+.frame > .screen { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.mapbox { position: absolute; overflow: hidden; }
+.mapbox canvas.map { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; }
+.mapbox canvas.fade { pointer-events: none; }
+
+/* top bar with the five modes */
+.nav { display: flex; align-self: stretch; margin-left: 8px; }
+.nav button { display: flex; align-items: center; gap: 6px; padding: 0 12px; border: 0; background: transparent; color: var(--ink-2); font: 500 var(--fs-3)/1 var(--sans); cursor: pointer; position: relative; white-space: nowrap; }
+.nav button:hover { color: var(--ink); background: var(--accent-soft); }
+.nav button[aria-current="true"] { color: var(--ink); font-weight: 700; }
+.nav button[aria-current="true"]::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 7px; height: 2px; background: var(--accent); }
+.homebtn { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 10px 0 4px; border: 1px solid var(--rule-strong); border-radius: 2px; background: transparent; color: var(--ink); font: 500 var(--fs-2)/1 var(--sans); cursor: pointer; flex: none; white-space: nowrap; }
+.homebtn .seal { --s: 24px; }
+.homebtn .seal > span { font-size: 10px; }
+.topbar .field.v4 { width: 200px; }
+
+/* shared blocks inside new screens */
+.panel { border: 1px solid var(--rule); border-radius: 2px; padding: 14px 16px; background: var(--leaf-raise); display: grid; gap: 10px; align-content: start; min-width: 0; }
+.panel h4 { margin: 0; font: 600 var(--fs-4)/1.3 var(--serif); display: flex; align-items: center; gap: 8px; }
+.panel h4 small { font: 400 var(--fs-1)/1 var(--sans); color: var(--ink-3); margin-left: auto; }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.kpi { background: var(--leaf-sunk); border-radius: 2px; padding: 10px 12px; display: grid; gap: 4px; min-width: 0; }
+.kpi .k { font-size: var(--fs-1); color: var(--ink-3); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.kpi .v { font: 600 22px/1.15 var(--serif); white-space: nowrap; }
+.kpi .s { font-size: var(--fs-1); color: var(--ink-3); }
+.hbar { height: 8px; border-radius: 1px; background: var(--leaf-sunk); overflow: hidden; }
+.hbar i { display: block; height: 100%; }
+.stack { display: flex; height: 16px; border-radius: 1px; overflow: hidden; gap: 2px; }
+.stack span { display: block; height: 100%; }
+.lc-legend { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px 10px; font-size: var(--fs-2); }
+.lc-legend div { display: flex; align-items: center; gap: 6px; }
+.lc-legend i { width: 14px; height: 10px; border: 1px solid var(--rule); border-radius: 1px; display: block; flex: none; }
+.lc-legend b { font: 600 var(--fs-3)/1 var(--serif); margin-left: auto; }
+.prov { display: grid; gap: 6px; font-size: var(--fs-2); }
+.prov .row { display: grid; grid-template-columns: 120px 1fr; gap: 10px; border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.prov .row span:first-child { color: var(--ink-3); }
+.prov code { font: 400 11px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ink-2); word-break: break-all; }
+
+/* 叁 · 城市档案 */
+.arc { position: absolute; left: 0; right: 0; top: 48px; bottom: 0; display: grid; grid-template-columns: 372px minmax(0, 1fr); gap: 14px; padding: 14px; }
+.arc-side { display: flex; flex-direction: column; overflow: hidden; }
+.arc-loc { position: relative; height: 290px; margin: 0 16px; border: 1px solid var(--rule); background: var(--water); }
+.arc-loc .mapbox { inset: 0; }
+.arc-side .cp-yields { margin: 14px 16px 0; }
+.arc-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 14px 16px; }
+.arc-actions .btn { justify-content: center; }
+.arc-actions .wide { grid-column: span 2; height: 40px; font-size: var(--fs-3); }
+.arc-main { display: flex; flex-direction: column; overflow: hidden; }
+.tabs { display: flex; border-bottom: 1px solid var(--rule-strong); padding: 0 14px; flex: none; }
+.tabs button { display: flex; align-items: center; gap: 7px; height: 54px; padding: 0 16px; border: 0; background: transparent; color: var(--ink-3); font: 600 var(--fs-4)/1 var(--serif); cursor: pointer; position: relative; }
+.tabs button:hover { color: var(--ink); }
+.tabs button .ic { width: 18px; height: 18px; }
+.tabs button[aria-selected="true"] { color: var(--ink); }
+.tabs button[aria-selected="true"]::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: -1px; height: 3px; background: var(--accent); }
+.tabs .tab-note { margin-left: auto; align-self: center; }
+.arc-body { flex: 1; overflow-y: auto; padding: 18px 22px 22px; display: grid; gap: 14px; align-content: start; grid-template-columns: repeat(12, minmax(0, 1fr)); }
+.arc-body > * { grid-column: span 12; }
+.arc-body > .s4 { grid-column: span 4; } .arc-body > .s5 { grid-column: span 5; } .arc-body > .s6 { grid-column: span 6; } .arc-body > .s7 { grid-column: span 7; } .arc-body > .s8 { grid-column: span 8; }
+.series { display: grid; grid-template-columns: 96px repeat(6, minmax(0, 1fr)); gap: 4px 8px; align-items: end; }
+.series .lab { font-size: var(--fs-2); color: var(--ink-2); display: flex; gap: 6px; align-items: center; align-self: center; white-space: nowrap; }
+.series .cell { height: 92px; display: flex; flex-direction: column; justify-content: flex-end; align-items: stretch; gap: 3px; }
+.series .cell b { font: 600 11.5px/1 var(--serif); text-align: center; white-space: nowrap; }
+.series .cell i { display: block; border-radius: 1px 1px 0 0; }
+.series .cell.pend i { background: var(--hatch); border: 1px dashed var(--rule-strong); border-bottom: 0; height: 26px; }
+.series .cell.pend b { font: 400 10px/1.1 var(--sans); color: var(--ink-3); }
+.series .yr { text-align: center; font-size: var(--fs-1); color: var(--ink-3); border-top: 1px solid var(--rule-strong); padding-top: 4px; }
+.series .yr.now { color: var(--accent); font-weight: 700; }
+.cmp { display: grid; grid-template-columns: 110px repeat(3, minmax(0, 1fr)); gap: 6px 14px; align-items: center; font-size: var(--fs-2); }
+.cmp .h { font-size: var(--fs-1); color: var(--ink-3); }
+.cmp .nm { display: flex; align-items: center; gap: 6px; font: 600 var(--fs-3)/1.2 var(--serif); }
+.cmp .nm img { width: 26px; height: 18px; object-fit: contain; }
+.cmp .me { color: var(--accent); }
+.cmp .bv { display: grid; gap: 3px; }
+.cmp .bv span { font: 600 12px/1 var(--serif); }
+.cmp .bv .hbar { height: 6px; }
+.tenure { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 8px 12px; align-items: center; font-size: var(--fs-2); }
+.tenure .axis { grid-column: 2; display: flex; justify-content: space-between; font-size: var(--fs-1); color: var(--ink-3); border-bottom: 1px solid var(--rule-strong); padding-bottom: 3px; }
+.tenure .track { position: relative; height: 26px; background: var(--leaf-sunk); border-radius: 1px; }
+.tenure .seg { position: absolute; top: 3px; bottom: 3px; border-radius: 1px; display: flex; align-items: center; padding: 0 6px; font: 500 10.5px/1 var(--sans); color: #f6efe0; white-space: nowrap; overflow: hidden; border-right: 2px solid var(--leaf-raise); }
+.tenure .now { position: absolute; top: -4px; bottom: -4px; width: 0; border-left: 1.5px solid var(--accent); }
+.redlines { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; font-size: var(--fs-2); color: var(--ink-2); }
+.yg { display: grid; gap: 0; }
+.yg .it { display: grid; grid-template-columns: 54px 16px minmax(0, 1fr); gap: 0 12px; align-items: start; }
+.yg .dy { font: 400 17px/1.25 var(--brush); color: var(--ink); text-align: right; padding-top: 2px; }
+.yg .dot { position: relative; align-self: stretch; }
+.yg .dot::before { content: ""; position: absolute; left: 7px; top: 0; bottom: 0; border-left: 1.5px solid var(--rule-strong); }
+.yg .dot::after { content: ""; position: absolute; left: 3px; top: 9px; width: 9px; height: 9px; background: var(--leaf-raise); border: 1.5px solid var(--ink-2); border-radius: 50%; }
+.yg .it.cur .dot::after { background: var(--accent); border-color: var(--accent); }
+.yg .tx { padding: 2px 0 14px; display: grid; gap: 2px; }
+.yg .tx b { font: 600 var(--fs-4)/1.3 var(--serif); }
+.yg .tx b em { font: 400 var(--fs-1)/1 var(--sans); color: var(--ink-3); font-style: normal; margin-left: 8px; }
+.yg .tx span { font-size: var(--fs-2); color: var(--ink-2); }
+.people { display: grid; gap: 8px; }
+.person { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px 10px; border: 1px solid var(--rule); border-radius: 2px; background: var(--leaf); }
+.person .seal { --s: 34px; }
+.person b { font: 600 var(--fs-3)/1.25 var(--serif); }
+.person span { font-size: var(--fs-1); color: var(--ink-3); }
+
+/* 肆 · 城市对决 */
+.duel { position: absolute; left: 0; right: 0; top: 48px; bottom: 0; display: grid; grid-template-columns: minmax(0, 1fr) 452px; gap: 14px; padding: 14px; }
+.duel-board { display: flex; flex-direction: column; overflow: hidden; }
+.duel-head { display: grid; grid-template-columns: 190px repeat(3, minmax(0, 1fr)) 120px; border-bottom: 1px solid var(--rule-strong); }
+.duel-head > div { padding: 14px 14px 12px; border-left: 1px solid var(--rule); display: grid; gap: 4px; align-content: start; position: relative; }
+.duel-head > div:first-child { border-left: 0; align-content: end; }
+.duel-head .who { display: flex; align-items: center; gap: 10px; }
+.duel-head .who .seal { --s: 42px; }
+.duel-head .who b { font: 900 24px/1.1 var(--serif); display: block; }
+.duel-head .who span { font-size: var(--fs-1); color: var(--ink-3); }
+.duel-head .tally { display: flex; gap: 3px; align-items: center; margin-top: 6px; min-height: 18px; font-size: var(--fs-1); color: var(--ink-3); }
+.duel-head .tally .seal { --s: 16px; }
+.duel-head .tally .seal > span { font-size: 9px; }
+.duel-head .x { position: absolute; right: 6px; top: 6px; }
+.duel-head .add { display: grid; place-items: center; gap: 6px; color: var(--ink-3); font-size: var(--fs-2); border: 1px dashed var(--rule-strong); margin: 10px; border-radius: 2px; cursor: pointer; background: transparent; }
+.duel-head .ord { position: absolute; left: 14px; top: -1px; height: 4px; width: 46px; }
+.duel-rows { overflow-y: auto; flex: 1; }
+.drow { display: grid; grid-template-columns: 190px repeat(3, minmax(0, 1fr)) 120px; border-bottom: 1px solid var(--rule); align-items: center; min-height: 54px; }
+.drow > div { padding: 8px 14px; border-left: 1px solid var(--rule); display: grid; gap: 5px; min-width: 0; }
+.drow > div:first-child { border-left: 0; display: flex; align-items: center; gap: 8px; font: 600 var(--fs-3)/1.25 var(--serif); }
+.drow > div:first-child small { display: block; font: 400 var(--fs-1)/1.2 var(--sans); color: var(--ink-3); }
+.drow .val { display: flex; align-items: center; gap: 6px; font: 600 var(--fs-4)/1 var(--serif); white-space: nowrap; }
+.drow .val .seal { --s: 18px; }
+.drow .val .seal > span { font-size: 9px; }
+.drow .hbar { height: 7px; }
+.drow.lead-row > div.lead { background: rgba(178,58,43,.06); }
+.drow .pendcell { height: 22px; border-radius: 2px; display: flex; align-items: center; padding: 0 8px; font-size: var(--fs-1); }
+.duel-side { display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
+.duel-map { position: relative; flex: 1; overflow: hidden; }
+.duel-map .mapbox { inset: 0; }
+.duel-cta { padding: 14px 16px; display: grid; gap: 10px; }
+.duel-cta .row-gap .btn { flex: 1; justify-content: center; }
+
+/* 伍 · 分享长卷 */
+.card9 { position: absolute; inset: 0; background: var(--leaf); display: flex; flex-direction: column; }
+.card9::before { content: ""; position: absolute; inset: 8px; border: 1px solid var(--rule-strong); pointer-events: none; z-index: 3; }
+.card9::after { content: ""; position: absolute; inset: 12px; border: 1px solid var(--rule); pointer-events: none; z-index: 3; }
+.card9 .ttl { padding: 26px 26px 0; display: flex; align-items: flex-start; gap: 12px; }
+.card9 .ttl .big { font: 400 64px/1 var(--brush); }
+.card9 .ttl .seal { --s: 46px; margin-top: 8px; }
+.card9 .ttl .meta { font: 600 12px/1.5 var(--serif); color: var(--ink-2); margin-top: 10px; }
+.card9 .ttl .meta i { display: block; font: 400 10px/1.4 var(--sans); font-style: normal; color: var(--ink-3); letter-spacing: .12em; }
+.card9 .m { position: relative; height: 250px; margin: 14px 22px 0; border: 1px solid var(--rule); }
+.card9 .m .mapbox { inset: 0; }
+.card9 .ys { display: grid; grid-template-columns: repeat(5, 1fr); margin: 12px 22px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.card9 .ys div { display: grid; justify-items: center; gap: 3px; padding: 8px 0; border-left: 1px solid var(--rule); }
+.card9 .ys div:first-child { border-left: 0; }
+.card9 .ys b { font: 600 12px/1 var(--serif); white-space: nowrap; }
+.card9 .facts { margin: 10px 26px 0; display: grid; gap: 5px; font-size: 12px; }
+.card9 .facts div { display: flex; justify-content: space-between; border-bottom: 1px dotted var(--rule-strong); padding-bottom: 4px; }
+.card9 .facts b { font: 600 13px/1.2 var(--serif); }
+.card9 .foot { margin-top: auto; padding: 0 24px 24px; display: flex; align-items: flex-end; gap: 10px; }
+.card9 .foot .wordmark b { font-size: 18px; }
+.card9 .foot .wordmark i { font-size: 7px; }
+.card9 .foot .src { border: 0; padding: 0; font-size: 9px; line-height: 1.4; flex: 1; }
+.qr { width: 52px; height: 52px; flex: none; border: 1px solid var(--rule-strong); background: var(--hatch); display: grid; place-items: center; font: 500 8px/1.2 var(--sans); color: var(--ink-3); text-align: center; }
+.card16 { position: absolute; inset: 0; background: var(--leaf); display: grid; grid-template-columns: 1fr 236px; }
+.card16::before { content: ""; position: absolute; inset: 6px; border: 1px solid var(--rule-strong); pointer-events: none; z-index: 3; }
+.card16 .l { padding: 22px 10px 16px 24px; display: flex; flex-direction: column; gap: 10px; }
+.card16 .l .t { font: 400 30px/1 var(--brush); }
+.card16 .l .t small { font: 600 11px/1 var(--serif); color: var(--ink-3); margin-left: 8px; }
+.card16 .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.card16 .cols > div { border-top: 3px solid var(--ink); padding-top: 6px; display: grid; gap: 3px; }
+.card16 .cols b { font: 900 16px/1.1 var(--serif); display: flex; align-items: center; gap: 4px; }
+.card16 .cols span { font-size: 10.5px; color: var(--ink-2); display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.card16 .cols .seal { --s: 14px; } .card16 .cols .seal > span { font-size: 8px; }
+.card16 .r { position: relative; margin: 10px 10px 10px 0; border: 1px solid var(--rule); }
+.card16 .r .mapbox { inset: 0; }
+.card16 .ft { margin-top: auto; display: flex; align-items: center; gap: 8px; font-size: 9px; color: var(--ink-3); }
+.card16 .ft .seal { --s: 22px; } .card16 .ft .seal > span { font-size: 9px; }
+.poster { position: absolute; inset: 0; background: var(--leaf); }
+.poster::before { content: ""; position: absolute; inset: 10px; border: 1.5px solid var(--ink); pointer-events: none; z-index: 3; }
+.poster::after { content: ""; position: absolute; inset: 15px; border: 1px solid var(--rule-strong); pointer-events: none; z-index: 3; }
+.poster .mapbox { left: 15px; right: 15px; top: 96px; height: 650px; }
+.poster .ph { position: absolute; left: 34px; right: 34px; top: 30px; display: flex; align-items: center; gap: 12px; z-index: 2; }
+.poster .ph b { font: 400 34px/1 var(--brush); white-space: nowrap; }
+.poster .ph span { font: 600 12px/1.4 var(--serif); color: var(--ink-2); }
+.poster .ph .seal { --s: 40px; margin-left: auto; }
+.poster .pcol { position: absolute; left: 34px; top: 120px; z-index: 2; display: flex; gap: 6px; }
+.poster .pcol b { writing-mode: vertical-rl; font: 400 24px/1.1 var(--brush); letter-spacing: .08em; }
+.poster .pcol span { writing-mode: vertical-rl; font: 400 11px/1.5 var(--serif); color: var(--ink-2); }
+.poster .pl { position: absolute; left: 34px; right: 34px; bottom: 30px; z-index: 2; display: grid; grid-template-columns: 220px 1fr auto; gap: 18px; align-items: end; }
+.poster .pl .legend { gap: 4px; }
+.poster .pl .src { border: 0; padding: 0; font-size: 9.5px; line-height: 1.45; }
+.poster .pl .wordmark b { font-size: 20px; }
+.poster .pl .wordmark i { font-size: 7.5px; }
+
+/* 陆 · 钤印认乡 */
+.zhubi { font-family: var(--brush); color: var(--accent); }
+.p-sheet.tall { height: 376px; }
+.xiang { margin: 0 16px; display: grid; grid-template-columns: 96px 1fr; gap: 14px; align-items: center; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--leaf-raise); position: relative; }
+.xiang .slot { width: 96px; height: 96px; display: grid; place-items: center; border: 1.5px dashed rgba(178,58,43,.5); border-radius: 2px; position: relative; }
+.xiang .slot .seal { --s: 80px; }
+.xiang .slot .seal > span { font-size: 32px; }
+.xiang .slot .ghost { font: 400 15px/1.3 var(--brush); color: rgba(178,58,43,.55); writing-mode: vertical-rl; letter-spacing: .2em; }
+.xiang .txt { display: grid; gap: 6px; }
+.xiang .count { font: 400 22px/1.2 var(--brush); color: var(--accent); transform: rotate(-1.2deg); transform-origin: left; }
+.xiang .count small { font-size: 14px; }
+.xiang .today { font: 400 15px/1.2 var(--brush); color: var(--accent); opacity: .85; }
+.xiang .btn.primary { justify-content: center; height: 38px; font-size: var(--fs-3); }
+.disclaim { margin: 0 16px; font-size: 10.5px; color: var(--ink-3); display: flex; gap: 6px; align-items: flex-start; line-height: 1.5; }
+.p-row { margin: 0 16px; display: flex; align-items: center; gap: 8px; }
+.p-row .field { flex: 1; height: 36px; }
+.p-row .btn { height: 36px; }
+.dest { margin: 0 16px; display: grid; gap: 7px; }
+.dest .d { display: grid; grid-template-columns: 52px minmax(0, 1fr) 44px; gap: 10px; align-items: center; font-size: var(--fs-2); }
+.dest .d b { font: 600 var(--fs-3)/1 var(--serif); }
+.dest .d .hbar { height: 8px; }
+.dest .d .hbar i { background: rgba(178,58,43,.75); }
+.dest .d em { font: 400 15px/1 var(--brush); color: var(--accent); font-style: normal; text-align: right; }
+.sharecard { position: absolute; left: 22px; right: 22px; top: 120px; bottom: 120px; background: var(--leaf); border: 1px solid var(--rule-strong); box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; padding: 26px 20px 18px; gap: 12px; }
+.sharecard::before { content: ""; position: absolute; inset: 4px; border: 1px solid var(--rule); pointer-events: none; }
+.sharecard .seal { --s: 112px; }
+.sharecard .seal > span { font-size: 44px; }
+.sharecard .line { font: 400 26px/1.3 var(--brush); color: var(--ink); text-align: center; }
+.sharecard .line b { color: var(--accent); font-weight: 400; }
+.sharecard .m { position: relative; width: 100%; height: 250px; border: 1px solid var(--rule); }
+.sharecard .m .mapbox { inset: 0; }
+.sharecard .foot { margin-top: auto; width: 100%; display: flex; align-items: flex-end; gap: 10px; font-size: 9.5px; color: var(--ink-3); }
+.sharecard .foot .wordmark b { font-size: 17px; } .sharecard .foot .wordmark i { font-size: 7px; }
+.sharebar { position: absolute; left: 0; right: 0; bottom: 0; height: 104px; background: var(--leaf-raise); border-top: 1px solid var(--rule-strong); display: flex; justify-content: space-around; align-items: center; padding-bottom: 18px; }
+.sharebar div { display: grid; justify-items: center; gap: 4px; font-size: 10.5px; color: var(--ink-2); }
+.sharebar i { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--rule-strong); display: grid; place-items: center; background: var(--leaf); }
+
+/* 柒 · 古今同图 */
+.gj-side { position: absolute; left: 14px; top: 62px; bottom: 14px; width: 380px; z-index: 4; display: flex; flex-direction: column; overflow: hidden; }
+.gj-side .cp-head .seal { --s: 54px; }
+.gj-list { overflow-y: auto; flex: 1; padding: 4px 12px 12px; display: grid; gap: 0; align-content: start; }
+.gj-list button { display: grid; grid-template-columns: 44px 22px minmax(0, 1fr); gap: 0 10px; align-items: center; text-align: left; border: 0; background: transparent; padding: 5px 6px; border-radius: 2px; cursor: pointer; color: var(--ink); font: inherit; }
+.gj-list button:hover { background: var(--accent-soft); }
+.gj-list button .yr { font: 600 12.5px/1 var(--serif); color: var(--ink-2); text-align: right; }
+.gj-list button .no { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--accent); color: var(--accent); display: grid; place-items: center; font: 700 10.5px/1 var(--serif); background: var(--leaf-raise); }
+.gj-list button.done .no { background: var(--accent); color: var(--accent-ink); }
+.gj-list button.cur { background: rgba(178,58,43,.08); }
+.gj-list button b { font: 600 var(--fs-3)/1.25 var(--serif); }
+.gj-list button span { display: block; font-size: var(--fs-1); color: var(--ink-3); }
+.gj-ctl { display: flex; gap: 8px; padding: 10px 16px 14px; border-top: 1px solid var(--rule); align-items: center; }
+.gj-time { position: absolute; left: 410px; right: 16px; top: 64px; z-index: 4; padding: 10px 16px 12px; display: grid; gap: 6px; }
+.gj-time .ticks { display: grid; grid-template-columns: repeat(13, 1fr); gap: 0; align-items: end; text-align: center; }
+.gj-time .ticks button { border: 0; background: transparent; cursor: pointer; display: grid; justify-items: center; gap: 4px; padding: 0; color: var(--ink-3); font: 400 15px/1 var(--brush); }
+.gj-time .ticks button i { width: 1px; height: 8px; background: var(--rule-strong); display: block; }
+.gj-time .ticks button[aria-pressed="true"] { color: var(--accent); }
+.gj-time .ticks button[aria-pressed="true"] i { width: 12px; height: 12px; border-radius: 2px; background: var(--accent); }
+.gj-time .rail { height: 3px; background: var(--rule); border-radius: 2px; position: relative; }
+.gj-time .rail b { position: absolute; top: 0; bottom: 0; background: var(--accent); border-radius: 2px; }
+.gj-time .cap { display: flex; justify-content: space-between; font-size: var(--fs-1); color: var(--ink-3); }
+
+/* 捌 · 治理层 */
+.gov-side { position: absolute; right: 14px; top: 62px; bottom: 14px; width: 452px; z-index: 4; display: flex; flex-direction: column; overflow: hidden; }
+.gov-side .body { overflow-y: auto; padding: 4px 18px 18px; display: grid; gap: 14px; align-content: start; }
+.switch { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--rule-strong); border-radius: 2px; height: 32px; padding: 0 10px 0 6px; background: var(--leaf); cursor: pointer; font: 500 var(--fs-2)/1 var(--sans); color: var(--ink); }
+.switch i { width: 30px; height: 16px; border-radius: 8px; background: var(--rule-strong); position: relative; display: block; transition: background .2s var(--ease); }
+.switch i::after { content: ""; position: absolute; left: 2px; top: 2px; width: 12px; height: 12px; border-radius: 50%; background: var(--leaf-raise); transition: transform .2s var(--ease); }
+.switch[aria-pressed="true"] i { background: var(--accent); }
+.switch[aria-pressed="true"] i::after { transform: translateX(14px); }
+.gov-tools { position: absolute; left: 16px; top: 62px; z-index: 4; display: flex; gap: 8px; align-items: center; }
+.gov-legend { position: absolute; left: 16px; bottom: 16px; z-index: 4; padding: 12px 14px; width: 300px; display: grid; gap: 8px; font-size: var(--fs-2); }
+.gov-legend .ln { display: flex; align-items: center; gap: 8px; }
+.gov-legend svg { width: 44px; height: 12px; flex: none; }
+.off-state { display: grid; place-items: center; gap: 10px; padding: 40px 10px; text-align: center; color: var(--ink-3); }
+
+/* 玖 · 时间轴与年报 */
+.tl-bar { position: absolute; left: 50%; transform: translateX(-50%); bottom: 18px; z-index: 4; padding: 10px 16px; display: flex; align-items: center; gap: 14px; }
+.tl-years { display: flex; gap: 0; align-items: flex-start; }
+.tl-years button { width: 86px; border: 0; background: transparent; display: grid; justify-items: center; gap: 5px; cursor: pointer; color: var(--ink-2); padding: 0; position: relative; }
+.tl-years button::before { content: ""; position: absolute; top: 15px; left: 0; right: 0; height: 2px; background: var(--rule-strong); z-index: -1; }
+.tl-years button:first-child::before { left: 50%; } .tl-years button:last-child::before { right: 50%; }
+.tl-years .dot { width: 30px; height: 30px; border-radius: 2px; display: grid; place-items: center; font: 600 11px/1 var(--serif); border: 1.5px solid var(--ink-2); background: var(--leaf-raise); }
+.tl-years .dot.pend { border-style: dashed; color: var(--ink-3); }
+.tl-years button[aria-pressed="true"] .dot { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.tl-years b { font: 600 var(--fs-3)/1 var(--serif); }
+.tl-years span { font-size: 10px; color: var(--ink-3); }
+.ar-side { position: absolute; right: 14px; top: 62px; bottom: 14px; width: 360px; z-index: 4; display: flex; flex-direction: column; overflow: hidden; }
+.ar-side .body { overflow-y: auto; padding: 4px 16px 16px; display: grid; gap: 12px; align-content: start; }
+.rk-list { display: grid; gap: 6px; }
+.rk-list div { display: grid; grid-template-columns: 22px 28px minmax(0, 1fr) 54px; gap: 8px; align-items: center; font-size: var(--fs-2); }
+.rk-list .no { font: 700 11px/1 var(--serif); width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; color: #f6efe0; background: var(--ink-3); }
+.rk-list img { width: 28px; height: 18px; object-fit: contain; }
+.rk-list b { font: 600 var(--fs-3)/1.2 var(--serif); }
+.rk-list em { font: 600 var(--fs-3)/1 var(--serif); font-style: normal; text-align: right; }
+.club { display: flex; flex-wrap: wrap; gap: 6px; }
+.club .plaque { height: 24px; font-size: 12px; }
+.club .plaque .pop { font-size: 10px; }
+.ar-side .leadline { font: 400 20px/1.35 var(--brush); }
+.ar-side .leadline b { color: var(--accent); font-weight: 400; }
+.plaque .pop { position: static; z-index: auto; }
+.app[data-app="desk"] .nav .ic { display: none; }
+.app[data-app="desk"] .nav button { padding: 0 8px; }
+.app[data-app="desk"] .nav { margin-left: 0; }
+.app[data-app="desk"] .yield { padding: 0 6px; }
+.app[data-app="desk"] .turn { margin-left: 2px; }
+.app[data-app="desk"] .topbar { gap: 10px; }
+.app[data-app="desk"] .topbar .field { width: 124px; }
+.app[data-app="desk"] .topbar .field kbd { display: none; }
+#s-xiang .phones > div { width: min(350px, 100%); }
+.ar-side .rk-list { gap: 4px; }
+.ar-side .leadline { font-size: 18px; }
+
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" id="sprite">
@@ -349,6 +664,17 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   <symbol id="i-mountain" viewBox="0 0 20 20"><path d="m2 16 5.5-8.5 3 4.5 2.5-3.5 5 7.5z"/></symbol>
   <symbol id="i-wonder" viewBox="0 0 20 20"><path d="M3 17h14M5 17v-6h10v6M4 11l6-5 6 5M8 17v-3h4v3M10 6V3"/></symbol>
   <symbol id="i-res" viewBox="0 0 20 20"><path d="m10 3 6 4v6l-6 4-6-4V7z"/><path d="M10 3v14M4 7l6 4 6-4"/></symbol>
+  <symbol id="i-map" viewBox="0 0 20 20"><path d="M3 5.5 7.5 4l5 1.5L17 4v10.5L12.5 16l-5-1.5L3 16z"/><path d="M7.5 4v10.5M12.5 5.5V16"/></symbol>
+  <symbol id="i-scroll" viewBox="0 0 20 20"><rect x="5" y="3.5" width="10" height="13" rx="1"/><path d="M3 4h14M3 16h14M8 7.5h4M8 10.5h4M8 13.5h2.5"/></symbol>
+  <symbol id="i-versus" viewBox="0 0 20 20"><path d="M10 3.5v13M6.5 16.5h7M4 6h12"/><path d="M4 6 2 11h4zM16 6l-2 5h4z"/></symbol>
+  <symbol id="i-history" viewBox="0 0 20 20"><path d="M5 3h10M5 17h10M6 3c0 4.5 8 3.8 8 7s-8 2.5-8 7M14 3c0 4.5-8 3.8-8 7s8 2.5 8 7"/></symbol>
+  <symbol id="i-gov" viewBox="0 0 20 20"><path d="M3 7.5 10 3l7 4.5M4 7.5h12M5.5 8.5v6M8.5 8.5v6M11.5 8.5v6M14.5 8.5v6M3 16.5h14"/></symbol>
+  <symbol id="i-home" viewBox="0 0 20 20"><path d="M3.5 9 10 3.5 16.5 9M5.5 8v8.5h9V8"/><path d="M8.5 16.5v-4h3v4"/></symbol>
+  <symbol id="i-people" viewBox="0 0 20 20"><circle cx="7.5" cy="7" r="2.5"/><path d="M3 16c.3-3 2.2-4.8 4.5-4.8S11.7 13 12 16"/><circle cx="13.5" cy="6.5" r="2"/><path d="M13 11c2.2 0 3.7 1.6 4 4.3"/></symbol>
+  <symbol id="i-play" viewBox="0 0 20 20"><path d="M7 4.5 15.5 10 7 15.5z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 20 20"><path d="M7 4.5v11M13 4.5v11"/></symbol>
+  <symbol id="i-link" viewBox="0 0 20 20"><path d="M8.5 11.5l3-3M7.2 9.3l-1.8 1.8a2.6 2.6 0 0 0 3.6 3.6l1.8-1.8M12.8 10.7l1.8-1.8A2.6 2.6 0 0 0 11 5.3L9.2 7.1"/></symbol>
+  <symbol id="i-download" viewBox="0 0 20 20"><path d="M10 3.5v9.5M6.5 9.5 10 13l3.5-3.5M4 16.5h12"/></symbol>
 </svg>
 
 <div class="doc">
@@ -357,9 +683,10 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
       <div class="brand-lock"><span class="seal"><span>图鉴</span></span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div>
       <div class="seg" role="group" aria-label="语言"><button data-set-lang="zh" aria-pressed="true">中</button><button data-set-lang="en" aria-pressed="false">EN</button></div>
     </div>
-    <div class="eyebrow">设计定稿 · 第 3 版 · 待确认</div>
+    <div class="eyebrow">设计定稿 · 第 4 版 · 待确认</div>
     <h1>千里江山，做成一张能玩的地图</h1>
-    <p class="lede">风格已确认为“千里江山”。这一版加入了原版最好玩的两样东西：<b>游戏式的交互</b>（拖动、缩放、飞到城市、钤印、排行榜）和<b>图标优先</b>（五赋徽章、城池图形、奇观图画、透镜图标），文字只作补充。下面的桌面原型可以直接上手玩，所有数据都是真实的。</p>
+    <p class="lede" data-lede>第 4 版在第 3 版（已确认的千里江山风格、游戏式交互、图标优先）之上，按新的产品定义加了七个画面：<b>城市档案、城市对决、分享长卷、钤印认乡、古今同图、治理层、时间轴与年报</b>，顶栏也多了五个模式。真实数据照常使用；还没采集或还没拿到许可的内容，一律用斜线底的「示意」小签标出。</p>
+    <nav class="toc" data-toc aria-label="目录"></nav>
   </header>
 
   <section class="sec" id="s-desk">
@@ -368,6 +695,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
       <canvas class="map grab" tabindex="0" aria-label="地图"></canvas><canvas class="map fade" style="opacity:0"></canvas>
       <header class="topbar">
         <div class="brand-lock"><span class="seal"><span>图鉴</span></span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div>
+        <nav class="nav" data-v4nav="map"></nav>
         <div class="yields" data-yields></div>
         <span class="turn" data-turn></span>
         <div class="spacer"></div>
@@ -402,8 +730,105 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
     </div></div></div><div class="phone-cap" data-t="phoneCap">底部抽屉：上滑展开完整城市卷</div></div></div>
   </section>
 
+
+  <section class="sec" id="s-archive">
+    <div class="sec-head"><span class="seal"><span>叁</span></span><h2 data-t="secArc">城市档案</h2><span class="newtag">NEW</span><span class="sub" data-t="secArcSub">每城一页，可被搜索到；六个分页，可直接点</span></div>
+    <div class="device desk"><div class="screen"><div class="app" data-app="arc">
+      <header class="topbar" data-v4top="arc"></header>
+      <div class="arc">
+        <aside class="leaf arc-side"><div data-arc-head></div><div class="arc-loc"><div class="mapbox" data-map="arc"><canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas></div></div><div data-arc-yields></div><div class="arc-actions" data-arc-actions></div></aside>
+        <main class="leaf arc-main"><nav class="tabs" data-arc-tabs role="tablist"></nav><div class="arc-body" data-arc-body></div></main>
+      </div>
+    </div></div></div>
+    <p class="note" data-t="arcNote">概况、城区、比较三页全部是真实数据（2023 年公报、七普、ESA WorldCover、高程）。市民页的收入与房价是第 2 期采集的位置；治理、沿革两页的人名与年份为示意，用斜线底的“示意”标注。</p>
+  </section>
+
+  <section class="sec" id="s-duel">
+    <div class="sec-head"><span class="seal"><span>肆</span></span><h2 data-t="secDuel">城市对决</h2><span class="newtag">NEW</span><span class="sub" data-t="secDuelSub">2–5 城并排；每行领先者钤“冠”字小印，顶部计分</span></div>
+    <div class="device desk"><div class="screen"><div class="app" data-app="duel">
+      <header class="topbar" data-v4top="duel"></header>
+      <div class="duel">
+        <section class="leaf duel-board"><div class="duel-head" data-duel-head></div><div class="duel-rows" data-duel-rows></div></section>
+        <aside class="duel-side">
+          <div class="leaf duel-map"><div class="mapbox" data-map="duel"><canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas></div></div>
+          <div class="leaf duel-cta" data-duel-cta></div>
+        </aside>
+      </div>
+    </div></div></div>
+    <p class="note" data-t="duelNote">点城市旁的 × 可移除，点“加一城”可从搜索加入（原型里循环加入几个示例城市）。对决链接可分享，打开即是同一组城市。</p>
+  </section>
+
+  <section class="sec" id="s-share">
+    <div class="sec-head"><span class="seal"><span>伍</span></span><h2 data-t="secShare">分享长卷</h2><span class="newtag">NEW</span><span class="sub" data-t="secShareSub">一键出图：竖版城市卡、横版对决卡、A3 海报</span></div>
+    <div class="frames">
+      <figure style="width:min(300px,100%)"><div class="frame" style="aspect-ratio:360/640"><div class="screen" style="width:360px;height:640px"><div class="card9"><div data-c9-top style="display:contents"></div><div class="m"><div class="mapbox" data-map="c9"><canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas></div></div><div data-c9-bottom style="display:contents"></div></div></div></div><figcaption data-t="cap9">竖版 · 1080×1920 · 朋友圈、小红书</figcaption></figure>
+      <figure style="width:min(560px,100%)"><div class="frame" style="aspect-ratio:600/315"><div class="screen" style="width:600px;height:315px"><div class="card16"><div class="l" data-c16></div><div class="r"><div class="mapbox" data-map="c16"><canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas></div></div></div></div></div><figcaption data-t="cap16">横版 · 1200×630 · 微博、公众号头图、链接预览</figcaption>
+        <div class="frame" style="aspect-ratio:594/840;width:min(380px,100%);margin:16px auto 0"><div class="screen" style="width:594px;height:840px"><div class="poster"><div class="mapbox" data-map="poster"><canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas></div><div data-poster style="display:contents"></div></div></div></div><figcaption data-t="capA3">A3 海报 · 297×420 mm · 300 dpi 矢量文字 · 可打印</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="sec" id="s-xiang">
+    <div class="sec-head"><span class="seal"><span>陆</span></span><h2 data-t="secXiang">钤印认乡</h2><span class="newtag">NEW</span><span class="sub" data-t="secXiangSub">认家乡、老乡数、老乡在哪儿；访客标注一律用朱笔</span></div>
+    <div class="phones">
+      <div><div class="phone"><div class="screen"><div class="app" data-app="x1">
+        <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
+        <header class="p-top" data-ptop></header>
+        <section class="leaf p-sheet tall" data-x1></section>
+      </div></div></div><div class="phone-cap" data-t="capX1">① 认家乡：点按钮钤“吾乡”印（可点）</div></div>
+      <div><div class="phone"><div class="screen"><div class="app" data-app="x2">
+        <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
+        <header class="p-top" data-ptop></header>
+        <section class="leaf p-sheet" data-x2></section>
+      </div></div></div><div class="phone-cap" data-t="capX2">② 老乡在哪儿：家乡 → 现居的朱笔流线</div></div>
+      <div><div class="phone"><div class="screen"><div class="app" data-app="x3" style="background:#d9cfb7">
+        <header class="p-top" data-ptop></header>
+        <div class="sharecard"><div data-x3a style="display:contents"></div><div class="m"><div class="mapbox" data-map="x3"><canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas></div></div><div data-x3b style="display:contents"></div></div>
+        <div class="sharebar" data-sharebar></div>
+      </div></div></div><div class="phone-cap" data-t="capX3">③ 钤印之后：生成“我为家乡钤印”分享卡</div></div>
+    </div>
+    <div class="grid3">
+      <div class="leaf card"><h3 data-t="xr1">与官方数据严格分开</h3><p class="cap" data-t="xr1c">访客标注一律朱笔手写体，旁注“本站访客自愿标注，非官方统计”；统计数字一律印刷体。两者从不混在同一个数字里。</p></div>
+      <div class="leaf card"><h3 data-t="xr2">不收集个人信息</h3><p class="cap" data-t="xr2c">不注册、不取定位。只存一座家乡城、可选一座现居城，以及浏览器本地生成的随机编号（防重复计数）。不开放留言。</p></div>
+      <div class="leaf card"><h3 data-t="xr3">小数字保护与冷启动</h3><p class="cap" data-t="xr3c">某城人数不足 10 位时显示“不足 10 位”，流线也不画；第一位来访者看到“你是第一位在此钤印的××人”。</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="s-gujin">
+    <div class="sec-head"><span class="seal"><span>柒</span></span><h2 data-t="secGujin">古今同图</h2><span class="newtag">NEW</span><span class="sub" data-t="secGujinSub">人物行迹画在今天的地图上；朝代时间轴</span></div>
+    <div class="device desk"><div class="screen"><div class="app" data-app="gj">
+      <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
+      <header class="topbar" data-v4top="gj"></header>
+      <aside class="leaf gj-side" data-gj-side></aside>
+      <div class="leaf gj-time" data-gj-time></div>
+    </div></div></div>
+    <p class="note" data-t="gjNote">点“播放行迹”看朱笔一站站画过去；点左侧任一站可跳到那一年。行迹按今地级市治所示意，正式版人物取自 CBDB；古代政区边界待 CHGIS 许可，未获许可前只用治所点与文字沿革。</p>
+  </section>
+
+  <section class="sec" id="s-gov">
+    <div class="sec-head"><span class="seal"><span>捌</span></span><h2 data-t="secGov">治理层</h2><span class="newtag">NEW</span><span class="sub" data-t="secGovSub">可整层关闭；只用官方公开来源；守七条红线</span></div>
+    <div class="device desk"><div class="screen"><div class="app" data-app="gov">
+      <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
+      <header class="topbar" data-v4top="gov"></header>
+      <div class="gov-tools" data-gov-tools></div>
+      <div class="leaf gov-legend" data-gov-legend></div>
+      <aside class="leaf gov-side" data-gov-side></aside>
+    </div></div></div>
+    <p class="note" data-t="govNote">本页所有人名、任期与流向均为示意，不对应任何真实人物。开关在左上角，可试着关掉。</p>
+  </section>
+
+  <section class="sec" id="s-time">
+    <div class="sec-head"><span class="seal"><span>玖</span></span><h2 data-t="secTime">时间轴与年度城市年报</h2><span class="newtag">NEW</span><span class="sub" data-t="secTimeSub">2020 → 2025；缺的年份留斜线，不插值</span></div>
+    <div class="device desk"><div class="screen"><div class="app" data-app="tl">
+      <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
+      <header class="topbar" data-v4top="tl"></header>
+      <div class="leaf tl-bar" data-tl-bar></div>
+      <aside class="leaf ar-side" data-ar-side></aside>
+    </div></div></div>
+    <p class="note" data-t="tlNote">地图与年报用的是真实数据：七普（2020）到 2023 年公报的常住人口变化。2021、2022、2024、2025 四年正在采集，齐了以后时间轴可以播放，年报每年春天自动生成“今年的变化”。</p>
+  </section>
+
   <section class="sec" id="s-icons">
-    <div class="sec-head"><span class="seal"><span>叁</span></span><h2 data-t="secIcons">图标优先</h2><span class="sub" data-t="secIconsSub">能用图形说的，不用文字说</span></div>
+    <div class="sec-head"><span class="seal"><span>拾</span></span><h2 data-t="secIcons">图标优先</h2><span class="sub" data-t="secIconsSub">能用图形说的，不用文字说</span></div>
     <h3 data-t="hYields">五赋 · 五种产出徽章</h3>
     <div class="yieldspec" data-yieldspec></div>
     <h3 data-t="hTowns">城池 · 按常住人口分四级</h3>
@@ -417,21 +842,21 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   </section>
 
   <section class="sec" id="s-color">
-    <div class="sec-head"><span class="seal"><span>肆</span></span><h2 data-t="secColor">色彩</h2><span class="sub" data-t="secColorSub">每个颜色都是有名字的颜料，按角色使用</span></div>
+    <div class="sec-head"><span class="seal"><span>拾壹</span></span><h2 data-t="secColor">色彩</h2><span class="sub" data-t="secColorSub">每个颜色都是有名字的颜料，按角色使用</span></div>
     <h3 data-t="roles">界面角色</h3><div class="tokens" data-tokens></div>
     <h3 data-t="pigments">地图颜料</h3><div class="pigments" data-pigments></div>
     <h3 data-t="scales">数据色阶</h3><div class="scales" data-scales></div>
   </section>
 
   <section class="sec" id="s-type">
-    <div class="sec-head"><span class="seal"><span>伍</span></span><h2 data-t="secType">字体</h2><span class="sub" data-t="secTypeSub">三种字体，七级字号，中英同一套</span></div>
+    <div class="sec-head"><span class="seal"><span>拾贰</span></span><h2 data-t="secType">字体</h2><span class="sub" data-t="secTypeSub">三种字体，七级字号，中英同一套</span></div>
     <div class="type-spec" data-typespec></div>
     <h3 data-t="lettering">地图注记</h3>
     <div class="leaf lettering"><canvas data-lettering></canvas></div>
   </section>
 
   <section class="sec" id="s-motif">
-    <div class="sec-head"><span class="seal"><span>陆</span></span><h2 data-t="secMotif">母题与组件</h2><span class="sub" data-t="secMotifSub">每个母题只表达一种意思</span></div>
+    <div class="sec-head"><span class="seal"><span>拾叁</span></span><h2 data-t="secMotif">母题与组件</h2><span class="sub" data-t="secMotifSub">每个母题只表达一种意思</span></div>
     <div class="grid3">
       <div class="leaf card"><h3 data-t="mSeal">印 · 唯一的强调</h3><div class="row-gap"><span class="seal" style="--s:56px"><span>上海</span></span><span class="seal" style="--s:44px"><span>图鉴</span></span><span class="seal" style="--s:30px"><span>壹</span></span><button class="btn" data-restamp><span data-t="restamp">重新钤印</span></button></div><p class="cap" data-t="mSealCap">品牌、选中的城市、当前透镜、章节号。</p></div>
       <div class="leaf card"><h3 data-t="mLeaf">裱 · 所有面板都是册页</h3><div class="leaf" style="padding:16px;box-shadow:none"><div class="eyebrow" data-t="mLeafE">册页 LEAF</div><div style="font:600 18px/1.3 var(--serif)" data-t="mLeafT">双线框 · 圆角 2px</div></div><p class="cap" data-t="mLeafCap">外细线 + 内 3px 第二条线，熟绢底，纸面轻投影。</p></div>
@@ -449,7 +874,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   </section>
 
   <section class="sec" id="s-motion">
-    <div class="sec-head"><span class="seal"><span>柒</span></span><h2 data-t="secMotion">交互与动效</h2><span class="sub" data-t="secMotionSub">像游戏一样即时反馈</span></div>
+    <div class="sec-head"><span class="seal"><span>拾肆</span></span><h2 data-t="secMotion">交互与动效</h2><span class="sub" data-t="secMotionSub">像游戏一样即时反馈</span></div>
     <ul class="leaf card ilist" data-ilist></ul>
     <div class="grid3">
       <div class="leaf card"><h3 data-t="mo1">钤印 · 选中城市</h3><div class="motion-demo"><span class="seal" style="--s:60px" data-mo-seal><span>成都</span></span></div><button class="btn" data-mo="seal" data-t="replay">重放</button><p class="cap">180ms · 1.14 → 1 · 回正 2.5°</p></div>
@@ -459,26 +884,29 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   </section>
 
   <section class="sec" id="s-bi">
-    <div class="sec-head"><span class="seal"><span>捌</span></span><h2 data-t="secBi">双语与数字</h2><span class="sub" data-t="secBiSub">一次只显示一种语言；品牌字永远中英并列</span></div>
+    <div class="sec-head"><span class="seal"><span>拾伍</span></span><h2 data-t="secBi">双语与数字</h2><span class="sub" data-t="secBiSub">一次只显示一种语言；品牌字永远中英并列</span></div>
     <div class="leaf card tablewrap"><table class="fmt" data-fmt></table></div>
   </section>
 
   <section class="sec" id="s-decide">
-    <div class="sec-head"><span class="seal"><span>玖</span></span><h2>请你确认</h2></div>
+    <div class="sec-head"><span class="seal"><span>拾陆</span></span><h2>请你确认</h2></div>
     <div class="leaf card decide"><ol>
-      <li><b>五赋</b>：人（常住人口）、金（GDP）、粮（第一产业）、工（第二产业）、商（第三产业）。这个对应是否合适？以后有了数据可以加“文”“学”等。</li>
-      <li><b>城市旗标</b>：漆框匾额 + 黑底人口数，前十为朱漆金字匾。</li>
-      <li><b>城池四级</b>：村 → 城 → 府 → 都（300 万 / 800 万 / 1500 万为界）。</li>
-      <li><b>奇观</b>：画成小幅界画/山水；正式版按世界遗产全部名录与公开规则选取。</li>
-      <li><b>排行榜</b>：点顶栏任一徽章，弹出全国前十。</li>
-      <li><b>名称与题跋</b>：“江山图鉴 · Jiangshan Atlas”；左上角竖排“千里江山”加小印。</li>
-      <li>以上之外，任何想改的颜色、图形或细节，直接告诉我即可。</li>
+      <li><b>顶栏五个模式</b>：地图 · 档案 · 对决 · 古今 · 治理，右侧常驻“吾乡”印。这五个入口是否合适？</li>
+      <li><b>城市档案六个分页</b>：概况 · 城区 · 市民 · 比较 · 治理 · 沿革。默认进入概况；治理层关闭时“治理”分页整页隐藏。</li>
+      <li><b>对决计分</b>：每行最高者钤“冠”字小印，顶部累计，并注明“不代表优劣”。这样的游戏感是否合适？</li>
+      <li><b>分享三种尺寸</b>：竖版城市卡、横版对决卡、A3 海报；都带出处与“江山图鉴”字号。</li>
+      <li><b>钤印认乡的朱笔</b>：访客数字一律朱笔手写体，统计数字一律印刷体。这条分界你认可吗？</li>
+      <li><b>古今同图</b>：人物行迹用朱笔虚线 + 编号驿站，时间轴按朝代；第一位人物用苏轼。</li>
+      <li><b>治理层默认状态</b>：我建议<b>默认关闭</b>，由用户主动打开（更稳妥，也方便国内版整层不带）。你倾向默认开还是关？</li>
+      <li><b>“示意”小签</b>：没有真实数据的地方一律用斜线底小签，与“无数据”同一种斜线。</li>
+      <li>第 3 版已确认的五赋、匾额、城池四级、奇观、排行榜、题跋保持不变。其他想改的地方直接告诉我。</li>
     </ol></div>
   </section>
 
   <footer class="note" style="display:grid;gap:6px;border-top:1px solid var(--rule);padding-top:18px">
     <p data-t="foot1">数据：行政区划与南海断续线取自阿里云 DataV.GeoAtlas（依据标准地图）；高程取自 AWS Terrain Tiles；土地覆盖取自 ESA WorldCover 2021；河湖与邻国取自 Natural Earth；城市人口与 GDP 为各地 2023 年统计公报（第一阶段经 chinaciv 汇编）；全国合计为国家统计局 2023 年统计公报。奇观位置为示意。</p>
     <p data-t="foot2">本原型仅供设计确认，未申请审图号。</p>
+    <p data-t="foot3">第 4 版新画面中标有“示意”的内容不是真实数据；人名、任期、流向与访客数字均为虚构，仅用于确认版式。</p>
   </footer>
 </div>
 
@@ -778,7 +1206,7 @@ function drawBanner(ctx, c, x, y, u, opts) {
 
 /* ================= map rendering: base layer (cached) + overlays (every frame) ================= */
 function renderBase(app) {
-  const ctx = app.bctx, W = app.base.width, H = app.base.height, u = app.u, L = LENSES[S.lens], v = app.view;
+  const ctx = app.bctx, W = app.base.width, H = app.base.height, u = app.u, L = app.cfg.lens ? (V4LENS[app.cfg.lens()] || LENSES[app.cfg.lens()]) : LENSES[S.lens], v = app.view;
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = paperPattern(ctx); ctx.fillRect(0, 0, W, H);
   ctx.save(); ctx.globalAlpha = .9; ctx.fillStyle = DAY.sea; ctx.fillRect(0, 0, W, H); ctx.restore();
   ctx.save(); ctx.fillStyle = wavePattern(ctx, u * clamp(v.s * 2.2, .8, 1.6), "rgba(52,96,104,0.2)"); ctx.fillRect(0, 0, W, H); ctx.restore();
@@ -803,37 +1231,39 @@ function renderBase(app) {
   app.baseView = { ...v };
 }
 function drawOverlays(app) {
+  const SEL = app.cfg.sel ? app.cfg.sel() : S.city, BIDS = app.cfg.bannerIds ? app.cfg.bannerIds() : null;
   const ctx = app.ctx, W = app.canvas.width, H = app.canvas.height, u = app.u, v = app.view, z = app.zoom(), Lb = Labeler(W, H), L = LENSES[S.lens];
   app.hits = []; if (app.blocked) for (const b of app.blocked) Lb.add(b);
   // hovered prefecture outline
   if (app.hoverPref != null && app.hoverPref >= 0) { const p = P.prefs[app.hoverPref]; strokeMap(ctx, v, p.path, "rgba(246,239,224,.95)", 4 * u); strokeMap(ctx, v, p.path, "#2b231d", 1.4 * u); }
-  const sel = S.city && BYID.get(S.city), k = clamp(.5 * Math.pow(z, .55), .5, 1.5) * u;
+  const sel = SEL && BYID.get(SEL), k = clamp(.5 * Math.pow(z, .55), .5, 1.5) * u;
   const vis = CITIES.filter(c => { const [x, y] = toPx(v, c.x, c.y); return x > -30 && y > -30 && x < W + 30 && y < H + 30; }).sort((a, b) => a.y - b.y);
-  const minTier = z < 1.6 ? 1 : 0, kOf = c => k * (c.tier === 0 ? .9 : 1);
+  const minTier = app.cfg.minTier ?? (z < 1.6 ? 1 : 0), kOf = c => k * (c.tier === 0 ? .9 : 1);
   // 1. banners claim space by importance (selected city first, then GDP rank)
-  const order = vis.slice().sort((a, b) => (b.id === S.city) - (a.id === S.city) || (a.gdpIdx ?? 999) - (b.gdpIdx ?? 999));
-  const quota = z < 1.6 ? 16 : z < 2.6 ? 44 : 999, withYields = z >= 3.2, banners = [], hasBanner = new Set();
-  for (const c of order) { const isSel = c.id === S.city; if (!isSel && (banners.length >= quota || c.tier < minTier)) continue;
+  const order = vis.slice().sort((a, b) => (b.id === SEL) - (a.id === SEL) || (a.gdpIdx ?? 999) - (b.gdpIdx ?? 999));
+  const quota = app.cfg.quota || (z < 1.6 ? 16 : z < 2.6 ? 44 : 999), withYields = z >= 3.2, banners = [], hasBanner = new Set();
+  for (const c of order) { const isSel = c.id === SEL; if (!isSel && (BIDS ? !BIDS.has(c.id) : (banners.length >= quota || c.tier < minTier))) continue;
     const [x, y] = toPx(v, c.x, c.y), m = bannerMetrics(ctx, c, u), by = y - TOWN_H[c.tier] * kOf(c) - 5 * u, extra = withYields || isSel ? 17 * u : 0;
     const box = [x - m.w / 2 - 2 * u, by - m.h - 2 * u, m.w + 4 * u, m.h + 2 * u + extra];
-    if (Lb.free(box) || isSel) { Lb.add(box); banners.push([c, x, by]); hasBanner.add(c.id); } }
+    if (Lb.free(box) || isSel || BIDS) { Lb.add(box); banners.push([c, x, by]); hasBanner.add(c.id); } }
   // wonders (drawn under towns and banners; they never block a banner)
-  for (const wd of WONDERS) { const [x, y] = toPx(v, wd.x, wd.y); if (x < -40 || y < -40 || x > W + 40 || y > H + 40) continue; const kk = k * 1.15;
+  for (const wd of (app.cfg.noWonders ? [] : WONDERS)) { const [x, y] = toPx(v, wd.x, wd.y); if (x < -40 || y < -40 || x > W + 40 || y > H + 40) continue; const kk = k * 1.15;
     drawWonder(ctx, wd.draw, x, y, kk); Lb.add([x - 11 * kk, y - 14 * kk, 22 * kk, 15 * kk]); app.hits.push({ x, y: y - 5 * kk, r: 11 * kk, wonder: wd });
     if (z > 2.4) { ctx.font = `600 ${10.5 * u}px "Noto Serif SC", serif`; ctx.textAlign = "center"; ctx.textBaseline = "top"; haloText(ctx, EN() ? wd.en : wd.zh, x, y + 3 * u, "#5a3a20", "rgba(246,239,224,.9)", 3 * u); } }
+  if (app.cfg.under) app.cfg.under(app, ctx, u, v);
   // 2. towns, back to front
   for (const c of vis) { const [x, y] = toPx(v, c.x, c.y);
-    if (c.tier < minTier && c.id !== S.city) { ctx.fillStyle = DAY.seal; ctx.beginPath(); ctx.arc(x, y, 1.8 * u, 0, 7); ctx.fill(); app.hits.push({ x, y, r: 6 * u, city: c }); continue; }
+    if (c.tier < minTier && c.id !== SEL) { if (app.cfg.noDots) continue; ctx.fillStyle = DAY.seal; ctx.beginPath(); ctx.arc(x, y, 1.8 * u, 0, 7); ctx.fill(); app.hits.push({ x, y, r: 6 * u, city: c }); continue; }
     const kk = kOf(c); drawTown(ctx, x, y, c.tier, kk); const hw = [5, 9, 12, 14][c.tier] * kk, hh = TOWN_H[c.tier] * kk; app.hits.push({ x, y: y - hh / 2, r: Math.max(hw, 7 * u), city: c }); }
   // 3. banners (least important first so the important ones sit on top)
-  for (const [c, x, by] of banners.slice().reverse()) { const isSel = c.id === S.city; const b = drawBanner(ctx, c, x, by, u, { selected: isSel, yields: withYields || isSel }); app.hits.push({ rect: b, city: c });
-    if (isSel) drawSeal(ctx, b[0] - 13 * u, b[1] + 9 * u, 22 * u, c.n.slice(0, 2), u, 7); }
+  for (const [c, x, by] of banners.slice().reverse()) { const isSel = c.id === SEL; const b = drawBanner(ctx, c, x, by, u, { selected: isSel, yields: withYields || isSel }); app.hits.push({ rect: b, city: c });
+    if (isSel) drawSeal(ctx, b[0] - 13 * u, b[1] + 9 * u, 22 * u, (app.cfg.selSeal && app.cfg.selSeal()) || c.n.slice(0, 2), u, 7); }
   // 4. plain names under the remaining towns
-  if (z >= 1.25) { for (const c of vis) { const [x, y] = toPx(v, c.x, c.y); if (c.tier >= minTier) { const hw = [5, 9, 12, 14][c.tier] * kOf(c); Lb.add([x - hw * .7, y - TOWN_H[c.tier] * kOf(c) * .6, hw * 1.4, TOWN_H[c.tier] * kOf(c) * .6]); } }
+  if (z >= 1.25 && !app.cfg.noNames) { for (const c of vis) { const [x, y] = toPx(v, c.x, c.y); if (c.tier >= minTier) { const hw = [5, 9, 12, 14][c.tier] * kOf(c); Lb.add([x - hw * .7, y - TOWN_H[c.tier] * kOf(c) * .6, hw * 1.4, TOWN_H[c.tier] * kOf(c) * .6]); } }
     for (const c of order) { if (hasBanner.has(c.id) || c.tier < minTier) continue; const [x, y] = toPx(v, c.x, c.y), nm = cname(c); ctx.font = `600 ${(c.tier >= 1 ? 11 : 10) * u}px "Noto Serif SC", serif`;
       const tw = ctx.measureText(nm).width, bx = [x - tw / 2 - 1 * u, y + 2 * u, tw + 2 * u, 13 * u];
       if (Lb.free(bx)) { Lb.add(bx); ctx.textAlign = "center"; ctx.textBaseline = "top"; haloText(ctx, nm, x, y + 2.5 * u, DAY.ink, "rgba(238,227,201,.88)", 3 * u); } } }
-  drawInset(app, ctx, u); drawScale(ctx, v, u, app);
+  if (app.cfg.over) app.cfg.over(app, ctx, u, v); drawInset(app, ctx, u); drawScale(ctx, v, u, app);
 }
 function drawInset(app, ctx, u) {
   if (!app.inset) return; const bb = bboxLL(106.5, 3.2, 122.8, 23.8), asp = (bb[3] - bb[1]) / (bb[2] - bb[0]);
@@ -851,7 +1281,7 @@ function drawScale(ctx, v, u, app) { if (!app.scale) return; const target = 90 *
 /* ================= apps: camera, cache, interaction ================= */
 const APPS = [];
 function makeApp(root, cfg) { const cv = $$("canvas.map", root), app = { root, cfg, canvas: cv[0], fade: cv[1], ctx: cv[0].getContext("2d"), base: document.createElement("canvas"), hits: [], hoverPref: -1 };
-  app.bctx = app.base.getContext("2d"); app.zoom = () => app.view.s / app.home.s; APPS.push(app); return app; }
+  app.bctx = app.base.getContext("2d"); app.zoom = () => app.view.s / app.home.s * (cfg.zb || 1); APPS.push(app); return app; }
 function layout(app, keepView) {
   const W0 = app.cfg.w, H0 = app.cfg.h, dpr = Math.min(window.devicePixelRatio || 1, 2), box = app.root.getBoundingClientRect(), u = clamp(dpr * box.width / W0, 1, 2.2);
   const old = app.u; app.u = u; app.canvas.width = app.base.width = app.fade.width = Math.round(W0 * u); app.canvas.height = app.base.height = app.fade.height = Math.round(H0 * u);
@@ -994,13 +1424,13 @@ function drawInkDemo(p) { const cv = $("[data-mo-ink]"); const b = cv.getBoundin
 
 /* ================= interactions ================= */
 function setLang(l) { S.lang = l; refresh(); }
-function refresh() { renderI18n(); renderYields(); renderBoard(); renderColophon(); renderLensDock(); renderPanels(false); renderAlmanac(); renderSpec(); for (const a of APPS) { layout(a, true); full(a); } updateZoomLabel(); }
+function refresh() { renderI18n(); renderYields(); renderBoard(); renderColophon(); renderLensDock(); renderPanels(false); renderAlmanac(); renderSpec(); renderV4(); for (const a of APPS) { layout(a, true); full(a); } updateZoomLabel(); }
 function selectCity(id, fly = true) { const had = !!S.city; S.city = id; S.board = null; renderBoard(); renderYields(); renderPanels(true);
-  for (const a of APPS) { const keep = { ...a.view }; layout(a, true); a.view = keep; const c = BYID.get(id);
+  for (const a of APPS.filter(x => x.cfg === DESK || x.cfg === PHONE)) { const keep = { ...a.view }; layout(a, true); a.view = keep; const c = BYID.get(id);
     if (a.cfg === DESK && fly) flyTo(a, viewOn(a, c, 2.4)); else if (a.cfg === PHONE) { a.view = { ...a.home }; full(a); } else full(a); } }
-function lensChange(id) { S.lens = id; renderLensDock(); for (const a of APPS) { if (!matchMedia("(prefers-reduced-motion: reduce)").matches) { const f = a.fade.getContext("2d"); f.setTransform(1, 0, 0, 1, 0, 0); f.clearRect(0, 0, a.fade.width, a.fade.height); f.drawImage(a.canvas, 0, 0); a.fade.style.transition = "none"; a.fade.style.opacity = 1; }
+function lensChange(id) { S.lens = id; renderLensDock(); for (const a of APPS.filter(x => !x.cfg.lens)) { if (!matchMedia("(prefers-reduced-motion: reduce)").matches) { const f = a.fade.getContext("2d"); f.setTransform(1, 0, 0, 1, 0, 0); f.clearRect(0, 0, a.fade.width, a.fade.height); f.drawImage(a.canvas, 0, 0); a.fade.style.transition = "none"; a.fade.style.opacity = 1; }
   full(a); requestAnimationFrame(() => { a.fade.style.transition = ""; a.fade.style.opacity = 0; }); } }
-function scaleScreens() { $$(".device, .phone").forEach(d => { const sc = d.querySelector(".screen"); const w = d.getBoundingClientRect().width - (d.classList.contains("phone") ? 16 : 2); sc.style.transform = `scale(${w / parseFloat(getComputedStyle(sc).width)})`; }); }
+function scaleScreens() { $$(".device, .phone, .frame").forEach(d => { const sc = d.querySelector(".screen"); const w = d.getBoundingClientRect().width - (d.classList.contains("phone") ? 16 : 2); sc.style.transform = `scale(${w / parseFloat(getComputedStyle(sc).width)})`; }); }
 function bind() {
   document.addEventListener("click", e => { const b = e.target.closest("button, a"); if (!b) return;
     if (b.dataset.setLang) setLang(b.dataset.setLang);
@@ -1053,11 +1483,352 @@ function bind() {
   document.addEventListener("keydown", e => { if (e.key === "/" && document.activeElement.tagName !== "INPUT") { const r = a.root.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) { e.preventDefault(); inp.focus(); } } if (e.key === "Escape") { ALM = null; renderAlmanac(); S.board = null; renderBoard(); } });
   let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { scaleScreens(); for (const x of APPS) { layout(x, true); full(x); } drawLettering(); drawInkDemo(0); drawBannerSpec(); }, 250); });
 }
-async function fontsReady() { const txt = CITIES.map(c => c.n + (c.en || "")).join("") + PROVS.map(p => p.zh + p.en).join("") + WONDERS.map(w => w.zh + w.en).join("") + "千里江山中华人民共和国二〇二三年数据图鉴渤黄东南海诸岛公里清淡重浓焦癸卯万亿人金粮工商全国郡州府城郭村都";
+
+/* ================= 第 4 版 · new screens ================= */
+const ZH = (zh, en) => EN() ? en : zh;
+Object.assign(T, {
+  secArc: ["城市档案", "City archive"], secArcSub: ["每城一页，可被搜索到；六个分页，可直接点", "One page per city, indexable; six tabs, all clickable"],
+  arcNote: ["概况、城区、比较三页全部是真实数据（2023 年公报、七普、ESA WorldCover、高程）。市民页的收入与房价是第 2 期采集的位置；治理、沿革两页的人名与年份为示意，用斜线底的“示意”标注。", "Overview, Land and Compare use real data (2023 communiqués, 2020 census, ESA WorldCover, elevation). Income and housing on People are phase-2 slots; names and years on Governance and History are illustrative and carry the hatched “illustrative” tag."],
+  secDuel: ["城市对决", "City compare"], secDuelSub: ["2–5 城并排；每行领先者钤“冠”字小印，顶部计分", "2–5 cities side by side; the leader of each row gets a small seal, tallied at the top"],
+  duelNote: ["点城市旁的 × 可移除，点“加一城”可从搜索加入（原型里循环加入几个示例城市）。对决链接可分享，打开即是同一组城市。", "Remove a city with ×; “Add a city” opens search (the prototype cycles through examples). A compare link reopens the same set."],
+  secShare: ["分享长卷", "Share cards"], secShareSub: ["一键出图：竖版城市卡、横版对决卡、A3 海报", "One tap: portrait city card, landscape compare card, A3 poster"],
+  cap9: ["竖版 · 1080×1920 · 朋友圈、小红书", "Portrait · 1080×1920 · Moments, Xiaohongshu"], cap16: ["横版 · 1200×630 · 微博、公众号头图、链接预览", "Landscape · 1200×630 · Weibo, article covers, link previews"], capA3: ["A3 海报 · 297×420 mm · 300 dpi · 可打印", "A3 poster · 297×420 mm · 300 dpi · printable"],
+  secXiang: ["钤印认乡", "Hometown seal"], secXiangSub: ["认家乡、老乡数、老乡在哪儿；访客标注一律用朱笔", "Claim a hometown, count fellow natives, see where they live; visitor marks are always in cinnabar brush"],
+  capX1: ["① 认家乡：点按钮钤“吾乡”印（可点）", "① Claim: tap to stamp the “my hometown” seal (try it)"], capX2: ["② 老乡在哪儿：家乡 → 现居的朱笔流线", "② Where they live: cinnabar strokes from hometown to home now"], capX3: ["③ 钤印之后：生成“我为家乡钤印”分享卡", "③ After stamping: a shareable card"],
+  xr1: ["与官方数据严格分开", "Kept apart from official data"], xr1c: ["访客标注一律朱笔手写体，旁注“本站访客自愿标注，非官方统计”；统计数字一律印刷体。两者从不混在同一个数字里。", "Visitor marks are always cinnabar brush, captioned “self-reported by visitors, not official statistics”; statistics are always set in type. They never mix in one number."],
+  xr2: ["不收集个人信息", "No personal data"], xr2c: ["不注册、不取定位。只存一座家乡城、可选一座现居城，以及浏览器本地生成的随机编号（防重复计数）。不开放留言。", "No sign-up, no location. Only one hometown, an optional current city, and a random ID made in the browser to stop double counting. No comments."],
+  xr3: ["小数字保护与冷启动", "Small numbers and cold start"], xr3c: ["某城人数不足 10 位时显示“不足 10 位”，流线也不画；第一位来访者看到“你是第一位在此钤印的××人”。", "Under 10 people shows “fewer than 10” and draws no stroke; the first visitor sees “You are the first from …”."],
+  secGujin: ["古今同图", "Then & now"], secGujinSub: ["人物行迹画在今天的地图上；朝代时间轴", "Historical lives drawn on today's map; a dynasty timeline"],
+  gjNote: ["点“播放行迹”看朱笔一站站画过去；点左侧任一站可跳到那一年。行迹按今地级市治所示意，正式版人物取自 CBDB；古代政区边界待 CHGIS 许可，未获许可前只用治所点与文字沿革。", "Press play to watch the route drawn stop by stop; click a stop to jump there. Stops sit at today's prefecture seats; production data comes from CBDB, and historical boundaries wait for CHGIS permission (until then: seats and text only)."],
+  secGov: ["治理层", "Governance layer"], secGovSub: ["可整层关闭；只用官方公开来源；守七条红线", "Can be switched off entirely; official public sources only; seven red lines"],
+  govNote: ["本页所有人名、任期与流向均为示意，不对应任何真实人物。开关在左上角，可试着关掉。", "Every name, term and flow on this screen is illustrative and refers to no real person. Try the switch at top left."],
+  secTime: ["时间轴与年度城市年报", "Timeline & annual city report"], secTimeSub: ["2020 → 2025；缺的年份留斜线，不插值", "2020 → 2025; missing years stay hatched, never interpolated"],
+  tlNote: ["地图与年报用的是真实数据：七普（2020）与 2023 年公报的常住人口。点 2020 / 2023 切换；2021、2022、2024、2025 四年正在采集，齐了以后可以播放，年报每年春天自动生成“今年的变化”。", "Map and report use real data: 2020 census and 2023 communiqué populations. Click 2020 / 2023 to switch; 2021, 2022, 2024 and 2025 are being collected. Once complete the timeline plays, and each spring the report writes “what changed this year”."],
+});
+const V4 = { tab: "gk", city: "330100", duel: ["330100", "320100", "320500"], pool: ["420100", "610100", "440300", "510100"], poolI: 0, home: "511300", stamped: false, count: 1284, today: 37,
+  suP: 1, playing: false, dyn: 8, gov: true, year: 2023 };
+const V4LENS = {};
+const V4APPS = {};
+const ORD = ["#b23a2b", "#2d5e78", "#b07a45", "#5b927f", "#3b302a"];
+const SHI = () => `<span class="shi">${ZH("示意", "Illustrative")}</span>`;
+const PEND = (zh = "采集中", en = "Collecting") => `<span class="shi">${ZH(zh, en)}</span>`;
+const icon = (id, cls = "sm") => `<svg class="ic ${cls}"><use href="#${id}"/></svg>`;
+const pvOf = c => { const p = PROVS.find(p => p.id === c.prov); return p ? (EN() ? p.en : p.zh) : ""; };
+const kindOf = c => KIND[c.kind] ? KIND[c.kind][EN() ? 1 : 0] : c.kindZh;
+const fmtPc = v => v == null ? "—" : EN() ? "¥" + Math.round(v).toLocaleString("en-US") : (v / 1e4).toFixed(2) + "万";
+const tierImg = c => `<img src="${TIER_IMG[c.tier]}" alt="">`;
+
+/* 苏轼 · postings (illustrative; production data from CBDB). Stops sit at today's prefecture seats. */
+const SU = [
+  [1037, "511400", "生于眉州眉山", "Born in Meishan"], [1061, "610300", "凤翔府签判", "Assistant prefect, Fengxiang"],
+  [1071, "330100", "杭州通判", "Vice prefect, Hangzhou"], [1074, "370700", "知密州", "Prefect of Mizhou"],
+  [1077, "320300", "知徐州", "Prefect of Xuzhou"], [1079, "330500", "知湖州 · 乌台诗案", "Prefect of Huzhou; Crow Terrace case"],
+  [1080, "421100", "黄州团练副使", "Banished to Huangzhou"], [1085, "370600", "知登州", "Prefect of Dengzhou"],
+  [1086, "410200", "翰林学士（汴京）", "Hanlin academician, Kaifeng"], [1089, "330100", "知杭州 · 筑苏堤", "Prefect of Hangzhou; the Su Causeway"],
+  [1091, "341200", "知颍州", "Prefect of Yingzhou"], [1092, "321000", "知扬州", "Prefect of Yangzhou"],
+  [1093, "130600", "知定州", "Prefect of Dingzhou"], [1094, "441300", "惠州安置", "Banished to Huizhou"],
+  [1097, "460400", "儋州安置", "Banished to Danzhou"], [1101, "320400", "卒于常州", "Died in Changzhou"]];
+const DYN = [["秦", "Qin"], ["汉", "Han"], ["三国", "3 Kgdms"], ["晋", "Jin"], ["南北朝", "N&S"], ["隋", "Sui"], ["唐", "Tang"], ["五代", "5 Dyn."], ["宋", "Song"], ["元", "Yuan"], ["明", "Ming"], ["清", "Qing"], ["今", "Today"]];
+/* 杭州 沿革 (illustrative until CHGIS/CBDB permissions) */
+const YG = [["秦", "Qin", "钱唐县", "Qiantang County", "属会稽郡", "Under Kuaiji Commandery"], ["隋", "589", "杭州", "Hangzhou", "废郡置州，杭州之名始此", "First named Hangzhou"],
+  ["吴越", "907", "西府", "Western Capital", "吴越国都", "Capital of Wuyue"], ["南宋", "1138", "临安府", "Lin'an", "南宋行在", "Southern Song seat of court"],
+  ["元", "1277", "杭州路", "Hangzhou Circuit", "", ""], ["明清", "1366", "杭州府", "Hangzhou Prefecture", "浙江省治", "Seat of Zhejiang"], ["民国", "1927", "杭州市", "Hangzhou City", "设市", "City established"], ["今", "1949", "杭州市", "Hangzhou", "浙江省会", "Capital of Zhejiang"]];
+const MINGHUAN = [["乐天", "白居易", "Bai Juyi", "822–824 杭州刺史 · 筑白堤", "Prefect 822–824"], ["东坡", "苏轼", "Su Shi", "1071 通判 · 1089 知州 · 筑苏堤", "Vice prefect 1071, prefect 1089"]];
+const NATIVE = [["存中", "沈括", "Shen Kuo", "钱塘人 · 《梦溪笔谈》", "Born in Qiantang"], ["廷益", "于谦", "Yu Qian", "钱塘人 · 明兵部尚书", "Born in Qiantang"], ["定庵", "龚自珍", "Gong Zizhen", "仁和人 · 诗人", "Born in Renhe"]];
+/* 钤印认乡 · illustrative destinations of 南充 natives */
+const DEST = [["510100", .34], ["500000", .15], ["440300", .09], ["440100", .06], ["310000", .05], ["441900", .05], ["110000", .04], ["330100", .03]];
+
+function v4Prepare() {
+  if (V4LENS.pop23) return;
+  const base = LENSES.pop;
+  V4LENS.pop23 = { ...base, key: "pop", breaks: base.breaks };
+  V4LENS.pop20 = { ...base, key: "pop20", breaks: base.breaks };
+}
+const MODES = [["map", "i-map", "地图", "Map", "s-desk"], ["arc", "i-scroll", "档案", "Archive", "s-archive"], ["duel", "i-versus", "对决", "Compare", "s-duel"], ["gj", "i-history", "古今", "Then & now", "s-gujin"], ["gov", "i-gov", "治理", "Governance", "s-gov"]];
+const navHTML = active => MODES.map(([id, ic, zh, en, sec]) => `<button data-sec="${sec}" aria-current="${id === active}">${icon(ic)}${ZH(zh, en)}</button>`).join("");
+function v4Top(active) {
+  return `<div class="brand-lock"><span class="seal"><span>图鉴</span></span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div><nav class="nav">${navHTML(active)}</nav><div class="spacer"></div>
+  <label class="field v4">${icon("i-search")}<input type="search" placeholder="${t("search")}" aria-label="${t("search")}"><kbd>/</kbd></label>
+  <button class="homebtn" data-sec="s-xiang" title="${ZH("吾乡", "My hometown")}"><span class="seal"><span>吾乡</span></span>${cname(BYID.get(V4.home))}</button>
+  <div class="seg" role="group"><button data-set-lang="zh" aria-pressed="${!EN()}">中</button><button data-set-lang="en" aria-pressed="${EN()}">EN</button></div>
+  <button class="btn icon" data-sec="s-share" aria-label="${t("share")}" title="${t("share")}">${icon("i-share")}</button>`; }
+function pTop() { return `<div class="brand-lock"><span class="seal"><span>图鉴</span></span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div><span class="spacer"></span><button class="btn icon ghost" aria-label="search">${icon("i-search", "")}</button><button class="btn icon ghost" data-set-lang-toggle aria-label="中/EN">${icon("i-lang", "")}</button><button class="btn icon ghost" aria-label="menu">${icon("i-menu", "")}</button>`; }
+function yieldsRow(c) { const N = NATION.rankN, yv = [["pop", c.popAny, c.rk.pop], ["gold", c.gdp, c.rk.gdp], ["food", c.p1], ["ind", c.p2], ["com", c.p3]];
+  return `<div class="cp-yields">${yv.map(([k, v, r]) => `<div title="${t(YIELDS[k].tk)}">${medalSVG(k)}<span class="v num">${k === "pop" ? fmtPopShort(v) : fmtYuan(v)}</span>${r ? `<span class="r num">#${r}</span>` : `<span class="r">&nbsp;</span>`}</div>`).join("")}</div>`; }
+const seal = (txt, s) => `<span class="seal"${s ? ` style="--s:${s}px"` : ""}><span>${txt}</span></span>`;
+
+/* ---------- 叁 · 城市档案 ---------- */
+const ARC_TABS = [["gk", "i-info", "概况", "Overview"], ["cq", "i-mountain", "城区", "Land"], ["sm", "i-people", "市民", "People"], ["bj", "i-versus", "比较", "Compare"], ["zl", "i-gov", "治理", "Governance"], ["yg", "i-history", "沿革", "History"]];
+function landStats(id) { const pi = P.prefs.findIndex(p => p.id === id); if (pi < 0 || !LC) return null; const cnt = {}, z = DEM.z; let n = 0, zs = 0, zmax = -1e9;
+  for (let i = 0; i < PREF.length; i++) if (PREF[i] === pi) { n++; const k = LC[i]; cnt[k] = (cnt[k] || 0) + 1; zs += Math.max(z[i], 0); if (z[i] > zmax) zmax = z[i]; }
+  const grp = [[[10, 20, 95], "林", "Forest", 10], [[40], "田", "Farmland", 40], [[30], "草", "Grass", 30], [[50], "城", "Built-up", 50], [[80], "水", "Water", 80], [[90], "泽", "Wetland", 90], [[60], "漠", "Bare", 60], [[70, 100], "雪", "Snow/moss", 70]];
+  const parts = grp.map(([ks, zh, en, col]) => ({ zh, en, col, n: ks.reduce((s, k) => s + (cnt[k] || 0), 0) })).filter(p => p.n > 0);
+  return { n, area: n * DEM.km * DEM.km, mean: zs / Math.max(n, 1), max: zmax, parts }; }
+function seriesHTML(c) { const yrs = [2020, 2021, 2022, 2023, 2024, 2025];
+  const rows = [[medalSVG("pop", "sm"), ZH("常住人口", "Population"), { 2020: c.pop20, 2023: c.pop }, fmtPopShort, { 2020: ZH("七普", "census") }],
+    [medalSVG("gold", "sm"), "GDP", { 2023: c.gdp }, fmtYuan, {}]];
+  return `<div class="series">${rows.map(([ic, lab, vals, f, note]) => { const mx = Math.max(...Object.values(vals).filter(v => v != null), 1);
+    return `<span class="lab">${ic}${lab}</span>` + yrs.map(y => vals[y] != null ? `<div class="cell"><b class="num">${f(vals[y])}</b><i style="height:${Math.max(6, vals[y] / mx * 46)}px;background:${y === 2023 ? "var(--ink)" : "var(--ink-3)"}"></i></div>` : `<div class="cell pend"><b>${ZH("采集中", "pending")}</b><i></i></div>`).join(""); }).join("")}
+    <span></span>${yrs.map(y => `<span class="yr ${y === 2023 ? "now" : ""}">${y}${y === 2020 ? `<br>${ZH("七普", "census")}` : y === 2023 ? `<br>${ZH("当前", "current")}` : "<br>&nbsp;"}</span>`).join("")}</div>`; }
+function arcBody(c) {
+  const en = EN(), N = NATION.rankN;
+  if (V4.tab === "gk") { const g = c.growth, tot = c.gdp || 1, secs = [["p1", "food"], ["p2", "ind"], ["p3", "com"]];
+    const medal = (key, ic, n, label) => { const r = c.rk[key]; return `<div class="medal-card"><span class="rk num ${r && r <= 3 ? "g" + r : ""}">${r || "—"}${ic}</span><span class="k">${label}<br>/ ${n}</span></div>`; };
+    return `<div class="kpis">
+      <div class="kpi"><span class="k">${medalSVG("pop", "sm")}${ZH("常住人口 · 2023", "Population · 2023")}</span><span class="v num">${fmtPopShort(c.popAny)}</span><span class="s num">${ZH("全国第", "Rank ")}${c.rk.pop || "—"}${ZH(" 位", "")} / ${N.pop}</span></div>
+      <div class="kpi"><span class="k">${medalSVG("gold", "sm")}${ZH("地区生产总值", "GDP")}</span><span class="v num">${fmtYuan(c.gdp)}</span><span class="s num">${ZH("全国第", "Rank ")}${c.rk.gdp || "—"}${ZH(" 位", "")} / ${N.gdp}</span></div>
+      <div class="kpi"><span class="k">${medalSVG("gold", "sm")}${t("kPc")}</span><span class="v num">${fmtPc(c.pc)}</span><span class="s num">${ZH("全国第", "Rank ")}${c.rk.pc || "—"}${ZH(" 位", "")} / ${N.pc}</span></div>
+      <div class="kpi"><span class="k">${icon("i-trend")}${t("kGrowth")}</span><span class="v num ${g > 0 ? "up" : g < 0 ? "down" : ""}">${fmtPct(g, true)}</span><span class="s">${ZH("七普 → 2023 年末", "Census → end 2023")}</span></div></div>
+    <div class="panel s8"><h4>${ZH("六年序列", "Six-year series")}<small>2020 → 2025</small></h4>${seriesHTML(c)}</div>
+    <div class="panel s4"><h4>${t("sectors")}<small>2023</small></h4><div class="sector-bar">${secs.map(([k, y]) => `<span style="flex:${c[k] || 0};background:${YIELDS[y].col}"></span>`).join("")}</div>
+      <div class="sector-legend">${secs.map(([k, y]) => `<div>${medalSVG(y, "sm")}<b class="num">${((c[k] || 0) / tot * 100).toFixed(0)}%</b></div>`).join("")}</div>
+      <div class="medals" style="margin-top:6px">${medal("gdp", medalSVG("gold"), N.gdp, "GDP")}${medal("pc", medalSVG("pop"), N.pc, t("lensPc"))}${medal("sv", medalSVG("com"), N.sv, t("lensSv"))}</div></div>
+    <div class="panel s7"><h4>${icon("i-info")}${ZH("出处 · 每个数字都能点开", "Provenance · every number opens")}<small>${ZH("格式示意", "format preview")}</small></h4>
+      <div class="prov"><div class="row"><span>${ZH("数值", "Value")}</span><b class="num">${ZH("常住人口 ", "Population ")}${fmtPopShort(c.pop)} · 2023</b></div>
+      <div class="row"><span>${ZH("发布机关", "Publisher")}</span><span>${c.n}${ZH("市统计局", " Municipal Bureau of Statistics")}</span></div>
+      <div class="row"><span>${ZH("原文", "Document")}</span><span>${ZH(`《${c.n}市2023年国民经济和社会发展统计公报》`, `${c.en} 2023 Statistical Communiqué`)}</span></div>
+      <div class="row"><span>${ZH("原文句子", "Sentence")}</span><span>${ZH("采集后自动摘录", "Quoted automatically on collection")} ${PEND("第 1 期", "phase 1")}</span></div>
+      <div class="row"><span>${ZH("转载 · 抓取", "Mirror · fetched")}</span><span>${ZH("中国统计信息网", "tjcn.org")} · <code>sha256 …</code></span></div></div></div>
+    <div class="panel s5"><h4>${t("peers")}</h4><div class="peers">${(c.peers || []).map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-arc-city="${o.id}">${tierImg(o)}${cname(o)}</button>`).join("")}</div>
+      <p class="note">${ZH("点任一城换成它的档案。", "Click one to open its archive.")}</p></div>`; }
+  if (V4.tab === "cq") { const L = landStats(c.id); if (!L) return `<div class="panel">${t("noData")}</div>`; const tot = L.parts.reduce((s, p) => s + p.n, 0);
+    return `<div class="kpis"><div class="kpi"><span class="k">${icon("i-mountain")}${ZH("面积（栅格估算）", "Area (grid estimate)")}</span><span class="v num">${en ? Math.round(L.area).toLocaleString("en-US") + " km²" : (L.area / 1e4).toFixed(2) + "万 km²"}</span><span class="s">${ZH("4 公里栅格计数，非官方面积", "4 km cell count, not the official area")}</span></div>
+      <div class="kpi"><span class="k">${icon("i-mountain")}${ZH("平均海拔", "Mean elevation")}</span><span class="v num">${Math.round(L.mean)} m</span><span class="s">AWS Terrain Tiles</span></div>
+      <div class="kpi"><span class="k">${icon("i-mountain")}${ZH("最高海拔（栅格）", "Highest cell")}</span><span class="v num">${Math.round(L.max)} m</span><span class="s">${ZH("4 公里栅格平均", "4 km cell mean")}</span></div>
+      <div class="kpi"><span class="k">${icon("i-wonder")}${ZH("建成区占比", "Built-up share")}</span><span class="v num">${Math.round((L.parts.find(p => p.col === 50)?.n || 0) / tot * 100)}%</span><span class="s">ESA WorldCover 2021</span></div></div>
+    <div class="panel s7"><h4>${ZH("地貌构成", "Land cover")}<small>ESA WorldCover 2021 · ${ZH("按 4 公里栅格多数类", "4 km majority class")}</small></h4>
+      <div class="stack">${L.parts.map(p => `<span style="flex:${p.n};background:rgb(${DAY.lc[p.col].join(",")})" title="${en ? p.en : p.zh}"></span>`).join("")}</div>
+      <div class="lc-legend">${L.parts.map(p => `<div><i style="background:rgb(${DAY.lc[p.col].join(",")})"></i>${en ? p.en : p.zh}<b class="num">${Math.round(p.n / tot * 100)}%</b></div>`).join("")}</div></div>
+    <div class="panel s5"><h4>${ZH("高校与产业区牌", "Universities & industrial zones")}<small>${ZH("第 2 期", "phase 2")}</small></h4>
+      <div class="prov"><div class="row"><span>${ZH("高校（含双一流）", "Universities")}</span>${PEND("教育部名单 · 第 2 期", "MoE list · phase 2")}</div><div class="row"><span>${ZH("国家级开发区", "National zones")}</span>${PEND("第 2 期", "phase 2")}</div><div class="row"><span>${ZH("产业区牌", "Industry plaques")}</span>${PEND("第 2 期", "phase 2")}</div></div>
+      <p class="note">${ZH("高校与开发区会以小匾的形式出现在地图上，和城池同一套画法。", "Universities and zones appear on the map as small plaques, drawn like the towns.")}</p></div>`; }
+  if (V4.tab === "sm") { const pk = (k, zh, en2) => `<div class="kpi pend"><span class="k">${medalSVG(k, "sm")}${ZH(zh, en2)}</span><span class="v">—</span><span class="s">${ZH("第 2 期采集 · 官方口径", "Phase 2 · official only")}</span></div>`;
+    return `<div class="kpis"><div class="kpi"><span class="k">${medalSVG("pop", "sm")}${ZH("七普常住人口 · 2020", "Census · 2020")}</span><span class="v num">${fmtPopShort(c.pop20)}</span><span class="s">${ZH("第七次全国人口普查", "7th national census")}</span></div>
+      <div class="kpi"><span class="k">${medalSVG("pop", "sm")}${ZH("年末常住人口 · 2023", "End 2023")}</span><span class="v num">${fmtPopShort(c.pop)}</span><span class="s">${ZH("统计公报", "Communiqué")}</span></div>
+      ${pk("gold", "人均可支配收入", "Disposable income")}${pk("ind", "城镇单位平均工资", "Average wage")}</div>
+    <div class="kpis">${pk("com", "新建商品住宅均价", "New-home price")}${pk("com", "70 城房价指数", "70-city price index")}${pk("pop", "高校在校生", "Students")}${pk("food", "城镇化率", "Urbanisation")}</div>
+    <div class="panel"><h4>${ZH("本站访客", "Visitors to this site")}<small>${ZH("访客自愿标注，非官方统计", "Self-reported by visitors, not official statistics")}</small></h4>
+      <div style="display:flex;align-items:center;gap:16px">${seal("吾乡", 48)}<div><div class="zhubi" style="font-size:24px;transform:rotate(-1.2deg)">${ZH(`${(1284).toLocaleString()} 位${c.n}老乡在此钤印`, `${(1284).toLocaleString()} natives of ${c.en} stamped here`)}</div><div class="zhubi" style="font-size:15px;opacity:.85">${ZH("今日 +37 · 老乡多在 上海 · 北京 · 深圳", "Today +37 · most now live in Shanghai, Beijing, Shenzhen")}</div></div>${SHI()}</div>
+      <p class="note">${ZH("访客数字用朱笔、手写体，和上面的统计数字从视觉上完全分开。", "Visitor figures are cinnabar brush, visually apart from the statistics above.")}</p></div>`; }
+  if (V4.tab === "bj") { const grp = [c, ...(c.peers || []).map(id => BYID.get(id)).filter(Boolean)], keys = [["popAny", ZH("常住人口", "Population"), fmtPopShort], ["gdp", "GDP", fmtYuan], ["pc", t("kPc"), fmtPc]];
+    const mx = Object.fromEntries(keys.map(([k]) => [k, Math.max(...grp.map(o => o[k] || 0))]));
+    return `<div class="panel"><h4>${ZH("和规模相近的城市比", "Against cities of similar size")}<small>2023 · ${ZH("规模按常住人口取最接近的 5 座", "5 nearest by population")}</small></h4>
+      <div class="cmp"><span class="h"></span>${keys.map(([, l]) => `<span class="h">${l}</span>`).join("")}
+      ${grp.map(o => `<span class="nm ${o === c ? "me" : ""}">${tierImg(o)}${cname(o)}</span>` + keys.map(([k, , f]) => `<div class="bv"><span class="num">${f(o[k])}</span><div class="hbar"><i style="width:${(o[k] || 0) / mx[k] * 100}%;background:${o === c ? "var(--accent)" : "var(--ink-3)"}"></i></div></div>`).join("")).join("")}</div></div>
+    <div class="panel s6"><h4>${ZH("全国名次", "National rank")}</h4><div class="medals">${[["gdp", "GDP", medalSVG("gold")], ["pc", t("lensPc"), medalSVG("pop")], ["sv", t("lensSv"), medalSVG("com")]].map(([k, l, ic]) => `<div class="medal-card"><span class="rk num ${c.rk[k] <= 3 ? "g" + c.rk[k] : ""}">${c.rk[k] || "—"}${ic}</span><span class="k">${l}<br>/ ${N[k]}</span></div>`).join("")}</div></div>
+    <div class="panel s6"><h4>${ZH("放进对决", "Put them in a compare")}</h4><p class="note">${ZH("一键把这 6 座城放进城市对决（最多 5 座，取前 5）。", "One tap puts these cities into Compare (up to 5).")}</p><button class="btn primary" data-sec="s-duel" style="justify-self:start">${icon("i-versus")}${ZH("去对决", "Open compare")}</button></div>`; }
+  if (V4.tab === "zl") return govTenure(c) + `<div class="panel s6"><h4>${ZH("统计", "Statistics")}${SHI()}</h4><div class="prov"><div class="row"><span>${ZH("书记平均任期", "Avg. secretary term")}</span><b class="num">3.4 ${ZH("年", "yrs")}</b></div><div class="row"><span>${ZH("外地调入", "Appointed from outside")}</span><b class="num">2 / 4</b></div><div class="row"><span>${ZH("截至", "As of")}</span><span class="num">2026-11-27</span></div></div><p class="note">${ZH("任期与经济曲线并列时注明：并列不代表因果。", "When terms sit beside economic curves: side by side is not cause and effect.")}</p></div>
+    <div class="panel s6"><h4>${ZH("这一层守的红线", "Red lines for this layer")}</h4>${redLines(true)}</div>`;
+  if (V4.tab === "yg") { if (c.id !== "330100") return `<div class="panel off-state">${icon("i-history", "")}<b>${ZH("沿革与人物待许可后接入", "History arrives once permissions are settled")}</b><span class="note">${ZH("原型只有杭州的样例。", "The prototype has a sample for Hangzhou only.")}</span></div>`;
+    return `<div class="panel s7"><h4>${ZH("历代名称与建置", "Names through the dynasties")}${SHI()}<small>${ZH("正式版取自 CHGIS / CBDB", "Production: CHGIS / CBDB")}</small></h4><div class="yg">${YG.map(([dy, yr, nm, nmEn, note, noteEn], i) => `<div class="it ${i === YG.length - 1 ? "cur" : ""}"><span class="dy">${en ? (/^\d/.test(yr) ? yr : dy) : dy}</span><span class="dot"></span><div class="tx"><b>${en ? nmEn : nm}<em>${/^\d/.test(yr) ? yr : ""}</em></b><span>${en ? noteEn : note}</span></div></div>`).join("")}</div></div>
+    <div class="panel s5"><h4>${ZH("在此任职的历代名宦", "Notable officials here")}${SHI()}</h4><div class="people">${MINGHUAN.map(([s, zh, enN, d, dEn]) => `<div class="person">${seal(s)}<div><b>${en ? enN : zh}</b><br><span>${en ? dEn : d}</span></div>${zh === "苏轼" ? `<button class="btn" data-sec="s-gujin">${icon("i-history")}${ZH("看行迹", "Route")}</button>` : "<span></span>"}</div>`).join("")}</div>
+      <h4 style="margin-top:6px">${ZH("籍贯在此的名人", "Born here")}${SHI()}</h4><div class="people">${NATIVE.map(([s, zh, enN, d, dEn]) => `<div class="person">${seal(s)}<div><b>${en ? enN : zh}</b><br><span>${en ? dEn : d}</span></div><span></span></div>`).join("")}</div></div>`; }
+  return ""; }
+function govTenure(c) { const y0 = 2014, y1 = 2027, X = y => (y - y0) / (y1 - y0) * 100, now = 2026.9;
+  const rows = [[ZH("市委书记", "Party secretary"), [[2014, 2016.6, "某甲", "Person A", "#5d4e40"], [2016.6, 2020.3, "某乙 · 外省调入", "Person B · from another province", "#2d5e78"], [2020.3, 2024.1, "某丙", "Person C", "#5d4e40"], [2024.1, now, "某丁 · 中央调入", "Person D · from central", "#2d5e78"]]],
+    [ZH("市长", "Mayor"), [[2014, 2017.2, "某戊", "Person E", "#5d4e40"], [2017.2, 2021.5, "某己", "Person F", "#5d4e40"], [2021.5, now, "某庚 · 外省调入", "Person G · from another province", "#2d5e78"]]]];
+  return `<div class="panel"><h4>${c ? cname(c) + ZH(" · 主要领导任期", " · main leaders' terms") : ZH("主要领导任期", "Main leaders' terms")}${SHI()}</h4>
+    <div class="tenure"><span></span><div class="axis">${[2014, 2016, 2018, 2020, 2022, 2024, 2026].map(y => `<span class="num">${y}</span>`).join("")}</div>
+    ${rows.map(([lab, segs]) => `<span>${lab}</span><div class="track">${segs.map(([a, b, zh, en, col]) => `<span class="seg" style="left:${X(a)}%;width:${X(b) - X(a)}%;background:${col}">${ZH(zh, en)}</span>`).join("")}<span class="now" style="left:${X(now)}%"></span></div>`).join("")}</div>
+    <div class="keys"><span><b style="display:inline-block;width:12px;height:8px;background:#5d4e40;margin-right:4px"></b>${ZH("本省调任", "From within the province")}</span><span><b style="display:inline-block;width:12px;height:8px;background:#2d5e78;margin-right:4px"></b>${ZH("外省或中央调入", "From another province or central")}</span><span>${ZH("人名一律带唯一编号，可纠错", "Every person carries a unique ID; corrections welcome")}</span></div><p class="note">${ZH("截至 2026-11-27 · 来源：政府网站领导简历、任前公示与任免通知", "As of 2026-11-27 · sources: official bios, pre-appointment notices, appointment notices")}</p></div>`; }
+function redLines(short) { const L = [["只用官方公开来源，每条附原文链接与日期", "Official public sources only, each with link and date"], ["只覆盖省、地两级主要领导", "Provincial and prefecture main leaders only"], ["不收录落马、处分、司法信息；不画关系网，不推断派系", "No investigations, discipline or court records; no networks or factions"], ["不打分、不排行；并列不代表因果", "No scores or rankings; side by side is not cause and effect"], ["只记公职履历，不涉家庭、财产、私生活", "Public office only; no family, assets or private life"], ["唯一编号区分同名，标注截至日期，提供纠错入口", "Unique IDs, as-of dates, a correction channel"], ["独立数据文件 + 开关，可整层不带", "A separate file and a switch; the layer can be left out"]];
+  return `<ol class="redlines">${L.map(([zh, en]) => `<li>${ZH(zh, en)}</li>`).join("")}</ol>`; }
+function renderArc() { const c = BYID.get(V4.city); if (!c) return; const prov = pvOf(c);
+  $("[data-arc-head]").innerHTML = `<div class="cp-head"><span class="seal stamp" style="--s:58px"><span>${c.n.slice(0, 2)}</span></span><div><h2>${cname(c)}${tierImg(c)}</h2><div class="en">${EN() ? c.n : (c.en || "")}</div><div class="meta">${kindOf(c)}${prov && !["municipality", "sar"].includes(c.kind) ? " · " + prov : ""}${c.pcap ? ZH(" · 省会", " · capital") : ""}</div></div></div>`;
+  $("[data-arc-yields]").innerHTML = yieldsRow(c);
+  $("[data-arc-actions]").innerHTML = `<button class="btn wide" data-sec="s-xiang">${seal("吾乡", 24)}${ZH("钤印 · 这是我的家乡", "Stamp · this is my hometown")}</button>
+    <button class="btn" data-v4="arc-duel">${icon("i-versus")}${ZH("加入对决", "Add to compare")}</button><button class="btn" data-sec="s-share">${icon("i-share")}${ZH("分享长卷", "Share card")}</button>
+    <button class="btn">${icon("i-download")}${ZH("下载数据", "Download data")}</button><button class="btn">${icon("i-link")}${ZH("嵌入卡片", "Embed")}</button>`;
+  $("[data-arc-tabs]").innerHTML = ARC_TABS.map(([id, ic, zh, en]) => `<button role="tab" data-arc-tab="${id}" aria-selected="${V4.tab === id}">${icon(ic, "")}${ZH(zh, en)}</button>`).join("") + `<span class="tab-note note">${ZH("每城一页 · /city/", "One page per city · /city/")}${c.id}</span>`;
+  $("[data-arc-body]").innerHTML = arcBody(c); }
+
+/* ---------- 肆 · 城市对决 ---------- */
+const DUEL_ROWS = [["pop", "popAny", ["常住人口", "Population"], v => fmtPopShort(v)], ["gold", "gdp", ["地区生产总值", "GDP"], fmtYuan], ["gold", "pc", ["人均 GDP", "GDP per capita"], fmtPc],
+  ["food", "p1", ["第一产业", "Primary sector"], fmtYuan], ["ind", "p2", ["第二产业", "Secondary sector"], fmtYuan], ["com", "p3", ["第三产业", "Tertiary sector"], fmtYuan],
+  ["com", "sv", ["服务业占比", "Services share"], v => Math.round(v * 100) + "%"], ["trend", "growth", ["人口变化 2020→23", "Pop. change 2020→23"], v => fmtPct(v, true)],
+  ["gold", null, ["人均可支配收入", "Disposable income"]], ["home", null, ["新建商品住宅均价", "New-home price"]], ["people", null, ["高校数量", "Universities"]]];
+function duelData() { const cs = V4.duel.map(id => BYID.get(id)).filter(Boolean), crowns = cs.map(() => 0);
+  const rows = DUEL_ROWS.map(([ic, k, lab, f]) => { if (!k) return { ic, lab, pend: true }; const vals = cs.map(c => c[k]), ok = vals.filter(v => v != null);
+    const best = ok.length ? Math.max(...ok) : null, lead = best == null ? -1 : vals.indexOf(best); if (lead >= 0) crowns[lead]++; const mx = Math.max(...ok.map(Math.abs), 1e-9);
+    return { ic, lab, k, f, vals, lead, mx }; });
+  return { cs, rows, crowns }; }
+const rowIcon = ic => YIELDS[ic] ? medalSVG(ic) : icon("i-" + ic, "");
+function renderDuel() { const { cs, rows, crowns } = duelData(), n = cs.length, cols = `190px repeat(${n}, minmax(0, 1fr)) ${n < 5 ? "120px" : ""}`;
+  const head = $("[data-duel-head]"); head.style.gridTemplateColumns = cols;
+  head.innerHTML = `<div><b style="font:900 20px/1.2 var(--serif)">${ZH("城市对决", "Compare")}</b><span class="note">${ZH(`${n} 城 · 2023`, `${n} cities · 2023`)}</span></div>` + cs.map((c, i) => `<div><span class="ord" style="background:${ORD[i]}"></span>
+    <div class="who">${seal(c.n.slice(0, 2))}<div><b>${cname(c)}</b><span>${pvOf(c)} · ${kindOf(c)}</span></div></div>
+    <div class="tally">${crowns[i] ? Array.from({ length: crowns[i] }, () => seal(EN() ? "1st" : "冠")).join("") : ""}<span>${ZH(`${crowns[i]} 项领先`, `leads ${crowns[i]}`)}</span></div>
+    ${n > 2 ? `<button class="btn icon ghost x" data-duel-x="${c.id}" aria-label="remove">${icon("i-close")}</button>` : ""}</div>`).join("") + (n < 5 ? `<button class="add" data-v4="duel-add">${icon("i-plus", "")}<span>${ZH("加一城", "Add a city")}</span></button>` : "");
+  $("[data-duel-rows]").innerHTML = rows.map(r => `<div class="drow" style="grid-template-columns:${cols}"><div>${rowIcon(r.ic)}<span>${ZH(...r.lab)}${r.pend ? `<small>${ZH("第 2 期采集", "phase 2")}</small>` : ""}</span></div>` +
+    (r.pend ? cs.map(() => `<div><span class="pendcell pend">${ZH("采集中", "pending")}</span></div>`).join("") : r.vals.map((v, i) => `<div class="${i === r.lead ? "lead" : ""}"><span class="val num">${v == null ? "—" : r.f(v)}${i === r.lead ? seal(EN() ? "1st" : "冠") : ""}</span><div class="hbar"><i style="width:${v == null ? 0 : Math.abs(v) / r.mx * 100}%;background:${r.k === "growth" ? (v < 0 ? "var(--neg)" : "var(--pos)") : ORD[i]}"></i></div></div>`).join("")) + (n < 5 ? "<div></div>" : "") + `</div>`).join("");
+  $("[data-duel-cta]").innerHTML = `<div class="row-gap"><button class="btn primary" data-sec="s-share">${icon("i-share")}${ZH("生成对决长卷", "Make a compare card")}</button><button class="btn">${icon("i-link")}${ZH("复制链接", "Copy link")}</button></div>
+    <code class="note" style="font-family:ui-monospace,monospace">/duel?c=${V4.duel.join(",")}</code><p class="note">${ZH("“冠”只表示该项数值最高，并列比较，不代表优劣。", "The seal marks the highest value only; side by side, not better or worse.")}</p>`; }
+function drawDuelMarks(app, ctx, u, v) { V4.duel.forEach((id, i) => { const c = BYID.get(id); if (!c) return; const [x, y] = toPx(v, c.x, c.y);
+  ctx.save(); ctx.strokeStyle = ORD[i]; ctx.lineWidth = 2.4 * u; ctx.beginPath(); ctx.arc(x, y - 4 * u, 13 * u, 0, 7); ctx.stroke();
+  ctx.fillStyle = ORD[i]; ctx.beginPath(); ctx.arc(x + 11 * u, y - 14 * u, 7 * u, 0, 7); ctx.fill(); ctx.fillStyle = "#f6efe0"; ctx.font = `700 ${9 * u}px "Noto Serif SC", serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(String(i + 1), x + 11 * u, y - 13.5 * u); ctx.restore(); }); }
+
+/* ---------- 伍 · 分享长卷 ---------- */
+function renderShare() { const c = BYID.get(V4.city), en = EN(), N = NATION.rankN;
+  $("[data-c9-top]").innerHTML = `<div class="ttl"><span class="big">${en ? `<span style="font:900 40px/1 var(--serif)">${c.en}</span>` : c.n}</span>${seal(c.n.slice(0, 2), 46)}<div class="meta">${pvOf(c)}${c.pcap ? ZH(" · 省会", " · capital") : ""}<i>${en ? c.n : (c.en || "").toUpperCase()} · 2023</i></div></div>`;
+  $("[data-c9-bottom]").innerHTML = `<div class="ys">${[["pop", fmtPopShort(c.popAny)], ["gold", fmtYuan(c.gdp)], ["food", fmtYuan(c.p1)], ["ind", fmtYuan(c.p2)], ["com", fmtYuan(c.p3)]].map(([k, s]) => `<div>${medalSVG(k)}<b class="num">${s}</b></div>`).join("")}</div>
+    <div class="facts"><div><span>${t("kPc")}</span><b class="num">${fmtPc(c.pc)} · ${ZH("全国第", "#")}${c.rk.pc}${ZH("", "")}</b></div><div><span>${t("lensSv")}</span><b class="num">${Math.round(c.sv * 100)}% · ${ZH("全国第", "#")}${c.rk.sv}</b></div><div><span>${t("kGrowth")}</span><b class="num ${c.growth > 0 ? "up" : "down"}">${fmtPct(c.growth, true)}</b></div></div>
+    <div class="foot"><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span><span class="src">${ZH(`数据：${c.n}市及国家统计局 2023 年统计公报、七普`, `Data: 2023 communiqués, 2020 census`)}</span><span class="qr">${ZH("扫码<br>看档案", "Scan<br>for more")}</span></div>`;
+  const { cs, crowns } = duelData();
+  $("[data-c16]").innerHTML = `<div class="t">${cs.map(cname).join(" · ")}<small>${ZH("城市对决 · 2023", "COMPARE · 2023")}</small></div>
+    <div class="cols" style="grid-template-columns:repeat(${cs.length},1fr)">${cs.map((o, i) => `<div style="border-color:${ORD[i]}"><b>${cname(o)}${crowns[i] ? Array.from({ length: Math.min(crowns[i], 4) }, () => seal(en ? "1" : "冠")).join("") : ""}</b>
+      <span>${medalSVG("pop", "sm")}${fmtPopShort(o.popAny)}</span><span>${medalSVG("gold", "sm")}${fmtYuan(o.gdp)}</span><span>${medalSVG("com", "sm")}${t("kPc")} ${fmtPc(o.pc)}</span></div>`).join("")}</div>
+    <div class="ft">${seal("图鉴")}<span>${ZH("江山图鉴 · 数据来自各地 2023 年统计公报 · “冠”为该项最高", "Jiangshan Atlas · 2023 communiqués · seal = highest")}</span></div>`;
+  const L = V4LENS.pc || LENSES.pc;
+  $("[data-poster]").innerHTML = `<div class="ph"><b>${ZH("千里江山 · 人均GDP", "GDP per capita")}</b><span>${ZH("中华人民共和国 · 地级行政区 · 2023", "People's Republic of China · prefecture level · 2023")}<br><span style="color:var(--ink-3)">${ZH("GDP PER CAPITA BY PREFECTURE", "墨分五色 · five strengths of ink")}</span></span>${seal("图鉴")}</div>
+    <div class="pl"><div class="legend"><div class="swatches">${lensColors(LENSES.pc).map((col, i) => `<span style="background:rgba(28,22,18,${INK5[i]})"></span>`).join("")}</div><div class="names">${["清", "淡", "重", "浓", "焦"].map(n => `<span>${n}</span>`).join("")}</div><div class="ticks num">${lensLabels(LENSES.pc).map(s => `<span>${s}</span>`).join("")}</div></div>
+      <span class="src">${ZH("数据：各地 2023 年国民经济和社会发展统计公报；国家统计局。边界依据标准地图（DataV.GeoAtlas）。无数据地区留白。", "Data: 2023 communiqués; NBS. Boundaries per the standard map (DataV.GeoAtlas). No data stays blank.")}<br>${ZH("江山图鉴 · 可自由转载，请注明出处", "Jiangshan Atlas · free to share with attribution")}</span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div>`; }
+
+/* ---------- 陆 · 钤印认乡 ---------- */
+function renderXiang() { const h = BYID.get(V4.home), en = EN(), no = (V4.count + (V4.stamped ? 1 : 0)).toLocaleString("en-US");
+  $$("[data-ptop]").forEach(el => el.innerHTML = pTop());
+  $("[data-x1]").innerHTML = `<div class="handle"></div><div class="cp-head"><span class="seal" style="--s:44px"><span>${h.n.slice(0, 2)}</span></span><div><h2>${cname(h)}${tierImg(h)}</h2><div class="en">${en ? h.n : h.en}</div><div class="meta">${kindOf(h)} · ${pvOf(h)}</div></div></div>
+    <div class="xiang"><div class="slot">${V4.stamped ? `<span class="seal stamp"><span>吾乡</span></span>` : `<span class="ghost">${ZH("钤印处", "seal here")}</span>`}</div>
+      <div class="txt">${V4.stamped ? `<div class="count">${ZH(`你是第 ${no} 位`, `You are no. ${no}`)}<br><small>${ZH(`为${h.n}钤印的老乡`, `to stamp for ${h.en}`)}</small></div><div class="today">${ZH(`今日 +${V4.today + 1}`, `Today +${V4.today + 1}`)} ${SHI()}</div><button class="btn" data-sec="s-xiang" data-v4="x-where">${ZH("老乡在哪儿 →", "Where they live →")}</button>`
+        : `<div class="count" style="font-size:19px">${ZH(`已有 ${V4.count.toLocaleString("en-US")} 位老乡在此钤印`, `${V4.count.toLocaleString("en-US")} natives stamped here`)}</div><div class="today">${ZH(`今日 +${V4.today}`, `Today +${V4.today}`)} ${SHI()}</div><button class="btn primary" data-v4="stamp">${ZH("钤印 · 这是我的家乡", "Stamp · my hometown")}</button>`}</div></div>
+    <div class="p-row"><label class="field">${icon("i-home")}<input value="${ZH("我现居：成都（可选）", "I live in: Chengdu (optional)")}" aria-label="current city" readonly></label><button class="btn">${ZH("填写", "Set")}</button></div>
+    <p class="disclaim">${icon("i-info")}<span>${ZH("本站访客自愿标注，非官方统计。不注册、不定位；只存家乡城、可选现居城与一个随机编号。", "Self-reported by visitors, not official statistics. No sign-up, no location; we keep the hometown, an optional current city and a random ID.")}</span></p>`;
+  const tot = DEST.reduce((s, d) => s + d[1], 0);
+  $("[data-x2]").innerHTML = `<div class="handle"></div><div class="cp-head" style="grid-template-columns:auto 1fr"><span class="seal" style="--s:40px"><span>吾乡</span></span><div><h2 style="font-size:21px">${ZH(`${h.n}老乡在哪儿`, `Where ${h.en} natives live`)}</h2><div class="meta">${ZH(`${V4.count.toLocaleString("en-US")} 位钤印者中，填了现居城的 61%`, `61% of ${V4.count.toLocaleString("en-US")} stampers gave a current city`)} ${SHI()}</div></div></div>
+    <div class="dest">${DEST.slice(0, 6).map(([id, s]) => { const c = BYID.get(id); return `<div class="d"><b>${cname(c)}</b><div class="hbar"><i style="width:${s / DEST[0][1] * 100}%"></i></div><em>${Math.round(s * 100)}%</em></div>`; }).join("")}</div>
+    <p class="disclaim">${icon("i-info")}<span>${ZH("不足 10 位的城市不显示，也不画流线。本站访客自愿标注，非官方统计。", "Cities with fewer than 10 are hidden and get no stroke. Self-reported, not official.")}</span></p>`;
+  $("[data-x3a]").innerHTML = `${seal("吾乡")}<div class="line">${ZH(`我为家乡<b>${h.n}</b>钤印`, `I stamped for <b>${h.en}</b>`)}</div><div class="zhubi" style="font-size:17px">${ZH(`第 ${no} 位 · 二〇二六年冬`, `No. ${no} · winter 2026`)}</div>`;
+  $("[data-x3b]").innerHTML = `<div class="foot"><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span><span style="flex:1">${ZH("本站访客自愿标注，非官方统计", "Self-reported by visitors, not official")}</span><span class="qr">${ZH("扫码<br>认家乡", "Scan to<br>stamp")}</span></div>`;
+  $("[data-sharebar]").innerHTML = [["i-share", ZH("发给朋友", "Send")], ["i-out", ZH("朋友圈", "Moments")], ["i-link", ZH("复制链接", "Copy link")], ["i-download", ZH("保存图片", "Save image")]].map(([ic, l]) => `<div><i>${icon(ic, "")}</i>${l}</div>`).join(""); }
+function drawSealCluster(app, ctx, u, v) { const h = BYID.get(V4.home); if (!h) return; const [x, y] = toPx(v, h.x, h.y), r = rng(41), n = V4.stamped ? 15 : 12;
+  for (let i = 0; i < n; i++) { const a = r() * 6.28, d = (10 + r() * 30) * u, s = (3.2 + r() * 2.2) * u; ctx.save(); ctx.translate(x + Math.cos(a) * d * 1.3, y + 8 * u + Math.sin(a) * d * .55); ctx.rotate((r() - .5) * .5); ctx.globalAlpha = .55 + r() * .35; ctx.fillStyle = DAY.seal; ctx.fillRect(-s / 2, -s / 2, s, s); ctx.restore(); } }
+function flowGeom(v) { const h = BYID.get(V4.home); if (!h) return []; const [x0, y0] = toPx(v, h.x, h.y);
+  return DEST.map(([id, s], i) => { const c = BYID.get(id); if (!c) return null; const [x1, y1] = toPx(v, c.x, c.y), mx = (x0 + x1) / 2, my = (y0 + y1) / 2, dx = x1 - x0, dy = y1 - y0, k = .22 * (i % 2 ? -1 : 1); return { c, s, x0, y0, x1, y1, cx: mx - dy * k, cy: my + dx * k }; }).filter(Boolean); }
+function drawFlows(app, ctx, u, v) { for (const f of flowGeom(v)) { ctx.save(); ctx.strokeStyle = "rgba(178,58,43,.8)"; ctx.lineWidth = (1.4 + f.s * 18) * u; ctx.lineCap = "round"; ctx.beginPath(); ctx.moveTo(f.x0, f.y0); ctx.quadraticCurveTo(f.cx, f.cy, f.x1, f.y1); ctx.stroke(); ctx.restore(); } }
+function drawFlowLabels(app, ctx, u, v) { const Lb = Labeler(app.canvas.width, app.canvas.height); (app.blocked || []).forEach(b => Lb.add(b));
+  for (const f of flowGeom(v)) { ctx.save(); ctx.fillStyle = DAY.seal; ctx.strokeStyle = "#f6efe0"; ctx.lineWidth = 1.2 * u; ctx.beginPath(); ctx.arc(f.x1, f.y1, (2.8 + f.s * 12) * u, 0, 7); ctx.fill(); ctx.stroke();
+    ctx.font = `${13 * u}px "Ma Shan Zheng", serif`; const t = `${cname(f.c)} ${Math.round(f.s * 100)}%`, w = ctx.measureText(t).width, r = (5 + f.s * 12) * u, hh = 14 * u;
+    for (const [bx, by] of [[f.x1 + r, f.y1 - hh / 2], [f.x1 - r - w, f.y1 - hh / 2], [f.x1 - w / 2, f.y1 - r - hh], [f.x1 - w / 2, f.y1 + r]]) { const box = [bx, by, w, hh]; if (Lb.free(box)) { Lb.add(box); ctx.textAlign = "left"; ctx.textBaseline = "top"; haloText(ctx, t, bx, by, "#8e2a1f", "rgba(246,239,224,.92)", 3.4 * u); break; } }
+    ctx.restore(); }
+  const h = BYID.get(V4.home); if (h) { const [x, y] = toPx(v, h.x, h.y); drawSeal(ctx, x - 14 * u, y - 14 * u, 22 * u, "吾乡", u, 5); } }
+
+/* ---------- 柒 · 古今同图 ---------- */
+function suPts(v) { return SU.map(([, id]) => { const c = BYID.get(id); return c ? toPx(v, c.x, c.y) : [0, 0]; }); }
+function qpt(a, b, k, t) { const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, dx = b[0] - a[0], dy = b[1] - a[1], cx = mx - dy * k, cy = my + dx * k, it = 1 - t; return [it * it * a[0] + 2 * it * t * cx + t * t * b[0], it * it * a[1] + 2 * it * t * cy + t * t * b[1]]; }
+function drawSuRoute(app, ctx, u, v) { const pts = suPts(v), n = SU.length - 1, Pp = V4.suP * n, Lb = Labeler(app.canvas.width, app.canvas.height); if (app.blocked) app.blocked.forEach(b => Lb.add(b));
+  ctx.save(); ctx.lineCap = "round"; ctx.lineJoin = "round";
+  const seg = (i, f) => { const k = .16 * (i % 2 ? -1 : 1); ctx.moveTo(...pts[i]); for (let s = 1; s <= 24; s++) ctx.lineTo(...qpt(pts[i], pts[i + 1], k, s / 24 * f)); };
+  ctx.strokeStyle = "rgba(178,58,43,.22)"; ctx.lineWidth = 1.2 * u; ctx.setLineDash([2.5 * u, 3.5 * u]); ctx.beginPath(); for (let i = 0; i < n; i++) seg(i, 1); ctx.stroke();
+  ctx.strokeStyle = "rgba(160,44,32,.92)"; ctx.lineWidth = 2.6 * u; ctx.setLineDash([8 * u, 4 * u]); ctx.beginPath(); for (let i = 0; i < n && i < Pp; i++) seg(i, Math.min(1, Pp - i)); ctx.stroke(); ctx.setLineDash([]);
+  const cur = Math.min(n, Math.floor(Pp + 1e-6)), byCity = new Map();
+  SU.forEach(([yr, id], i) => { if (i > cur) return; const e = byCity.get(id) || { i, yrs: [] }; e.yrs.push(yr); e.last = i; byCity.set(id, e); });
+  SU.forEach(([yr, id], i) => { const [x, y] = pts[i], done = i <= cur; ctx.fillStyle = done ? DAY.seal : "rgba(246,239,224,.95)"; ctx.strokeStyle = DAY.seal; ctx.lineWidth = 1.4 * u; ctx.beginPath(); ctx.arc(x, y, 7 * u, 0, 7); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = done ? "#fbf1e4" : DAY.seal; ctx.font = `700 ${7.5 * u}px "Noto Serif SC", serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(String(i + 1), x, y + .3 * u); Lb.add([x - 8 * u, y - 8 * u, 16 * u, 16 * u]); });
+  for (const [id, e] of byCity) { const c = BYID.get(id), [x, y] = pts[e.last], s = `${cname(c)} ${e.yrs.join(" · ")}`; ctx.font = `600 ${11 * u}px "Noto Serif SC", serif`; const w = ctx.measureText(s).width, hh = 14 * u;
+    const cand = [[x + 10 * u, y - hh / 2], [x - 10 * u - w, y - hh / 2], [x - w / 2, y - 10 * u - hh], [x - w / 2, y + 10 * u]];
+    for (const [bx, by] of cand) { const box = [bx - 2 * u, by, w + 4 * u, hh]; if (Lb.free(box)) { Lb.add(box); ctx.textAlign = "left"; ctx.textBaseline = "top"; haloText(ctx, s, bx, by + 1 * u, e.last === cur ? "#8e2a1f" : DAY.ink, "rgba(246,239,224,.92)", 3.2 * u); break; } } }
+  const [cx, cy] = pts[cur]; drawSeal(ctx, cx, cy - 26 * u, 26 * u, String(SU[cur][0]).split("").slice(0, 4).join(""), u, 9); ctx.restore(); }
+function renderGj() { const en = EN(), n = SU.length, cur = Math.min(n - 1, Math.floor(V4.suP * (n - 1) + 1e-6));
+  $("[data-gj-side]").innerHTML = `<div class="cp-head"><span class="seal"><span>东坡</span></span><div><h2>${ZH("苏轼", "Su Shi")}</h2><div class="en">${en ? "苏轼 · 1037–1101" : "Su Shi · 1037–1101"}</div><div class="meta">${ZH("北宋 · 字子瞻，号东坡居士", "Northern Song · courtesy name Zizhan")} ${SHI()}</div></div></div>
+    <div class="gj-list">${SU.map(([yr, id, zh, enT], i) => { const c = BYID.get(id); return `<button data-su="${i}" class="${i < cur ? "done" : i === cur ? "done cur" : ""}"><span class="yr num">${yr}</span><span class="no">${i + 1}</span><span><b>${en ? enT : zh}</b><span>${ZH("今", "Today: ")}${cname(c)} · ${pvOf(c)}</span></span></button>`; }).join("")}</div>
+    <div class="gj-ctl"><button class="btn primary" data-v4="su-play">${icon(V4.playing ? "i-pause" : "i-play")}${V4.playing ? ZH("暂停", "Pause") : ZH("播放行迹", "Play route")}</button><span class="note num">${ZH(`第 ${cur + 1} / ${n} 站`, `Stop ${cur + 1} / ${n}`)}</span><span class="note" style="margin-left:auto">${ZH("示意 · 正式版取自 CBDB", "Illustrative · CBDB in production")}</span></div>`;
+  const yr0 = -221, yr1 = 2026, X = y => (y - yr0) / (yr1 - yr0) * 100;
+  $("[data-gj-time]").innerHTML = `<div class="ticks">${DYN.map(([zh, enD], i) => `<button data-dyn="${i}" aria-pressed="${V4.dyn === i}"><i></i>${en ? `<span style="font:600 11px/1 var(--serif)">${enD}</span>` : zh}</button>`).join("")}</div>
+    <div class="cap"><span>${V4.dyn === 8 ? ZH("宋 · 960–1279 · 当前人物：苏轼（1037–1101）", "Song · 960–1279 · now showing Su Shi (1037–1101)") : ZH("该朝代政区边界待 CHGIS 许可；目前只显示治所点与文字沿革", "Boundaries for this dynasty await CHGIS permission; seats and text only for now")}</span><span>${ZH("拖动或点朝代", "Drag or click a dynasty")}</span></div>`; }
+let suRAF = 0;
+function suPlay() { if (V4.playing) { V4.playing = false; cancelAnimationFrame(suRAF); renderGj(); return; } V4.playing = true; if (V4.suP >= 1) V4.suP = 0; let last = performance.now(), lastStop = -1;
+  const app = V4APPS.gj, step = now => { V4.suP = Math.min(1, V4.suP + (now - last) / 9000); last = now; frame(app); const stop = Math.floor(V4.suP * (SU.length - 1) + 1e-6); if (stop !== lastStop) { lastStop = stop; renderGj(); }
+    if (V4.suP < 1 && V4.playing) suRAF = requestAnimationFrame(step); else { V4.playing = false; renderGj(); } };
+  renderGj(); suRAF = requestAnimationFrame(step); }
+
+/* ---------- 捌 · 治理层 ---------- */
+let GOV_ARCS = null;
+function govArcs() { if (GOV_ARCS) return GOV_ARCS; const caps = CITIES.filter(c => c.pcap || c.kind === "municipality"), r = rng(23); GOV_ARCS = [];
+  for (let i = 0; i < 22; i++) { const a = caps[Math.floor(r() * caps.length)], b = caps[Math.floor(r() * caps.length)]; if (a === b) continue; GOV_ARCS.push([a, b, 1 + Math.floor(r() * 4)]); }
+  const hz = BYID.get("330100"), bj = BYID.get("110000"); GOV_ARCS.push([bj, hz, 3]); return GOV_ARCS; }
+function drawGovArcs(app, ctx, u, v) { if (!V4.gov) return;
+  for (const [a, b, w] of govArcs()) { const p0 = toPx(v, a.x, a.y), p1 = toPx(v, b.x, b.y), k = .18; ctx.save(); ctx.strokeStyle = "rgba(45,94,120,.62)"; ctx.lineWidth = (.7 + w * .55) * u; ctx.lineCap = "round"; ctx.beginPath(); ctx.moveTo(...p0);
+    for (let s = 1; s <= 30; s++) ctx.lineTo(...qpt(p0, p1, k, s / 30)); ctx.stroke(); const e = qpt(p0, p1, k, 1), d = qpt(p0, p1, k, .94), ang = Math.atan2(e[1] - d[1], e[0] - d[0]), L = (5 + w) * u;
+    ctx.fillStyle = "rgba(45,94,120,.85)"; ctx.beginPath(); ctx.moveTo(e[0], e[1]); ctx.lineTo(e[0] - L * Math.cos(ang - .45), e[1] - L * Math.sin(ang - .45)); ctx.lineTo(e[0] - L * Math.cos(ang + .45), e[1] - L * Math.sin(ang + .45)); ctx.closePath(); ctx.fill(); ctx.restore(); }
+ }
+function drawGovMark(app, ctx, u) { if (!V4.gov) return; ctx.save(); ctx.font = EN() ? `600 ${64 * u}px "Noto Serif SC", serif` : `${130 * u}px "Ma Shan Zheng", serif`; ctx.fillStyle = "rgba(43,35,29,.13)"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.translate(app.canvas.width * .33, app.canvas.height * .5); ctx.rotate(-.08); ctx.fillText(ZH("示 意", "ILLUSTRATIVE"), 0, 0); ctx.restore(); }
+function renderGov() {
+  $("[data-gov-tools]").innerHTML = `<button class="switch" data-v4="gov" aria-pressed="${V4.gov}"><i></i>${ZH("治理层", "Governance layer")}</button>${SHI()}`;
+  $("[data-gov-legend]").innerHTML = V4.gov ? `<b style="font:600 var(--fs-3)/1.2 var(--serif)">${ZH("干部交流流向", "Where leaders come from")}${SHI()}</b>
+    <div class="ln"><svg viewBox="0 0 44 12"><path d="M2 9 Q22 0 40 9" fill="none" stroke="rgba(45,94,120,.7)" stroke-width="2"/><path d="M40 9l-6-1.5 2.5-3.5z" fill="rgba(45,94,120,.9)"/></svg>${ZH("调任方向：从原任职地到新任职地", "Direction: from previous post to new post")}</div>
+    <div class="ln"><svg viewBox="0 0 44 12"><path d="M2 4h40" stroke="rgba(45,94,120,.7)" stroke-width="1"/><path d="M2 9h40" stroke="rgba(45,94,120,.7)" stroke-width="3"/></svg>${ZH("线越粗，2012 年以来人次越多", "Thicker = more moves since 2012")}</div>
+    <span class="note">${ZH("只统计省、地两级主要领导；不画个人关系。", "Main provincial and prefecture leaders only; no personal ties.")}</span>` : `<span class="note">${ZH("治理层已关闭。", "Governance layer is off.")}</span>`;
+  const c = BYID.get("330100");
+  $("[data-gov-side]").innerHTML = V4.gov ? `<div class="cp-head"><span class="seal"><span>${c.n}</span></span><div><h2>${cname(c)} · ${ZH("治理", "Governance")}</h2><div class="meta">${ZH("截至 2026-11-27 · 发现错误？", "As of 2026-11-27 · spotted an error?")}<a href="#" style="color:var(--river)">${ZH("纠错", "Correct it")}</a></div></div></div>
+    <div class="body">${govTenure(null)}<div class="panel"><h4>${ZH("本市干部来源", "Where this city's leaders came from")}${SHI()}</h4><div class="dest" style="margin:0">${[["本省调任", "Within province", .5], ["外省调入", "Other province", .33], ["中央调入", "Central", .17]].map(([zh, en, s]) => `<div class="d" style="grid-template-columns:88px 1fr 40px"><b style="font-size:13px">${ZH(zh, en)}</b><div class="hbar"><i style="width:${s * 100}%;background:var(--river)"></i></div><em style="color:var(--ink);font:600 13px/1 var(--serif)">${Math.round(s * 100)}%</em></div>`).join("")}</div></div>
+    <div class="panel"><h4>${ZH("七条红线", "Seven red lines")}</h4>${redLines()}</div></div>`
+    : `<div class="off-state">${icon("i-gov", "")}<b style="font:600 var(--fs-4)/1.3 var(--serif);color:var(--ink)">${ZH("治理层已关闭", "Governance layer is off")}</b><span>${ZH("地图与城市档案都不显示任何官员信息。国内正式版可整层不带。", "No official appears anywhere on the map or in archives. The domestic release can ship without this layer.")}</span></div>`; }
+
+/* ---------- 玖 · 时间轴与年报 ---------- */
+function renderTl() { const en = EN(), yrs = [[2020, ZH("七普", "census"), 1], [2021, ZH("采集中", "pending"), 0], [2022, ZH("采集中", "pending"), 0], [2023, ZH("公报", "bulletin"), 1], [2024, ZH("采集中", "pending"), 0], [2025, ZH("采集中", "pending"), 0]];
+  $("[data-tl-bar]").innerHTML = `<button class="btn icon" title="${ZH("六年齐了以后可以播放", "Plays once all six years are in")}" aria-label="play" style="opacity:.5">${icon("i-play")}</button><div class="tl-years">${yrs.map(([y, s, ok]) => `<button data-tl-year="${y}" aria-pressed="${V4.year === y}"><span class="dot ${ok ? "" : "pend"}" style="${ok ? "" : "background:var(--hatch),var(--leaf)"}">${String(y).slice(2)}</span><b class="num">${y}</b><span>${s}</span></button>`).join("")}</div>
+    <div style="display:grid;gap:2px;min-width:150px"><b style="font:600 var(--fs-3)/1.2 var(--serif)">${ZH("常住人口", "Population")} · ${V4.year}</b><span class="note">${V4.year === 2020 ? ZH("第七次全国人口普查", "7th national census") : ZH("各地 2023 年统计公报", "2023 communiqués")}</span></div>`;
+  const g = CITIES.filter(c => c.growth != null), up = g.filter(c => c.growth > 0).length, down = g.filter(c => c.growth < 0).length;
+  const top = g.slice().sort((a, b) => b.growth - a.growth).slice(0, 5), bot = g.slice().sort((a, b) => a.growth - b.growth).slice(0, 5), club = CITIES.filter(c => c.gdp >= 1e12).sort((a, b) => b.gdp - a.gdp);
+  const list = (arr, cls) => `<div class="rk-list">${arr.map((c, i) => `<div><span class="no">${i + 1}</span>${tierImg(c)}<b>${cname(c)}</b><em class="num ${cls}">${fmtPct(c.growth, true)}</em></div>`).join("")}</div>`;
+  $("[data-ar-side]").innerHTML = `<div class="cp-head" style="grid-template-columns:auto 1fr"><span class="seal"><span>年报</span></span><div><h2 style="font-size:24px">${ZH("城市年报", "City report")}</h2><div class="meta">${ZH("2020 → 2023 · 真实数据", "2020 → 2023 · real data")}</div></div></div>
+    <div class="body"><div class="leadline">${ZH(`三年间，<b>${up}</b> 座城人口增加，<b>${down}</b> 座减少。`, `In three years <b>${up}</b> cities grew and <b>${down}</b> shrank.`)}</div>
+    <div class="panel"><h4>${icon("i-trend")}${ZH("人口增长最快", "Fastest growing")}<small>${ZH("七普 → 2023", "census → 2023")}</small></h4>${list(top, "up")}</div>
+    <div class="panel"><h4>${icon("i-trend")}${ZH("人口减少最多", "Fastest shrinking")}</h4>${list(bot, "down")}</div>
+    <div class="panel"><h4>${medalSVG("gold", "sm")}${ZH(`万亿俱乐部 · ${club.length} 城`, `Trillion-yuan club · ${club.length}`)}<small>2023</small></h4><div class="club">${club.map(c => `<span class="plaque ${c.gdpIdx < 10 ? "top" : ""}"><span class="pop">${fmtYuan(c.gdp)}</span>${cname(c)}</span>`).join("")}</div></div>
+    <div class="panel pend"><h4>${ZH("2025 年报 · 今年的变化", "2025 report · what changed")}<small>${ZH("数据齐后自动生成", "auto-generated once data is in")}</small></h4><span class="note">${ZH("新晋万亿城市、人口拐点、名次升降最多的城市……每年春天公报发布后更新。", "New trillion-yuan cities, population turning points, biggest rank moves… refreshed each spring.")}</span></div></div>`; }
+
+/* ---------- maps for the new screens ---------- */
+function regionAround(id, km) { const c = BYID.get(id); return c ? [c.x - km, c.y - km, c.x + km, c.y + km] : [0, 0, FR.w, FR.h]; }
+function minBox(b, m) { const w = b[2] - b[0], h = b[3] - b[1]; if (w < m) { b[0] -= (m - w) / 2; b[2] += (m - w) / 2; } if (h < m) { b[1] -= (m - h) / 2; b[3] += (m - h) / 2; } return b; }
+function regionOf(ids, pad) { const cs = ids.map(id => BYID.get(id)).filter(Boolean), xs = cs.map(c => c.x), ys = cs.map(c => c.y); return [Math.min(...xs) - pad, Math.min(...ys) - pad, Math.max(...xs) + pad, Math.max(...ys) + pad]; }
+const prefIdx = id => P.prefs ? P.prefs.findIndex(p => p.id === id) : -1;
+function sized(node, extra) { return Object.assign({ get w() { return node.offsetWidth || 10; }, get h() { return node.offsetHeight || 10; }, area: () => [0, 0, node.offsetWidth, node.offsetHeight], scale: () => null }, extra); }
+function initV4() {
+  const m = (key, root, cfg) => { if (!root) return; V4APPS[key] = makeApp(root, cfg); };
+  const box = s => $(`[data-map=${s}]`), appEl = s => $(`[data-app=${s}]`);
+  m("arc", box("arc"), sized(box("arc"), { bbox: () => regionAround(V4.city, 210), sel: () => V4.city, lens: () => "none", zb: 3, quota: 9, noWonders: true, hl: () => V4.city }));
+  m("duel", box("duel"), sized(box("duel"), { bbox: () => minBox(regionOf(V4.duel, 160), 760), sel: () => null, lens: () => "none", zb: 2, bannerIds: () => new Set(V4.duel), over: drawDuelMarks }));
+  m("c9", box("c9"), sized(box("c9"), { bbox: () => regionAround(V4.city, 190), sel: () => V4.city, lens: () => "none", zb: 2.4, noWonders: true, hl: () => V4.city }));
+  m("c16", box("c16"), sized(box("c16"), { bbox: () => regionOf(V4.duel, 80), sel: () => null, lens: () => "none", zb: 2.2, bannerIds: () => new Set(V4.duel), over: drawDuelMarks, noNames: true }));
+  m("poster", box("poster"), sized(box("poster"), { sel: () => null, lens: () => "pc", quota: 10, minTier: 2, noDots: true, inset: () => ({ x: box("poster").offsetWidth - 14, y: box("poster").offsetHeight - 6, w: 118 }) }));
+  m("x1", appEl("x1"), { w: 390, h: 844, area: () => [0, 96, 390, 844 - 96 - 376], bbox: () => regionAround(V4.home, 250), sel: () => V4.home, selSeal: () => V4.stamped ? "吾乡" : null, lens: () => "none", zb: 2.4, quota: 10, hl: () => V4.home, over: drawSealCluster, scale: () => null, blocked: () => [[0, 0, 390, 100], [0, 468, 390, 376]] });
+  m("x2", appEl("x2"), { w: 390, h: 844, area: () => [0, 96, 390, 844 - 96 - 306], bbox: () => [900, 1500, 5400, 4300], sel: () => null, lens: () => "none", bannerIds: () => new Set(), noNames: true, minTier: 1, noDots: true, under: drawFlows, over: drawFlowLabels, inset: () => ({ x: 390 - 8, y: 844 - 306 - 8, w: 70 }), scale: () => null, blocked: () => [[0, 0, 390, 100], [0, 538, 390, 306]] });
+  m("x3", box("x3"), sized(box("x3"), { bbox: () => regionAround(V4.home, 300), sel: () => V4.home, selSeal: () => "吾乡", lens: () => "none", zb: 2, noWonders: true, hl: () => V4.home, over: drawSealCluster }));
+  m("gj", appEl("gj"), { w: 1440, h: 900, area: () => [404, 140, 1440 - 404 - 10, 900 - 150], bbox: () => bboxLL(101.5, 18.5, 122.5, 40.5), sel: () => null, lens: () => "none", bannerIds: () => new Set(), noNames: true, over: drawSuRoute,
+    inset: () => ({ x: 1440 - 14, y: 900 - 14, w: 150 }), scale: () => ({ x: 1440 - 180, y: 900 - 22 }), blocked: () => [[0, 0, 1440, 54], [0, 48, 404, 852], [404, 54, 1036, 86], [1440 - 170, 900 - 220, 170, 220]] });
+  m("gov", appEl("gov"), { w: 1440, h: 900, area: () => [0, 48, 1440 - 470, 852], sel: () => null, lens: () => "none", under: drawGovArcs, over: drawGovMark, quota: 12,
+    inset: () => ({ x: 1440 - 480, y: 900 - 14, w: 170 }), scale: () => null, blocked: () => [[0, 0, 1440, 54], [1440 - 470, 48, 470, 852], [0, 900 - 190, 330, 190], [0, 48, 330, 60], [1440 - 660, 900 - 270, 190, 270]] });
+  m("tl", appEl("tl"), { w: 1440, h: 900, area: () => [0, 48, 1440 - 378, 852 - 100], sel: () => null, lens: () => V4.year === 2020 ? "pop20" : "pop23", quota: 14,
+    inset: () => ({ x: 1440 - 388, y: 900 - 120, w: 160 }), scale: () => null, blocked: () => [[0, 0, 1440, 54], [1440 - 378, 48, 378, 852], [220, 900 - 120, 820, 120], [1440 - 560, 900 - 330, 180, 220]] });
+}
+function v4Refresh(key, relayout) { const a = V4APPS[key]; if (!a) return; if (a.cfg.hl) a.hoverPref = prefIdx(a.cfg.hl()); if (relayout) layout(a, false); full(a); }
+const TOC = [["s-desk", "壹", "桌面主界面", "Desktop"], ["s-phone", "贰", "手机界面", "Phone"], ["s-archive", "叁", "城市档案", "City archive", 1], ["s-duel", "肆", "城市对决", "Compare", 1], ["s-share", "伍", "分享长卷", "Share cards", 1], ["s-xiang", "陆", "钤印认乡", "Hometown seal", 1], ["s-gujin", "柒", "古今同图", "Then & now", 1], ["s-gov", "捌", "治理层", "Governance", 1], ["s-time", "玖", "时间轴与年报", "Timeline", 1], ["s-icons", "拾", "图标优先", "Icons"], ["s-color", "拾壹", "色彩", "Colour"], ["s-type", "拾贰", "字体", "Type"], ["s-motif", "拾叁", "母题与组件", "Motifs"], ["s-motion", "拾肆", "交互与动效", "Motion"], ["s-bi", "拾伍", "双语与数字", "Bilingual"], ["s-decide", "拾陆", "请你确认", "Decide"]];
+function renderToc() { const el = $("[data-toc]"); if (el) el.innerHTML = TOC.map(([id, n, zh, en, isNew]) => `<a href="#${id}" data-sec="${id}" class="${isNew ? "new" : ""}"><span class="seal"><span>${n}</span></span>${ZH(zh, en)}</a>`).join(""); }
+function renderV4() { if (!CITIES) return; v4Prepare(); renderToc();
+  $$("[data-v4top]").forEach(el => el.innerHTML = v4Top(el.dataset.v4top)); $$("[data-v4nav]").forEach(el => el.innerHTML = navHTML(el.dataset.v4nav));
+  renderArc(); renderDuel(); renderShare(); renderXiang(); renderGj(); renderGov(); renderTl();
+  for (const a of Object.values(V4APPS)) if (a.cfg.hl) a.hoverPref = prefIdx(a.cfg.hl()); }
+function bindV4() {
+  document.addEventListener("click", e => { const b = e.target.closest("[data-sec],[data-v4],[data-arc-tab],[data-arc-city],[data-su],[data-dyn],[data-tl-year],[data-duel-x]"); if (!b) return;
+    if (b.dataset.v4 === "stamp") { V4.stamped = true; renderXiang(); v4Refresh("x1"); v4Refresh("x3"); return; }
+    if (b.dataset.sec) { e.preventDefault(); const s = document.getElementById(b.dataset.sec); if (s) s.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }); return; }
+    if (b.dataset.arcTab) { V4.tab = b.dataset.arcTab; renderArc(); return; }
+    if (b.dataset.arcCity) { V4.city = b.dataset.arcCity; renderArc(); renderShare(); v4Refresh("arc", true); v4Refresh("c9", true); return; }
+    if (b.dataset.v4 === "arc-duel") { if (!V4.duel.includes(V4.city)) { V4.duel = [V4.city, ...V4.duel].slice(0, 5); renderDuel(); renderShare(); v4Refresh("duel", true); v4Refresh("c16", true); } const s = document.getElementById("s-duel"); s && s.scrollIntoView({ behavior: "smooth" }); return; }
+    if (b.dataset.duelX) { V4.duel = V4.duel.filter(id => id !== b.dataset.duelX); renderDuel(); renderShare(); v4Refresh("duel", true); v4Refresh("c16", true); return; }
+    if (b.dataset.v4 === "duel-add") { let tries = 0; while (tries++ < 8) { const id = V4.pool[V4.poolI++ % V4.pool.length]; if (!V4.duel.includes(id)) { V4.duel.push(id); break; } } renderDuel(); renderShare(); v4Refresh("duel", true); v4Refresh("c16", true); return; }
+    if (b.dataset.su) { V4.playing = false; cancelAnimationFrame(suRAF); V4.suP = (+b.dataset.su) / (SU.length - 1); renderGj(); frame(V4APPS.gj); return; }
+    if (b.dataset.v4 === "su-play") { suPlay(); return; }
+    if (b.dataset.dyn) { V4.dyn = +b.dataset.dyn; renderGj(); return; }
+    if (b.dataset.v4 === "gov") { V4.gov = !V4.gov; renderGov(); v4Refresh("gov"); return; }
+    if (b.dataset.tlYear) { const y = +b.dataset.tlYear; if (y !== 2020 && y !== 2023) return; V4.year = y; renderTl(); const a = V4APPS.tl; if (a && !matchMedia("(prefers-reduced-motion: reduce)").matches) { const f = a.fade.getContext("2d"); f.setTransform(1, 0, 0, 1, 0, 0); f.clearRect(0, 0, a.fade.width, a.fade.height); f.drawImage(a.canvas, 0, 0); a.fade.style.transition = "none"; a.fade.style.opacity = 1; full(a); requestAnimationFrame(() => { a.fade.style.transition = ""; a.fade.style.opacity = 0; }); } else v4Refresh("tl"); return; }
+  }); }
+
+async function fontsReady() { const txt = CITIES.map(c => c.n + (c.en || "")).join("") + PROVS.map(p => p.zh + p.en).join("") + WONDERS.map(w => w.zh + w.en).join("") + "千里江山中华人民共和国二〇二三年数据图鉴渤黄东南海诸岛公里清淡重浓焦癸卯万亿人金粮工商全国郡州府城郭村都吾乡示意东坡苏轼冠秦汉三国晋南北朝隋唐五代宋元明清今年报0123456789%ILUSTRAVE";
   const fams = ['16px "Ma Shan Zheng"', '400 16px "Noto Sans SC"', '500 16px "Noto Sans SC"', '600 16px "Noto Sans SC"', '700 16px "Noto Sans SC"', '400 16px "Noto Serif SC"', '600 16px "Noto Serif SC"', '700 16px "Noto Serif SC"', '900 16px "Noto Serif SC"'];
   try { await Promise.race([Promise.all(fams.map(f => document.fonts.load(f, txt))), new Promise(r => setTimeout(r, 6000))]); } catch (e) { } }
 async function main() {
-  makeApp($("[data-app=desk]"), DESK); makeApp($("[data-app=phone]"), PHONE);
+  makeApp($("[data-app=desk]"), DESK); makeApp($("[data-app=phone]"), PHONE); initV4(); bindV4();
   scaleScreens(); bind(); renderI18n();
   try { await load(); } catch (e) { $(".lede").textContent = "数据加载失败：" + e.message; return; }
   await fontsReady(); refresh();
