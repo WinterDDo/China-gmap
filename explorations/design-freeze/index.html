@@ -1300,6 +1300,15 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .lang-sim td { padding: 7px 6px; border-bottom: 1px solid var(--rule); vertical-align: middle; } .lang-sim tr.on td { background: var(--accent-soft); } .lang-sim .btn { height: 30px; font-size: 12px; white-space: nowrap; }
 .lang-pill { display: inline-block; padding: 3px 8px; border-radius: 999px; font: 600 12px/1.2 var(--sans); white-space: nowrap; } .lang-pill.zh { background: rgba(178,58,43,.12); color: var(--accent); } .lang-pill.en { background: rgba(45,94,120,.12); color: var(--river); }
 @media (max-width: 760px) { .lang-sim table, .lang-sim tbody, .lang-sim tr, .lang-sim td { display: block; } .lang-sim thead { display: none; } .lang-sim tr { padding: 8px 0; border-bottom: 1px solid var(--rule); } .lang-sim td { border: 0; padding: 2px 0; } }
+.cz { display: grid; gap: 12px; }
+.cz-row { display: grid; gap: 4px; } .cz-h { display: flex; align-items: baseline; gap: 8px; } .cz-h b { font: 600 14px/1.3 var(--serif); } .cz-h small { margin-left: auto; font-size: 11px; color: var(--ink-3); }
+.cz .figs { display: flex; gap: 3px; align-items: flex-end; } .cz .figs svg { flex: none; }
+.cz-t { font-size: 13px; color: var(--ink-2); line-height: 1.45; } .cz-t b { color: var(--accent); font-size: 15px; } .cz-c { font-size: 11px; color: var(--ink-3); }
+.cz-leg i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 3px; vertical-align: 0; }
+.cz-row.pend .cz-t { color: var(--ink-3); }
+.cv-sites { display: grid; gap: 8px; } .cv-g { display: grid; grid-template-columns: 22px auto; gap: 2px 8px; align-items: center; } .cv-g > b { font: 600 13px/1.2 var(--serif); } .cv-g > div { grid-column: 2; display: flex; flex-wrap: wrap; gap: 4px; }
+.cv-b { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; color: #fbf1e4; font: 400 14px/1 var(--brush); grid-row: span 2; align-self: start; }
+.cv-g .chip { height: auto; min-height: 30px; padding: 4px 10px; flex-direction: column; align-items: flex-start; gap: 0; } .cv-g .chip small { font-size: 10.5px; color: var(--ink-3); }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" id="sprite">
@@ -1728,7 +1737,7 @@ async function loadImg(src) { const img = new Image(); img.src = src; await img.
   const cx = cv.getContext("2d", { willReadFrequently: true }); cx.drawImage(img, 0, 0); return cx.getImageData(0, 0, img.width, img.height); }
 async function load() {
   const j = p => fetch(p).then(r => { if (!r.ok) throw new Error(p + " " + r.status); return r.json(); });
-  try { SEARCH = await j("data/search.json"); } catch (e) { SEARCH = null; } const [g, c, pv, n, dj] = await Promise.all([j("data/geo.json"), j("data/cities.json"), j("data/provinces.json"), j("data/nation.json"), j("data/dem.json")]); try { FLOWS = await j("data/flows.json"); } catch (e) { FLOWS = null; }
+  try { SEARCH = await j("data/search.json"); } catch (e) { SEARCH = null; } const [g, c, pv, n, dj] = await Promise.all([j("data/geo.json"), j("data/cities.json"), j("data/provinces.json"), j("data/nation.json"), j("data/dem.json")]); try { FLOWS = await j("data/flows.json"); } catch (e) { FLOWS = null; } try { CV = await j("data/cityview.json"); } catch (e) { CV = null; }
   G = g; CITIES = c; PROVS = pv; NATION = n; FR = g.frame; BYID = new Map(c.map(x => [x.id, x]));
   const Rr = 6371.0088, P1 = 25 * D, P2 = 47 * D, L0 = 105 * D, N = (Math.sin(P1) + Math.sin(P2)) / 2, C = Math.cos(P1) ** 2 + 2 * N * Math.sin(P1), RHO0 = Rr * Math.sqrt(C) / N;
   proj = (lon, lat) => { const rho = Rr * Math.sqrt(C - 2 * N * Math.sin(lat * D)) / N, th = N * (lon * D - L0); return [rho * Math.sin(th) - FR.x0, FR.y1 - (RHO0 - rho * Math.cos(th))]; };
@@ -1773,6 +1782,10 @@ function prepare() {
   for (const c of CITIES) { c.popAny = c.pop || c.pop20; c.tier = c.popAny >= 1.5e7 ? 3 : c.popAny >= 8e6 ? 2 : c.popAny >= 3e6 ? 1 : 0; }
   RANKED = CITIES.filter(c => c.gdp).sort((a, b) => b.gdp - a.gdp); RANKED.forEach((c, i) => c.gdpIdx = i);
   NZ = vnoise(w, h, 6, 7); const nz2 = vnoise(w, h, 40, 9); for (let i = 0; i < NZ.length; i++) NZ[i] = NZ[i] * .6 + nz2[i] * .4;
+  P.prefs.forEach((p, i) => { const c = PREF_CITY[i]; if (!c) return; let b = CVBOX.get(c.id) || [1e9, 1e9, -1e9, -1e9]; for (const poly of p.rings) for (const ring of poly) for (const [x, y] of ring) { if (x < b[0]) b[0] = x; if (y < b[1]) b[1] = y; if (x > b[2]) b[2] = x; if (y > b[3]) b[3] = y; } CVBOX.set(c.id, b);
+    let pa = CVPATH.get(c.id); if (!pa) { pa = new Path2D(); CVPATH.set(c.id, pa); } pa.addPath(p.path); });
+  if (LC2) { BUILT = new Map(); const w2 = LC2.w, h2 = LC2.h, km = LC2.km, d2 = LC2.d; for (let y = 1; y < h2 - 1; y++) for (let x = 1; x < w2 - 1; x++) { const i = y * w2 + x; if (d2[i] !== 50) continue; let n = 0; for (const o of [-1, 1, -w2, w2, -w2 - 1, -w2 + 1, w2 - 1, w2 + 1]) n += d2[i + o] === 50;
+      const kx = (x + .5) * km, ky = (y + .5) * km, key = Math.floor(kx / 64) * 4096 + Math.floor(ky / 64); let arr = BUILT.get(key); if (!arr) { arr = []; BUILT.set(key, arr); } arr.push(kx, ky, n); } }
   v5Derive(); v6Derive(); for (const L of Object.values(LENSES)) if (L.key) L.breaks = L.makeBreaks();
   WONDERS.forEach(wd => { const [x, y] = proj(wd.lon, wd.lat); wd.x = x; wd.y = y; });
   TIER_IMG = [0, 1, 2, 3].map(tierImage);
@@ -1990,18 +2003,20 @@ function drawOverlays(app) {
     drawWonder(ctx, wd.draw, x, y, kk); Lb.add([x - 11 * kk, y - 14 * kk, 22 * kk, 15 * kk]); app.hits.push({ x, y: y - 5 * kk, r: 11 * kk, wonder: wd });
     if (z > 2.4) { ctx.font = `600 ${10.5 * u}px "Noto Serif SC", serif`; ctx.textAlign = "center"; ctx.textBaseline = "top"; haloText(ctx, EN() ? wd.en : wd.zh, x, y + 3 * u, "#5a3a20", "rgba(246,239,224,.9)", 3 * u); } }
   if (app.cfg.under) app.cfg.under(app, ctx, u, v);
+  const cvOn = !!(app.cfg.cityView && SEL && z >= 2.1 && !L.key); if (app.cfg.cityView && !L.key) cvUnder(app, ctx, u, v, z, cvOn ? SEL : null);
   // 2. towns, back to front
   for (const c of vis) { const [x, y] = toPx(v, c.x, c.y);
     if (c.tier < minTier && c.id !== SEL) { if (app.cfg.noDots) continue; ctx.fillStyle = DAY.seal; ctx.beginPath(); ctx.arc(x, y, 1.8 * u, 0, 7); ctx.fill(); app.hits.push({ x, y, r: 6 * u, city: c }); continue; }
     const kk = kOf(c); drawTown(ctx, x, y, c.tier, kk); const hw = [5, 9, 12, 14][c.tier] * kk, hh = TOWN_H[c.tier] * kk; app.hits.push({ x, y: y - hh / 2, r: Math.max(hw, 7 * u), city: c }); }
   // 3. banners (least important first so the important ones sit on top)
-  for (const [c, x, by] of banners.slice().reverse()) { const isSel = c.id === SEL, sk = springK(app, c.id); if (sk !== 1) { ctx.save(); ctx.translate(x, by); ctx.scale(sk, sk); ctx.translate(-x, -by); } const b = drawBanner(ctx, c, x, by, tu, { selected: isSel, yields: withYields || isSel || sk !== 1 }); if (sk !== 1) ctx.restore(); app.hits.push({ rect: b, city: c });
+  for (const [c, x, by] of banners.slice().reverse()) { const isSel = c.id === SEL, sk = springK(app, c.id); if (sk !== 1) { ctx.save(); ctx.translate(x, by); ctx.scale(sk, sk); ctx.translate(-x, -by); } if (cvOn && !isSel) ctx.globalAlpha = .42; const b = drawBanner(ctx, c, x, by, tu, { selected: isSel, yields: withYields || isSel || sk !== 1 }); ctx.globalAlpha = 1; if (sk !== 1) ctx.restore(); app.hits.push({ rect: b, city: c });
     if (isSel) drawSeal(ctx, b[0] - 13 * tu, b[1] + 9 * tu, 22 * tu, (app.cfg.selSeal && app.cfg.selSeal()) || c.n.slice(0, 2), tu, 7); }
   // 4. plain names under the remaining towns
   if (z >= 1.25 && !app.cfg.noNames) { for (const c of vis) { const [x, y] = toPx(v, c.x, c.y); if (c.tier >= minTier) { const hw = [5, 9, 12, 14][c.tier] * kOf(c); Lb.add([x - hw * .7, y - TOWN_H[c.tier] * kOf(c) * .6, hw * 1.4, TOWN_H[c.tier] * kOf(c) * .6]); } }
     for (const c of order) { if (hasBanner.has(c.id) || c.tier < minTier) continue; const [x, y] = toPx(v, c.x, c.y), nm = cname(c); ctx.font = `600 ${(c.tier >= 1 ? 11 : 10) * tu}px "Noto Serif SC", serif`;
       const tw = ctx.measureText(nm).width, bx = [x - tw / 2 - 1 * tu, y + 2 * u, tw + 2 * tu, 13 * tu];
       if (Lb.free(bx)) { Lb.add(bx); ctx.textAlign = "center"; ctx.textBaseline = "top"; haloText(ctx, nm, x, y + 2.5 * u, DAY.ink, "rgba(238,227,201,.88)", 3 * tu); } } }
+  if (cvOn) cvOver(app, ctx, u, v, z, SEL, Lb, tu);
   if (app.cfg.over) app.cfg.over(app, ctx, u, v); drawInset(app, ctx, u); drawScale(ctx, v, u, app);
 }
 function drawInset(app, ctx, u) {
@@ -2047,7 +2062,7 @@ function flyTo(app, target, ms = 650) { const from = { ...app.view }, t0 = perfo
 function viewOn(app, c, zoom) { const a = app.cfg.area(), u = app.u, s = Math.max(app.view.s, app.home.s * zoom); const cx = (a[0] + a[2] / 2) * u, cy = (a[1] + a[3] * .55) * u; return { s, ox: cx - c.x * s, oy: cy - c.y * s }; }
 function updateZoomLabel() { const a = APPS[0]; if (!a || !a.view) return; const z = a.zoom(), i = z < 1.6 ? 0 : z < 2.6 ? 1 : z < 4.5 ? 2 : 3; $$("[data-zoomlv]").forEach(el => el.textContent = T.zoom[EN() ? 1 : 0][i]); }
 
-const DESK = { w: 1440, h: 900, area: () => S.city ? [0, 48, 1440 - 392, 852] : [0, 48, 1440, 852],
+const DESK = { cityView: true, w: 1440, h: 900, area: () => S.city ? [0, 48, 1440 - 392, 852] : [0, 48, 1440, 852],
   inset: () => ({ x: (S.city ? 1440 - 392 : 1440) - 14, y: 900 - 14, w: 190 }), scale: () => ({ x: (S.city ? 1440 - 392 : 1440) - 214, y: 900 - 22 }),
   blocked: () => [[0, 0, 1440, 54], [0, 900 - 250, 340, 250], [0, 48, 120, 210], ...(S.city ? [[1440 - 392, 48, 392, 852]] : []), [(S.city ? 1440 - 392 : 1440) - 210, 900 - 285, 210, 285], [(S.city ? 1440 - 392 : 1440) - 60, 54, 60, 160]] };
 const PHONE = { w: 390, h: 844, area: () => [0, 134, 390, 844 - 134 - 330], bbox: () => [900, 1500, 5400, 4300], inset: () => ({ x: 390 - 8, y: 844 - 330 - 8, w: 72 }), scale: () => null, blocked: () => [[0, 0, 390, 138], [0, 470, 390, 374], [306, 404, 84, 110]] };
@@ -2096,8 +2111,11 @@ function cityHTML(c, compact) {
   const peers = c.peers ? `<div class="block"><h4>${t("peers")}</h4><div class="peers">${c.peers.map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-goto="${o.id}"><img src="${TIER_IMG[o.tier]}" alt="" width="120" height="80">${cname(o)}</button>`).join("")}</div></div>` : "";
   const src = `<div class="src">${icon("i-info")}<span>${t("src")}：${ZH("2023 年统计公报（本项目采集，附原文句子）、七普、ESA WorldCover", "2023 communiqués (collected with source sentences), 2020 census, ESA WorldCover")} · <button class="btn ghost" style="height:auto;padding:0;color:var(--river)" data-open-almanac>${t("srcLink")}</button><span class="asof">${ZH("数据截至 2023 年公报 · 2026-11 更新", "As of 2023 communiqués · updated 2026-11")} · <button class="lnk" data-dm="fix">${ZH("这个数不对？纠错", "Wrong? Report it")}</button></span></span></div>`;
   return head + dToolsHTML(c) + yieldsRow(c) + `<div class="cp-body"><div class="block"><h4>${ZH("宝藏点", "Hidden gems")}${iB("gems")}<small>${ZH("全国排名最能打的三项", "best three national ranks")}</small></h4>${prideHTML(c, 3, true)}</div>
+    <div class="block"><h4>${ZH("这座城的人", "The people")}<small>${ZH("每排 10 个小人", "rows of 10")}</small></h4>${citizensHTML(c)}</div>
     <div class="block"><h4>${ZH("生活账本", "Everyday numbers")}${iB(c.month != null ? "month" : "day")}<small>2023</small></h4>${ledgerHTML(c, "panel", 1)}</div>
     <div class="block"><h4>${ZH("人去哪儿了", "Where people go")}${iB("flows")}<small>${ZH("七普 · 公报", "census · communiqués")}</small></h4>${flowHTML(c, true)}</div>
+    <div class="block"><h4>${ZH("城里有什么", "What's here")}<small>${ZH("点一下飞过去", "tap to fly there")}</small></h4>${sitesHTML(c)}</div>
+    <div class="block"><h4>${ZH("下辖区县", "Counties")}</h4>${countiesHTML(c)}</div>
     <div class="block"><h4>${ZH("城市家底", "The city's stock")}${iB("gdp")}<small>2023</small></h4>${stockHTML(c)}</div>${peers}${src}</div>`; }
 function renderPanels(anim) { const c = S.city && BYID.get(S.city);
   $$("[data-panel]").forEach(el => { const app = el.closest(".app"); if (!c) { el.hidden = true; app.classList.remove("has-panel"); return; } el.hidden = false; app.classList.add("has-panel"); el.innerHTML = cityHTML(c, false) + `<div class="m-popwrap d-popwrap"></div>`;
@@ -2168,7 +2186,7 @@ function setLang(l) { S.lang = l; try { localStorage.setItem(LANGKEY, l); } catc
 function refresh() { const dl = $("[data-dloading]"); if (dl) dl.remove(); renderI18n(); renderYields(); renderBoard(); renderColophon(); renderLensDock(); renderPanels(false); renderAlmanac(); renderSpec(); renderV4(); renderV5(); renderV6(); if (!M.loaded) { M.loaded = true; if (location.hash.startsWith("#m/")) mRestore(location.hash); else if (location.hash.startsWith("#d/")) setTimeout(() => { dRestore(location.hash); const sd = document.getElementById("s-desk"); if (sd) sd.scrollIntoView(); }, 0); } renderMob(); renderScore(); renderDScore(); renderLangSec(); for (const a of APPS) { layout(a, true); full(a); } updateZoomLabel(); }
 function selectCity(id, fly = true) { const had = !!S.city; S.city = id; S.board = null; S.dexp = null; S.dfix = false; if (BYID.has(id)) { mVisit(id); dPush(); } renderBoard(); renderYields(); renderPanels(true); snd("stamp"); setTimeout(() => { const p = $("[data-panel]:not([hidden])"); if (p) { countUp(p); spatter(p.querySelector(".cp-head .seal"), 16); } }, 90);
   for (const a of APPS.filter(x => x.cfg === DESK || x.cfg === PHONE)) { const keep = { ...a.view }; layout(a, true); a.view = keep; const c = BYID.get(id);
-    if (a.cfg === DESK && fly) flyTo(a, viewOn(a, c, 2.4)); else if (a.cfg === PHONE) { a.view = { ...a.home }; full(a); } else full(a); } }
+    if (a.cfg === DESK && fly) flyTo(a, prefFit(a, c) || viewOn(a, c, 2.4)); else if (a.cfg === PHONE) { a.view = { ...a.home }; full(a); } else full(a); } }
 function lensChange(id) { S.lens = id; dPush(true); renderLensDock(); snd("flip"); for (const a of APPS.filter(x => !x.cfg.lens)) { const anim = !RM(); if (anim) { const f = a.fade.getContext("2d"); f.setTransform(1, 0, 0, 1, 0, 0); f.clearRect(0, 0, a.fade.width, a.fade.height); f.drawImage(a.canvas, 0, 0); }
   full(a); if (anim) inkReveal(a, a.cfg === DESK ? 190 : 60, a.cfg === DESK ? 770 : 720); } }
 function scaleScreens() { $$(".device, .phone, .frame").forEach(d => { const sc = d.querySelector(".screen"); const w = d.getBoundingClientRect().width - (d.classList.contains("phone") ? 16 : 2); sc.style.transform = `scale(${w / parseFloat(getComputedStyle(sc).width)})`; }); }
@@ -2636,7 +2654,7 @@ Object.assign(YIELDS.food, { lab5: ["森林占比", "Forest share"], en5: "Green
 Object.assign(YIELDS.com, { lab5: ["三年人口增减", "3-yr change"], en5: "Momentum", fmt: v => FMTS.wan(v), short: v => sgn(v) + (EN() ? Math.round(Math.abs(v) / 1e3) + "K" : (Math.abs(v) / 1e4).toFixed(Math.abs(v) >= 1e5 ? 0 : 1) + "万") });
 for (const k of Object.keys(YIELDS)) { FMTS["y_" + k] = v => YIELDS[k].short(v); FMTS["yt_" + k] = v => YIELDS[k].fmt(v); }
 const NAT5 = { inc: 39218, incU: 51821, incR: 21691, pc: 89358, dpop: 1409670000 - 1411778724, forest: null };
-let FLOWS = null;
+let FLOWS = null, CV = null, BUILT = null; const CVBOX = new Map(), CVPATH = new Map();
 
 /* ---------- derived per-city numbers, ranks and pride ---------- */
 const PRIDE = [
@@ -2757,9 +2775,9 @@ function drawBoat(ctx, x, y, s, dir) { ctx.save(); ctx.translate(x, y); ctx.scal
   ctx.fillStyle = "#efe2c4"; ctx.strokeStyle = "#3a2a22"; ctx.lineWidth = .6; ctx.beginPath(); ctx.moveTo(-.4, -1); ctx.lineTo(-.4, -9); ctx.lineTo(4.2, -2.2); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore(); }
 function drawBirds(ctx, x, y, u, ph) { ctx.save(); ctx.strokeStyle = "rgba(43,35,29,.6)"; ctx.lineWidth = 1.1 * u; ctx.lineCap = "round";
   [[0, 0], [-14, 6], [12, 9]].forEach(([dx, dy], i) => { const w = 5 * u, f = Math.sin(ph + i) * 2.6 * u; ctx.beginPath(); ctx.moveTo(x + dx * u - w, y + dy * u - f); ctx.quadraticCurveTo(x + dx * u - w / 2, y + dy * u - 2.2 * u, x + dx * u, y + dy * u); ctx.quadraticCurveTo(x + dx * u + w / 2, y + dy * u - 2.2 * u, x + dx * u + w, y + dy * u - f); ctx.stroke(); }); ctx.restore(); }
-function drawCityFlows(app, ctx, u, v, now) { const c = S.city && BYID.get(S.city), f = flowsOf(c); if (!f) return; const [x0, y0] = toPx(v, c.x, c.y);
+function drawCityFlows(app, ctx, u, v, now) { const c = S.city && BYID.get(S.city), f = flowsOf(c); if (!f) return; const [x0, y0] = toPx(v, c.x, c.y), fade = app.cfg.cityView && v.s / app.home.s >= 2.1 ? .3 : 1;
   f.list.forEach((d, i) => { const cap = PROV_CAP(d.p); if (!cap) return; let [x1, y1] = toPx(v, cap.x, cap.y); let a = [x0, y0], b = [x1, y1]; if (f.inflow) [a, b] = [b, a];
-    const k = .2 * (i % 2 ? -1 : 1), w = (1.2 + d.s * 14) * u; ctx.save(); ctx.strokeStyle = "rgba(45,94,120,.75)"; ctx.lineWidth = w; ctx.lineCap = "round"; ctx.setLineDash([7 * u, 7 * u]); ctx.lineDashOffset = -(now / 28) % (14 * u);
+    const k = .2 * (i % 2 ? -1 : 1), w = (1.2 + d.s * 14) * u; ctx.save(); ctx.globalAlpha = fade; ctx.strokeStyle = "rgba(45,94,120,.75)"; ctx.lineWidth = w; ctx.lineCap = "round"; ctx.setLineDash([7 * u, 7 * u]); ctx.lineDashOffset = -(now / 28) % (14 * u);
     ctx.beginPath(); ctx.moveTo(...a); for (let s = 1; s <= 28; s++) ctx.lineTo(...qpt(a, b, k, s / 28)); ctx.stroke(); ctx.setLineDash([]);
     const e = b, dd = qpt(a, b, k, .95), ang = Math.atan2(e[1] - dd[1], e[0] - dd[0]), L = 5 * u + w; ctx.fillStyle = "rgba(45,94,120,.9)"; ctx.beginPath(); ctx.moveTo(...e); ctx.lineTo(e[0] - L * Math.cos(ang - .5), e[1] - L * Math.sin(ang - .5)); ctx.lineTo(e[0] - L * Math.cos(ang + .5), e[1] - L * Math.sin(ang + .5)); ctx.closePath(); ctx.fill();
     const lp = f.inflow ? a : b; if (Math.hypot(x1 - x0, y1 - y0) > 70 * u) { ctx.font = `600 ${11 * u}px "Noto Serif SC", serif`; ctx.textAlign = "center"; ctx.textBaseline = "top"; haloText(ctx, `${PROVNAME(d.p)} ${Math.round(d.s * 100)}%`, lp[0], lp[1] + 7 * u, "#1f4658", "rgba(246,239,224,.92)", 3.2 * u); } ctx.restore(); }); }
@@ -3028,6 +3046,9 @@ function mFullHTML() { const c = BYID.get(M.city); if (!c) return ""; const rr =
     <div class="m-head"><button class="btn icon ghost" data-m="collapse" aria-label="${ZH("返回", "Back")}" style="width:44px;height:44px;margin-left:-10px">${icon("i-chev", "")}</button><div><b>${cname(c)}</b><span>${pvOf(c)} · ${kindOf(c)} · ${ZH(...RAR[rr])}</span></div>${mFavBtn(c)}</div>${mSibHTML(c)}
     <div class="m-sec"><h4>${ZH("宝藏点", "Hidden gems")}<button class="m-i" data-mexp="gems" aria-label="${ZH("怎么来的", "How")}">ⓘ</button><small>${ZH("左右滑", "swipe")}</small></h4><div class="m-carousel">${prideOf(c).slice(0, 3).map(h => `<div class="honor ${h.r <= 3 ? "g" + h.r : h.r <= 10 ? "t10" : ""}"><span class="rkb">${h.r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b class="num">${h.r}</b>` : `<small>${ZH("全国前", "Top")}</small><b class="num">${Math.max(1, Math.round(h.q * 100))}%</b>`}</span><span class="lab">${ZH(...h.m.lab)}</span><span class="ph">${h.m.ph(c)}</span></div>`).join("")}</div></div>
     <div class="m-sec"><h4>${ZH("生活账本", "Everyday numbers")}<button class="m-i" data-mexp="month" aria-label="ⓘ">ⓘ</button><small>2023</small></h4>${ledgerHTML(c, "panel", 1)}</div>
+    <div class="m-sec"><h4>${ZH("这座城的人", "The people")}<small>${ZH("每排 10 个小人", "rows of 10")}</small></h4>${citizensHTML(c)}</div>
+    <div class="m-sec"><h4>${ZH("城里有什么", "What's here")}<small>${ZH("点一下飞过去", "tap to fly there")}</small></h4>${sitesHTML(c)}</div>
+    <div class="m-sec"><h4>${ZH("下辖区县", "Counties")}</h4>${countiesHTML(c)}</div>
     <div class="m-sec"><h4>${ZH("人去哪儿了", "Where people go")}<button class="m-i" data-mexp="flows" aria-label="ⓘ">ⓘ</button><small>${ZH("七普 · 公报", "census")}</small></h4>${flowHTML(c, true)}<button class="btn" data-m="flows" style="height:44px;margin-top:6px;border-radius:10px">${icon("i-map")}${ZH("在地图上看流向", "See it on the map")}</button></div>
     <div class="m-sec"><h4>${ZH("过日子小知识", "Everyday facts")}</h4><div class="m-tiles">
       <div><span>${icon("i-home")}${ZH("冬天暖气", "Heating")}</span><b>${c.heat ? ZH("有，集中供暖", "Yes") : ZH("没有", "No")}</b></div>
@@ -3139,7 +3160,7 @@ function bindMobMap(a) { const cv = a.canvas; let drag = null, moved = 0, pinch 
     for (const h of a.hits) { if (!h.city) continue; if (h.rect) { const [rx, ry, rw, rh] = h.rect; if (X >= rx && X <= rx + rw && Y >= ry && Y <= ry + rh) { best = h; break; } continue; } const d = Math.hypot(h.x - X, h.y - Y); if (d < Math.max(h.r, 16 * a.u) && d < bd) { bd = d; best = h; } }
     if (best) { spatterAt(e.clientX, e.clientY, 12); mSelect(best.city.id); } });
   cv.addEventListener("wheel", e => { e.preventDefault(); const [x, y] = loc(e); zoomAt(a, x, y, Math.exp(-e.deltaY * .0016)); }, { passive: false }); }
-function mSelect(id, zoom = 2.6) { const c = BYID.get(id); if (!c) return; M.tab = M.tab === "album" ? "album" : "map"; M.city = id; M.sheet = "peek"; M.view = null; mVisit(id); renderMob("count"); mPush(); snd("pluck"); if (MAPP) flyTo(MAPP, mTarget(c, zoom), RM() ? 0 : 700); }
+function mSelect(id, zoom = 2.6) { const c = BYID.get(id); if (!c) return; M.tab = M.tab === "album" ? "album" : "map"; M.city = id; M.sheet = "peek"; M.view = null; mVisit(id); renderMob("count"); mPush(); snd("pluck"); if (MAPP) flyTo(MAPP, prefFit(MAPP, c, 6.5, [8, 104, 374, 300]) || mTarget(c, zoom), RM() ? 0 : 700); }
 function mStamp() { const c = BYID.get(M.city); if (!c || AL.got.includes(c.id)) return; AL.got.push(c.id); AL.newest = c.id; AL.t0 = performance.now(); const before = new Set(AL.done); achs().forEach(a => { if (a.ids.every(id => AL.got.includes(id))) AL.done.add(a.id); });
   const un = [...AL.done].filter(x => !before.has(x)); snd("stamp"); spatter($("[data-m=stamp]"), 16); mTask("stamp"); renderMob(); full(MAPP); renderAlbum(); if (!un.length) setTimeout(() => mToast(`${seal("打卡")}<span>${ZH(`已打卡 ${c.n} · 共 ${AL.got.length} 城。下一步：拉它去 PK，或晒一晒`, `Stamped ${c.en} · ${AL.got.length} total. Next: PK it or share`)}</span>`, 3000), 500);
   if (un.length) { const A = achs().find(x => x.id === un[0]); setTimeout(() => { mToast(`${seal(A.seal)}<span>${ZH("成就达成 · ", "Achievement · ")}${ZH(A.zh, A.en)}</span>`); snd("win"); }, 600); } }
@@ -3147,7 +3168,7 @@ function mObPick(id) { const c = BYID.get(id); if (!c) return; M.home = id; M.ob
   setTimeout(() => { full(MAPP); const r = MAPP.canvas.getBoundingClientRect(), k = r.width / MAPP.canvas.width, v = MAPP.view; spatterAt(r.left + (v.ox + c.x * v.s) * k, r.top + (v.oy + c.y * v.s) * k - 20, 22); snd("stamp");
     mToast(`${seal("吾乡")}<span>${ZH(`已认 ${c.n} 为家乡 · 你是第 1,285 位`, `${c.en} is your hometown · No. 1,285`)}</span>`); setTimeout(() => { M.ob = 2; renderMob("card"); }, RM() ? 0 : 900); }, RM() ? 50 : 1400); }
 function initMob() { const el = $("[data-mmap]"); if (!el) return;
-  MAPP = makeApp(el, { w: 390, h: 844, ts: () => M.big ? 1.32 : 1.15, area: () => [0, 100, 390, 844 - 100 - 84 - 150], bbox: () => [900, 1500, 5400, 4300], sel: () => M.city, selSeal: () => M.city && M.city === M.home ? "吾乡" : null, lens: () => M.lens === "pop" ? (M.year === 2020 ? "pop20" : "pop23") : M.lens, quota: 9, over: drawMobOver, hl: () => M.city,
+  MAPP = makeApp(el, { cityView: true, w: 390, h: 844, ts: () => M.big ? 1.32 : 1.15, area: () => [0, 100, 390, 844 - 100 - 84 - 150], bbox: () => [900, 1500, 5400, 4300], sel: () => M.city, selSeal: () => M.city && M.city === M.home ? "吾乡" : null, lens: () => M.lens === "pop" ? (M.year === 2020 ? "pop20" : "pop23") : M.lens, quota: 9, over: drawMobOver, hl: () => M.city,
     inset: () => ({ x: 390 - 8, y: 844 - 84 - 158, w: 64 }), scale: () => null, blocked: () => [[0, 0, 390, 104], [0, 844 - 84 - 160, 390, 244], [334, 100, 56, 110]] });
   bindMobMap(MAPP); mLoad();
   document.addEventListener("click", e => { const r = mRoot(); if (!r || (!r.contains(e.target) && !e.target.closest('[data-m="restart"]'))) return; const b = e.target.closest("[data-mtab],[data-m],[data-mgo],[data-mob],[data-m6pick],[data-m6pk]"); if (!b) return; const k = b.dataset.m;
@@ -3292,7 +3313,78 @@ function mRestore(h) { const p = (h || "").replace(/^#/, "").split("/"); if (p[0
   renderMob(); if (M.city && MAPP) flyTo(MAPP, mTarget(BYID.get(M.city), 2.6), 0); M.restoring = false; return true; }
 function mBack() { if (M.exp || M.fix) { M.exp = null; M.fix = null; } else if (M.modal) M.modal = null; else if (M.view) M.view = null; else if (M.sheet === "full") M.sheet = "peek"; else if (M.city) M.city = null; else if (M.tab !== "map") M.tab = "map"; renderMob(); mPush(); }
 let DLS = null; (async () => { try { if (window.claude && window.claude.use) DLS = await window.claude.use("downloads"); } catch (e) { DLS = null; } })();
-window.__jsatlas = { map: () => MAPP, state: () => M };
+window.__jsatlas = { map: () => MAPP, state: () => M, desk: () => APPS[0] };
+/* ================= 城市视图：一座城放大后看到的细节（借鉴 usaciv 的 City View） ================= */
+const CVK = { whs: ["遗", "#b23a2b", ["世界遗产", "World Heritage"]], park: ["园", "#3d7a4f", ["国家公园", "National park"]], a5: ["景", "#b8862b", ["5A 景区", "5A scenic area"]], uni: ["学", "#2d5e78", ["双一流大学", "Double First-Class university"]],
+  air: ["机", "#4b4a63", ["机场", "Airport"]], port: ["港", "#2d6e78", ["港口", "Port"]], power: ["电", "#7a5a2a", ["电站", "Power plant"]], mine: ["矿", "#6b5a4a", ["矿山", "Mine"]], oil: ["油", "#3a3a3a", ["油气田", "Oil & gas field"]] };
+const cvKind = k => k.startsWith("res:") ? (/plant|nuclear|hydro|wind|solar|pumped|geothermal/.test(k) ? "power" : /oil|^res:gas$/.test(k) ? "oil" : "mine") : k;
+function prefFit(app, c, maxZ = 6.5, area) { const bb = CVBOX.get(c.id); if (!bb) return null; const a = area || app.cfg.area(), u = app.u, bw = Math.max(bb[2] - bb[0], 40), bh = Math.max(bb[3] - bb[1], 40);
+  const s = clamp(Math.min(a[2] * u * .8 / bw, a[3] * u * .8 / bh), app.home.s * 2.3, app.home.s * maxZ), cx = (a[0] + a[2] / 2) * u, cy = (a[1] + a[3] / 2) * u; return { s, ox: cx - (bb[0] + bb[2]) / 2 * s, oy: cy - (bb[1] + bb[3]) / 2 * s }; }
+/* under the towns: built-up ground drawn as roofs (ESA WorldCover, 2 km), the open prefecture lit, the rest of the map dimmed */
+function cvUnder(app, ctx, u, v, z, sel) {
+  if (BUILT && z >= 2.9) { const W = app.canvas.width, H = app.canvas.height, x0 = (-v.ox) / v.s, x1 = (W - v.ox) / v.s, y0 = (-v.oy) / v.s, y1 = (H - v.oy) / v.s, a = clamp((z - 2.9) / .8, 0, 1);
+    const G = [2, 4, 6, 8, 10].find(g => g * v.s >= 11 * u), blocks = new Map();
+    for (let bx = Math.floor(x0 / 64) - 1; bx <= Math.floor(x1 / 64) + 1; bx++) for (let by = Math.floor(y0 / 64) - 1; by <= Math.floor(y1 / 64) + 1; by++) { const arr = BUILT.get(bx * 4096 + by); if (!arr) continue;
+      for (let i = 0; i < arr.length; i += 3) { const x = arr[i], y = arr[i + 1]; if (x < x0 - 12 || x > x1 + 12 || y < y0 - 12 || y > y1 + 12) continue;
+        if (!G) { const [px, py] = toPx(v, x, y), cs = 2 * v.s; ctx.fillStyle = `rgba(96,78,64,${(.22 + arr[i + 2] * .04) * a})`; ctx.fillRect(px - cs / 2, py - cs / 2, cs, cs); continue; }
+        const k = Math.floor(x / G) * 100000 + Math.floor(y / G), b = blocks.get(k); if (b) { b[0] += x; b[1] += y; b[2]++; b[3] += arr[i + 2]; } else blocks.set(k, [x, y, 1, arr[i + 2]]); } }
+    if (G) { const per = (G / 2) ** 2, list = [...blocks.values()].filter(b => b[2] >= Math.max(1, per * .3)).sort((p, q) => p[1] / p[2] - q[1] / q[2]);
+      ctx.save(); ctx.globalAlpha = a; for (const b of list) { const fill = Math.min(1, b[2] / per), dense = b[3] / b[2], [px, py] = toPx(v, b[0] / b[2], b[1] / b[2]);
+        cvRoof(ctx, px, py, G * v.s * (.62 + .42 * fill), dense >= 7 && fill > .8, ((b[0] * 7) | 0) ^ ((b[1] * 13) | 0)); } ctx.restore(); } }
+  if (!sel) return; const pa = CVPATH.get(sel); if (!pa) return; const W = app.canvas.width, H = app.canvas.height, m = new DOMMatrix([v.s, 0, 0, v.s, v.ox, v.oy]);
+  const mask = new Path2D(); mask.rect(0, 0, W, H); mask.addPath(pa, m); ctx.save(); ctx.fillStyle = "rgba(240,231,210,.58)"; ctx.fill(mask, "evenodd"); ctx.restore();
+  const outline = new Path2D(); outline.addPath(pa, m); ctx.save(); ctx.lineJoin = "round"; ctx.strokeStyle = "rgba(201,162,74,.45)"; ctx.lineWidth = 7 * u; ctx.stroke(outline); ctx.shadowColor = "rgba(178,58,43,.55)"; ctx.shadowBlur = 10 * u; ctx.strokeStyle = "#b23a2b"; ctx.lineWidth = 1.8 * u; ctx.stroke(outline); ctx.restore(); }
+function cvRoof(ctx, x, y, w, tall, seed) { const r = rng(seed), h = w * (tall ? .62 : .42), ry = y - h * .5, lift = w * .1;
+  ctx.fillStyle = "rgba(43,35,29,.16)"; ctx.fillRect(x - w * .44, y + h * .5 - w * .04, w * .92, w * .08);
+  ctx.fillStyle = "#efe6d2"; ctx.fillRect(x - w * .36, ry + w * .1, w * .72, h + w * .02 - w * .1); ctx.fillStyle = "#8a3a2c"; ctx.fillRect(x - w * .07, y + h * .5 - w * .2, w * .14, w * .2);
+  const eave = (yy, ww) => { ctx.beginPath(); ctx.moveTo(x - ww * .56, yy - lift); ctx.quadraticCurveTo(x - ww * .4, yy, x - ww * .3, yy - ww * .02); ctx.lineTo(x - ww * .2, yy - ww * .3); ctx.lineTo(x + ww * .2, yy - ww * .3); ctx.lineTo(x + ww * .3, yy - ww * .02); ctx.quadraticCurveTo(x + ww * .4, yy, x + ww * .56, yy - lift); ctx.lineTo(x + ww * .5, yy + ww * .05); ctx.lineTo(x - ww * .5, yy + ww * .05); ctx.closePath(); ctx.fill(); };
+  ctx.fillStyle = r() < .5 ? "#4a4036" : "#545a5c"; eave(ry + w * .12, w); if (tall) { ctx.fillStyle = "#efe6d2"; ctx.fillRect(x - w * .22, ry - w * .3, w * .44, w * .2); ctx.fillStyle = "#4a4036"; eave(ry - w * .26, w * .66); } }
+/* over the banners: county seats and the city's sites as seal badges, kept clear of each other */
+function cvOver(app, ctx, u, v, z, sel, Lb, tu) { if (!CV) return; const c = BYID.get(sel); if (!c) return;
+  const cs = (CV.counties || {})[sel] || [], st = (CV.sites || {})[sel] || [];
+  ctx.save(); ctx.textBaseline = "middle";
+  for (const [code, nm, , x, y, en] of cs) { const [px, py] = toPx(v, x, y); if (Math.hypot(px - toPx(v, c.x, c.y)[0], py - toPx(v, c.x, c.y)[1]) < 16 * u) continue; ctx.font = `600 ${11 * tu}px "Noto Serif SC", serif`;
+    const label = EN() ? (en || nm) : nm, w = ctx.measureText(label).width, box = [px - 3 * u, py - 7 * tu, w + 10 * u, 14 * tu]; if (!Lb.free(box)) continue; Lb.add(box);
+    ctx.fillStyle = "#6b5040"; ctx.beginPath(); ctx.arc(px, py, 2.4 * u, 0, 7); ctx.fill(); ctx.strokeStyle = "#f6efe0"; ctx.lineWidth = 1 * u; ctx.stroke();
+    ctx.textAlign = "left"; haloText(ctx, label, px + 5 * u, py, "#4a3628", "rgba(246,239,224,.9)", 3 * tu); }
+  for (const [kind, zh, x, y, , , en] of st) { const k = CVK[cvKind(kind)]; if (!k) continue; const nm = EN() && en ? cvShort(en) : zh, [px, py] = toPx(v, x, y), r = 8 * tu; ctx.font = `600 ${11 * tu}px "Noto Serif SC", serif`;
+    const w = ctx.measureText(nm).width, box = [px - r, py - r, r * 2 + w + 8 * u, r * 2]; if (!Lb.free(box)) { if (!Lb.free([px - r, py - r, r * 2, r * 2])) continue; Lb.add([px - r, py - r, r * 2, r * 2]); cvBadge(ctx, px, py, r, k, tu); continue; } Lb.add(box);
+    cvBadge(ctx, px, py, r, k, tu); ctx.textAlign = "left"; haloText(ctx, nm, px + r + 4 * u, py, "#2b231d", "rgba(246,239,224,.92)", 3 * tu); }
+  ctx.restore(); }
+function cvBadge(ctx, x, y, r, k, tu) { ctx.save(); ctx.fillStyle = k[1]; ctx.shadowColor = "rgba(0,0,0,.25)"; ctx.shadowBlur = 3 * tu; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); ctx.shadowBlur = 0; ctx.strokeStyle = "#fbf1e4"; ctx.lineWidth = 1.2 * tu; ctx.stroke();
+  ctx.fillStyle = "#fbf1e4"; ctx.font = `${r * 1.15}px "Ma Shan Zheng", serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(k[0], x, y + r * .06); ctx.restore(); }
+/* long official names shortened for the map only (the panel keeps them whole) */
+function cvShort(en) { return en.replace(/^University of Electronic Science and Technology of China$/, "UESTC").replace(/^University of Science and Technology of China$/, "USTC").replace(/ and the Dujiangyan Irrigation System$/, " & Dujiangyan").replace(/ National Park$/, " NP").replace(/^(.{30}).+$/, "$1…"); }
+/* panel: the people of the city as rows of small figures (usaciv's Citizens, with Chinese census numbers) */
+const FIG = (col, dash) => `<svg viewBox="0 0 12 22" width="12" height="22" aria-hidden="true"><circle cx="6" cy="4.2" r="3.2" fill="${dash ? "none" : col}" stroke="${col}" stroke-width="${dash ? 1 : 0}" ${dash ? 'stroke-dasharray="1.6 1.4"' : ""}/><path d="M1.6 21V12.6a4.4 4.4 0 0 1 8.8 0V21z" fill="${dash ? "none" : col}" stroke="${col}" stroke-width="${dash ? 1 : 0}" ${dash ? 'stroke-dasharray="1.6 1.4"' : ""}/></svg>`;
+function figRow(parts) { const out = []; for (const [n, col] of parts) for (let i = 0; i < n; i++) out.push(FIG(col)); return `<div class="figs">${out.join("")}</div>`; }
+function tenths(shares) { const raw = shares.map(x => x * 10), fl = raw.map(Math.floor), rest = 10 - fl.reduce((a, b) => a + b, 0), ord = raw.map((x, i) => [x - fl[i], i]).sort((a, b) => b[0] - a[0]); for (let k = 0; k < rest && k < ord.length; k++) fl[ord[k][1]]++; return fl; }
+function citizensHTML(c) { const rows = [], nm = cname(c), INK = "#2b231d", GRN = "#7aa36a", BLU = "#2d5e78", PAL = ["#b23a2b", "#c08a2b", "#2d5e78", "#a89a86"];
+  const row = (lab, figs, text, cmp, src) => rows.push(`<div class="cz-row"><div class="cz-h"><b>${lab}</b>${src ? `<small>${src}</small>` : ""}</div>${figs}<div class="cz-t">${text}</div>${cmp ? `<div class="cz-c">${cmp}</div>` : ""}</div>`);
+  const pend = (lab, what) => rows.push(`<div class="cz-row pend"><div class="cz-h"><b>${lab}</b><small>${ZH("七普 · 采集中", "census · coming")}</small></div><div class="figs">${Array.from({ length: 10 }, () => FIG("#a89a86", 1)).join("")}</div><div class="cz-t">${what}</div></div>`);
+  if (c.urb != null) { const k = Math.round(c.urb * 10); row(ZH("城里还是乡下", "Town or country"), figRow([[k, INK], [10 - k, GRN]]), ZH(`每 10 个${nm}人，<b>${k}</b> 个住在城镇，${10 - k} 个在乡村`, `<b>${k}</b> in 10 people in ${nm} live in towns, ${10 - k} in the country`), ZH(`全国是 ${Math.round(NATION.urban * 10)} 个`, `China: ${Math.round(NATION.urban * 10)}`), ZH("2023 公报", "2023 communiqué")); }
+  if (c.popReg && c.pop) { const reg = c.popReg, pop = c.pop;
+    if (reg > pop * 1.02) { const k = Math.max(1, Math.round((reg - pop) / reg * 10)); row(ZH("户口在这，人在外地", "Registered here, living away"), figRow([[k, BLU], [10 - k, INK]]), ZH(`每 10 个${nm}户口的人，约 <b>${k}</b> 个在外地生活`, `About <b>${k}</b> in 10 people registered in ${nm} live elsewhere`), ZH(`户籍 ${fmtPopShort(reg)}，常住 ${fmtPopShort(pop)}`, `Registered ${fmtPopShort(reg)}, resident ${fmtPopShort(pop)}`), ZH("公报 · 户籍与常住", "communiqué")); }
+    else if (pop > reg * 1.02) { const k = Math.max(1, Math.round((pop - reg) / pop * 10)); row(ZH("住在这里，户口在外地", "Living here, registered elsewhere"), figRow([[k, BLU], [10 - k, INK]]), ZH(`每 10 个住在${nm}的人，约 <b>${k}</b> 个户口在外地`, `About <b>${k}</b> in 10 people living in ${nm} are registered elsewhere`), ZH(`常住 ${fmtPopShort(pop)}，户籍 ${fmtPopShort(reg)}`, `Resident ${fmtPopShort(pop)}, registered ${fmtPopShort(reg)}`), ZH("公报 · 户籍与常住", "communiqué")); }
+    else row(ZH("进出多不多", "Coming and going"), figRow([[10, INK]]), ZH("户籍人口和常住人口差不多：进出的人很少", "Registered and resident populations match: little coming and going"), "", ZH("公报", "communiqué")); }
+  const f = flowsOf(c); if (f && f.list && f.list.length) { const top = f.list.slice(0, 3), other = Math.max(0, 1 - top.reduce((a, d) => a + d.s, 0)), t = tenths([...top.map(d => d.s), other]);
+    const legend = top.map((d, i) => `<i style="background:${PAL[i]}"></i>${PROVNAME(d.p)} ${t[i]}`).concat(t[3] ? [`<i style="background:${PAL[3]}"></i>${ZH("其他", "other")} ${t[3]}`] : []).join(" · ");
+    row(f.inflow ? ZH("外地人从哪来", "Where newcomers are from") : ZH("在外地的人去了哪", "Where those who left went"), figRow(top.map((d, i) => [t[i], PAL[i]]).concat([[t[3], PAL[3]]])), `<span class="cz-leg">${legend}</span>`, f.inflow ? ZH(`每 10 个外地来${nm}的人`, `Of every 10 newcomers to ${nm}`) : ZH(`每 10 个在外地的${PROVNAME(c.prov + "0000")}人`, `Of every 10 people from ${PROVNAME(c.prov + "0000")} living elsewhere`), ZH("七普 · 按省", "2020 census · by province")); }
+  pend(ZH("多大年纪", "How old"), ZH("少年、青壮年、老人各几个：七普分市公报正在整理", "Children, working age, elderly: city census reports being compiled"));
+  pend(ZH("念过什么书", "Schooling"), ZH("每 10 个人里几个上过大学：七普分市公报正在整理", "How many went to university: being compiled"));
+  return `<div class="cz">${rows.join("")}</div>`; }
+function sitesHTML(c) { const st = (CV && CV.sites && CV.sites[c.id]) || []; if (!st.length) return `<p class="note">${ZH("这座城暂未收录世界遗产、5A 景区、双一流大学、民航机场、大型港口或大型电站矿山。", "No World Heritage site, 5A area, top university, airport, major port, plant or mine listed yet.")}</p>`;
+  const order = ["whs", "park", "a5", "uni", "air", "port", "power", "oil", "mine"], groups = {}; for (const r of st) (groups[cvKind(r[0])] = groups[cvKind(r[0])] || []).push(r);
+  const extra = (k, r) => k === "whs" ? ZH(`${r[4]} 年列入`, `inscribed ${r[4]}`) : k === "air" && r[4] ? ZH(`2025 年旅客 ${Math.round(r[4] / 1e4).toLocaleString("en-US")} 万人次`, `${(r[4] / 1e6).toFixed(1)}M passengers in 2025`) : k === "port" && r[4] ? ZH(`2025 年货物 ${(r[4] / 1e8).toFixed(1)} 亿吨`, `${(r[4] / 1e6).toFixed(0)}M t cargo in 2025`) : (k === "power" || k === "mine" || k === "oil") ? (EN() ? r[7] || "" : r[5] || "") : "";
+  return `<div class="cv-sites">${order.filter(k => groups[k]).map(k => `<div class="cv-g"><span class="cv-b" style="background:${CVK[k][1]}">${CVK[k][0]}</span><b>${ZH(...CVK[k][2])}</b><div>${groups[k].map(r => `<button class="chip" data-cvgo="${r[2]},${r[3]}">${EN() && r[6] ? r[6] : r[1]}${extra(k, r) ? `<small>${extra(k, r)}</small>` : ""}</button>`).join("")}</div></div>`).join("")}</div>
+    <p class="note" style="margin:6px 0 0">${ZH("来源：世界遗产名录、国家公园、5A 景区、双一流名单、民航机场生产统计公报（2025）、主要港口、全球能源监测（GEM）；chinaciv 汇编", "Sources: UNESCO list, national parks, 5A list, Double First-Class list, CAAC 2025 airport statistics, major ports, Global Energy Monitor; compiled by chinaciv")}</p>`; }
+function countiesHTML(c) { const cs = (CV && CV.counties && CV.counties[c.id]) || []; if (!cs.length) return `<p class="note">${ZH("不设区县，直接管到乡镇（直筒子市）", "No counties: the city governs towns directly")}</p>`;
+  const kinds = { 区: 0, 县: 0, 市: 0, 旗: 0 }; for (const [, nm] of cs) { const k = nm.endsWith("区") ? "区" : nm.endsWith("旗") ? "旗" : nm.endsWith("市") ? "市" : "县"; kinds[k]++; }
+  const EK = { 区: ["district", "districts"], 县: ["county", "counties"], 市: ["county-level city", "county-level cities"], 旗: ["banner", "banners"] }, parts = Object.entries(kinds).filter(([, n]) => n);
+  const sum = ZH(parts.map(([k, n]) => `${n} 个${k}`).join("、"), parts.map(([k, n]) => `${n} ${EK[k][n > 1 ? 1 : 0]}`).join(", "));
+  return `<p class="note" style="margin:0 0 6px">${ZH(`下辖 ${sum}`, `Governs ${sum}`)}</p><div class="st-hits">${cs.map(([code, nm, , x, y, en]) => `<button class="chip" data-cvgo="${x},${y}">${EN() ? en || nm : nm}</button>`).join("")}</div>`; }
+document.addEventListener("click", e => { const b = e.target.closest("[data-cvgo]"); if (!b) return; const [x, y] = b.dataset.cvgo.split(",").map(Number); const inMob = b.closest(".m-app"), app = inMob ? MAPP : APPS[0]; if (!app) return;
+  if (inMob && M.sheet === "full") { M.sheet = "peek"; renderMob(); } const a = app.cfg.area(), u = app.u, s = Math.max(app.view.s, app.home.s * 5.2), cx = (a[0] + a[2] / 2) * u, cy = (a[1] + a[3] / 2) * u; flyTo(app, { s, ox: cx - x * s, oy: cy - y * s }); snd("pluck"); });
 /* ================= 中英双语：按地点 + 浏览器语言自动选，自己选过就记住 ================= */
 const LANGKEY = "jsatlas.lang";
 const ZH_TZ = /^(Asia\/(Shanghai|Chongqing|Chungking|Harbin|Urumqi|Kashgar|Hong_Kong|Macau|Taipei)|PRC|ROC|Hongkong)$/;

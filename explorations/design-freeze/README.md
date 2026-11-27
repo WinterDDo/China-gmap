@@ -7,3 +7,10 @@ cd explorations/design-freeze && python3 -m http.server 8790   # http://127.0.0.
 ```
 
 `data/` 由 `design_prep.py` 从 `explorations/style-proposals` 的数据、`pipeline/reference/names.json`（中英地名）和 chinaciv 汇编的 2023 年统计公报数值生成。全国合计核对自国家统计局《2023年国民经济和社会发展统计公报》。
+
+`data/cityview.json`（城市视图：选中一座城时，地图上显示它的区县、宝藏点和建成区小屋顶，面板显示“这座城的人”“城里有什么”“下辖区县”）由 `build_cityview.py` 生成：区县名称和位置来自阿里云 DataV.GeoAtlas 行政区划（`infos.json`），宝藏点来自 chinaciv 汇编的公开名单（世界遗产、国家公园、5A 景区、双一流高校、民航机场 2025 年旅客量、主要港口、Global Energy Monitor 电厂与矿山）。英文名优先用官方英文名，没有的用拼音。
+
+```bash
+pip install pypinyin
+python3 build_cityview.py <infos.json> <chinaciv/web/data> data
+```
