@@ -7,7 +7,7 @@
 | CBDB 项目负责人 Hongsu Wang | hongsuwang@fas.harvard.edu | CBDB 官网首页公布 |
 | CHGIS | **待核对**：官网 chgis.fas.harvard.edu 的 Contact 页；旧元数据中有 mberman@fas.harvard.edu（约 2007 年，可能已失效） | 搜索未找到当前官方邮箱 |
 
-建议两封都用英文发送（附上中文版本作为补充）。
+建议两封都用英文发送（附上中文版本作为补充）。附件用本目录下的 `preview-1-map.png`（全国地图）、`preview-2-zoomed.png`（放大后的城市旗标与城市卷）、`preview-3-pictograms.png`（五赋、城池、奇观图形）。不需要项目链接；有了公测版也可以再补发链接。
 
 ---
 
@@ -17,7 +17,7 @@
 
 Dear Dr. Wang,
 
-My name is [Your name]. I am building **Jiangshan Atlas (江山图鉴)**, a free, non-commercial, open-source website that presents each Chinese prefecture-level city on an interactive map painted in the style of *A Thousand Li of Rivers and Mountains*: its economy and population from official statistics, and its history. [Project link, if public]
+My name is [Your name]. I am building **Jiangshan Atlas (江山图鉴)**, a free, non-commercial, open-source website that presents each Chinese prefecture-level city on an interactive map painted in the style of *A Thousand Li of Rivers and Mountains*: its economy and population from official statistics, and its history. I have attached a few preview images of the design; a public beta is planned for [month, year].
 
 We would like to add a history layer that shows, for each modern city, notable historical figures who held office there or were born there, and draws a person's career as a route across the map (for example, Su Shi's postings). CBDB is by far the best source for this, and we would like to use it properly.
 
@@ -43,7 +43,7 @@ Best regards,
 
 王宏甦博士您好：
 
-我叫[姓名]，正在开发**江山图鉴（Jiangshan Atlas）**，这是一个免费、非商业、开源的网站，以《千里江山图》风格的互动地图呈现中国每个地级以上城市的经济、人口（来自官方统计）与历史。[项目链接，如已公开]
+我叫[姓名]，正在开发**江山图鉴（Jiangshan Atlas）**，这是一个免费、非商业、开源的网站，以《千里江山图》风格的互动地图呈现中国每个地级以上城市的经济、人口（来自官方统计）与历史。附件是几张设计效果图，公开测试版预计于[年月]上线。
 
 我们希望加入“历史层”：在每座城市显示曾在此任官或籍贯在此的历代人物，并把人物的仕宦经历画成地图上的路线（例如苏轼的历任之地）。CBDB 是这方面最好的资料，我们希望规范地使用它。
 
@@ -72,7 +72,7 @@ Best regards,
 
 Dear CHGIS team,
 
-My name is [Your name]. I am building **Jiangshan Atlas (江山图鉴)**, a free, non-commercial, open-source website that presents each Chinese prefecture-level city on an interactive map painted in the style of *A Thousand Li of Rivers and Mountains*. [Project link, if public]
+My name is [Your name]. I am building **Jiangshan Atlas (江山图鉴)**, a free, non-commercial, open-source website that presents each Chinese prefecture-level city on an interactive map painted in the style of *A Thousand Li of Rivers and Mountains*. I have attached a few preview images of the design; a public beta is planned for [month, year].
 
 We would like to add a history layer: a time slider showing how prefectures and county seats changed across dynasties, and each modern city's line of predecessors. CHGIS V6 is the authoritative source for this. Its terms permit free academic use but not redistribution, so we are asking for permission before using it.
 
@@ -97,7 +97,7 @@ Best regards,
 
 CHGIS 项目组各位老师好：
 
-我叫[姓名]，正在开发**江山图鉴（Jiangshan Atlas）**，这是一个免费、非商业、开源的网站，以《千里江山图》风格的互动地图呈现中国每个地级以上城市。[项目链接，如已公开]
+我叫[姓名]，正在开发**江山图鉴（Jiangshan Atlas）**，这是一个免费、非商业、开源的网站，以《千里江山图》风格的互动地图呈现中国每个地级以上城市。附件是几张设计效果图，公开测试版预计于[年月]上线。
 
 我们希望加入“历史层”：用时间轴展示历代府州县的变迁，以及每座今日城市的历代沿革。CHGIS V6 是这方面的权威数据。其条款允许免费学术使用、但不允许再分发，因此在使用前特来申请许可。
 
