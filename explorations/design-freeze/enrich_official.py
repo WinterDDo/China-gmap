@@ -46,6 +46,8 @@ for c in cities:
         elif abs(v - c[key]) / abs(c[key]) > 1e-4:
             changed[key] += 1
         c[key] = v
+        if key == "pop":  # the population is now this bulletin's year-end figure
+            c["popYear"] = d.get("year") if isinstance(d, dict) and d.get("year") else 2023
     q = c.setdefault("src", {}).setdefault("q", {})
     for key, field in (("pc", "gdp_per_capita"), ("gdp", "gdp"), ("population", "population")):
         if quote(f, field):

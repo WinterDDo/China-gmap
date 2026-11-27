@@ -112,21 +112,22 @@ PROTOTYPE_YEAR = 2023
 # Numbers shown in the prototype that come from a source document, with their unit there.
 PROTOTYPE_SOURCED = {
     "gdp": "元", "p1": "元", "p2": "元", "p3": "元", "gg": "%", "pop": "人", "pop20": "人", "popReg": "人",
-    "urb": "%", "inc": "元", "incU": "元", "incR": "元",
+    "urb": "%", "inc": "元", "incU": "元", "incR": "元", "pc": "元",
 }
 # Computed from other fields: must be empty when an input is.
-PROTOTYPE_DERIVED = {"pc": ("gdp", "pop"), "growth": ("pop", "pop20"), "sv": ("p1", "p2", "p3")}
+# (GDP per head is not here: it is the figure the bulletin prints, with its own sentence.)
+PROTOTYPE_DERIVED = {"growth": ("pop", "pop20"), "sv": ("p1", "p2", "p3")}
 # The sentence each of these numbers is shown with (src.q key).
 PROTOTYPE_HOME_QUOTE = {"gdp": "gdp", "pop": "population", "popReg": "population_registered", "inc": "income",
-                        "incU": "income_urban"}
+                        "incU": "income_urban", "pc": "pc"}
 # Numbers that disagree with their own sentence. Fix the data, then delete the entry; never add one silently.
-PROTOTYPE_KNOWN_MISMATCH = {
-    ("330500", "gdp"): "2026-11-27 发现：原型显示 3849.6 亿元，湖州 2023 年公报原句是 4015.1 亿元（疑为 2022 年数值）",
+PROTOTYPE_KNOWN_MISMATCH: dict[tuple[str, str], str] = {
+    # 2026-11-27 湖州 GDP（3849.6 vs 公报 4015.1 亿元）已由 enrich_official.py 按公报原句改正，条目删除。
 }
 # Ceiling of numbers found in none of their city's sentences (2026-11-27). Only ever lower these.
 PROTOTYPE_UNQUOTED = {
     "gdp": 86, "p1": 272, "p2": 272, "p3": 272, "gg": 1, "pop": 72, "pop20": 338, "popReg": 0,
-    "urb": 120, "inc": 0, "incU": 0, "incR": 67,
+    "urb": 120, "inc": 0, "incU": 0, "incR": 67, "pc": 93,
 }
 _QUOTE_NUMBER = re.compile(NUM + r"\s*(万亿元|亿元|万元|元|万人|人|%)")
 _TO_BASE = {"万亿元": 1e12, "亿元": 1e8, "万元": 1e4, "元": 1.0, "万人": 1e4, "人": 1.0, "%": 1.0}

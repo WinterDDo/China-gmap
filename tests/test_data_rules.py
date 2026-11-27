@@ -20,7 +20,7 @@ def _problems(mutate, year=2023):
 
 def test_real_samples_keep_every_rule():
     assert check.check_record(GOOD, 2023) == []
-    assert GOOD["fields_found"] == 12
+    assert GOOD["fields_found"] == 13  # incl. GDP per head as printed
     assert check.check_record(_rec("tjcn_taiyuan_2023_image_only.html", "140100"), 2023) == []
 
 
@@ -68,10 +68,10 @@ def test_each_prototype_rule_catches_its_violation(mutate, expected):
     assert expected in " | ".join(check.check_prototype(cities)[0])
 
 
-def test_fixed_known_problem_must_leave_the_list():
-    cities = copy.deepcopy(CITIES)
-    next(c for c in cities if c["id"] == "330500")["gdp"] = 401510000000  # the bulletin's 4015.1 亿元
-    assert "已经不存在了" in " | ".join(check.check_prototype(cities)[0])
+def test_fixed_known_problem_must_leave_the_list(monkeypatch):
+    # Shanghai's GDP matches its sentence, so a known-problem entry for it is stale and must be deleted.
+    monkeypatch.setitem(check.PROTOTYPE_KNOWN_MISMATCH, ("310000", "gdp"), "stale entry")
+    assert "已经不存在了" in " | ".join(check.check_prototype(CITIES)[0])
 
 
 def test_more_numbers_without_a_sentence_fail():
