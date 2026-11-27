@@ -752,7 +752,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .flow5 .head b { color: var(--accent); font-weight: 400; }
 .flow5 .bar2 { display: flex; height: 14px; border-radius: 2px; overflow: hidden; }
 .flow5 .bar2 i { display: block; height: 100%; }
-.flow5 .dst { display: grid; grid-template-columns: 62px minmax(0, 1fr) 46px; gap: 4px 10px; align-items: center; font-size: var(--fs-2); }
+.flow5 .dst { display: grid; grid-template-columns: 62px minmax(0, 1fr) 40px auto; gap: 4px 10px; align-items: center; font-size: var(--fs-2); }
 .flow5 .dst b { font: 600 var(--fs-3)/1.1 var(--serif); }
 .flow5 .dst .hbar i { background: var(--river); animation: grow5 .8s cubic-bezier(.2,.7,.2,1) both; transform-origin: left; }
 .flow5 .dst em { font: 600 var(--fs-3)/1 var(--serif); font-style: normal; text-align: right; }
@@ -923,6 +923,8 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .hzt b { font: 600 var(--fs-3)/1.25 var(--serif); }
 .hzt .ppl { color: var(--accent); }
 .honor .tch { font: 600 10px/1 var(--sans); font-style: normal; color: #7a5a14; background: #f3d58a; border-radius: 9px; padding: 3px 7px; margin-left: 6px; vertical-align: 3px; letter-spacing: .08em; }
+.flow5 .tr { font: 600 11px/1 var(--sans); white-space: nowrap; min-width: 58px; } .flow5 .tr.up { color: var(--pos); } .flow5 .tr.down { color: var(--neg); }
+.flow5 .tag b { color: var(--ink); }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" id="sprite">
@@ -2253,14 +2255,16 @@ const PROVNAME = id => { const p = PROVS.find(p => p.id === id.slice(0, 2)); ret
 const PROV_CAP = pid => CITIES.find(c => c.prov === pid.slice(0, 2) && (c.pcap || c.kind === "municipality"));
 function flowsOf(c) { if (!FLOWS || !c) return null; const pid = c.prov + "0000", out = FLOWS.out && FLOWS.out[pid], inn = FLOWS.in && FLOWS.in[pid];
   const to = FLOWS.tot_out ? FLOWS.tot_out[pid] : null, ti = FLOWS.tot_in ? FLOWS.tot_in[pid] : null; const inflow = c.popReg != null ? c.popReg < (c.pop || 0) : (ti || 0) > (to || 0);
-  const list = inflow ? inn : out, tot = inflow ? ti : to; if (!list || !tot) return null; return { pid, inflow, tot, list: list.slice(0, 6).map(([p, n]) => ({ p, n, s: n / tot })) }; }
+  const list = inflow ? inn : out, tot = inflow ? ti : to; if (!list || !tot) return null; const y10 = FLOWS.y2010 ? (inflow ? FLOWS.y2010.in[pid] : FLOWS.y2010.out[pid]) || {} : {}; return { pid, inflow, tot, tot10: FLOWS.y2010 ? (inflow ? FLOWS.y2010.tot_in : FLOWS.y2010.tot_out)[pid] : null, list: list.slice(0, 6).map(([p, n]) => ({ p, n, s: n / tot, old: y10[p] ?? null })) }; }
 function flowHTML(c, compact) { const f = flowsOf(c), pv = PROVNAME(c.prov + "0000"), reg = c.popReg, out = reg != null && c.pop != null ? reg - c.pop : null;
   const head = out == null ? `<span class="tag">${ZH("户籍人口", "Registered population")} · ${PEND("采集中", "collecting")}</span>`
     : out > 0 ? `<div class="head">${ZH(`户籍 ${fmtPopShort(reg)}，常住 ${fmtPopShort(c.pop)}：约 <b>${fmtPopShort(out)}</b> 人在外地生活，每 <b>${Math.max(2, Math.round(reg / out))}</b> 个${c.n}人里就有 1 个`, `Registered ${fmtPopShort(reg)}, resident ${fmtPopShort(c.pop)}: about <b>${fmtPopShort(out)}</b> live elsewhere`)}</div>`
     : `<div class="head">${ZH(`常住比户籍多 <b>${fmtPopShort(-out)}</b>：外地来的人撑起了这座城`, `<b>${fmtPopShort(-out)}</b> more residents than registered: newcomers carry this city`)}</div>`;
-  const dir = f ? `<span class="tag">${f.inflow ? ZH(`外省来${pv}的人，主要来自：`, `People from other provinces in ${pv} come from:`) : ZH(`${pv}人在外省，主要去了：`, `People from ${pv} living in other provinces went to:`)} · ${ZH("七普 2020 · 按省", "2020 census · by province")}</span>
+  const tr = d => d.old == null ? "" : `<span class="tr ${d.n >= d.old ? "up" : "down"}" title="${ZH("与六普 2010 比", "vs 2010 census")}">${d.n >= d.old ? "↑" : "↓"}${fmtPopShort(Math.abs(d.n - d.old))}</span>`;
+  const dir = f ? `<span class="tag">${f.inflow ? ZH(`住在${pv}、出生在外省的约 <b class="num">${fmtPopShort(f.tot)}</b> 人，来自：`, `About <b class="num">${fmtPopShort(f.tot)}</b> people living in ${pv} were born in other provinces:`) : ZH(`出生在${pv}、现住外省的约 <b class="num">${fmtPopShort(f.tot)}</b> 人，去了：`, `About <b class="num">${fmtPopShort(f.tot)}</b> people born in ${pv} now live in other provinces:`)}</span>
       <div class="bar2">${f.list.map((d, i) => `<i style="flex:${d.n};background:${["#2d5e78", "#4b7b90", "#6c97a6", "#8fb0b8", "#b2c7c8", "#cfdad6"][i]}" title="${PROVNAME(d.p)}"></i>`).join("")}</div>
-      ${f.list.slice(0, compact ? 3 : 6).map(d => `<div class="dst"><b>${PROVNAME(d.p)}</b><div class="hbar"><i style="width:${d.s / f.list[0].s * 100}%"></i></div><em class="num">${Math.round(d.s * 100)}%</em></div>`).join("")}`
+      ${f.list.slice(0, compact ? 3 : 6).map(d => `<div class="dst"><b>${PROVNAME(d.p)}</b><div class="hbar"><i style="width:${d.s / f.list[0].s * 100}%"></i></div><em class="num">${Math.round(d.s * 100)}%</em>${compact ? "" : tr(d)}</div>`).join("")}
+      <span class="tag">${ZH("七普 2020 · 按出生地（长表抽样推算）", "2020 census · by birthplace (long-form sample, scaled)")}${f.tot10 ? ZH(` · 2010 年为 ${fmtPopShort(f.tot10)}`, ` · ${fmtPopShort(f.tot10)} in 2010`) : ""}</span>`
     : `<span class="tag">${ZH("去向（七普省际流动）", "Destinations (2020 census)")} · ${PEND("采集中", "collecting")}</span>`;
   return `<div class="flow5">${head}${dir}${c.dpop != null ? `<span class="tag">${ZH("七普 → 2023 常住人口", "Residents, census → 2023")} <b class="num ${c.dpop > 0 ? "up" : "down"}">${FMTS.wan(c.dpop)}</b></span>` : ""}</div>`; }
 

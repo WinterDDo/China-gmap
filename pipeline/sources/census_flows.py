@@ -1,6 +1,6 @@
 """Province-to-province population flows from the 2020 (七普) and 2010 (六普) census yearbooks of 国家统计局.
 
-Where people from each province went to live, as two origin × destination matrices over the 31 provinces per census:
+Where people from each province went to live, as three origin × destination matrices over the 31 provinces per census:
 
 * hukou_outside_province (stock) – people living in province d on census day whose 户口登记地 is province o ≠ d.
   Full count. 2020: 《中国人口普查年鉴-2020》 第一部分 第七卷 表 7-3 「全国按现住地、性别分的户口登记地在外省的人口」;
@@ -8,25 +8,30 @@ Where people from each province went to live, as two origin × destination matri
 * five_years_ago (recent movers) – people living in d whose 常住地 five years before census day was o ≠ d
   (2015-11-01 → 2020-11-01; 2005 → 2010). Long-form table: the 10% household sample, counted as registered and
   not weighted (编辑说明: "长表抽取了10%的户"; "推算总体时，对采用的方法予以注意"). 2020: 第二部分 第七卷 表 7-7
-  「全国按现住地和五年前常住地分的人口」; 2010: 第二部分 第七卷 表 7-8 (same title). For an estimate of the whole
-  population, `sample.scale[d]` is the full-count population of d over its long-form population (both table 1-2).
+  「全国按现住地和五年前常住地分的人口」; 2010: 第二部分 第七卷 表 7-8 (same title).
+* birthplace (lifetime migrants) – people living in d who were born in o ≠ d, all ages. Long-form table as well.
+  2020: 第二部分 第七卷 表 7-6 「全国按现住地和出生地分的人口」; 2010: 第二部分 第七卷 表 7-7 (same title).
+For an estimate of the whole population, `sample.scale[d]` of a long-form matrix is the full-count population of d
+over its long-form population (人口数合计 of table 1-1 「各地区户数、人口数和性别比」 in each part).
 
 fetch() downloads, from www.stats.gov.cn only, each yearbook's frame page, its table of contents (left.htm, where the
-table titles and their 部分/卷 come from) and editorial note, the four tables (2020: .xls; 2010: Excel-exported .htm)
-and the two population tables per year for the sample scale. Everything is cached under data/raw/census/<year>/ with
+table titles and their 部分/卷 come from) and editorial note, the three tables per year (2020: .xls; 2010:
+Excel-exported .htm) and the two population tables per year for the sample scale. Everything is cached under data/raw/census/<year>/ with
 the usual manifest (url, sha256, bytes, retrieved). The .xls files are read by parse/xls.py (cell values only).
 
 process() writes data/interim/census/flows_<year>.json:
 
     {"year": 2020, "census": …, "yearbook": {…},
      "matrices": [{"source": {title, table_id, part, volume, yearbook, url, toc_url, file, retrieved, sha256},
-                   "kind": "hukou_outside_province" | "five_years_ago", "unit": "人", "sampled": bool,
+                   "kind": "hukou_outside_province" | "five_years_ago" | "birthplace", "unit": "人", "sampled": bool,
                    "provinces": {code: name}, "flows": [{"o": "510000", "d": "440000", "n": 12345}, …],
                    "published_totals": {…}, "checks": {…}, …}, …]}
 
 `flows` holds every non-empty off-diagonal cell (a blank cell – "无数字或数字很小" – is left out, never written as 0).
-The checks compare the flows with the table's own totals: each destination's row (合计, minus the within-province
-and 港澳台或国外 columns where the table has them) and each origin's column (the 全国 row); 小计 = 男 + 女 too.
+A row's own province column (the diagonal: people of d counted under d's own name) is never a flow; whatever the table
+prints there is kept in `published_totals.diagonal` and in the checks. The checks compare the flows with the table's
+own totals: each destination's row (合计, minus the within-province, 港澳台或国外 and diagonal cells where the table
+has them) and each origin's column (the 全国 row, minus the diagonal cell); 小计 = 男 + 女 too.
 """
 
 from __future__ import annotations
@@ -57,17 +62,20 @@ PAGES = ("indexch.htm", "left.htm", "html/note.htm")  # frame page, table of con
 DEFINITIONS = {
     "hukou_outside_province": "普查时点现住地在 d 省、户口登记地在外省 o 的人口（全部人口，存量）",
     "five_years_ago": "普查时点现住地在 d 省、五年前常住地在外省 o 的人口（5 岁及以上；长表 10% 抽样登记数，未加权）",
+    "birthplace": "普查时点现住地在 d 省、出生地在外省 o 的人口（全部年龄；长表 10% 抽样登记数，未加权）",
 }
 TABLES = {  # (year, kind) → table file (relative to the yearbook's base URL), table number, title in the file
     (2020, "hukou_outside_province"): ("html/A0703.xls", "7-3", "全国按现住地、性别分的户口登记地在外省的人口"),
     (2020, "five_years_ago"): ("html/B0707.xls", "7-7", "全国按现住地和五年前常住地分的人口"),
+    (2020, "birthplace"): ("html/B0706.xls", "7-6", "全国按现住地和出生地分的人口"),
     (2010, "hukou_outside_province"): ("html/A0703a.htm", "7-3", "全国按现住地、性别分的户口登记地在外省的人口"),
     (2010, "five_years_ago"): ("html/B0708.htm", "7-8", "全国按现住地和五年前常住地分的人口"),
+    (2010, "birthplace"): ("html/B0707.htm", "7-7", "全国按现住地和出生地分的人口"),
 }
-LONG_FORM = {"five_years_ago"}
-POPULATION = {  # year → (full count, long form): table 1-2 of each part, for the long-form scale
-    2020: ("html/A0102.xls", "html/B0102.xls"),
-    2010: ("html/A0102a.htm", "html/B0102.htm"),
+LONG_FORM = {"five_years_ago", "birthplace"}
+POPULATION = {  # year → (full count, long form): table 1-1 各地区户数、人口数和性别比 of each part, for the sample scale
+    2020: ("html/A0101.xls", "html/B0101.xls"),
+    2010: ("html/A0101a.htm", "html/B0101a.htm"),
 }
 
 
@@ -119,7 +127,8 @@ def read_matrix(grid: list[list], codes: dict[str, str]) -> dict:
     """Origin × destination counts of a census table laid out as 现住地 rows × 户口登记地 / 五年前常住地 columns.
 
     Returns {title, flows {(o, d): n}, row_total {d: n}, nation_row {o: n}, nation_total, within {d: {...}},
-    abroad {d: n}, sex_mismatches [...], diagonal [...]} (codes as in `codes`)."""
+    abroad {d: n}, diagonal {d: n} (every non-blank own-province cell, 0 included), sex_mismatches [...]}
+    (codes as in `codes`)."""
     title = next((re.sub(r"\s+", " ", v).strip() for v in grid[0] if _text(v)), "") if grid else ""
     first = next((r for r, row in enumerate(grid) if row and _text(row[0]) == "全国"), None)
     if first is None:
@@ -163,15 +172,15 @@ def read_matrix(grid: list[list], codes: dict[str, str]) -> dict:
         raise ValueError(f"destination rows missing for {missing}")
 
     cell = lambda r, c: count(grid[r][c]) if c is not None and c < len(grid[r]) else None  # noqa: E731
-    flows, diagonal, sex_bad = {}, [], []
+    flows, diagonal, sex_bad = {}, {}, []
     for d, r in rows.items():
         if d == NATION:
             continue
         for o, c in origin_col.items():
             n = cell(r, c)
             if o == d:
-                if n:
-                    diagonal.append({"o": o, "d": d, "n": n})
+                if n is not None:
+                    diagonal[d] = n
                 continue
             if n:
                 flows[o, d] = n
@@ -198,7 +207,9 @@ def read_matrix(grid: list[list], codes: dict[str, str]) -> dict:
 
 
 def check_matrix(m: dict) -> dict:
-    """Flows against the table's own totals: rows (destinations), columns (origins: the 全国 row) and the grand total."""
+    """Flows against the table's own totals: rows (destinations), columns (origins: the 全国 row) and the grand total.
+    The diagonal cells are not flows but are part of the totals: they are taken out of the row, column and grand totals."""
+    diag = m["diagonal"]
     inflow: dict[str, int] = {}
     outflow: dict[str, int] = {}
     for (o, d), n in m["flows"].items():
@@ -206,34 +217,45 @@ def check_matrix(m: dict) -> dict:
         outflow[o] = outflow.get(o, 0) + n
     row_bad, col_bad = [], []
     for d, total in m["row_total"].items():
-        expected = (total or 0) - sum(v or 0 for v in m["within"].get(d, {}).values()) - (m["abroad"].get(d) or 0)
+        expected = ((total or 0) - sum(v or 0 for v in m["within"].get(d, {}).values()) - (m["abroad"].get(d) or 0)
+                    - diag.get(d, 0))
         if expected != inflow.get(d, 0):
             row_bad.append({"d": d, "table": expected, "sum_of_flows": inflow.get(d, 0)})
     for o, total in m["nation_row"].items():
-        if (total or 0) != outflow.get(o, 0):
-            col_bad.append({"o": o, "table": total or 0, "sum_of_flows": outflow.get(o, 0)})
+        expected = (total or 0) - diag.get(o, 0)
+        if expected != outflow.get(o, 0):
+            col_bad.append({"o": o, "table": expected, "sum_of_flows": outflow.get(o, 0)})
     grand = sum(m["flows"].values())
     nation_expected = ((m["nation_total"] or 0) - sum(v or 0 for v in m["nation_within"].values())
-                       - (m["nation_abroad"] or 0))
+                       - (m["nation_abroad"] or 0) - sum(diag.values()))
     return {
         "sum_of_flows": grand,
         "table_total_between_provinces": nation_expected,
         "grand_total_ok": grand == nation_expected,
         "rows_ok": not row_bad, "row_mismatches": row_bad,
         "columns_ok": not col_bad, "column_mismatches": col_bad,
-        "diagonal_empty": not m["diagonal"],
+        "diagonal_total": sum(diag.values()),
+        "diagonal_empty": not any(diag.values()),
         **({"sex_split_ok": not m["sex_mismatches"], "sex_mismatches": m["sex_mismatches"][:20]} if m["has_sex"] else {}),
     }
 
 
 def read_population(grid: list[list], codes: dict[str, str]) -> dict[str, int]:
-    """合计 (first numeric column) of a "各地区…人口" table, by province code and NATION."""
+    """人口数 合计 of table 1-1 「各地区户数、人口数和性别比」, by province code and NATION: the 合计 column of the header
+    row that splits the population by sex (合计 | 男 | 女 | 性别比), not the 户数 合计 before it."""
+    first = next((r for r, row in enumerate(grid) if row and _text(row[0]) == "全国"), None)
+    if first is None:
+        raise ValueError("no 全国 row")
+    col = next((c for row in grid[:first] if "男" in [_text(v) for v in row]
+                for c, v in enumerate(row) if c and _text(v) == "合计"), None)
+    if col is None:
+        raise ValueError("no 人口数 合计 column")
     out = {}
-    for row in grid:
+    for row in grid[first:]:
         name = _text(row[0]) if row else ""
         code = NATION if name == "全国" else codes.get(name)
         if code and code not in out:
-            out[code] = next(n for n in (count(v) for v in row[1:]) if n is not None)
+            out[code] = count(row[col])
     return out
 
 
@@ -270,9 +292,11 @@ class CensusFlows(Source):
         homepage="https://www.stats.gov.cn/sj/pcsj/rkpc/7rp/zk/indexch.htm",
         license="政府公开统计资料",
         description="31 个省级行政区之间的人口流向矩阵：①按现住地和户口登记地在外省分的人口（表 7-3，全部人口，存量）；"
-        "②按现住地和五年前常住地分的人口（长表表 7-7 / 7-8，10% 抽样户的登记数，未加权），各为 2020 年和 2010 年两期。"
+        "②按现住地和五年前常住地分的人口（长表表 7-7 / 7-8）；③按现住地和出生地分的人口（长表表 7-6 / 7-7）。"
+        "长表为 10% 抽样户的登记数，未加权。各为 2020 年和 2010 年两期。"
         "数值照抄年鉴表格，空项不记为 0；每个矩阵都与表内合计行、合计列核对。",
-        used_for=["人口流向：户籍地 → 现住地（存量）", "近五年迁移：五年前常住地 → 现住地", "2010 → 2020 变化"],
+        used_for=["人口流向：户籍地 → 现住地（存量）", "近五年迁移：五年前常住地 → 现住地", "终身迁移：出生地 → 现住地",
+                  "2010 → 2020 变化"],
     )
 
     def fetch(self, force: bool = False) -> None:
@@ -334,6 +358,7 @@ class CensusFlows(Source):
                         **({"within_province": m["within"], "national_within_province": m["nation_within"]}
                            if m["within"] else {}),
                         **({"abroad": m["abroad"], "national_abroad": m["nation_abroad"]} if m["abroad"] else {}),
+                        **({"diagonal": m["diagonal"]} if m["diagonal"] else {}),  # own-province cells as printed
                     },
                     "checks": checks,
                 }
@@ -342,15 +367,16 @@ class CensusFlows(Source):
                         "design": "普查长表：按户抽取 10% 的户填报；表中为抽样登记数，未加权",
                         "scale": {d: round(full[d] / long[d], 5) for d in provinces},
                         "scale_national": round(full[NATION] / long[NATION], 5),
-                        "scale_note": f"scale[d] = 全部人口数 / 长表人口数（{yb['title']} 表 1-2 两部分的合计，现住地 d）；"
+                        "scale_note": f"scale[d] = 全部人口数 / 长表人口数（{yb['title']} 两部分表 1-1 的人口数合计，现住地 d）；"
                                       "n × scale[d] 为推算的总体人数，仅为近似",
                         "scale_files": [f"census/{rel(year, full_file)}", f"census/{rel(year, long_file)}"],
                     }
                 matrices.append(out)
                 summary[f"{year}/{kind}"] = {
                     "table": m["title"], "pairs": len(m["flows"]), "sum_of_flows": checks["sum_of_flows"],
-                    "ok": all(checks[k] for k in ("grand_total_ok", "rows_ok", "columns_ok", "diagonal_empty"))
+                    "ok": all(checks[k] for k in ("grand_total_ok", "rows_ok", "columns_ok"))
                     and checks.get("sex_split_ok", True),
+                    "diagonal_total": checks["diagonal_total"],
                 }
             payload = {
                 "year": year, "census": yb["census"], "census_moment": yb["moment"],

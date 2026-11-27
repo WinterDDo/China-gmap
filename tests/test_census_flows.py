@@ -6,7 +6,7 @@ import struct
 import pytest
 
 from pipeline.parse import htmltext, xls
-from pipeline.sources.census_flows import NATION, check_matrix, count, parse_toc, read_matrix
+from pipeline.sources.census_flows import NATION, check_matrix, count, parse_toc, read_matrix, read_population
 
 CODES = {"北京": "110000", "天津": "120000", "河北": "130000"}
 
@@ -166,3 +166,36 @@ def test_table_of_contents():
     toc = parse_toc(html)
     assert toc["A0703"] == {"title": "7-3 全国按现住地、性别分的户口登记地在外省的人口", "part": None, "volume": "第七卷 户口登记状况"}
     assert toc["B0707"]["part"] == "第二部分 长表数据资料" and toc["B0707"]["volume"] == "第七卷 迁移和户口登记地"
+
+
+def test_birthplace_matrix_keeps_the_diagonal_out_of_flows_but_in_the_totals():
+    """Shaped like 7-6 (现住地 × 出生地). Here 北京's own column holds 7 people (the 2020 tables print 0 there, the 2010
+    ones leave it blank): not a flow, but part of the row, the column and the grand total."""
+    g = [["7-6  全国按现住地和出生地分的人口"], [None, "单位：人"], ["现 住 地", "出  生  地"],
+         [None, "合计", "省      内", None, "省      外", None, None, "港澳台\n或国外"],
+         [None, None, "本县市区", "本省其他", "北京", "天津", "河北"],
+         [None, None, None, "县市区"],
+         ["全    国", 1007, 850, 50, 17, 20, 30, 40],
+         ["北    京", 507, 430, 20, 7, 15, 25, 10],
+         ["天    津", 300, 270, 15, 6, 0, 5, 4],
+         ["河    北", 200, 150, 15, 4, 5, None, 26]]
+    m = read_matrix(g, CODES)
+    assert m["diagonal"] == {"110000": 7, "120000": 0} and ("110000", "110000") not in m["flows"]
+    assert m["flows"][("110000", "120000")] == 6 and len(m["flows"]) == 6
+    c = check_matrix(m)
+    assert c["rows_ok"] and c["columns_ok"] and c["grand_total_ok"]
+    assert not c["diagonal_empty"] and c["diagonal_total"] == 7 and c["sum_of_flows"] == 60
+    g[7][4] = 0  # without the 7, 北京's row and column and the grand total no longer reconcile
+    c = check_matrix(read_matrix(g, CODES))
+    assert not c["rows_ok"] and not c["columns_ok"] and not c["grand_total_ok"] and c["diagonal_empty"]
+
+
+def test_population_for_the_sample_scale_is_the_people_not_the_households():
+    """Table 1-1 各地区户数、人口数和性别比: 户数 合计 comes first, the 人口数 合计 is under 合计 | 男 | 女 | 性别比."""
+    g = [["1-1  各地区户数、人口数和性别比"], [None, "单位：户、人"],
+         ["地    区", "户       数", None, None, "人          口          数"],
+         [None, "合计", "家庭户", "集体户", "合          计", None, None, None],
+         [None, None, None, None, "合计", "男", "女", "性别比"],
+         ["全    国", 522689264.0, 494157423.0, 28531841.0, 1409778724.0, 721416394.0, 688362330.0, 104.8],
+         ["北    京", "8230000", "", "", "21893095", "11197000", "10696095", "104.7"]]
+    assert read_population(g, {"北京": "110000"}) == {NATION: 1409778724, "110000": 21893095}
