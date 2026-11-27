@@ -14,3 +14,10 @@ cd explorations/design-freeze && python3 -m http.server 8790   # http://127.0.0.
 pip install pypinyin
 python3 build_cityview.py <infos.json> <chinaciv/web/data> data
 ```
+
+`data/transport.json`（城市视图里的铁路和高速：高铁、普铁、高速三种画法，面板「怎么出门」列出经过这座城的线路，点一下在地图上标红）由 `build_transport.py` 生成，输入是在你的 Mac 上用 `tools/local_fetch/fetch_osm_lines.py` 从 OpenStreetMap 下载的 `jiangshan_osm_lines.zip`（云端连不上 OpenStreetMap）。线路 © OpenStreetMap 贡献者，ODbL；只画线，不算里程。这个文件还没有时，面板显示「还在整理」，地图上不画线。中英地名的拼音规则在 `placenames.py`，两个生成脚本共用。
+
+```bash
+python3 build_transport.py <jiangshan_osm_lines.zip> data
+```
+
