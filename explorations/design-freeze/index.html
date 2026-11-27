@@ -925,6 +925,62 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .honor .tch { font: 600 10px/1 var(--sans); font-style: normal; color: #7a5a14; background: #f3d58a; border-radius: 9px; padding: 3px 7px; margin-left: 6px; vertical-align: 3px; letter-spacing: .08em; }
 .flow5 .tr { font: 600 11px/1 var(--sans); white-space: nowrap; min-width: 58px; } .flow5 .tr.up { color: var(--pos); } .flow5 .tr.down { color: var(--neg); }
 .flow5 .tag b { color: var(--ink); }
+
+/* 开局 */
+.st-steps { position: absolute; left: 50%; top: 62px; translate: -50% 0; z-index: 6; display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: var(--leaf); border: 1px solid var(--rule-strong); border-radius: 22px; box-shadow: var(--shadow); font-size: var(--fs-2); color: var(--ink-3); }
+.st-steps span { display: flex; align-items: center; gap: 6px; }
+.st-steps span b { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid var(--rule-strong); font: 700 11px/1 var(--serif); }
+.st-steps span.cur { color: var(--ink); font-weight: 600; } .st-steps span.cur b { border-color: var(--accent); color: var(--accent); }
+.st-steps span.done b { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.st-steps i { width: 26px; height: 1.5px; background: var(--rule-strong); display: block; }
+.st-veil { position: absolute; inset: 48px 0 0; z-index: 4; background: radial-gradient(ellipse at 40% 50%, rgba(244,236,217,.35), rgba(232,220,192,.82)); transition: opacity .6s cubic-bezier(.2,.7,.2,1); pointer-events: none; }
+.st-veil.off { opacity: 0; }
+.st-pick { position: absolute; left: 120px; top: 190px; width: 560px; z-index: 5; padding: 30px 34px; display: grid; gap: 12px; transition: opacity .45s, transform .45s cubic-bezier(.2,.7,.2,1); }
+.st-pick.off { opacity: 0; transform: translateX(-40px); pointer-events: none; }
+.st-pick .ttl { font: 400 54px/1.1 var(--brush); }
+.st-pick .sub { color: var(--ink-2); }
+.field.big { height: 48px; font-size: var(--fs-4); }
+.field.big input { font-size: var(--fs-4); }
+.st-hits { display: flex; flex-wrap: wrap; gap: 6px; }
+.st-hits .chip { height: 34px; font-size: var(--fs-3); }
+.st-hits .chip .note { font-size: 10.5px; }
+.st-card { position: absolute; right: 70px; top: 120px; z-index: 5; }
+.st-wrap { display: flex; gap: 18px; align-items: flex-start; }
+.st-wrap .card5 { width: 300px; }
+.st-info { width: 360px; padding: 16px 18px; display: grid; gap: 10px; animation: rise .5s .5s both; }
+.st-flow { margin: 0; font-size: var(--fs-2); color: var(--ink-2); line-height: 1.6; }
+.st-flow b { color: var(--river); }
+/* 小红书 3:4 */
+.xhs { position: absolute; inset: 0; background: linear-gradient(175deg, #fbf3dc, #efe2c2); display: flex; flex-direction: column; padding: 22px 22px 18px; gap: 12px; }
+.xhs::before { content: ""; position: absolute; inset: 8px; border: 1px solid var(--rule-strong); border-radius: 4px; pointer-events: none; }
+.xh-top { display: flex; align-items: center; justify-content: space-between; }
+.xh-tag { font: 600 13px/1 var(--sans); color: var(--accent); background: rgba(178,58,43,.1); padding: 6px 10px; border-radius: 14px; }
+.xh-title b { display: block; font: 400 64px/1 var(--brush); }
+.xh-title span { font: 900 22px/1.3 var(--serif); }
+.xh-art { position: relative; height: 150px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(43,35,29,.25); }
+.xh-art canvas { width: 100%; height: 100%; display: block; }
+.xh-art .cd-rar { position: absolute; left: 8px; bottom: 8px; font: 600 11px/1 var(--sans); padding: 5px 8px; border-radius: 10px; background: rgba(43,35,29,.78); color: #f6efe0; }
+.xh-list { display: grid; gap: 8px; }
+.xh-row { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 10px; align-items: center; background: rgba(255,255,255,.55); border-radius: 8px; padding: 8px 10px; }
+.xh-no { font: 900 20px/1 var(--serif); color: var(--accent); text-align: center; }
+.xh-row b { display: block; font: 400 19px/1.2 var(--brush); }
+.xh-row span { font-size: 12px; color: var(--ink-2); }
+.xh-row span b { display: inline; font: 600 13px/1 var(--serif); color: var(--accent); }
+.xh-foot { margin-top: auto; display: flex; align-items: flex-end; gap: 10px; }
+.xh-foot .wordmark b { font-size: 18px; } .xh-foot .wordmark i { font-size: 7px; }
+.xh-h { flex: 1; font-size: 11px; color: var(--river); }
+/* 选题地图 */
+.tp-table { display: grid; }
+.tp-r { display: grid; grid-template-columns: 230px minmax(0, 1fr) 230px 140px; gap: 14px; align-items: center; padding: 9px 4px; border-bottom: 1px solid var(--rule); font-size: var(--fs-2); }
+.tp-r.h { font-size: var(--fs-1); color: var(--ink-3); border-bottom: 1px solid var(--rule-strong); }
+.tp-r b { font: 600 var(--fs-3)/1.3 var(--serif); }
+.tp-s { justify-self: start; font: 600 11px/1 var(--sans); padding: 5px 8px; border-radius: 10px; }
+.tp-s.done { background: rgba(91,146,127,.18); color: #2f6a55; } .tp-s.new { background: var(--accent); color: var(--accent-ink); } .tp-s.half { background: rgba(184,145,63,.2); color: #7a5a14; }
+.tp-s.todo { background: var(--leaf-sunk); color: var(--ink-2); } .tp-s.maybe { background: var(--hatch), var(--leaf); color: var(--ink-3); border: 1px dashed var(--rule-strong); }
+.hotpk { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.hotpk .chip { height: 30px; padding: 0 10px; }
+.hotpk .chip.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+@media (max-width: 860px) { .tp-r { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" id="sprite">
@@ -975,6 +1031,20 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
     <nav class="toc" data-toc aria-label="目录"></nav>
   </header>
 
+  <section class="sec" id="s-start">
+    <div class="sec-head"><span class="seal"><span>开局</span></span><h2 data-t="secStart">选家乡 · 开局</h2><span class="newtag">NEW</span><span class="sub" data-t="secStartSub">第一次打开：选家乡 → 盖章 → 翻开宝藏点</span><button class="btn" data-v6="st-reset" style="margin-left:auto"><svg class="ic sm" aria-hidden="true"><use href="#i-compass"/></svg><span>重来</span></button></div>
+    <div class="device desk"><div class="screen"><div class="app" data-app="start">
+      <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
+      <header class="topbar" data-v4top="start"></header>
+      <div class="st-steps" data-st-steps></div>
+      <div class="st-veil" data-st-veil></div>
+      <div class="leaf st-pick" data-st-pick></div>
+      <div class="st-card" data-st-card aria-live="polite"></div>
+      <div data-st-toast></div>
+    </div></div></div>
+    <p class="note" data-t="startNote">不注册、不定位；家乡只存在你的浏览器里。“最近出圈的城”取自近两年社交平台上的热门城市话题。</p>
+  </section>
+
   <section class="sec" id="s-desk">
     <div class="sec-head"><span class="seal"><span>壹</span></span><h2 data-t="secDesk">桌面主界面</h2><span class="sub" data-t="secDeskSub">1440 × 900，等比缩放显示，可直接操作</span><button class="btn" data-v5="replay" style="margin-left:auto"><svg class="ic sm" aria-hidden="true"><use href="#i-play"/></svg><span data-t="replay">重播开场</span></button></div>
     <div class="device desk" id="desk"><div class="screen"><div class="app" data-app="desk">
@@ -1022,6 +1092,11 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
     <div class="sec-head"><span class="seal"><span>叁</span></span><h2 data-t="secLife">宝藏点与生活账本</h2><span class="newtag">NEW</span><span class="sub" data-t="secLifeSub">先看跟过日子有关的数字；每座城都有自己的宝藏点</span></div>
     <div class="life-grid" data-life></div>
     <div class="leaf card" data-swap></div>
+  </section>
+
+  <section class="sec" id="s-topics">
+    <div class="sec-head"><span class="seal"><span>选题</span></span><h2 data-t="secTopics">选题地图 · 从网友在聊的出发</h2><span class="newtag">NEW</span><span class="sub" data-t="secTopicsSub">每个维度都对应一个大家真在讨论的问题，再找能回答它的官方数据</span></div>
+    <div class="leaf card" data-topics></div>
   </section>
 
   <section class="sec" id="s-guess">
@@ -1075,6 +1150,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   <section class="sec" id="s-share">
     <div class="sec-head"><span class="seal"><span>捌</span></span><h2 data-t="secShare">分享长卷</h2><span class="newtag">NEW</span><span class="sub" data-t="secShareSub">一键出图：竖版城市卡、横版对决卡、A3 海报</span></div>
     <div class="frames">
+      <figure style="width:min(340px,100%)"><div class="frame" style="aspect-ratio:3/4"><div class="screen" style="width:450px;height:600px"><div class="xhs" data-xhs></div></div></div><figcaption data-t="capXhs">小红书 3:4 · 1080×1440 · “被低估的宝藏小城”</figcaption></figure>
       <figure style="width:min(300px,100%)"><div class="frame" style="aspect-ratio:360/640"><div class="screen" style="width:360px;height:640px"><div class="card9"><div data-c9-top style="display:contents"></div><div class="m"><div class="mapbox" data-map="c9"><canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas></div></div><div data-c9-bottom style="display:contents"></div></div></div></div><figcaption data-t="cap9">竖版 · 1080×1920 · 朋友圈、小红书</figcaption></figure>
       <figure style="width:min(560px,100%)"><div class="frame" style="aspect-ratio:600/315"><div class="screen" style="width:600px;height:315px"><div class="card16"><div class="l" data-c16></div><div class="r"><div class="mapbox" data-map="c16"><canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas></div></div></div></div></div><figcaption data-t="cap16">横版 · 1200×630 · 微博、公众号头图、链接预览</figcaption>
         <div class="frame" style="aspect-ratio:594/840;width:min(380px,100%);margin:16px auto 0"><div class="screen" style="width:594px;height:840px"><div class="poster"><div class="mapbox" data-map="poster"><canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas></div><div data-poster style="display:contents"></div></div></div></div><figcaption data-t="capA3">A3 海报 · 297×420 mm · 300 dpi 矢量文字 · 可打印</figcaption></figure>
@@ -1215,6 +1291,8 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
       <li><b>动效与音效</b>：开场展卷、云雾、行船、飞鸟、匾额弹起、钤印墨点、晕墨换透镜、数字滚动；音效默认关闭，右上角可开。会不会太闹？</li>
       <li><b>历代治理</b>：治理层改成只讲历史（都城怎么迁、分几级政府、地方官叫什么、各朝名宦），不收录任何现任官员，所以不再需要开关。</li>
       <li><b>文案</b>：参考小红书的说法，“骄傲榜”改为“宝藏点”，还有“打卡地图”“城市 PK”“晒一晒”“满眼是绿”“钱包鼓鼓”“打工人最能干”。这个语气对味吗？</li>
+      <li><b>选家乡开局</b>：第一次打开先问“你从哪儿来？”，选完地图飞过去、盖“吾乡”章、翻开宝藏点卡，再引导去晒图、探索或猜城。还要加什么步骤吗？</li>
+      <li><b>选题地图</b>：每个维度都对应一个网友在聊的问题（宝藏小城、双城之争、暖气、离海、逃离北上广、特产、非遗、老字号、机场……）。你觉得哪几个最值得先做？“城市热梗”这类非官方内容要不要放？</li>
     </ol></div>
   </section>
 
@@ -1350,7 +1428,7 @@ function prepare() {
   for (const c of CITIES) { c.popAny = c.pop || c.pop20; c.tier = c.popAny >= 1.5e7 ? 3 : c.popAny >= 8e6 ? 2 : c.popAny >= 3e6 ? 1 : 0; }
   RANKED = CITIES.filter(c => c.gdp).sort((a, b) => b.gdp - a.gdp); RANKED.forEach((c, i) => c.gdpIdx = i);
   NZ = vnoise(w, h, 6, 7); const nz2 = vnoise(w, h, 40, 9); for (let i = 0; i < NZ.length; i++) NZ[i] = NZ[i] * .6 + nz2[i] * .4;
-  v5Derive(); for (const L of Object.values(LENSES)) if (L.key) L.breaks = L.makeBreaks();
+  v5Derive(); v6Derive(); for (const L of Object.values(LENSES)) if (L.key) L.breaks = L.makeBreaks();
   WONDERS.forEach(wd => { const [x, y] = proj(wd.lon, wd.lat); wd.x = x; wd.y = y; });
   TIER_IMG = [0, 1, 2, 3].map(tierImage);
 }
@@ -1734,7 +1812,7 @@ function drawInkDemo(p) { const cv = $("[data-mo-ink]"); const b = cv.getBoundin
 
 /* ================= interactions ================= */
 function setLang(l) { S.lang = l; refresh(); }
-function refresh() { renderI18n(); renderYields(); renderBoard(); renderColophon(); renderLensDock(); renderPanels(false); renderAlmanac(); renderSpec(); renderV4(); renderV5(); for (const a of APPS) { layout(a, true); full(a); } updateZoomLabel(); }
+function refresh() { renderI18n(); renderYields(); renderBoard(); renderColophon(); renderLensDock(); renderPanels(false); renderAlmanac(); renderSpec(); renderV4(); renderV5(); renderV6(); for (const a of APPS) { layout(a, true); full(a); } updateZoomLabel(); }
 function selectCity(id, fly = true) { const had = !!S.city; S.city = id; S.board = null; renderBoard(); renderYields(); renderPanels(true); snd("stamp"); setTimeout(() => { const p = $("[data-panel]:not([hidden])"); if (p) { countUp(p); spatter(p.querySelector(".cp-head .seal"), 16); } }, 90);
   for (const a of APPS.filter(x => x.cfg === DESK || x.cfg === PHONE)) { const keep = { ...a.view }; layout(a, true); a.view = keep; const c = BYID.get(id);
     if (a.cfg === DESK && fly) flyTo(a, viewOn(a, c, 2.4)); else if (a.cfg === PHONE) { a.view = { ...a.home }; full(a); } else full(a); } }
@@ -1887,7 +1965,7 @@ function arcBody(c) {
   if (V4.tab === "gk") return `<div class="panel"><h4>${ZH("宝藏点 · 这座城最能打的三件事", "Hidden gems · three things this city does best")}<small>${ZH("从 13 项全国排名里自动挑选", "picked from 13 national rankings")}</small></h4>${prideHTML(c, 3)}</div>
     <div class="panel s7"><h4>${ZH("生活账本", "Everyday numbers")}<small>${ZH("2023 · 和全国平均比", "2023 · vs national average")}</small></h4>${ledgerHTML(c, "full")}</div>
     <div class="panel s5"><h4>${ZH("城市家底", "The city's stock")}<small>2023</small></h4>${stockHTML(c)}<h4 style="margin-top:6px">${t("peers")}</h4><div class="peers">${(c.peers || []).map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-arc-city="${o.id}">${tierImg(o)}${cname(o)}</button>`).join("")}</div></div>
-    <div class="panel s7"><h4>${ZH("六年序列", "Six-year series")}<small>2020 → 2025</small></h4>${seriesHTML(c)}</div>${provHTML(c)}`;
+    ${lifeTipsHTML(c)}<div class="panel s7"><h4>${ZH("六年序列", "Six-year series")}<small>2020 → 2025</small></h4>${seriesHTML(c)}</div>${provHTML(c)}`;
   if (V4.tab === "cq") { const L = landStats(c.id); if (!L) return `<div class="panel">${t("noData")}</div>`; const tot = L.parts.reduce((s, p) => s + p.n, 0);
     return `<div class="kpis"><div class="kpi"><span class="k">${icon("i-mountain")}${ZH("面积（栅格估算）", "Area (grid estimate)")}</span><span class="v num">${en ? Math.round(L.area).toLocaleString("en-US") + " km²" : (L.area / 1e4).toFixed(2) + "万 km²"}</span><span class="s">${ZH("4 公里栅格计数，非官方面积", "4 km cell count, not the official area")}</span></div>
       <div class="kpi"><span class="k">${icon("i-mountain")}${ZH("平均海拔", "Mean elevation")}</span><span class="v num">${Math.round(L.mean)} m</span><span class="s">AWS Terrain Tiles</span></div>
@@ -1964,7 +2042,7 @@ function renderDuel(animIdx = -1) { if (D5.sig !== V4.duel.join()) { duelReset()
     if (r.pend) return `<div class="drow" style="grid-template-columns:${cols}">${lab}${cs.map(() => `<div><span class="pendcell pend">${ZH("采集中", "pending")}</span></div>`).join("")}${n < 5 ? "<div></div>" : ""}</div>`;
     const shown = D5.step < 0 ? false : r.idx < rev, cls = !shown ? "facedown" : r.idx === animIdx ? "reveal cur" : "";
     return `<div class="drow ${cls}" style="grid-template-columns:${cols}">${lab}${r.vals.map((v, i) => `<div class="${shown && i === r.lead ? "lead" : ""}"><span class="val num"><span${shown && r.idx === animIdx && v != null ? ` data-cu="${v}" data-cuf="d${r.idx}"` : ""}>${v == null ? "—" : rowFmt(r)(v)}</span>${shown && i === r.lead ? (r.idx === animIdx ? `<span class="seal stamp" data-crown><span>${ZH("冠", "1st")}</span></span>` : seal(ZH("冠", "1st"))) : ""}</span><div class="hbar"><i style="width:${v == null ? 0 : Math.abs(v) / r.mx * 100}%;background:${r.k === "dpop" ? (v < 0 ? "var(--neg)" : "var(--pos)") : ORD[i]}"></i></div></div>`).join("")}${n < 5 ? "<div></div>" : ""}</div>`; }).join("");
-  $("[data-duel-cta]").innerHTML = D5.step < 0 ? `<div class="duel-go"><button class="btn primary" data-v5="duel-go">${icon("i-versus", "")}${ZH("开始 PK", "Fight!")}</button><button class="btn ghost" data-v5="duel-skip">${ZH("跳过动画，直接看结果", "Skip to the result")}</button><p class="note">${ZH("七个回合逐个揭晓，每回合数值最高者得一枚“冠”。只比高低，不代表优劣。", "Seven rounds revealed one by one; the highest value takes a seal. Higher, not better.")}</p></div>`
+  $("[data-duel-cta]").innerHTML = D5.step < 0 ? `<div class="duel-go"><button class="btn primary" data-v5="duel-go">${icon("i-versus", "")}${ZH("开始 PK", "Fight!")}</button><button class="btn ghost" data-v5="duel-skip">${ZH("跳过动画，直接看结果", "Skip to the result")}</button><p class="note">${ZH("七个回合逐个揭晓，每回合数值最高者得一枚“冠”。只比高低，不代表优劣。", "Seven rounds revealed one by one; the highest value takes a seal. Higher, not better.")}</p><div class="hotpk">${HOTPK.map(([zh, en, ids]) => `<button class="chip ${ids.join(",") === V4.duel.join(",") ? "on" : ""}" data-hotpk="${ids.join(",")}">${ZH(zh, en)}</button>`).join("")}</div></div>`
     : running ? `<div class="duel-go"><span class="eyebrow">${ZH(`第 ${rev} / ${D5REAL} 回合`, `Round ${rev} of ${D5REAL}`)}</span><div class="hbar" style="width:100%"><i style="width:${rev / D5REAL * 100}%;background:var(--accent)"></i></div><button class="btn ghost" data-v5="duel-skip">${ZH("跳到结果", "Skip to the result")}</button></div>`
     : `<div class="row-gap"><button class="btn primary" data-v5="duel-again">${icon("i-versus")}${ZH("再来一局", "Rematch")}</button><button class="btn" data-sec="s-share">${icon("i-share")}${ZH("晒战报", "Share result")}</button><button class="btn">${icon("i-link")}${ZH("复制链接", "Copy link")}</button></div><code class="note" style="font-family:ui-monospace,monospace">/duel?c=${V4.duel.join(",")}</code>`;
   let win = $("[data-duel-win]"); if (!win) { $("[data-duel-rows]").closest(".duel-board").insertAdjacentHTML("beforeend", `<div class="duel-win" data-duel-win hidden></div>`); win = $("[data-duel-win]"); }
@@ -2134,7 +2212,7 @@ function initV4() {
     inset: () => ({ x: 1440 - 388, y: 900 - 120, w: 160 }), scale: () => null, blocked: () => [[0, 0, 1440, 54], [1440 - 378, 48, 378, 852], [220, 900 - 120, 820, 120], [1440 - 560, 900 - 330, 180, 220]] });
 }
 function v4Refresh(key, relayout) { const a = V4APPS[key]; if (!a) return; if (a.cfg.hl) a.hoverPref = prefIdx(a.cfg.hl()); if (relayout) layout(a, false); full(a); }
-const TOC = [["s-desk", "壹", "桌面主界面", "Desktop"], ["s-phone", "贰", "手机界面", "Phone"], ["s-life", "叁", "宝藏点与生活账本", "Hidden gems & everyday", 1], ["s-guess", "肆", "猜城", "Guess", 1], ["s-cards", "伍", "卡牌与打卡地图", "Cards & travel", 1], ["s-duel", "陆", "城市 PK", "Compare duel", 1], ["s-archive", "柒", "城市档案", "City archive"], ["s-share", "捌", "分享长卷", "Share cards"], ["s-xiang", "玖", "钤印认乡", "Hometown seal"], ["s-gujin", "拾", "古今同图", "Then & now"], ["s-gov", "拾壹", "历代治理", "History of rule"], ["s-time", "拾贰", "时间轴与年报", "Timeline"], ["s-icons", "拾叁", "图标优先", "Icons"], ["s-color", "拾肆", "色彩", "Colour"], ["s-type", "拾伍", "字体", "Type"], ["s-motif", "拾陆", "母题与组件", "Motifs"], ["s-motion", "拾柒", "交互与动效", "Motion"], ["s-bi", "拾捌", "双语与数字", "Bilingual"], ["s-decide", "拾玖", "请你确认", "Decide"]];
+const TOC = [["s-start", "开局", "选家乡开局", "Pick hometown", 1], ["s-desk", "壹", "桌面主界面", "Desktop"], ["s-phone", "贰", "手机界面", "Phone"], ["s-life", "叁", "宝藏点与生活账本", "Hidden gems & everyday", 1], ["s-topics", "选题", "选题地图", "Topic map", 1], ["s-guess", "肆", "猜城", "Guess", 1], ["s-cards", "伍", "卡牌与打卡地图", "Cards & travel", 1], ["s-duel", "陆", "城市 PK", "Compare duel", 1], ["s-archive", "柒", "城市档案", "City archive"], ["s-share", "捌", "分享长卷", "Share cards"], ["s-xiang", "玖", "钤印认乡", "Hometown seal"], ["s-gujin", "拾", "古今同图", "Then & now"], ["s-gov", "拾壹", "历代治理", "History of rule"], ["s-time", "拾贰", "时间轴与年报", "Timeline"], ["s-icons", "拾叁", "图标优先", "Icons"], ["s-color", "拾肆", "色彩", "Colour"], ["s-type", "拾伍", "字体", "Type"], ["s-motif", "拾陆", "母题与组件", "Motifs"], ["s-motion", "拾柒", "交互与动效", "Motion"], ["s-bi", "拾捌", "双语与数字", "Bilingual"], ["s-decide", "拾玖", "请你确认", "Decide"]];
 function renderToc() { const el = $("[data-toc]"); if (el) el.innerHTML = TOC.map(([id, n, zh, en, isNew]) => `<a href="#${id}" data-sec="${id}" class="${isNew ? "new" : ""}"><span class="seal"><span>${n}</span></span>${ZH(zh, en)}</a>`).join(""); }
 function renderV4() { if (!CITIES) return; v4Prepare(); renderToc();
   $$("[data-v4top]").forEach(el => el.innerHTML = v4Top(el.dataset.v4top)); $$("[data-v4nav]").forEach(el => el.innerHTML = navHTML(el.dataset.v4nav));
@@ -2363,24 +2441,25 @@ function renderLife() { const el = $("[data-life]"); if (!el) return; const ids 
 const GQ = [{ k: "month", y: "gold", q: ["哪座城的人，每月可支配的钱更多？", "Where do people have more to spend each month?"] }, { k: "day", y: "ind", q: ["哪座城的人，平均每天创造的更多？", "Where does each person produce more per day?"] },
   { k: "dpop", y: "com", q: ["这三年，哪座城多出来的人更多？", "Which city gained more people in three years?"] }, { k: "forest", y: "food", q: ["哪座城更绿？", "Which city is greener?"] },
   { k: "elev", ic: "i-mountain", lab: ["平均海拔", "Average elevation"], f: v => FMTS.m(v), q: ["哪座城海拔更高？", "Which city sits higher?"] }, { k: "area", ic: "i-map", lab: ["面积（估算）", "Area (est.)"], f: v => FMTS.km2(v), q: ["哪座城地盘更大？", "Which city covers more land?"] },
-  { k: "popAny", y: "pop", q: ["哪座城住的人更多？", "Which city has more people?"] }];
+  { k: "popAny", y: "pop", q: ["哪座城住的人更多？", "Which city has more people?"] }, { k: "coastKm", d: -1, ic: "i-map", lab: ["离海距离", "Distance to the sea"], f: v => ZH(`${Math.round(v).toLocaleString()} 公里`, `${Math.round(v).toLocaleString()} km`), q: ["哪座城离海更近？", "Which city is closer to the sea?"] }];
+const gwin = q => ((q.m.d || 1) > 0 ? q.a[q.m.k] >= q.b[q.m.k] : q.a[q.m.k] <= q.b[q.m.k]) ? "a" : "b";
 const G5 = { qs: null, i: 0, res: [], picked: null, streak: 3, best: 7, done: false, seed: 0 };
 function dailySeed() { const d = new Date(), s = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; let h = 2166136261; for (const ch of s) h = Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0; return h; }
 function makeQs(seed) { const r = rng(seed), pool = CITIES.filter(c => c.tier >= 1 || rarity(c) >= 2), out = [], used = new Set(); let g = 0;
   while (out.length < 5 && g++ < 4000) { const m = GQ[Math.floor(r() * GQ.length)]; if (used.has(m.k) && g < 1500) continue; const a = pool[Math.floor(r() * pool.length)], b = pool[Math.floor(r() * pool.length)]; if (a === b || a.prov === b.prov && g < 2000) continue;
     const va = a[m.k], vb = b[m.k]; if (va == null || vb == null) continue;
-    if (m.k === "dpop") { if (Math.abs(va - vb) < 1e5) continue; } else { const lo = Math.min(va, vb), hi = Math.max(va, vb); if (lo <= 0 || hi / lo < 1.12 || hi / lo > 2.4) continue; }
+    if (m.k === "dpop") { if (Math.abs(va - vb) < 1e5) continue; } else if (m.k === "coastKm") { if (Math.abs(va - vb) < 120 || Math.min(va, vb) < 30) continue; } else { const lo = Math.min(va, vb), hi = Math.max(va, vb); if (lo <= 0 || hi / lo < 1.12 || hi / lo > 2.4) continue; }
     used.add(m.k); out.push({ m, a, b }); } return out; }
 const gqLab = m => m.y ? ZH(...YIELDS[m.y].lab5) : ZH(...m.lab), gqFmt = m => m.y ? YIELDS[m.y].short : m.f, gqIcon = m => m.y ? medalSVG(m.y) : icon(m.ic, "");
 function renderGuess(anim) { const el = $("[data-gs]"); if (!el || !CITIES) return; if (!G5.qs) { G5.seed = dailySeed(); G5.qs = makeQs(G5.seed); } const q = G5.qs[G5.i]; if (!q) return; const m = q.m, st = G5.picked != null, f = gqFmt(m); FMTS.gq = f;
-  const win = q.a[m.k] >= q.b[m.k] ? "a" : "b", ok = G5.res[G5.i];
+  const win = gwin(q), ok = G5.res[G5.i];
   const dots = G5.qs.map((_, i) => { const r = G5.res[i]; return `<span class="gs-dot ${r === true ? "ok" : r === false ? "no" : i === G5.i ? "cur" : ""}">${r === true ? ZH("对", "✓") : r === false ? ZH("错", "✗") : i + 1}</span>`; }).join("");
   const others = k => ["gold", "ind", "food", "com"].filter(y => YIELDS[y].key !== m.k).slice(0, 2).map(y => { const v = k[YIELDS[y].key]; return `<div>${medalSVG(y)}<span>${ZH(...YIELDS[y].lab5)}</span><b class="num">${v == null ? "—" : YIELDS[y].short(v)}</b></div>`; }).join("");
   const card = (c, side) => { const v = c[m.k], isW = side === win, chosen = st && G5.picked === side;
     return `<button class="gs-pick ${st ? (isW ? "win" : "lose") : ""} ${chosen && anim ? "thud" : ""}" data-gpick="${side}" ${st ? "disabled" : ""} aria-label="${cname(c)}" style="position:relative">${cardHTML(c, { big: true, cls: anim === "deal" ? "deal" : "", statsHTML: `<div class="hide">${gqIcon(m)}<span>${gqLab(m)}</span><b class="num"${st ? ` data-cu="${v}" data-cuf="gq"` : ""}>${st ? f(v) : "？"}</b></div>${others(c)}` })}
       ${chosen ? `<span class="stampmark ${ok ? "" : "ink"}" style="position:absolute;left:50%;top:50%;translate:-50% -50%;z-index:4">${anim ? `<span class="seal stamp" style="--s:96px"><span style="font-size:44px">${ok ? ZH("对", "✓") : ZH("错", "✗")}</span></span>` : seal(ok ? ZH("对", "✓") : ZH("错", "✗"), 96)}</span>` : ""}</button>`; };
   const W = win === "a" ? q.a : q.b, L = win === "a" ? q.b : q.a, vw = W[m.k], vl = L[m.k];
-  const fact = m.k === "dpop" ? ZH(`${cname(W)}三年 <b>${FMTS.wan(vw)}</b>，${cname(L)} <b>${FMTS.wan(vl)}</b>`, `${cname(W)} <b>${FMTS.wan(vw)}</b>, ${cname(L)} <b>${FMTS.wan(vl)}</b>`)
+  const fact = m.d === -1 ? ZH(`${cname(W)}离海 <b>${f(vw)}</b>，${cname(L)} <b>${f(vl)}</b>`, `${cname(W)} <b>${f(vw)}</b> from the sea, ${cname(L)} <b>${f(vl)}</b>`) : m.k === "dpop" ? ZH(`${cname(W)}三年 <b>${FMTS.wan(vw)}</b>，${cname(L)} <b>${FMTS.wan(vl)}</b>`, `${cname(W)} <b>${FMTS.wan(vw)}</b>, ${cname(L)} <b>${FMTS.wan(vl)}</b>`)
     : vw / vl >= 1.15 ? ZH(`${cname(W)}的${gqLab(m)}是${cname(L)}的 <b>${(vw / vl).toFixed(1)}</b> 倍`, `${cname(W)}: <b>${(vw / vl).toFixed(1)}×</b> ${cname(L)}`)
     : ZH(`${cname(W)} <b>${f(vw)}</b>，${cname(L)} <b>${f(vl)}</b>`, `${cname(W)} <b>${f(vw)}</b> vs ${cname(L)} <b>${f(vl)}</b>`);
   const last = G5.i === G5.qs.length - 1, score = G5.res.filter(Boolean).length;
@@ -2392,7 +2471,7 @@ function renderGuess(anim) { const el = $("[data-gs]"); if (!el || !CITIES) retu
     ${G5.done ? `<div class="gs-res"><div class="leaf box"><span class="eyebrow">${ZH("今日猜城 · 成绩", "Today's score")}</span><div class="ttl">${ZH(["初出茅庐", "初出茅庐", "略知一二", "行万里路", "见多识广", "江山在胸"][score], ["Just starting", "Just starting", "Getting there", "Well travelled", "Worldly", "Master of the land"][score])}</div><div class="sc num">${score} / ${G5.qs.length}</div><div class="row5">${dots}</div>
       <span class="note">${ZH(`连对 ${G5.streak} · 最佳 ${G5.best} · 明天 0 点换新题`, `Streak ${G5.streak} · best ${G5.best} · new questions at midnight`)}</span><div class="row-gap"><button class="btn primary" data-sec="s-share">${icon("i-share")}${ZH("晒战绩", "Share score")}</button><button class="btn" data-v5="g-again">${icon("i-dice")}${ZH("再来一局", "Play again")}</button></div></div></div>` : ""}`;
   paintArts(el); if (st && anim) { countUp(el); setTimeout(() => { const s = $(".stampmark", el); spatter(s, 20, ok ? "#b23a2b" : "#2b231d"); snd(ok ? "ok" : "no"); }, 260); } }
-function guessPick(side) { if (G5.picked != null) return; const q = G5.qs[G5.i], win = q.a[q.m.k] >= q.b[q.m.k] ? "a" : "b"; G5.picked = side; const ok = side === win; G5.res[G5.i] = ok; G5.streak = ok ? G5.streak + 1 : 0; G5.best = Math.max(G5.best, G5.streak); snd("stamp"); renderGuess(true); }
+function guessPick(side) { if (G5.picked != null) return; const q = G5.qs[G5.i], win = gwin(q); G5.picked = side; const ok = side === win; G5.res[G5.i] = ok; G5.streak = ok ? G5.streak + 1 : 0; G5.best = Math.max(G5.best, G5.streak); snd("stamp"); renderGuess(true); }
 
 /* ---------- 伍 · 城市卡牌与打卡地图 ---------- */
 const AL = { got: ["511300", "510100", "500000", "330100", "310000", "110000", "320500", "320100", "610100", "440300", "420100", "330500", "320400", "410200"], seq: ["410300", "410500"], cur: "330100", drawn: false, flipped: false, newest: null, t0: 0, done: new Set() };
@@ -2455,11 +2534,101 @@ function bindV5() {
 function v5Observe() { const seen = new WeakSet(), io = new IntersectionObserver(es => { for (const en of es) if (en.isIntersecting && !seen.has(en.target)) { seen.add(en.target); countUp(en.target); if (en.target.id === "s-desk") setTimeout(playOpening, 150); } }, { threshold: .35 });
   ["s-desk", "s-life", "s-archive", "s-cards"].forEach(id => { const s = document.getElementById(id); if (s) io.observe(s); }); }
 
+
+/* ================= 5.3 · 开局、宝藏小城图、选题地图、热门 PK、暖气与离海 ================= */
+Object.assign(T, {
+  secStart: ["选家乡 · 开局", "Pick your hometown"], secStartSub: ["第一次打开：选家乡 → 盖章 → 翻开宝藏点", "First visit: pick a hometown → stamp → reveal its hidden gems"],
+  startNote: ["不注册、不定位；家乡只存在你的浏览器里。“最近出圈的城”取自近两年社交平台上的热门城市话题。", "No sign-up, no location; your hometown stays in your browser. “Trending” cities come from recent social-media topics."],
+  secTopics: ["选题地图 · 从网友在聊的出发", "Topic map · starting from what people discuss"], secTopicsSub: ["每个维度都对应一个大家真在讨论的问题，再找能回答它的官方数据", "Every dimension answers a question people actually ask, backed by official data"],
+  capXhs: ["小红书 3:4 · 1080×1440 · “被低估的宝藏小城”", "Xiaohongshu 3:4 · 1080×1440 · “underrated gem”"],
+});
+const HEAT_PROV = new Set(["11", "12", "13", "14", "15", "21", "22", "23", "37", "41", "61", "62", "63", "64", "65"]);
+const QINLING_HUAI = [[102, 34.3], [106, 33.7], [110, 33.6], [113, 33.0], [116, 32.6], [119, 33.2], [121.5, 33.4]];
+function v6Derive() { if (!CITIES || CITIES[0].coastKm !== undefined) return;
+  const line = QINLING_HUAI.map(([lo, la]) => proj(lo, la)), w = DEM.w, h = DEM.h, nb = (x, y) => { const gx = (x / DEM.km) | 0, gy = (y / DEM.km) | 0; for (let dy = -3; dy <= 3; dy++) for (let dx = -3; dx <= 3; dx++) { const xx = gx + dx, yy = gy + dy; if (xx >= 0 && yy >= 0 && xx < w && yy < h && MASK[yy * w + xx] === 2) return true; } return false; };
+  const coast = []; for (const poly of G.nation) for (const ring of poly) for (let i = 1; i < ring.length; i++) { const a = ring[i - 1], b = ring[i], mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2; if (!nb(mx, my)) coast.push(mx, my); }
+  const lineY = x => { if (x <= line[0][0]) return line[0][1]; for (let i = 1; i < line.length; i++) if (x <= line[i][0]) { const t = (x - line[i - 1][0]) / (line[i][0] - line[i - 1][0]); return line[i - 1][1] + (line[i][1] - line[i - 1][1]) * t; } return line[line.length - 1][1]; };
+  for (const c of CITIES) { let best = 1e12; for (let i = 0; i < coast.length; i += 2) { const dx = coast[i] - c.x, dy = coast[i + 1] - c.y, d = dx * dx + dy * dy; if (d < best) best = d; } c.coastKm = Math.sqrt(best);
+    c.heat = HEAT_PROV.has(c.prov) && c.y < lineY(c.x); } }
+function lifeTipsHTML(c) { const km = c.coastKm, hrs = km * 1.3 / 80;
+  const tip = (ic, k, v, s) => `<div class="kpi"><span class="k">${ic}${k}</span><span class="v">${v}</span><span class="s">${s}</span></div>`;
+  return `<div class="panel"><h4>${ZH("过日子小知识", "Everyday facts")}<small>${ZH("网友最常问的几件事", "what people ask most")}</small></h4><div class="kpis">
+    ${tip(icon("i-home"), ZH("冬天有没有暖气", "Central heating in winter"), c.heat ? ZH("有 · 北方集中供暖", "Yes · northern heating") : ZH("没有 · 靠空调和电热毯", "No · air-con and electric blankets"), ZH("按省份惯例与秦岭—淮河线粗判 · 示意", "Rough rule: province and the Qinling–Huai line · illustrative"))}
+    ${tip(icon("i-map"), ZH("离海边多远", "Distance to the sea"), km < 25 ? ZH("出门就是海", "The sea is right there") : ZH(`直线 ${Math.round(km).toLocaleString()} 公里`, `${Math.round(km).toLocaleString()} km in a straight line`), km < 25 ? ZH(`离海岸线约 ${Math.round(km)} 公里`, `about ${Math.round(km)} km`) : ZH(`开车约 ${hrs < 1 ? "不到 1" : Math.round(hrs)} 小时 · 按标准地图海岸线计算`, `about ${Math.max(1, Math.round(hrs))} h by car · from the standard-map coastline`))}
+    ${tip(icon("i-mountain"), ZH("平均海拔", "Average elevation"), c.elev == null ? "—" : FMTS.m(c.elev), c.elev > 1500 ? ZH("高原反应要留意", "Mind the altitude") : ZH("卫星高程估算", "satellite estimate"))}
+    ${tip(icon("i-map"), ZH("地盘有多大", "How big"), c.area == null ? "—" : ZH(`约 ${(c.area / 6340).toFixed(1)} 个上海`, `≈ ${(c.area / 6340).toFixed(1)}× Shanghai`), c.area == null ? "" : FMTS.km2(c.area) + ZH(" · 栅格估算", " · grid estimate"))}</div></div>`; }
+
+/* ---------- 开局 ---------- */
+const ST = { step: 0, city: null, stamped: false, q: "" };
+const TREND = ["370300", "230100", "620500", "360200", "532900", "230400", "540400", "511300"];
+function stTarget(app, c, zoom) { const u = app.u, s = app.home.s * zoom; return { s, ox: 1440 * .36 * u - c.x * s, oy: 900 * .56 * u - c.y * s }; }
+function renderStart(anim) { const root = $("[data-app=start]"); if (!root || !CITIES) return; const c = ST.city && BYID.get(ST.city), en = EN();
+  const steps = [ZH("选家乡", "Pick"), ZH("盖章", "Stamp"), ZH("翻开宝藏点", "Reveal")];
+  $("[data-st-steps]").innerHTML = steps.map((s, i) => `<span class="${i < ST.step ? "done" : i === ST.step ? "cur" : ""}"><b>${i + 1}</b>${s}</span>`).join(`<i></i>`);
+  $("[data-st-veil]").classList.toggle("off", ST.step > 0);
+  const q = ST.q.trim().toLowerCase(), hits = q ? CITIES.filter(x => x.n.includes(q) || (x.full || "").includes(q) || (x.en || "").toLowerCase().startsWith(q)).slice(0, 8) : [];
+  $("[data-st-pick]").classList.toggle("off", ST.step > 0);
+  $("[data-st-pick]").innerHTML = `<div class="ttl">${ZH("你从哪儿来？", "Where are you from?")}</div><p class="sub">${ZH("选你的家乡，地图会带你回去。不注册、不定位。", "Pick your hometown and the map takes you there. No sign-up, no location.")}</p>
+    <label class="field big">${icon("i-search")}<input data-st-q value="${ST.q.replace(/"/g, "&quot;")}" placeholder="${ZH("输入城市名，比如 南充…", "Type a city, e.g. Nanchong…")}" aria-label="${ZH("搜索家乡", "Search hometown")}" autocomplete="off"></label>
+    ${hits.length ? `<div class="st-hits">${hits.map(x => `<button class="chip" data-st-city="${x.id}">${tierImg(x)}${cname(x)}<span class="note">${pvOf(x)}</span></button>`).join("")}</div>` : ""}
+    <div class="eyebrow" style="margin-top:6px">${ZH("最近出圈的城", "Trending lately")}</div><div class="st-hits">${TREND.filter(id => BYID.has(id)).map(id => { const x = BYID.get(id); return `<button class="chip" data-st-city="${x.id}">${tierImg(x)}${cname(x)}</button>`; }).join("")}</div>`;
+  const card = $("[data-st-card]");
+  if (ST.step >= 2 && c) { const f = flowsOf(c), pv = PROVNAME(c.prov + "0000");
+    card.innerHTML = `<div class="st-wrap">${cardHTML(c, { big: true, cls: anim === "deal" ? "deal flipped" : "" })}<div class="leaf st-info"><div class="eyebrow">${ZH(`${c.n} · 你的宝藏点`, `${c.en} · your hidden gems`)}</div>${prideHTML(c, 3, true)}
+      ${f && !f.inflow ? `<p class="st-flow">${ZH(`出生在${pv}的约 <b>${fmtPopShort(f.tot)}</b> 人住在外省，最多去了 <b>${PROVNAME(f.list[0].p)}</b>`, `About <b>${fmtPopShort(f.tot)}</b> people born in ${pv} live in other provinces, most in <b>${PROVNAME(f.list[0].p)}</b>`)}</p>` : f ? `<p class="st-flow">${ZH(`住在${pv}的人里，约 <b>${fmtPopShort(f.tot)}</b> 人出生在外省`, `About <b>${fmtPopShort(f.tot)}</b> people in ${pv} were born elsewhere`)}</p>` : ""}
+      <div class="row-gap"><button class="btn primary" data-sec="s-share">${icon("i-share")}${ZH("晒一晒", "Share it")}</button><button class="btn" data-sec="s-desk">${icon("i-map")}${ZH("开始探索", "Explore")}</button><button class="btn" data-sec="s-guess">${icon("i-dice")}${ZH("今日猜城", "Today's quiz")}</button></div></div></div>`;
+    paintArts(card); if (anim === "deal") setTimeout(() => { const k = $(".card5", card); if (k) { k.classList.remove("flipped"); snd("flip"); if (rarity(c) >= 2) setTimeout(() => { spatter(k, 22, "#d9b25a", 110); snd("win"); }, 450); } }, RM() ? 0 : 700);
+  } else card.innerHTML = ""; }
+function stPick(id) { const app = V4APPS.start, c = BYID.get(id); if (!app || !c) return; ST.city = id; ST.step = 1; ST.stamped = false; renderStart(); snd("pluck");
+  flyTo(app, stTarget(app, c, 3.4), RM() ? 0 : 1500);
+  setTimeout(() => { ST.stamped = true; full(app); const v = app.view, r = app.canvas.getBoundingClientRect(), k = r.width / app.canvas.width; spatterAt(r.left + (v.ox + c.x * v.s) * k, r.top + (v.oy + c.y * v.s) * k - 30, 24); snd("stamp");
+    const host = $("[data-st-toast]"); host.innerHTML = `<div class="toast5">${seal("吾乡")}<span>${ZH(`已认 ${c.n} 为家乡 · 你是第 1,285 位`, `${c.en} is now your hometown · you're No. 1,285`)}</span>${SHI()}</div>`; setTimeout(() => host.innerHTML = "", 2600);
+    setTimeout(() => { ST.step = 2; renderStart("deal"); renderXhs(); }, RM() ? 0 : 900); }, RM() ? 60 : 1600); }
+function stReset() { const app = V4APPS.start; ST.step = 0; ST.city = null; ST.stamped = false; ST.q = ""; renderStart(); if (app) flyTo(app, { ...app.home }, RM() ? 0 : 900); }
+
+/* ---------- 小红书 3:4 ---------- */
+function renderXhs() { const el = $("[data-xhs]"); if (!el || !CITIES) return; const c = BYID.get(ST.city || "540400"), small = (c.popAny || 0) < 4e6, hs = prideOf(c).slice(0, 3);
+  el.innerHTML = `<div class="xh-top"><span class="xh-tag">#${small ? ZH("被低估的宝藏小城", "underrated gem") : ZH("城市隐藏实力", "hidden strengths")}</span>${seal("图鉴", 30)}</div>
+    <div class="xh-title"><b>${cname(c)}</b><span>${small ? ZH("被低估的宝藏小城", "An underrated gem") : ZH("隐藏实力有多强？", "How strong is it, really?")}</span></div>
+    <div class="xh-art"><canvas data-art="${c.id}" width="450" height="180" role="img" aria-label="${cname(c)}"></canvas><span class="cd-rar">${ZH(...RAR[rarity(c)])}</span></div>
+    <div class="xh-list">${hs.map((h, i) => `<div class="xh-row"><span class="xh-no">${h.r <= 30 ? ZH(`第${h.r}`, `#${h.r}`) : ZH(`前${Math.max(1, Math.round(h.q * 100))}%`, `top ${Math.max(1, Math.round(h.q * 100))}%`)}</span><div><b>${ZH(...h.m.lab)}${h.r <= 3 ? `<em class="tch">${ZH("天花板", "No.1 tier")}</em>` : ""}</b><span>${h.m.ph(c)}</span></div></div>`).join("")}</div>
+    <div class="xh-foot"><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span><span class="xh-h">#${cname(c)} #${ZH("家乡", "hometown")} #${ZH("宝藏小城", "gems")}</span><span class="qr">${ZH("扫码<br>看全国排名", "Scan for<br>rankings")}</span></div>`;
+  paintArts(el); }
+
+/* ---------- 选题地图 ---------- */
+const TOPICS = [["被低估的宝藏小城", "Underrated small cities", "宝藏点：13 项全国排名里最能打的三项", "Hidden gems: best three of 13 national ranks", "统计公报 · 七普 · 卫星", "已做", "done"],
+  ["XX 之争 · 双城记", "City rivalries", "城市 PK：热门对局一键开打", "PK: classic rivalries in one tap", "同上", "本轮新增", "new"],
+  ["冬天有没有暖气（南北之争）", "Heating in winter (north vs south)", "过日子小知识：暖气、1 月均温", "Everyday facts: heating, January temperature", "省份惯例 + 气象局气候标准值", "本轮新增（暖气示意）", "new"],
+  ["去海边要多久", "How far is the sea", "离海岸线直线距离、开车大约几小时", "Straight-line distance and rough drive", "本站按标准地图海岸线计算", "本轮新增", "new"],
+  ["逃离北上广 · 打工人去哪", "Leaving the big cities", "人去哪儿了：出生地 → 现住地，与 2010 年比", "Where people go: birthplace → home, vs 2010", "七普 · 六普", "已做", "done"],
+  ["工资够不够花 · 房价收入比", "Pay vs cost of living", "每月可支配收入；买房要攒几年收入", "Monthly income; years of income for a home", "统计公报 · 统计年鉴 · 70 城房价", "收入已做 · 房价第 2 期", "half"],
+  ["特种兵旅游 · 出片圣地", "Weekend trips · photo spots", "5A 景区、世界遗产落图", "5A sites and World Heritage on the map", "文旅部 · UNESCO", "可做", "todo"],
+  ["家乡美食 · 特产", "Local food and specialities", "地理标志产品：家乡的味道", "Geographical-indication products", "国家知识产权局", "可做", "todo"],
+  ["家乡绝活", "Local crafts", "国家级非物质文化遗产", "National intangible heritage", "文旅部 · 非遗名录", "可做", "todo"],
+  ["百年老店", "Century-old shops", "中华老字号", "China Time-honored Brands", "商务部", "可做", "todo"],
+  ["机场多忙 · 回家方不方便", "How easy to fly home", "机场旅客吞吐量", "Airport passenger numbers", "民航局 · 机场生产统计公报", "可做", "todo"],
+  ["高考择校 · 大学多不多", "Universities", "高校名单（含双一流）", "University list", "教育部", "第 2 期", "todo"],
+  ["空气好不好 · 避暑避寒", "Air · escaping heat or cold", "优良天数；冬冷夏热", "Clean-air days; winter and summer temps", "生态环境公报 · 气象局", "第 2 期", "todo"],
+  ["城市热梗（尔滨、淄博烧烤、天水麻辣烫）", "City memes (Harbin, Zibo BBQ, Tianshui)", "城市“出圈时刻”卡片，注明来自社交平台、非官方", "A “moment it went viral” card, marked as social media, not official", "社交平台话题", "待定", "maybe"]];
+const HOTPK = [["川渝之争", "Chengdu vs Chongqing", ["510100", "500000"]], ["广深之争", "Guangzhou vs Shenzhen", ["440100", "440300"]], ["济青之争", "Jinan vs Qingdao", ["370100", "370200"]], ["苏杭之争", "Suzhou vs Hangzhou", ["320500", "330100"]], ["沈大之争", "Shenyang vs Dalian", ["210100", "210200"]], ["第四城之争", "Battle for fourth", ["440100", "500000"]]];
+function renderTopics() { const el = $("[data-topics]"); if (!el) return;
+  el.innerHTML = `<div class="tp-table"><div class="tp-r h"><span>${ZH("网友在聊", "People ask")}</span><span>${ZH("我们怎么回答", "How we answer")}</span><span>${ZH("数据来源", "Source")}</span><span>${ZH("状态", "Status")}</span></div>${TOPICS.map(r => `<div class="tp-r"><b>${ZH(r[0], r[1])}</b><span>${ZH(r[2], r[3])}</span><span class="note">${r[4]}</span><span class="tp-s ${r[6]}">${r[5]}</span></div>`).join("")}</div>
+    <div class="eyebrow" style="margin-top:14px">${ZH("热门 PK · 点一个直接开打", "Hot rivalries · tap to fight")}</div><div class="hotpk">${HOTPK.map(([zh, en, ids]) => `<button class="chip" data-hotpk="${ids.join(",")}">${icon("i-versus")}${ZH(zh, en)}</button>`).join("")}</div>`; }
+function setDuel(ids) { V4.duel = ids.filter(id => BYID.has(id)); renderDuel(); renderShare(); v4Refresh("duel", true); v4Refresh("c16", true); }
+document.addEventListener("click", e => { const b = e.target.closest("[data-st-city],[data-v6],[data-hotpk]"); if (!b) return;
+  if (b.dataset.stCity) { stPick(b.dataset.stCity); return; }
+  if (b.dataset.hotpk) { setDuel(b.dataset.hotpk.split(",")); snd("flip"); const s = document.getElementById("s-duel"); if (s && !b.closest("#s-duel")) s.scrollIntoView({ behavior: RM() ? "auto" : "smooth" }); return; }
+  if (b.dataset.v6 === "st-reset") stReset(); });
+document.addEventListener("input", e => { if (e.target.matches && e.target.matches("[data-st-q]")) { ST.q = e.target.value; const pos = e.target.selectionStart; renderStart(); const inp = $("[data-st-q]"); if (inp) { inp.focus(); inp.setSelectionRange(pos, pos); } } });
+function initV6() { const el = $("[data-app=start]"); if (el) V4APPS.start = makeApp(el, { w: 1440, h: 900, area: () => [0, 48, 1440, 852], sel: () => ST.stamped ? ST.city : null, selSeal: () => "吾乡", lens: () => "none", quota: 18,
+  inset: () => ({ x: 1440 - 14, y: 900 - 14, w: 170 }), scale: () => null, blocked: () => [[0, 0, 1440, 60]] }); }
+function renderV6() { if (!CITIES) return; v6Derive(); renderStart(); renderXhs(); renderTopics(); }
+
 async function fontsReady() { const txt = CITIES.map(c => c.n + (c.en || "")).join("") + PROVS.map(p => p.zh + p.en).join("") + WONDERS.map(w => w.zh + w.en).join("") + "钱产绿势已游未游对错比古都江南东坡省会万亿青绿初出茅庐略知一二行万里路见多识广江山在胸千里江山中华人民共和国二〇二三年数据图鉴渤黄东南海诸岛公里清淡重浓焦癸卯万亿人金粮工商全国郡州府城郭村都吾乡示意东坡苏轼冠秦汉三国晋南北朝隋唐五代宋元明清今年报0123456789%ILUSTRAVE";
   const fams = ['16px "Ma Shan Zheng"', '400 16px "Noto Sans SC"', '500 16px "Noto Sans SC"', '600 16px "Noto Sans SC"', '700 16px "Noto Sans SC"', '400 16px "Noto Serif SC"', '600 16px "Noto Serif SC"', '700 16px "Noto Serif SC"', '900 16px "Noto Serif SC"'];
   try { await Promise.race([Promise.all(fams.map(f => document.fonts.load(f, txt))), new Promise(r => setTimeout(r, 6000))]); } catch (e) { } }
 async function main() {
-  makeApp($("[data-app=desk]"), DESK); makeApp($("[data-app=phone]"), PHONE); initV4(); bindV4(); initV5(); bindV5();
+  makeApp($("[data-app=desk]"), DESK); makeApp($("[data-app=phone]"), PHONE); initV4(); bindV4(); initV5(); bindV5(); initV6();
   scaleScreens(); bind(); renderI18n();
   try { await load(); } catch (e) { $(".lede").textContent = "数据加载失败：" + e.message; return; }
   await fontsReady(); fxInit(APPS[0]); refresh(); v5Observe();
