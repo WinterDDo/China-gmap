@@ -1,0 +1,2 @@
+# Append-only logs: when two sessions add entries at the same place, keep both instead of a conflict.
+docs/DECISIONS.md merge=union
