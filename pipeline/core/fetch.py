@@ -17,6 +17,13 @@ locked).
 OFFLINE (set by `python -m pipeline ... --offline`) means "use only what is
 cached": download() of a missing file and url_exists() raise OfflineError.
 Sources should consult it to skip discovery requests when cached data exists.
+
+Plain-HTTP sites behind an HTTPS-only proxy: when HTTPS_PROXY is set but HTTP_PROXY
+is not (e.g. a sandbox whose egress proxy only speaks CONNECT), urllib would try to
+reach http:// hosts directly and fail. Every request here goes through _urlopen(),
+whose opener then sends http:// requests through a CONNECT tunnel to port 80 on the
+HTTPS proxy (some hosts, e.g. tjcn.org, answer only over plain HTTP). Without any
+proxy variables nothing changes.
 """
 
 from __future__ import annotations
@@ -25,10 +32,12 @@ import hashlib
 import http.client
 import itertools
 import json
+import os
 import re
 import threading
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
@@ -56,6 +65,43 @@ def _request(url: str, method: str = "GET", headers: dict | None = None) -> urll
     return urllib.request.Request(url, method=method, headers={"User-Agent": USER_AGENT, **(headers or {})})
 
 
+class _TunnelHTTPHandler(urllib.request.HTTPHandler):
+    """Sends http:// requests through a CONNECT tunnel on an HTTPS proxy (host:port of the tunnel's far end)."""
+
+    def __init__(self, proxy_host: str, proxy_port: int):
+        super().__init__()
+        self.proxy_host, self.proxy_port = proxy_host, proxy_port
+
+    def _connection(self, host: str, timeout: float | None = None, **kwargs) -> http.client.HTTPConnection:
+        target = urllib.parse.urlsplit(f"//{host}")
+        if urllib.request.proxy_bypass_environment(target.hostname or host):  # NO_PROXY hosts: direct
+            return http.client.HTTPConnection(host, timeout=timeout, **kwargs)
+        conn = http.client.HTTPConnection(self.proxy_host, self.proxy_port, timeout=timeout, **kwargs)
+        conn.set_tunnel(target.hostname, target.port or 80)
+        return conn
+
+    def http_open(self, req):
+        return self.do_open(self._connection, req)
+
+
+def _build_opener() -> urllib.request.OpenerDirector:
+    """urllib's default opener, plus the CONNECT tunnel for http:// when only HTTPS_PROXY is configured."""
+    env = {k.lower(): v for k, v in os.environ.items() if k.lower() in ("http_proxy", "https_proxy")}
+    if env.get("https_proxy") and not env.get("http_proxy"):
+        proxy = urllib.parse.urlsplit(env["https_proxy"])
+        if proxy.hostname and proxy.scheme == "http":
+            return urllib.request.build_opener(_TunnelHTTPHandler(proxy.hostname, proxy.port or 80))
+    return urllib.request.build_opener()
+
+
+_OPENER = _build_opener()
+
+
+def _urlopen(req: urllib.request.Request, timeout: float):
+    """urllib.request.urlopen through this module's opener (see the module docstring on plain HTTP)."""
+    return _OPENER.open(req, timeout=timeout)
+
+
 def _retryable(exc: BaseException) -> bool:
     """True for transient failures: HTTP 5xx, connection problems and timeouts (not 4xx)."""
     if isinstance(exc, urllib.error.HTTPError):
@@ -69,7 +115,7 @@ def url_exists(url: str, timeout: int = 30) -> bool:
         raise OfflineError(f"--offline: cannot check {url}")
     for method, headers in (("HEAD", None), ("GET", {"Range": "bytes=0-0"})):
         try:
-            with urllib.request.urlopen(_request(url, method, headers), timeout=timeout) as r:
+            with _urlopen(_request(url, method, headers), timeout=timeout) as r:
                 if r.status in (200, 206):
                     return True
         except urllib.error.HTTPError as exc:
@@ -96,7 +142,7 @@ def _fetch_to(url: str, tmp: Path, timeout: int, headers: dict | None, expect_bi
     """
     digest = hashlib.sha256()
     size = 0
-    with urllib.request.urlopen(_request(url, headers=headers), timeout=timeout) as resp:
+    with _urlopen(_request(url, headers=headers), timeout=timeout) as resp:
         ctype = (resp.headers.get("Content-Type") or "").lower()
         length = resp.headers.get("Content-Length")
         identity = not resp.headers.get("Content-Encoding")
@@ -185,7 +231,7 @@ def _stream_prefix(url: str, tmp: Path, prefix: bytes, header_start: bytes, time
     (http.client's readline() returns b"" on a dropped connection instead of raising.)
     """
     digest, size, rows, inside, past_block, received = hashlib.sha256(), 0, 0, False, False, 0
-    with urllib.request.urlopen(_request(url), timeout=timeout) as resp, open(tmp, "wb") as out:
+    with _urlopen(_request(url), timeout=timeout) as resp, open(tmp, "wb") as out:
         length = resp.headers.get("Content-Length")
         identity = not resp.headers.get("Content-Encoding")
         header = resp.readline()
@@ -265,7 +311,7 @@ class RangeReader:
         headers = {"Range": f"bytes={start}-{end - 1}"}
         if self.etag:
             headers["If-Match"] = self.etag
-        with urllib.request.urlopen(_request(self.url, headers=headers), timeout=self.timeout) as resp:
+        with _urlopen(_request(self.url, headers=headers), timeout=self.timeout) as resp:
             crange = (resp.headers.get("Content-Range") or "").strip()
             m = re.fullmatch(r"bytes (\d+)-(\d+)/(\d+|\*)", crange)
             if resp.status != 206 or not m or int(m[1]) != start:
