@@ -447,7 +447,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .person b { font: 600 var(--fs-3)/1.25 var(--serif); }
 .person span { font-size: var(--fs-1); color: var(--ink-3); }
 
-/* 肆 · 城市对决 */
+/* 肆 · 城市 PK */
 .duel { position: absolute; left: 0; right: 0; top: 48px; bottom: 0; display: grid; grid-template-columns: minmax(0, 1fr) 452px; gap: 14px; padding: 14px; }
 .duel-board { display: flex; flex-direction: column; overflow: hidden; }
 .duel-head { display: grid; grid-template-columns: 190px repeat(3, minmax(0, 1fr)) 120px; border-bottom: 1px solid var(--rule-strong); }
@@ -688,7 +688,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .switch:hover, .homebtn:hover, .duel-head .add:hover { background: var(--accent-soft); }
 .arc-body, .duel-rows, .gj-list, .gov-side .body, .ar-side .body, .al-side .body { overscroll-behavior: contain; }
 
-/* 骄傲榜 · pride */
+/* 宝藏点 · pride */
 .pride { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .pride.col { grid-template-columns: minmax(0, 1fr); gap: 6px; }
 .honor { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; align-items: center; padding: 12px 14px; border-radius: 4px; background: var(--leaf-raise); border: 1px solid var(--rule); overflow: hidden; }
@@ -839,7 +839,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .gs-res .sc { font: 900 26px/1 var(--serif); }
 .gs-res .row5 { display: flex; gap: 8px; }
 
-/* 游历图 · album */
+/* 打卡地图 · album */
 .al-prog { position: absolute; left: 16px; top: 62px; z-index: 4; padding: 14px 18px; width: 330px; display: grid; gap: 8px; }
 .al-prog .t { display: flex; align-items: baseline; gap: 10px; }
 .al-prog .t b { font: 400 30px/1 var(--brush); }
@@ -874,7 +874,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .toast5 { position: absolute; left: 50%; top: 80px; z-index: 9; translate: -50% 0; display: flex; align-items: center; gap: 12px; padding: 12px 20px; background: #2b1d16; color: #f3d58a; border-radius: 4px; box-shadow: 0 14px 30px -10px rgba(0,0,0,.6); animation: pop5 .45s both; font: 600 var(--fs-4)/1.2 var(--serif); }
 .toast5 .seal { --s: 40px; }
 
-/* 回合制对决 */
+/* 城市 PK */
 .drow.facedown > div:not(:first-child):not(:empty) { position: relative; background: repeating-linear-gradient(45deg, rgba(178,58,43,.10) 0 6px, rgba(178,58,43,.04) 6px 12px); }
 .drow.facedown .val, .drow.facedown .hbar { visibility: hidden; }
 .drow.facedown > div:not(:first-child):not(:empty)::after { content: "？"; position: absolute; inset: 0; display: grid; place-items: center; font: 400 20px/1 var(--brush); color: rgba(178,58,43,.55); }
@@ -896,6 +896,33 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .duel-go { display: grid; gap: 10px; justify-items: center; padding: 16px; }
 .duel-go .btn.primary { height: 52px; padding: 0 28px; font: 600 20px/1 var(--serif); gap: 10px; }
 
+
+/* 历代治理 */
+.gov-tools.dyn { padding: 10px 12px; }
+.dyn-row { display: flex; gap: 6px; }
+.dyn-row button { width: 54px; height: 54px; border-radius: 3px; border: 1px solid var(--rule-strong); background: var(--leaf-raise); font: 400 24px/1 var(--brush); color: var(--ink-2); cursor: pointer; display: grid; place-items: center; transition: transform .2s cubic-bezier(.2,.7,.2,1), box-shadow .2s; }
+.dyn-row button:hover { transform: translateY(-3px); color: var(--ink); }
+.dyn-row button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dyn-row button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); box-shadow: 0 8px 16px -6px rgba(178,58,43,.75); transform: translateY(-3px); }
+.tiers { display: grid; gap: 0; justify-items: center; }
+.tiers span { display: inline-grid; place-items: center; height: 36px; padding: 0 18px; min-width: 170px; border-radius: 3px; background: var(--leaf-sunk); border: 1px solid var(--rule-strong); font: 600 var(--fs-4)/1 var(--serif); }
+.tiers span:first-child { background: var(--ink); color: #f6efe0; border-color: var(--ink); }
+.tiers i { width: 2px; height: 12px; background: var(--rule-strong); display: block; }
+.topn { display: flex; align-items: flex-end; gap: 6px; height: 104px; }
+.topn div { flex: 1; display: grid; justify-items: center; gap: 4px; align-content: end; }
+.topn b { display: block; width: 100%; background: var(--ink-3); border-radius: 2px 2px 0 0; transition: height .5s cubic-bezier(.2,.7,.2,1); }
+.topn div.on b { background: var(--accent); }
+.topn span { font: 400 15px/1 var(--brush); }
+.topn em { font: 600 11px/1 var(--serif); font-style: normal; }
+.topn div.on em { color: var(--accent); font-size: 13px; }
+.gov-legend .seal > span { writing-mode: vertical-rl; }
+.hzt { display: grid; gap: 0; }
+.hzt .r { display: grid; grid-template-columns: 74px 150px 190px 150px minmax(0, 1fr); gap: 10px; align-items: center; padding: 9px 4px; border-bottom: 1px solid var(--rule); font-size: var(--fs-2); }
+.hzt .r.h { font-size: var(--fs-1); color: var(--ink-3); border-bottom: 1px solid var(--rule-strong); }
+.hzt .dy { font: 400 18px/1 var(--brush); }
+.hzt b { font: 600 var(--fs-3)/1.25 var(--serif); }
+.hzt .ppl { color: var(--accent); }
+.honor .tch { font: 600 10px/1 var(--sans); font-style: normal; color: #7a5a14; background: #f3d58a; border-radius: 9px; padding: 3px 7px; margin-left: 6px; vertical-align: 3px; letter-spacing: .08em; }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" id="sprite">
@@ -942,7 +969,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
     </div>
     <div class="eyebrow">设计定稿 · 第 5 版 · 待确认</div>
     <h1>千里江山，做成一张能玩的地图</h1>
-    <p class="lede" data-lede>第 5 版回应你的两条意见：<b>更好玩</b>（开场展卷、云雾行船、弹起的匾额、钤印的墨点与音效、猜城小游戏、城市卡牌与游历图、回合制对决）和<b>更贴近普通人</b>（城市先讲骄傲榜和生活账本：每月可支配多少、每天创造多少、人去了哪里；GDP 和三产退到后面，三产不再单列）。每座城都有自己“全国第几”的骄傲，小城也一样。
+    <p class="lede" data-lede>第 5 版回应你的两条意见：<b>更好玩</b>（开场展卷、云雾行船、弹起的匾额、钤印的墨点与音效、猜城小游戏、城市卡牌与打卡地图、城市 PK）和<b>更贴近普通人</b>（城市先讲宝藏点和生活账本：每月可支配多少、每天创造多少、人去了哪里；GDP 和三产退到后面，三产不再单列）。每座城都有自己“全国第几”的骄傲，小城也一样。
     <nav class="toc" data-toc aria-label="目录"></nav>
   </header>
 
@@ -990,13 +1017,13 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 
 
   <section class="sec" id="s-life">
-    <div class="sec-head"><span class="seal"><span>叁</span></span><h2 data-t="secLife">骄傲榜与生活账本</h2><span class="newtag">NEW</span><span class="sub" data-t="secLifeSub">普通人先看的数字放最前；每座城都有拿得出手的东西</span></div>
+    <div class="sec-head"><span class="seal"><span>叁</span></span><h2 data-t="secLife">宝藏点与生活账本</h2><span class="newtag">NEW</span><span class="sub" data-t="secLifeSub">先看跟过日子有关的数字；每座城都有自己的宝藏点</span></div>
     <div class="life-grid" data-life></div>
     <div class="leaf card" data-swap></div>
   </section>
 
   <section class="sec" id="s-guess">
-    <div class="sec-head"><span class="seal"><span>肆</span></span><h2 data-t="secGuess">猜城 · 比大小</h2><span class="newtag">NEW</span><span class="sub" data-t="secGuessSub">每日 5 题，全是真实数字；点一张卡就是你的答案</span></div>
+    <div class="sec-head"><span class="seal"><span>肆</span></span><h2 data-t="secGuess">今日猜城</h2><span class="newtag">NEW</span><span class="sub" data-t="secGuessSub">每日 5 题，全是真实数字；点一张卡就是你的答案</span></div>
     <div class="device desk"><div class="screen"><div class="app" data-app="guess">
       <header class="topbar" data-v4top="guess"></header>
       <div class="gs" data-gs aria-live="polite"></div>
@@ -1005,7 +1032,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   </section>
 
   <section class="sec" id="s-cards">
-    <div class="sec-head"><span class="seal"><span>伍</span></span><h2 data-t="secCards">城市卡牌与游历图</h2><span class="newtag">NEW</span><span class="sub" data-t="secCardsSub">看过的城收进游历图；稀有度看“骄傲榜”，不看城市大小</span></div>
+    <div class="sec-head"><span class="seal"><span>伍</span></span><h2 data-t="secCards">城市卡牌与打卡地图</h2><span class="newtag">NEW</span><span class="sub" data-t="secCardsSub">看过的城都能打卡；稀有度看“宝藏点”，不看城市大小</span></div>
     <div class="device desk"><div class="screen"><div class="app" data-app="album">
       <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
       <header class="topbar" data-v4top="cards"></header>
@@ -1013,11 +1040,11 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
       <aside class="leaf al-side"><div class="body"><div class="al-feat"><div data-al-card></div><div class="ctl" data-al-ctl></div></div><div data-al-ach></div><div data-al-hand></div></div></aside>
       <div data-al-toast></div>
     </div></div></div>
-    <p class="note" data-t="cardsNote">点“抽一张”发一张新卡，再点“收入游历图”钤印；凑齐一组就解锁成就（原型里头两张固定是洛阳、安阳，第二张就能集齐七大古都）。游历记录只存在你自己的浏览器里。</p>
+    <p class="note" data-t="cardsNote">点“抽一张”发一张新卡，再点“打卡”钤印；凑齐一组就解锁成就（原型里头两张固定是洛阳、安阳，第二张就能集齐七大古都）。打卡记录只存在你自己的浏览器里。</p>
   </section>
 
   <section class="sec" id="s-duel">
-    <div class="sec-head"><span class="seal"><span>陆</span></span><h2 data-t="secDuel5">城市对决 · 回合制</h2><span class="newtag">NEW</span><span class="sub" data-t="secDuelSub">2–5 城并排；每行领先者钤“冠”字小印，顶部计分</span></div>
+    <div class="sec-head"><span class="seal"><span>陆</span></span><h2 data-t="secDuel5">城市 PK</h2><span class="newtag">NEW</span><span class="sub" data-t="secDuelSub">2–5 城并排；每行领先者钤“冠”字小印，顶部计分</span></div>
     <div class="device desk"><div class="screen"><div class="app" data-app="duel">
       <header class="topbar" data-v4top="duel"></header>
       <div class="duel">
@@ -1090,7 +1117,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
   </section>
 
   <section class="sec" id="s-gov">
-    <div class="sec-head"><span class="seal"><span>拾壹</span></span><h2 data-t="secGov">治理层</h2><span class="newtag">NEW</span><span class="sub" data-t="secGovSub">可整层关闭；只用官方公开来源；守七条红线</span></div>
+    <div class="sec-head"><span class="seal"><span>拾壹</span></span><h2 data-t="secGov">历代治理</h2><span class="newtag">NEW</span><span class="sub" data-t="secGovSub">可整层关闭；只用官方公开来源；守七条红线</span></div>
     <div class="device desk"><div class="screen"><div class="app" data-app="gov">
       <canvas class="map"></canvas><canvas class="map fade" style="opacity:0"></canvas>
       <header class="topbar" data-v4top="gov"></header>
@@ -1177,14 +1204,15 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
     <div class="sec-head"><span class="seal"><span>拾玖</span></span><h2>请你确认</h2></div>
     <div class="leaf card decide"><ol>
       <li><b>新五赋</b>：人 · 钱 · 产 · 绿 · 势（常住人口、每月可支配收入、每人每天创造、森林占比、三年人口增减），代替原来的 人 · 金 · 粮 · 工 · 商。颜色和形制不变，只换内容。</li>
-      <li><b>骄傲榜</b>：从 13 项全国排名里，每座城自动挑最好的三项，配一句大白话（“地盘能装下 9 个上海”“每 10 块地有 8 块是林子”）。这样的说法你喜欢吗？还想加哪些能让小城骄傲的维度？</li>
-      <li><b>城市信息的顺序</b>：骄傲榜 → 生活账本 → 人去哪儿了 → 城市家底（GDP 等）。三产不再单列。</li>
+      <li><b>宝藏点</b>：从 13 项全国排名里，每座城自动挑最好的三项，配一句大白话（“地盘能装下 9 个上海”“每 10 块地有 8 块是林子”）。这样的说法你喜欢吗？还想加哪些能让小城骄傲的维度？</li>
+      <li><b>城市信息的顺序</b>：宝藏点 → 生活账本 → 人去哪儿了 → 城市家底（GDP 等）。三产不再单列。</li>
       <li><b>人去哪儿了</b>：城市层面用“户籍 − 常住”看多少人在外地；去向用七普的省际流动（按省）。地图上画成流动的石青虚线；访客自报的“老乡在哪儿”仍用朱笔，两者分开。</li>
       <li><b>猜城</b>：每日 5 题、连对、成绩称号（初出茅庐 → 江山在胸）。</li>
-      <li><b>卡牌稀有度</b>：按骄傲榜最好的名次（前 3 传世、前 10 珍品、前 30 稀有），与城市大小无关。</li>
+      <li><b>卡牌稀有度</b>：按宝藏点最好的名次（前 3 传世、前 10 珍品、前 30 稀有），与城市大小无关。</li>
       <li><b>对决</b>：七个回合逐个揭晓，“冠”数多者胜，可直接跳到结果。</li>
       <li><b>动效与音效</b>：开场展卷、云雾、行船、飞鸟、匾额弹起、钤印墨点、晕墨换透镜、数字滚动；音效默认关闭，右上角可开。会不会太闹？</li>
-      <li><b>治理层默认状态</b>（上一版的问题）：我仍建议默认关闭。</li>
+      <li><b>历代治理</b>：治理层改成只讲历史（都城怎么迁、分几级政府、地方官叫什么、各朝名宦），不收录任何现任官员，所以不再需要开关。</li>
+      <li><b>文案</b>：参考小红书的说法，“骄傲榜”改为“宝藏点”，还有“打卡地图”“城市 PK”“晒一晒”“满眼是绿”“钱包鼓鼓”“打工人最能干”。这个语气对味吗？</li>
     </ol></div>
   </section>
 
@@ -1634,7 +1662,7 @@ function cityHTML(c, compact) {
   if (compact) return head + yieldsRow(c);
   const peers = c.peers ? `<div class="block"><h4>${t("peers")}</h4><div class="peers">${c.peers.map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-goto="${o.id}"><img src="${TIER_IMG[o.tier]}" alt="" width="120" height="80">${cname(o)}</button>`).join("")}</div></div>` : "";
   const src = `<div class="src">${icon("i-info")}<span>${t("src")}：${ZH("2023 年统计公报（本项目采集，附原文句子）、七普、ESA WorldCover", "2023 communiqués (collected with source sentences), 2020 census, ESA WorldCover")} · <button class="btn ghost" style="height:auto;padding:0;color:var(--river)" data-open-almanac>${t("srcLink")}</button></span></div>`;
-  return head + yieldsRow(c) + `<div class="cp-body"><div class="block"><h4>${ZH("骄傲榜", "Pride board")}<small>${ZH("全国排名最靠前的三项", "best three national ranks")}</small></h4>${prideHTML(c, 3, true)}</div>
+  return head + yieldsRow(c) + `<div class="cp-body"><div class="block"><h4>${ZH("宝藏点", "Hidden gems")}<small>${ZH("全国排名最能打的三项", "best three national ranks")}</small></h4>${prideHTML(c, 3, true)}</div>
     <div class="block"><h4>${ZH("生活账本", "Everyday numbers")}<small>2023</small></h4>${ledgerHTML(c, "panel")}</div>
     <div class="block"><h4>${ZH("人去哪儿了", "Where people go")}<small>${ZH("七普 · 公报", "census · communiqués")}</small></h4>${flowHTML(c, true)}</div>
     <div class="block"><h4>${ZH("城市家底", "The city's stock")}<small>2023</small></h4>${stockHTML(c)}</div>${peers}${src}</div>`; }
@@ -1769,7 +1797,7 @@ const ZH = (zh, en) => EN() ? en : zh;
 Object.assign(T, {
   secArc: ["城市档案", "City archive"], secArcSub: ["每城一页，可被搜索到；六个分页，可直接点", "One page per city, indexable; six tabs, all clickable"],
   arcNote: ["概况、城区、比较三页全部是真实数据（2023 年公报、七普、ESA WorldCover、高程）。市民页的收入与房价是第 2 期采集的位置；治理、沿革两页的人名与年份为示意，用斜线底的“示意”标注。", "Overview, Land and Compare use real data (2023 communiqués, 2020 census, ESA WorldCover, elevation). Income and housing on People are phase-2 slots; names and years on Governance and History are illustrative and carry the hatched “illustrative” tag."],
-  secDuel: ["城市对决", "City compare"], secDuelSub: ["2–5 城并排；每行领先者钤“冠”字小印，顶部计分", "2–5 cities side by side; the leader of each row gets a small seal, tallied at the top"],
+  secDuel: ["城市 PK", "City compare"], secDuelSub: ["2–5 城并排；每行领先者钤“冠”字小印，顶部计分", "2–5 cities side by side; the leader of each row gets a small seal, tallied at the top"],
   duelNote: ["点城市旁的 × 可移除，点“加一城”可从搜索加入（原型里循环加入几个示例城市）。对决链接可分享，打开即是同一组城市。", "Remove a city with ×; “Add a city” opens search (the prototype cycles through examples). A compare link reopens the same set."],
   secShare: ["分享长卷", "Share cards"], secShareSub: ["一键出图：竖版城市卡、横版对决卡、A3 海报", "One tap: portrait city card, landscape compare card, A3 poster"],
   cap9: ["竖版 · 1080×1920 · 朋友圈、小红书", "Portrait · 1080×1920 · Moments, Xiaohongshu"], cap16: ["横版 · 1200×630 · 微博、公众号头图、链接预览", "Landscape · 1200×630 · Weibo, article covers, link previews"], capA3: ["A3 海报 · 297×420 mm · 300 dpi · 可打印", "A3 poster · 297×420 mm · 300 dpi · printable"],
@@ -1780,8 +1808,8 @@ Object.assign(T, {
   xr3: ["小数字保护与冷启动", "Small numbers and cold start"], xr3c: ["某城人数不足 10 位时显示“不足 10 位”，流线也不画；第一位来访者看到“你是第一位在此钤印的××人”。", "Under 10 people shows “fewer than 10” and draws no stroke; the first visitor sees “You are the first from …”."],
   secGujin: ["古今同图", "Then & now"], secGujinSub: ["人物行迹画在今天的地图上；朝代时间轴", "Historical lives drawn on today's map; a dynasty timeline"],
   gjNote: ["点“播放行迹”看朱笔一站站画过去；点左侧任一站可跳到那一年。行迹按今地级市治所示意，正式版人物取自 CBDB；古代政区边界待 CHGIS 许可，未获许可前只用治所点与文字沿革。", "Press play to watch the route drawn stop by stop; click a stop to jump there. Stops sit at today's prefecture seats; production data comes from CBDB, and historical boundaries wait for CHGIS permission (until then: seats and text only)."],
-  secGov: ["治理层", "Governance layer"], secGovSub: ["可整层关闭；只用官方公开来源；守七条红线", "Can be switched off entirely; official public sources only; seven red lines"],
-  govNote: ["本页所有人名、任期与流向均为示意，不对应任何真实人物。开关在左上角，可试着关掉。", "Every name, term and flow on this screen is illustrative and refers to no real person. Try the switch at top left."],
+  secGov: ["历代治理", "History of rule"], secGovSub: ["看历朝历代怎么管这片土地：都城、几级政府、地方官叫什么", "How each dynasty ran the land: capitals, tiers, official titles"],
+  govNote: ["本层只讲历史上的治理，不收录任何现任官员。点上方的朝代切换；朝代建置与名宦为示意，正式版取自 CHGIS / CBDB。", "History only; no current officials. Pick a dynasty above; structures and officials are illustrative, production data from CHGIS / CBDB."],
   secTime: ["时间轴与年度城市年报", "Timeline & annual city report"], secTimeSub: ["2020 → 2025；缺的年份留斜线，不插值", "2020 → 2025; missing years stay hatched, never interpolated"],
   tlNote: ["地图与年报用的是真实数据：七普（2020）与 2023 年公报的常住人口。点 2020 / 2023 切换；2021、2022、2024、2025 四年正在采集，齐了以后可以播放，年报每年春天自动生成“今年的变化”。", "Map and report use real data: 2020 census and 2023 communiqué populations. Click 2020 / 2023 to switch; 2021, 2022, 2024 and 2025 are being collected. Once complete the timeline plays, and each spring the report writes “what changed this year”."],
 });
@@ -1824,12 +1852,12 @@ function v4Prepare() {
   V4LENS.pop23 = { ...base, key: "pop", breaks: base.breaks };
   V4LENS.pop20 = { ...base, key: "pop20", breaks: base.breaks };
 }
-const MODES = [["map", "i-map", "地图", "Map", "s-desk"], ["arc", "i-scroll", "档案", "Archive", "s-archive"], ["duel", "i-versus", "对决", "Compare", "s-duel"], ["guess", "i-dice", "猜城", "Guess", "s-guess"], ["gj", "i-history", "古今", "Then & now", "s-gujin"], ["gov", "i-gov", "治理", "Governance", "s-gov"]];
+const MODES = [["map", "i-map", "地图", "Map", "s-desk"], ["arc", "i-scroll", "档案", "Archive", "s-archive"], ["duel", "i-versus", "PK", "PK", "s-duel"], ["guess", "i-dice", "猜城", "Guess", "s-guess"], ["gj", "i-history", "古今", "Then & now", "s-gujin"], ["gov", "i-gov", "治理史", "Rule", "s-gov"]];
 const navHTML = active => MODES.map(([id, ic, zh, en, sec]) => `<button data-sec="${sec}" aria-current="${id === active}">${icon(ic)}${ZH(zh, en)}</button>`).join("");
 function v4Top(active) {
   return `<div class="brand-lock"><span class="seal"><span>图鉴</span></span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div><nav class="nav">${navHTML(active)}</nav><div class="spacer"></div>
   <label class="field v4">${icon("i-search")}<input type="search" placeholder="${t("search")}" aria-label="${t("search")}"><kbd>/</kbd></label>
-  <button class="homebtn" data-sec="s-cards" title="${ZH("游历图", "Travel map")}">${icon("i-cards")}<b class="num">${AL.got.length}</b></button><button class="homebtn" data-sec="s-xiang" title="${ZH("吾乡", "My hometown")}"><span class="seal"><span>吾乡</span></span>${cname(BYID.get(V4.home))}</button>
+  <button class="homebtn" data-sec="s-cards" title="${ZH("打卡地图", "Travel map")}">${icon("i-cards")}<b class="num">${AL.got.length}</b></button><button class="homebtn" data-sec="s-xiang" title="${ZH("吾乡", "My hometown")}"><span class="seal"><span>吾乡</span></span>${cname(BYID.get(V4.home))}</button>
   <div class="seg" role="group"><button data-set-lang="zh" aria-pressed="${!EN()}">中</button><button data-set-lang="en" aria-pressed="${EN()}">EN</button></div>
   <button class="btn icon" data-sec="s-share" aria-label="${t("share")}" title="${t("share")}">${icon("i-share")}</button>`; }
 function pTop() { return `<div class="brand-lock"><span class="seal"><span>图鉴</span></span><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span></div><span class="spacer"></span><button class="btn icon ghost" aria-label="search">${icon("i-search", "")}</button><button class="btn icon ghost" data-set-lang-toggle aria-label="中/EN">${icon("i-lang", "")}</button><button class="btn icon ghost" aria-label="menu">${icon("i-menu", "")}</button>`; }
@@ -1837,7 +1865,7 @@ function yieldsRow(c) { return `<div class="cp-yields">${["pop", "gold", "ind", 
 const seal = (txt, s) => `<span class="seal"${s ? ` style="--s:${s}px"` : ""}><span>${txt}</span></span>`;
 
 /* ---------- 叁 · 城市档案 ---------- */
-const ARC_TABS = [["gk", "i-info", "概况", "Overview"], ["cq", "i-mountain", "城区", "Land"], ["sm", "i-people", "人口去向", "Where people go"], ["bj", "i-versus", "比较", "Compare"], ["zl", "i-gov", "治理", "Governance"], ["yg", "i-history", "沿革", "History"]];
+const ARC_TABS = [["gk", "i-info", "概况", "Overview"], ["cq", "i-mountain", "城区", "Land"], ["sm", "i-people", "人口去向", "Where people go"], ["bj", "i-versus", "比较", "Compare"], ["zl", "i-gov", "治理史", "Rule in history"], ["yg", "i-history", "沿革", "History"]];
 function landStats(id) { const pi = P.prefs.findIndex(p => p.id === id); if (pi < 0 || !LC) return null; const cnt = {}, z = DEM.z; let n = 0, zs = 0, zmax = -1e9;
   for (let i = 0; i < PREF.length; i++) if (PREF[i] === pi) { n++; const k = LC[i]; cnt[k] = (cnt[k] || 0) + 1; zs += Math.max(z[i], 0); if (z[i] > zmax) zmax = z[i]; }
   const grp = [[[10, 20, 95], "林", "Forest", 10], [[40], "田", "Farmland", 40], [[30], "草", "Grass", 30], [[50], "城", "Built-up", 50], [[80], "水", "Water", 80], [[90], "泽", "Wetland", 90], [[60], "漠", "Bare", 60], [[70, 100], "雪", "Snow/moss", 70]];
@@ -1854,7 +1882,7 @@ function provHTML(c) { const sc = c.src, q = (sc && sc.q) || {}, k = q.income ? 
   return `<div class="panel s5"><h4>${icon("i-info")}${ZH("出处 · 每个数字都能点开", "Provenance · every number opens")}<small>${ZH("真实样例", "real example")}</small></h4>` + (sc && k ? `<div class="prov"><div class="row"><span>${ZH("数值", "Value")}</span><b class="num">${lab} ${val}</b></div><div class="row"><span>${ZH("原文句子", "Sentence")}</span><span>“${q[k]}”</span></div><div class="row"><span>${ZH("发布机关", "Publisher")}</span><span>${sc.bureau || "—"} · ${sc.date || ""}</span></div><div class="row"><span>${ZH("转载页", "Mirror")}</span><code>${sc.url}</code></div></div>` : `<p class="note">${t("noData")}</p>`) + `</div>`; }
 function arcBody(c) {
   const en = EN(), N = NATION.rankN;
-  if (V4.tab === "gk") return `<div class="panel"><h4>${ZH("骄傲榜 · 最拿得出手的三件事", "Pride board · three things to boast about")}<small>${ZH("从 13 项全国排名里自动挑选", "picked from 13 national rankings")}</small></h4>${prideHTML(c, 3)}</div>
+  if (V4.tab === "gk") return `<div class="panel"><h4>${ZH("宝藏点 · 这座城最能打的三件事", "Hidden gems · three things this city does best")}<small>${ZH("从 13 项全国排名里自动挑选", "picked from 13 national rankings")}</small></h4>${prideHTML(c, 3)}</div>
     <div class="panel s7"><h4>${ZH("生活账本", "Everyday numbers")}<small>${ZH("2023 · 和全国平均比", "2023 · vs national average")}</small></h4>${ledgerHTML(c, "full")}</div>
     <div class="panel s5"><h4>${ZH("城市家底", "The city's stock")}<small>2023</small></h4>${stockHTML(c)}<h4 style="margin-top:6px">${t("peers")}</h4><div class="peers">${(c.peers || []).map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-arc-city="${o.id}">${tierImg(o)}${cname(o)}</button>`).join("")}</div></div>
     <div class="panel s7"><h4>${ZH("六年序列", "Six-year series")}<small>2020 → 2025</small></h4>${seriesHTML(c)}</div>${provHTML(c)}`;
@@ -1880,9 +1908,10 @@ function arcBody(c) {
       <div class="cmp"><span class="h"></span>${keys.map(([, l]) => `<span class="h">${l}</span>`).join("")}
       ${grp.map(o => `<span class="nm ${o === c ? "me" : ""}">${tierImg(o)}${cname(o)}</span>` + keys.map(([k, , f]) => `<div class="bv"><span class="num">${f(o[k])}</span><div class="hbar"><i style="width:${(o[k] || 0) / mx[k] * 100}%;background:${o === c ? "var(--accent)" : "var(--ink-3)"}"></i></div></div>`).join("")).join("")}</div></div>
     <div class="panel s6"><h4>${ZH("全国名次", "National rank")}</h4><div class="medals">${[["gdp", "GDP", medalSVG("gold")], ["pc", t("lensPc"), medalSVG("pop")], ["forest", t("lensForest"), medalSVG("food")]].map(([k, l, ic]) => `<div class="medal-card"><span class="rk num ${c.rk[k] <= 3 ? "g" + c.rk[k] : ""}">${c.rk[k] || "—"}${ic}</span><span class="k">${l}<br>/ ${N[k]}</span></div>`).join("")}</div></div>
-    <div class="panel s6"><h4>${ZH("放进对决", "Put them in a compare")}</h4><p class="note">${ZH("一键把这 6 座城放进城市对决（最多 5 座，取前 5）。", "One tap puts these cities into Compare (up to 5).")}</p><button class="btn primary" data-sec="s-duel" style="justify-self:start">${icon("i-versus")}${ZH("去对决", "Open compare")}</button></div>`; }
-  if (V4.tab === "zl") return govTenure(c) + `<div class="panel s6"><h4>${ZH("统计", "Statistics")}${SHI()}</h4><div class="prov"><div class="row"><span>${ZH("书记平均任期", "Avg. secretary term")}</span><b class="num">3.4 ${ZH("年", "yrs")}</b></div><div class="row"><span>${ZH("外地调入", "Appointed from outside")}</span><b class="num">2 / 4</b></div><div class="row"><span>${ZH("截至", "As of")}</span><span class="num">2026-11-27</span></div></div><p class="note">${ZH("任期与经济曲线并列时注明：并列不代表因果。", "When terms sit beside economic curves: side by side is not cause and effect.")}</p></div>
-    <div class="panel s6"><h4>${ZH("这一层守的红线", "Red lines for this layer")}</h4>${redLines(true)}</div>`;
+    <div class="panel s6"><h4>${ZH("拉去 PK", "Put them in a compare")}</h4><p class="note">${ZH("一键把这 6 座城放进城市 PK（最多 5 座，取前 5）。", "One tap puts these cities into Compare (up to 5).")}</p><button class="btn primary" data-sec="s-duel" style="justify-self:start">${icon("i-versus")}${ZH("去 PK", "Open compare")}</button></div>`; }
+  if (V4.tab === "zl") { if (c.id !== "330100") return `<div class="panel off-state">${icon("i-gov", "")}<b>${ZH("历代治理待 CHGIS / CBDB 许可后接入", "History of rule arrives with CHGIS / CBDB")}</b><span class="note">${ZH("原型只有杭州的样例。本页只讲历史，不收录现任官员。", "Prototype sample: Hangzhou only. History only; no current officials.")}</span></div>`;
+    return `<div class="panel"><h4>${ZH("杭州在历朝历代", "Hangzhou through the dynasties")}${SHI()}<small>${ZH("本页只讲历史，不收录现任官员", "History only; no current officials")}</small></h4><div class="hzt"><div class="r h"><span>${ZH("朝代", "Era")}</span><span>${ZH("当时叫", "Called")}</span><span>${ZH("上一级", "Under")}</span><span>${ZH("地方官", "Local officials")}</span><span>${ZH("在此做过官的名人", "Notable officials")}</span></div>${HZGOV.map(r => `<div class="r"><span class="dy">${ZH(r[0], r[1])}</span><b>${ZH(r[2], r[3])}</b><span>${ZH(r[4], r[5])}</span><span>${ZH(r[6], r[7])}</span><span class="ppl">${r[8]}</span></div>`).join("")}</div></div>
+    <div class="panel"><h4>${ZH("全国视角", "The national view")}</h4><p class="note">${ZH("都城怎么迁、各朝分几级管理、地方官叫什么，见“历代治理”。", "How capitals moved and how many tiers each dynasty used: see History of rule.")}</p><button class="btn" data-sec="s-gov" style="justify-self:start">${icon("i-gov")}${ZH("看历代治理", "Open history of rule")}</button></div>`; }
   if (V4.tab === "yg") { if (c.id !== "330100") return `<div class="panel off-state">${icon("i-history", "")}<b>${ZH("沿革与人物待许可后接入", "History arrives once permissions are settled")}</b><span class="note">${ZH("原型只有杭州的样例。", "The prototype has a sample for Hangzhou only.")}</span></div>`;
     return `<div class="panel s7"><h4>${ZH("历代名称与建置", "Names through the dynasties")}${SHI()}<small>${ZH("正式版取自 CHGIS / CBDB", "Production: CHGIS / CBDB")}</small></h4><div class="yg">${YG.map(([dy, yr, nm, nmEn, note, noteEn], i) => `<div class="it ${i === YG.length - 1 ? "cur" : ""}"><span class="dy">${en ? (/^\d/.test(yr) ? yr : dy) : dy}</span><span class="dot"></span><div class="tx"><b>${en ? nmEn : nm}<em>${/^\d/.test(yr) ? yr : ""}</em></b><span>${en ? noteEn : note}</span></div></div>`).join("")}</div></div>
     <div class="panel s5"><h4>${ZH("在此任职的历代名宦", "Notable officials here")}${SHI()}</h4><div class="people">${MINGHUAN.map(([s, zh, enN, d, dEn]) => `<div class="person">${seal(s)}<div><b>${en ? enN : zh}</b><br><span>${en ? dEn : d}</span></div>${zh === "苏轼" ? `<button class="btn" data-sec="s-gujin">${icon("i-history")}${ZH("看行迹", "Route")}</button>` : "<span></span>"}</div>`).join("")}</div>
@@ -1900,13 +1929,13 @@ function redLines(short) { const L = [["只用官方公开来源，每条附原�
 function renderArc() { const c = BYID.get(V4.city); if (!c) return; const prov = pvOf(c);
   $("[data-arc-head]").innerHTML = `<div class="cp-head"><span class="seal stamp" style="--s:58px"><span>${c.n.slice(0, 2)}</span></span><div><h2>${cname(c)}${tierImg(c)}</h2><div class="en">${EN() ? c.n : (c.en || "")}</div><div class="meta">${kindOf(c)}${prov && !["municipality", "sar"].includes(c.kind) ? " · " + prov : ""}${c.pcap ? ZH(" · 省会", " · capital") : ""}</div></div></div>`;
   $("[data-arc-yields]").innerHTML = yieldsRow(c);
-  $("[data-arc-actions]").innerHTML = `<button class="btn wide" data-sec="s-xiang">${seal("吾乡", 24)}${ZH("钤印 · 这是我的家乡", "Stamp · this is my hometown")}</button>
-    <button class="btn" data-v4="arc-duel">${icon("i-versus")}${ZH("加入对决", "Add to compare")}</button><button class="btn" data-sec="s-share">${icon("i-share")}${ZH("分享长卷", "Share card")}</button>
+  $("[data-arc-actions]").innerHTML = `<button class="btn wide" data-sec="s-xiang">${seal("吾乡", 24)}${ZH("这是我老家 · 盖个章", "Stamp · this is my hometown")}</button>
+    <button class="btn" data-v4="arc-duel">${icon("i-versus")}${ZH("拉去 PK", "Add to compare")}</button><button class="btn" data-sec="s-share">${icon("i-share")}${ZH("分享长卷", "Share card")}</button>
     <button class="btn">${icon("i-download")}${ZH("下载数据", "Download data")}</button><button class="btn">${icon("i-link")}${ZH("嵌入卡片", "Embed")}</button>`;
   $("[data-arc-tabs]").innerHTML = ARC_TABS.map(([id, ic, zh, en]) => `<button role="tab" data-arc-tab="${id}" aria-selected="${V4.tab === id}">${icon(ic, "")}${ZH(zh, en)}</button>`).join("") + `<span class="tab-note note">${ZH("每城一页 · /city/", "One page per city · /city/")}${c.id}</span>`;
   $("[data-arc-body]").innerHTML = arcBody(c); }
 
-/* ---------- 陆 · 城市对决（回合制） ---------- */
+/* ---------- 陆 · 城市 PK（回合制） ---------- */
 const DUEL5 = [{ y: "gold", k: "month", lab: ["每月可支配收入", "Monthly disposable income"] }, { y: "ind", k: "day", lab: ["每人每天创造", "Output per person per day"] },
   { y: "com", k: "dpop", lab: ["三年人口增减", "Population change, 3 yrs"] }, { y: "food", k: "forest", lab: ["森林占比", "Forest share"] },
   { y: "pop", k: "popAny", lab: ["常住人口", "Population"] }, { ic: "i-map", k: "area", lab: ["地盘（卫星估算）", "Area (satellite est.)"], f: v => FMTS.km2(v) },
@@ -1924,7 +1953,7 @@ function renderDuel(animIdx = -1) { if (D5.sig !== V4.duel.join()) { duelReset()
   const n = V4.duel.length, rev = D5.step < 0 ? 0 : D5.step, running = D5.step >= 0 && D5.step < D5REAL, fin = D5.step >= D5REAL, { cs, rows, crowns } = duelData(rev);
   const cols = `200px repeat(${n}, minmax(0, 1fr)) ${n < 5 ? "120px" : ""}`, head = $("[data-duel-head]"); head.style.gridTemplateColumns = cols;
   const animRow = rows.find(r => r.idx === animIdx);
-  head.innerHTML = `<div><b style="font:900 20px/1.2 var(--serif)">${ZH("城市对决", "Compare")}</b><span class="note">${D5.step < 0 ? ZH(`${n} 城 · ${D5REAL} 回合`, `${n} cities · ${D5REAL} rounds`) : ZH(`第 ${Math.min(rev, D5REAL)} / ${D5REAL} 回合`, `Round ${Math.min(rev, D5REAL)} of ${D5REAL}`)}</span></div>` + cs.map((c, i) => `<div><span class="ord" style="background:${ORD[i]}"></span>
+  head.innerHTML = `<div><b style="font:900 20px/1.2 var(--serif)">${ZH("城市 PK", "Compare")}</b><span class="note">${D5.step < 0 ? ZH(`${n} 城 · ${D5REAL} 回合`, `${n} cities · ${D5REAL} rounds`) : ZH(`第 ${Math.min(rev, D5REAL)} / ${D5REAL} 回合`, `Round ${Math.min(rev, D5REAL)} of ${D5REAL}`)}</span></div>` + cs.map((c, i) => `<div><span class="ord" style="background:${ORD[i]}"></span>
     <div class="who"><span class="mini-art"><canvas data-art="${c.id}" width="108" height="80"></canvas></span><div><b>${cname(c)}</b><span>${pvOf(c)} · ${ZH(...RAR[rarity(c)])}</span></div></div>
     <div class="score" aria-live="polite"><span class="num ${animRow && animRow.lead === i ? "bump" : ""}">${crowns[i]}</span><small>${ZH("冠", "wins")}</small>${D5.step < 0 ? "" : Array.from({ length: crowns[i] }, () => seal(ZH("冠", "1st"), 16)).join("")}</div>
     ${n > 2 && !running ? `<button class="btn icon ghost x" data-duel-x="${c.id}" aria-label="${ZH("移除", "Remove")}">${icon("i-close")}</button>` : ""}</div>`).join("") + (n < 5 && !running ? `<button class="add" data-v4="duel-add">${icon("i-plus", "")}<span>${ZH("加一城", "Add a city")}</span></button>` : n < 5 ? "<div></div>" : "");
@@ -1933,12 +1962,12 @@ function renderDuel(animIdx = -1) { if (D5.sig !== V4.duel.join()) { duelReset()
     if (r.pend) return `<div class="drow" style="grid-template-columns:${cols}">${lab}${cs.map(() => `<div><span class="pendcell pend">${ZH("采集中", "pending")}</span></div>`).join("")}${n < 5 ? "<div></div>" : ""}</div>`;
     const shown = D5.step < 0 ? false : r.idx < rev, cls = !shown ? "facedown" : r.idx === animIdx ? "reveal cur" : "";
     return `<div class="drow ${cls}" style="grid-template-columns:${cols}">${lab}${r.vals.map((v, i) => `<div class="${shown && i === r.lead ? "lead" : ""}"><span class="val num"><span${shown && r.idx === animIdx && v != null ? ` data-cu="${v}" data-cuf="d${r.idx}"` : ""}>${v == null ? "—" : rowFmt(r)(v)}</span>${shown && i === r.lead ? (r.idx === animIdx ? `<span class="seal stamp" data-crown><span>${ZH("冠", "1st")}</span></span>` : seal(ZH("冠", "1st"))) : ""}</span><div class="hbar"><i style="width:${v == null ? 0 : Math.abs(v) / r.mx * 100}%;background:${r.k === "dpop" ? (v < 0 ? "var(--neg)" : "var(--pos)") : ORD[i]}"></i></div></div>`).join("")}${n < 5 ? "<div></div>" : ""}</div>`; }).join("");
-  $("[data-duel-cta]").innerHTML = D5.step < 0 ? `<div class="duel-go"><button class="btn primary" data-v5="duel-go">${icon("i-versus", "")}${ZH("开战", "Fight!")}</button><button class="btn ghost" data-v5="duel-skip">${ZH("跳过动画，直接看结果", "Skip to the result")}</button><p class="note">${ZH("七个回合逐个揭晓，每回合数值最高者得一枚“冠”。只比高低，不代表优劣。", "Seven rounds revealed one by one; the highest value takes a seal. Higher, not better.")}</p></div>`
+  $("[data-duel-cta]").innerHTML = D5.step < 0 ? `<div class="duel-go"><button class="btn primary" data-v5="duel-go">${icon("i-versus", "")}${ZH("开始 PK", "Fight!")}</button><button class="btn ghost" data-v5="duel-skip">${ZH("跳过动画，直接看结果", "Skip to the result")}</button><p class="note">${ZH("七个回合逐个揭晓，每回合数值最高者得一枚“冠”。只比高低，不代表优劣。", "Seven rounds revealed one by one; the highest value takes a seal. Higher, not better.")}</p></div>`
     : running ? `<div class="duel-go"><span class="eyebrow">${ZH(`第 ${rev} / ${D5REAL} 回合`, `Round ${rev} of ${D5REAL}`)}</span><div class="hbar" style="width:100%"><i style="width:${rev / D5REAL * 100}%;background:var(--accent)"></i></div><button class="btn ghost" data-v5="duel-skip">${ZH("跳到结果", "Skip to the result")}</button></div>`
-    : `<div class="row-gap"><button class="btn primary" data-v5="duel-again">${icon("i-versus")}${ZH("再战", "Rematch")}</button><button class="btn" data-sec="s-share">${icon("i-share")}${ZH("分享战报", "Share result")}</button><button class="btn">${icon("i-link")}${ZH("复制链接", "Copy link")}</button></div><code class="note" style="font-family:ui-monospace,monospace">/duel?c=${V4.duel.join(",")}</code>`;
+    : `<div class="row-gap"><button class="btn primary" data-v5="duel-again">${icon("i-versus")}${ZH("再来一局", "Rematch")}</button><button class="btn" data-sec="s-share">${icon("i-share")}${ZH("晒战报", "Share result")}</button><button class="btn">${icon("i-link")}${ZH("复制链接", "Copy link")}</button></div><code class="note" style="font-family:ui-monospace,monospace">/duel?c=${V4.duel.join(",")}</code>`;
   let win = $("[data-duel-win]"); if (!win) { $("[data-duel-rows]").closest(".duel-board").insertAdjacentHTML("beforeend", `<div class="duel-win" data-duel-win hidden></div>`); win = $("[data-duel-win]"); }
   if (fin && D5.showWin) { const mx = Math.max(...crowns), ws = cs.filter((c, i) => crowns[i] === mx); win.hidden = false;
-    win.innerHTML = `<div class="leaf box"><span class="eyebrow">${ZH("对决结果", "Result")}</span><div class="w">${seal(ZH("冠", "1st"))}${ws.length > 1 ? ZH("平局", "A draw") : cname(ws[0]) + ZH(" 胜", " wins")}</div><div class="sc num">${cs.map((c, i) => `${cname(c)} ${crowns[i]}`).join(" : ")}</div><div class="row-gap"><button class="btn primary" data-v5="duel-again">${icon("i-versus")}${ZH("再战", "Rematch")}</button><button class="btn" data-sec="s-share">${icon("i-share")}${ZH("分享战报", "Share result")}</button><button class="btn" data-v5="duel-close">${ZH("看明细", "See details")}</button></div></div>`; }
+    win.innerHTML = `<div class="leaf box"><span class="eyebrow">${ZH("PK 结果", "Result")}</span><div class="w">${seal(ZH("冠", "1st"))}${ws.length > 1 ? ZH("平局", "A draw") : cname(ws[0]) + ZH(" 胜", " wins")}</div><div class="sc num">${cs.map((c, i) => `${cname(c)} ${crowns[i]}`).join(" : ")}</div><div class="row-gap"><button class="btn primary" data-v5="duel-again">${icon("i-versus")}${ZH("再来一局", "Rematch")}</button><button class="btn" data-sec="s-share">${icon("i-share")}${ZH("晒战报", "Share result")}</button><button class="btn" data-v5="duel-close">${ZH("看明细", "See details")}</button></div></div>`; }
   else win.hidden = true;
   paintArts(head); if (animIdx >= 0) { const row = $("[data-duel-rows] .drow.cur"); countUp(row); setTimeout(() => { const s = $("[data-crown]"); if (s) { spatter(s, 14); snd("stamp"); } }, 420); } }
 function duelGo(skip) { clearInterval(D5.timer); if (skip || RM()) { D5.step = D5REAL; D5.showWin = true; renderDuel(); snd("win"); return; }
@@ -1955,7 +1984,7 @@ function renderShare() { const c = BYID.get(V4.city), en = EN(), N = NATION.rank
     <div class="facts">${prideOf(c).slice(0, 3).map(h => `<div><span>${rankBadge(h)}</span><b style="font:400 12px/1.3 var(--sans);text-align:right">${h.m.ph(c)}</b></div>`).join("")}</div>
     <div class="foot"><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span><span class="src">${ZH(`数据：${c.n}市及国家统计局 2023 年统计公报、七普`, `Data: 2023 communiqués, 2020 census`)}</span><span class="qr">${ZH("扫码<br>看档案", "Scan<br>for more")}</span></div>`;
   const { cs, crowns } = duelData();
-  $("[data-c16]").innerHTML = `<div class="t">${cs.map(cname).join(" · ")}<small>${ZH("城市对决 · 2023", "COMPARE · 2023")}</small></div>
+  $("[data-c16]").innerHTML = `<div class="t">${cs.map(cname).join(" · ")}<small>${ZH("城市 PK · 2023", "COMPARE · 2023")}</small></div>
     <div class="cols" style="grid-template-columns:repeat(${cs.length},1fr)">${cs.map((o, i) => `<div style="border-color:${ORD[i]}"><b>${cname(o)}${crowns[i] ? Array.from({ length: Math.min(crowns[i], 4) }, () => seal(en ? "1" : "冠")).join("") : ""}</b>
       <span>${medalSVG("gold", "sm")}${o.month == null ? "—" : YIELDS.gold.fmt(o.month)}</span><span>${medalSVG("ind", "sm")}${o.day == null ? "—" : YIELDS.ind.fmt(o.day)}</span><span>${medalSVG("com", "sm")}${o.dpop == null ? "—" : FMTS.wan(o.dpop)}</span></div>`).join("")}</div>
     <div class="ft">${seal("图鉴")}<span>${ZH("江山图鉴 · 数据来自各地 2023 年统计公报 · “冠”为该项最高", "Jiangshan Atlas · 2023 communiqués · seal = highest")}</span></div>`;
@@ -1971,7 +2000,7 @@ function renderXiang() { const h = BYID.get(V4.home), en = EN(), no = (V4.count 
     <div style="margin:0 16px">${prideHTML(h, 2, true)}</div>
     <div class="xiang"><div class="slot">${V4.stamped ? `<span class="seal stamp"><span>吾乡</span></span>` : `<span class="ghost">${ZH("钤印处", "seal here")}</span>`}</div>
       <div class="txt" aria-live="polite">${V4.stamped ? `<div class="count">${ZH(`你是第 ${no} 位`, `You are no. ${no}`)}<br><small>${ZH(`为${h.n}钤印的老乡`, `to stamp for ${h.en}`)}</small></div><div class="today">${ZH(`今日 +${V4.today + 1}`, `Today +${V4.today + 1}`)} ${SHI()}</div><button class="btn" data-sec="s-xiang" data-v4="x-where">${ZH("老乡在哪儿 →", "Where they live →")}</button>`
-        : `<div class="count" style="font-size:19px">${ZH(`已有 ${V4.count.toLocaleString("en-US")} 位老乡在此钤印`, `${V4.count.toLocaleString("en-US")} natives stamped here`)}</div><div class="today">${ZH(`今日 +${V4.today}`, `Today +${V4.today}`)} ${SHI()}</div><button class="btn primary" data-v4="stamp">${ZH("钤印 · 这是我的家乡", "Stamp · my hometown")}</button>`}</div></div>
+        : `<div class="count" style="font-size:19px">${ZH(`已有 ${V4.count.toLocaleString("en-US")} 位老乡在此钤印`, `${V4.count.toLocaleString("en-US")} natives stamped here`)}</div><div class="today">${ZH(`今日 +${V4.today}`, `Today +${V4.today}`)} ${SHI()}</div><button class="btn primary" data-v4="stamp">${ZH("这是我老家 · 盖个章", "Stamp · my hometown")}</button>`}</div></div>
     <div class="p-row"><label class="field">${icon("i-home")}<input value="${ZH("我现居：成都（可选）", "I live in: Chengdu (optional)")}" aria-label="current city" readonly></label><button class="btn">${ZH("填写", "Set")}</button></div>
     <p class="disclaim">${icon("i-info")}<span>${ZH("本站访客自愿标注，非官方统计。不注册、不定位；只存家乡城、可选现居城与一个随机编号。", "Self-reported by visitors, not official statistics. No sign-up, no location; we keep the hometown, an optional current city and a random ID.")}</span></p>`;
   const tot = DEST.reduce((s, d) => s + d[1], 0);
@@ -2022,28 +2051,47 @@ function suPlay() { if (V4.playing) { V4.playing = false; cancelAnimationFrame(s
     if (V4.suP < 1 && V4.playing) suRAF = requestAnimationFrame(step); else { V4.playing = false; renderGj(); } };
   renderGj(); suRAF = requestAnimationFrame(step); }
 
-/* ---------- 捌 · 治理层 ---------- */
-let GOV_ARCS = null;
-function govArcs() { if (GOV_ARCS) return GOV_ARCS; const caps = CITIES.filter(c => c.pcap || c.kind === "municipality"), r = rng(23); GOV_ARCS = [];
-  for (let i = 0; i < 22; i++) { const a = caps[Math.floor(r() * caps.length)], b = caps[Math.floor(r() * caps.length)]; if (a === b) continue; GOV_ARCS.push([a, b, 1 + Math.floor(r() * 4)]); }
-  const hz = BYID.get("330100"), bj = BYID.get("110000"); GOV_ARCS.push([bj, hz, 3]); return GOV_ARCS; }
-function drawGovArcs(app, ctx, u, v) { if (!V4.gov) return;
-  for (const [a, b, w] of govArcs()) { const p0 = toPx(v, a.x, a.y), p1 = toPx(v, b.x, b.y), k = .18; ctx.save(); ctx.strokeStyle = "rgba(45,94,120,.62)"; ctx.lineWidth = (.7 + w * .55) * u; ctx.lineCap = "round"; ctx.beginPath(); ctx.moveTo(...p0);
-    for (let s = 1; s <= 30; s++) ctx.lineTo(...qpt(p0, p1, k, s / 30)); ctx.stroke(); const e = qpt(p0, p1, k, 1), d = qpt(p0, p1, k, .94), ang = Math.atan2(e[1] - d[1], e[0] - d[0]), L = (5 + w) * u;
-    ctx.fillStyle = "rgba(45,94,120,.85)"; ctx.beginPath(); ctx.moveTo(e[0], e[1]); ctx.lineTo(e[0] - L * Math.cos(ang - .45), e[1] - L * Math.sin(ang - .45)); ctx.lineTo(e[0] - L * Math.cos(ang + .45), e[1] - L * Math.sin(ang + .45)); ctx.closePath(); ctx.fill(); ctx.restore(); }
- }
-function drawGovMark(app, ctx, u) { if (!V4.gov) return; ctx.save(); ctx.font = EN() ? `600 ${64 * u}px "Noto Serif SC", serif` : `${130 * u}px "Ma Shan Zheng", serif`; ctx.fillStyle = "rgba(43,35,29,.13)"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.translate(app.canvas.width * .33, app.canvas.height * .5); ctx.rotate(-.08); ctx.fillText(ZH("示 意", "ILLUSTRATIVE"), 0, 0); ctx.restore(); }
-function renderGov() {
-  $("[data-gov-tools]").innerHTML = `<button class="switch" data-v4="gov" aria-pressed="${V4.gov}"><i></i>${ZH("治理层", "Governance layer")}</button>${SHI()}`;
-  $("[data-gov-legend]").innerHTML = V4.gov ? `<b style="font:600 var(--fs-3)/1.2 var(--serif)">${ZH("干部交流流向", "Where leaders come from")}${SHI()}</b>
-    <div class="ln"><svg viewBox="0 0 44 12"><path d="M2 9 Q22 0 40 9" fill="none" stroke="rgba(45,94,120,.7)" stroke-width="2"/><path d="M40 9l-6-1.5 2.5-3.5z" fill="rgba(45,94,120,.9)"/></svg>${ZH("调任方向：从原任职地到新任职地", "Direction: from previous post to new post")}</div>
-    <div class="ln"><svg viewBox="0 0 44 12"><path d="M2 4h40" stroke="rgba(45,94,120,.7)" stroke-width="1"/><path d="M2 9h40" stroke="rgba(45,94,120,.7)" stroke-width="3"/></svg>${ZH("线越粗，2012 年以来人次越多", "Thicker = more moves since 2012")}</div>
-    <span class="note">${ZH("只统计省、地两级主要领导；不画个人关系。", "Main provincial and prefecture leaders only; no personal ties.")}</span>` : `<span class="note">${ZH("治理层已关闭。", "Governance layer is off.")}</span>`;
-  const c = BYID.get("330100");
-  $("[data-gov-side]").innerHTML = V4.gov ? `<div class="cp-head"><span class="seal"><span>${c.n}</span></span><div><h2>${cname(c)} · ${ZH("治理", "Governance")}</h2><div class="meta">${ZH("截至 2026-11-27 · 发现错误？", "As of 2026-11-27 · spotted an error?")}<a href="#" style="color:var(--river)">${ZH("纠错", "Correct it")}</a></div></div></div>
-    <div class="body">${govTenure(null)}<div class="panel"><h4>${ZH("本市干部来源", "Where this city's leaders came from")}${SHI()}</h4><div class="dest" style="margin:0">${[["本省调任", "Within province", .5], ["外省调入", "Other province", .33], ["中央调入", "Central", .17]].map(([zh, en, s]) => `<div class="d" style="grid-template-columns:88px 1fr 40px"><b style="font-size:13px">${ZH(zh, en)}</b><div class="hbar"><i style="width:${s * 100}%;background:var(--river)"></i></div><em style="color:var(--ink);font:600 13px/1 var(--serif)">${Math.round(s * 100)}%</em></div>`).join("")}</div></div>
-    <div class="panel"><h4>${ZH("七条红线", "Seven red lines")}</h4>${redLines()}</div></div>`
-    : `<div class="off-state">${icon("i-gov", "")}<b style="font:600 var(--fs-4)/1.3 var(--serif);color:var(--ink)">${ZH("治理层已关闭", "Governance layer is off")}</b><span>${ZH("地图与城市档案都不显示任何官员信息。国内正式版可整层不带。", "No official appears anywhere on the map or in archives. The domestic release can ship without this layer.")}</span></div>`; }
+/* ---------- 历代治理 (history only: capitals, tiers of government, office titles; no current officials) ---------- */
+const DYN5 = [
+  { k: "秦", en: "Qin", y: "前 221 – 前 207", cap: [["610400", "咸阳", "Xianyang"]], top: 36, unit: ["郡", "commanderies"], tiers: [["郡", "Commandery"], ["县", "County"]], off: ["郡守 · 县令", "Commandery governor · county magistrate"], hz: ["钱唐县，属会稽郡", "Qiantang County, under Kuaiji"] },
+  { k: "汉", en: "Han", y: "前 202 – 220", cap: [["610100", "长安", "Chang'an"], ["410300", "洛阳", "Luoyang"]], top: 13, unit: ["州（刺史部）", "provinces (inspectorates)"], tiers: [["州", "Province"], ["郡 / 国", "Commandery / kingdom"], ["县", "County"]], off: ["刺史 · 太守 · 县令", "Inspector · governor · magistrate"], hz: ["钱唐县，属会稽郡", "Qiantang County, under Kuaiji"] },
+  { k: "唐", en: "Tang", y: "618 – 907", cap: [["610100", "长安", "Chang'an"]], top: 15, unit: ["道", "circuits"], tiers: [["道", "Circuit"], ["州", "Prefecture"], ["县", "County"]], off: ["刺史 · 县令", "Prefect · magistrate"], hz: ["杭州，属江南东道", "Hangzhou, in Jiangnan East"], ppl: [["李泌", "Li Mi", "开六井"], ["白居易", "Bai Juyi", "筑白堤"]], note: ["道起初是监察区", "Circuits began as inspection zones"] },
+  { k: "宋", en: "Song", y: "960 – 1279", cap: [["410200", "汴京", "Bianjing"], ["330100", "临安", "Lin'an"]], top: 24, unit: ["路", "circuits"], tiers: [["路", "Circuit"], ["府 / 州 / 军 / 监", "Prefecture"], ["县", "County"]], off: ["知州（知府）· 通判 · 知县", "Prefect · vice prefect · magistrate"], hz: ["杭州，南宋升为临安府", "Hangzhou, raised to Lin'an Prefecture"], ppl: [["范仲淹", "Fan Zhongyan", "知杭州"], ["苏轼", "Su Shi", "筑苏堤"]], note: ["北宋后期约 24 路", "About 24 circuits in late Northern Song"] },
+  { k: "元", en: "Yuan", y: "1271 – 1368", cap: [["110000", "大都", "Dadu"]], top: 11, unit: ["行省（含中书省）", "provinces"], tiers: [["行省", "Province"], ["路", "Circuit"], ["府 / 州", "Prefecture"], ["县", "County"]], off: ["达鲁花赤 · 总管", "Darughachi · governor"], hz: ["杭州路，江浙行省治所", "Hangzhou Circuit, seat of Jiangzhe"] },
+  { k: "明", en: "Ming", y: "1368 – 1644", cap: [["320100", "南京", "Nanjing"], ["110000", "北京", "Beijing"]], top: 15, unit: ["两京十三布政使司", "capitals + provinces"], tiers: [["布政使司", "Province"], ["府", "Prefecture"], ["州 / 县", "County"]], off: ["布政使 · 知府 · 知县", "Commissioner · prefect · magistrate"], hz: ["杭州府，浙江布政使司治所", "Hangzhou Prefecture, seat of Zhejiang"] },
+  { k: "清", en: "Qing", y: "1644 – 1912", cap: [["110000", "北京", "Beijing"]], top: 18, unit: ["省（内地十八省）", "provinces (China proper)"], tiers: [["省", "Province"], ["府 / 直隶州", "Prefecture"], ["县", "County"]], off: ["巡抚 · 知府 · 知县", "Governor · prefect · magistrate"], hz: ["杭州府，浙江省治", "Hangzhou Prefecture, seat of Zhejiang"], ppl: [["林则徐", "Lin Zexu", "任杭嘉湖道"]], note: ["清末增至 22 省", "22 provinces by the end"] },
+  { k: "今", en: "Today", y: "1949 –", cap: [["110000", "北京", "Beijing"]], top: 34, unit: ["省级行政区", "province-level units"], tiers: [["省 / 自治区 / 直辖市", "Province"], ["地级市", "Prefecture-level city"], ["县 / 区", "County / district"]], off: ["本层不收录现任官员", "No current officials in this layer"], hz: ["杭州市，浙江省会", "Hangzhou, capital of Zhejiang"] }];
+V4.gdyn = 3;
+function drawCapitals(app, ctx, u, v) { const order = []; DYN5.forEach((d, di) => d.cap.forEach(([id, zh, en]) => { const c = BYID.get(id); if (c) order.push({ c, d, di, zh, en }); }));
+  ctx.save(); ctx.strokeStyle = "rgba(43,35,29,.4)"; ctx.lineWidth = 1.6 * u; ctx.setLineDash([5 * u, 5 * u]); ctx.beginPath();
+  order.forEach((o, i) => { const [x, y] = toPx(v, o.c.x, o.c.y); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke(); ctx.setLineDash([]);
+  const by = new Map(); order.forEach(o => { const a = by.get(o.c.id) || []; a.push(o); by.set(o.c.id, a); });
+  const items = [...by.values()].sort((a, b) => a.some(o => o.di === V4.gdyn) - b.some(o => o.di === V4.gdyn));
+  for (const arr of items) { const c = arr[0].c, [x, y] = toPx(v, c.x, c.y), sel = arr.filter(o => o.di === V4.gdyn), s = (sel.length ? 40 : 24) * u;
+    ctx.globalAlpha = sel.length ? 1 : .55; drawSeal(ctx, x, y - s * .75, s, arr.map(o => o.d.k).filter((k, i, a) => a.indexOf(k) === i).join("").slice(0, 4), u, c.id.charCodeAt(2)); ctx.globalAlpha = 1;
+    ctx.font = `${sel.length ? 600 : 500} ${(sel.length ? 13 : 10.5) * u}px "Noto Serif SC", serif`; ctx.textAlign = "center"; ctx.textBaseline = "top";
+    const lab = sel.length ? sel.map(o => ZH(`${o.d.k} · ${o.zh}`, `${o.d.en} · ${o.en}`)).join(ZH("、", ", ")) + ZH(`（今${c.n}）`, ` (today ${c.en})`) : arr.map(o => ZH(o.zh, o.en)).filter((k, i, a) => a.indexOf(k) === i).join(" · ");
+    haloText(ctx, lab, x, y + 6 * u, sel.length ? "#8e2a1f" : "#3a2e26", "rgba(246,239,224,.92)", 3.4 * u); }
+  ctx.restore(); }
+function renderGov() { const d = DYN5[V4.gdyn], en = EN(), mx = Math.max(...DYN5.map(x => x.top));
+  const tools = $("[data-gov-tools]"); tools.className = "leaf gov-tools dyn";
+  tools.innerHTML = `<div class="dyn-row">${DYN5.map((x, i) => `<button data-gdyn="${i}" aria-pressed="${i === V4.gdyn}" title="${x.y}">${en ? `<span style="font:600 12px/1 var(--serif)">${x.en}</span>` : x.k}</button>`).join("")}</div>`;
+  $("[data-gov-legend]").innerHTML = `<b style="font:600 var(--fs-3)/1.2 var(--serif)">${ZH("历代都城", "Capitals through history")} ${SHI()}</b>
+    <div class="ln"><span class="seal" style="--s:22px"><span style="font-size:9px">宋</span></span>${ZH("都城；印上是建都的朝代", "Capital; the seal names its dynasties")}</div>
+    <div class="ln"><svg viewBox="0 0 44 12" aria-hidden="true"><path d="M2 6h40" stroke="rgba(43,35,29,.5)" stroke-width="1.6" stroke-dasharray="4 4"/></svg>${ZH("按朝代先后连起来，就是都城的迁徙", "Joined in order: how the capital moved")}</div>`;
+  $("[data-gov-side]").innerHTML = `<div class="cp-head"><span class="seal stamp"><span>${d.k}</span></span><div><h2>${ZH(d.k + "朝怎么管天下", "How the " + d.en + " governed")}</h2><div class="meta">${d.y} · ${ZH("都城", "Capital")} ${d.cap.map(([, zh, enN]) => ZH(zh, enN)).join(" → ")}</div></div></div>
+    <div class="body">
+      <div class="panel"><h4>${ZH("管理分几级", "Tiers of government")}<small>${d.note ? ZH(...d.note) : ""}</small></h4><div class="tiers">${d.tiers.map((t, i) => (i ? `<i></i>` : "") + `<span class="rise" style="animation-delay:${i * .08}s">${ZH(...t)}</span>`).join("")}</div></div>
+      <div class="panel"><h4>${ZH("最高一级有多少个", "How many top-level units")}</h4><div class="topn">${DYN5.map((x, i) => `<div class="${i === V4.gdyn ? "on" : ""}"><em class="num">${x.top}</em><b style="height:${x.top / mx * 70}px"></b><span>${en ? x.en.slice(0, 4) : x.k}</span></div>`).join("")}</div><span class="note">${ZH(`${d.k}：${d.top} 个${d.unit[0]}`, `${d.en}: ${d.top} ${d.unit[1]}`)}</span></div>
+      <div class="panel"><h4>${ZH("地方官叫什么", "What local officials were called")}</h4><b style="font:600 var(--fs-4)/1.4 var(--serif)">${ZH(...d.off)}</b></div>
+      <div class="panel"><h4>${ZH("杭州那时候", "Hangzhou in this era")}</h4><span>${ZH(...d.hz)}</span>${d.ppl ? `<div class="people">${d.ppl.map(([zh, enN, what]) => `<div class="person">${seal(zh.slice(0, 2))}<div><b>${ZH(zh, enN)}</b><br><span>${what}</span></div><span></span></div>`).join("")}</div>` : ""}</div>
+      <p class="note">${ZH("本层只讲历史上的治理，不收录现任官员。朝代建置、名宦为示意，正式版取自 CHGIS / CBDB。", "History only; no current officials. Dynastic structures and officials are illustrative; production data from CHGIS / CBDB.")}</p></div>`;
+  paintArts($("[data-gov-side]")); }
+const HZGOV = [["秦 · 汉", "Qin · Han", "钱唐县", "Qiantang County", "会稽郡", "Kuaiji", "县令", "Magistrate", ""], ["唐", "Tang", "杭州", "Hangzhou", "江南东道", "Jiangnan East", "刺史", "Prefect", "李泌（开六井）· 白居易（筑白堤）"],
+  ["宋", "Song", "杭州 → 临安府", "Hangzhou → Lin'an", "两浙路", "Liangzhe", "知州 · 通判", "Prefect · vice prefect", "范仲淹 · 苏轼（筑苏堤）"], ["元", "Yuan", "杭州路", "Hangzhou Circuit", "江浙行省（省治在此）", "Jiangzhe (seat)", "达鲁花赤 · 总管", "Darughachi · governor", ""],
+  ["明", "Ming", "杭州府", "Hangzhou Prefecture", "浙江布政使司（司治在此）", "Zhejiang (seat)", "知府", "Prefect", ""], ["清", "Qing", "杭州府", "Hangzhou Prefecture", "浙江省（省治在此）", "Zhejiang (seat)", "知府 · 巡抚驻此", "Prefect · governor resident", "林则徐（任杭嘉湖道）"],
+  ["今", "Today", "杭州市", "Hangzhou", "浙江省（省会）", "Zhejiang (capital)", "—", "—", "本层不收录现任官员"]];
+document.addEventListener("click", e => { const b = e.target.closest("[data-gdyn]"); if (!b) return; V4.gdyn = +b.dataset.gdyn; renderGov(); v4Refresh("gov"); snd("flip"); });
 
 /* ---------- 玖 · 时间轴与年报 ---------- */
 function renderTl() { const en = EN(), yrs = [[2020, ZH("七普", "census"), 1], [2021, ZH("采集中", "pending"), 0], [2022, ZH("采集中", "pending"), 0], [2023, ZH("公报", "bulletin"), 1], [2024, ZH("采集中", "pending"), 0], [2025, ZH("采集中", "pending"), 0]];
@@ -2078,13 +2126,13 @@ function initV4() {
   m("x3", box("x3"), sized(box("x3"), { bbox: () => regionAround(V4.home, 300), sel: () => V4.home, selSeal: () => "吾乡", lens: () => "none", zb: 2, noWonders: true, hl: () => V4.home, over: drawSealCluster }));
   m("gj", appEl("gj"), { w: 1440, h: 900, area: () => [404, 140, 1440 - 404 - 10, 900 - 150], bbox: () => bboxLL(101.5, 18.5, 122.5, 40.5), sel: () => null, lens: () => "none", bannerIds: () => new Set(), noNames: true, over: drawSuRoute,
     inset: () => ({ x: 1440 - 14, y: 900 - 14, w: 150 }), scale: () => ({ x: 1440 - 180, y: 900 - 22 }), blocked: () => [[0, 0, 1440, 54], [0, 48, 404, 852], [404, 54, 1036, 86], [1440 - 170, 900 - 220, 170, 220]] });
-  m("gov", appEl("gov"), { w: 1440, h: 900, area: () => [0, 48, 1440 - 470, 852], sel: () => null, lens: () => "none", under: drawGovArcs, over: drawGovMark, quota: 12,
-    inset: () => ({ x: 1440 - 480, y: 900 - 14, w: 170 }), scale: () => null, blocked: () => [[0, 0, 1440, 54], [1440 - 470, 48, 470, 852], [0, 900 - 190, 330, 190], [0, 48, 330, 60], [1440 - 660, 900 - 270, 190, 270]] });
+  m("gov", appEl("gov"), { w: 1440, h: 900, area: () => [0, 48, 1440 - 470, 852], sel: () => null, lens: () => "none", bannerIds: () => new Set(), noNames: true, minTier: 2, noDots: true, over: drawCapitals,
+    inset: () => ({ x: 1440 - 480, y: 900 - 14, w: 170 }), scale: () => null, blocked: () => [[0, 0, 1440, 54], [1440 - 470, 48, 470, 852], [0, 900 - 150, 340, 150], [0, 48, 520, 100], [1440 - 660, 900 - 270, 190, 270]] });
   m("tl", appEl("tl"), { w: 1440, h: 900, area: () => [0, 48, 1440 - 378, 852 - 100], sel: () => null, lens: () => V4.year === 2020 ? "pop20" : "pop23", quota: 14,
     inset: () => ({ x: 1440 - 388, y: 900 - 120, w: 160 }), scale: () => null, blocked: () => [[0, 0, 1440, 54], [1440 - 378, 48, 378, 852], [220, 900 - 120, 820, 120], [1440 - 560, 900 - 330, 180, 220]] });
 }
 function v4Refresh(key, relayout) { const a = V4APPS[key]; if (!a) return; if (a.cfg.hl) a.hoverPref = prefIdx(a.cfg.hl()); if (relayout) layout(a, false); full(a); }
-const TOC = [["s-desk", "壹", "桌面主界面", "Desktop"], ["s-phone", "贰", "手机界面", "Phone"], ["s-life", "叁", "骄傲榜与生活账本", "Pride & everyday", 1], ["s-guess", "肆", "猜城", "Guess", 1], ["s-cards", "伍", "卡牌与游历图", "Cards & travel", 1], ["s-duel", "陆", "回合制对决", "Compare duel", 1], ["s-archive", "柒", "城市档案", "City archive"], ["s-share", "捌", "分享长卷", "Share cards"], ["s-xiang", "玖", "钤印认乡", "Hometown seal"], ["s-gujin", "拾", "古今同图", "Then & now"], ["s-gov", "拾壹", "治理层", "Governance"], ["s-time", "拾贰", "时间轴与年报", "Timeline"], ["s-icons", "拾叁", "图标优先", "Icons"], ["s-color", "拾肆", "色彩", "Colour"], ["s-type", "拾伍", "字体", "Type"], ["s-motif", "拾陆", "母题与组件", "Motifs"], ["s-motion", "拾柒", "交互与动效", "Motion"], ["s-bi", "拾捌", "双语与数字", "Bilingual"], ["s-decide", "拾玖", "请你确认", "Decide"]];
+const TOC = [["s-desk", "壹", "桌面主界面", "Desktop"], ["s-phone", "贰", "手机界面", "Phone"], ["s-life", "叁", "宝藏点与生活账本", "Hidden gems & everyday", 1], ["s-guess", "肆", "猜城", "Guess", 1], ["s-cards", "伍", "卡牌与打卡地图", "Cards & travel", 1], ["s-duel", "陆", "城市 PK", "Compare duel", 1], ["s-archive", "柒", "城市档案", "City archive"], ["s-share", "捌", "分享长卷", "Share cards"], ["s-xiang", "玖", "钤印认乡", "Hometown seal"], ["s-gujin", "拾", "古今同图", "Then & now"], ["s-gov", "拾壹", "历代治理", "History of rule"], ["s-time", "拾贰", "时间轴与年报", "Timeline"], ["s-icons", "拾叁", "图标优先", "Icons"], ["s-color", "拾肆", "色彩", "Colour"], ["s-type", "拾伍", "字体", "Type"], ["s-motif", "拾陆", "母题与组件", "Motifs"], ["s-motion", "拾柒", "交互与动效", "Motion"], ["s-bi", "拾捌", "双语与数字", "Bilingual"], ["s-decide", "拾玖", "请你确认", "Decide"]];
 function renderToc() { const el = $("[data-toc]"); if (el) el.innerHTML = TOC.map(([id, n, zh, en, isNew]) => `<a href="#${id}" data-sec="${id}" class="${isNew ? "new" : ""}"><span class="seal"><span>${n}</span></span>${ZH(zh, en)}</a>`).join(""); }
 function renderV4() { if (!CITIES) return; v4Prepare(); renderToc();
   $$("[data-v4top]").forEach(el => el.innerHTML = v4Top(el.dataset.v4top)); $$("[data-v4nav]").forEach(el => el.innerHTML = navHTML(el.dataset.v4nav));
@@ -2109,15 +2157,15 @@ function bindV4() {
 
 /* ================= 第 5 版 · play, motion and everyday numbers ================= */
 Object.assign(T, {
-  secLife: ["骄傲榜与生活账本", "Pride board & everyday numbers"], secLifeSub: ["普通人先看的数字放最前；每座城都有拿得出手的东西", "Numbers people feel come first; every city has something to boast about"],
-  secGuess: ["猜城 · 比大小", "Guess the city"], secGuessSub: ["每日 5 题，全是真实数字；点一张卡就是你的答案", "Five a day, all real numbers; tap a card to answer"],
+  secLife: ["宝藏点与生活账本", "Hidden gems & everyday numbers"], secLifeSub: ["先看跟过日子有关的数字；每座城都有自己的宝藏点", "Numbers people feel come first; every city has something to boast about"],
+  secGuess: ["今日猜城", "Guess the city"], secGuessSub: ["每日 5 题，全是真实数字；点一张卡就是你的答案", "Five a day, all real numbers; tap a card to answer"],
   guessNote: ["题目每天由日期决定，人人同一套，方便比分；连对会累计。数字来自 2023 年统计公报、七普与卫星土地覆盖。", "Questions are set by the date, the same for everyone; streaks carry over. Numbers from 2023 communiqués, the 2020 census and satellite land cover."],
-  secCards: ["城市卡牌与游历图", "City cards & travel map"], secCardsSub: ["看过的城收进游历图；稀有度看“骄傲榜”，不看城市大小", "Cities you open go on your travel map; rarity follows the pride board, not size"],
-  cardsNote: ["点“抽一张”发一张新卡，再点“收入游历图”钤印；凑齐一组就解锁成就（原型里头两张固定是洛阳、安阳，第二张就能集齐七大古都）。游历记录只存在你自己的浏览器里。", "Draw a card, then stamp it onto your map; complete a set to unlock an achievement (the prototype deals Luoyang then Anyang, completing the Seven Ancient Capitals). Progress lives only in your browser."],
+  secCards: ["城市卡牌与打卡地图", "City cards & travel map"], secCardsSub: ["看过的城都能打卡；稀有度看“宝藏点”，不看城市大小", "Cities you open go on your travel map; rarity follows the pride board, not size"],
+  cardsNote: ["点“抽一张”发一张新卡，再点“打卡”钤印；凑齐一组就解锁成就（原型里头两张固定是洛阳、安阳，第二张就能集齐七大古都）。打卡记录只存在你自己的浏览器里。", "Draw a card, then stamp it onto your map; complete a set to unlock an achievement (the prototype deals Luoyang then Anyang, completing the Seven Ancient Capitals). Progress lives only in your browser."],
   replay: ["重播开场", "Replay opening"], sndOn: ["音效 开", "Sound on"], sndOff: ["音效 关", "Sound off"],
   lensMonth: ["每月收入", "Monthly income"], lensForest: ["森林占比", "Forest share"],
-  secDuel5: ["城市对决 · 回合制", "Compare · turn by turn"], secDuelSub: ["七个回合逐个揭晓，每回合最高者得一枚“冠”，冠多者胜", "Seven rounds revealed one by one; the most seals wins"],
-  duelNote5: ["点“开战”看七个回合逐个翻开；可以随时跳到结果。点城市旁的 × 移除，“加一城”最多到 5 座。", "Press Fight to reveal seven rounds; skip any time. Remove with ×; add up to five cities."],
+  secDuel5: ["城市 PK", "Compare · turn by turn"], secDuelSub: ["七个回合逐个揭晓，每回合最高者得一枚“冠”，冠多者胜", "Seven rounds revealed one by one; the most seals wins"],
+  duelNote5: ["点“开始 PK”看七个回合逐个翻开；可以随时跳到结果。点城市旁的 × 移除，“加一城”最多到 5 座。", "Press Fight to reveal seven rounds; skip any time. Remove with ×; add up to five cities."],
 });
 const RM = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 const sgn = v => v > 0 ? "+" : v < 0 ? "−" : "";
@@ -2142,19 +2190,19 @@ let FLOWS = null;
 
 /* ---------- derived per-city numbers, ranks and pride ---------- */
 const PRIDE = [
-  { k: "forest", g: "green", d: 1, est: 1, lab: ["最绿", "Greenest"], b: ["绿", "Green"], ph: c => ZH(`卫星看下去，<b>${FMTS.pct(c.forest)}</b> 的地块以林为主`, `<b>${FMTS.pct(c.forest)}</b> of the land is forest`) },
-  { k: "water", g: "water", d: 1, est: 1, lab: ["水乡", "Water country"], b: ["水乡", "Water"], ph: c => ZH(`水面和湿地占 <b>${FMTS.pct1(c.water)}</b>`, `Water and wetland cover <b>${FMTS.pct1(c.water)}</b>`) },
-  { k: "elev", g: "elev", d: 1, est: 1, lab: ["最高", "Highest"], b: ["海拔", "Altitude"], ph: c => c.elev > 1545 ? ZH(`平均海拔比泰山顶还高 <b>${Math.round(c.elev - 1545).toLocaleString()} 米</b>`, `Average ground <b>${Math.round(c.elev - 1545).toLocaleString()} m</b> above Mount Tai's summit`) : ZH(`平均海拔 <b>${Math.round(c.elev)} 米</b>`, `Average elevation <b>${Math.round(c.elev)} m</b>`) },
-  { k: "area", g: "size", d: 1, est: 1, lab: ["地盘最大", "Largest"], b: ["地盘", "Size"], ph: c => ZH(`地盘能装下 <b>${(c.area / 6340).toFixed(c.area > 63400 ? 0 : 1)}</b> 个上海`, `<b>${(c.area / 6340).toFixed(1)}×</b> the size of Shanghai`) },
-  { k: "landpp", g: "size", d: 1, est: 1, lab: ["最宽敞", "Most room"], b: ["宽敞", "Room"], ph: c => ZH(`每人摊到 <b>${(c.landpp / 7140).toFixed(1)}</b> 个足球场的土地`, `<b>${(c.landpp / 7140).toFixed(1)}</b> football pitches of land per person`) },
-  { k: "dpop", g: "pop", d: 1, lab: ["最吸引人", "Most people arriving"], b: ["人气", "Draw"], ph: c => ZH(`三年多了 <b>${FMTS.wan(c.dpop)}</b>`, `<b>${FMTS.wan(c.dpop)}</b> people in three years`) },
-  { k: "gg", g: "econ", d: 1, lab: ["增长最快", "Fastest growing"], b: ["增速", "Growth"], ph: c => ZH(`2023 年经济增长 <b>${(+c.gg).toFixed(1)}%</b>`, `Economy grew <b>${(+c.gg).toFixed(1)}%</b> in 2023`) },
-  { k: "month", g: "money", d: 1, lab: ["最能挣", "Highest income"], b: ["收入", "Income"], ph: c => ZH(`每人每月可支配 <b>${FMTS.yuan(c.month)}</b>`, `<b>${FMTS.yuan(c.month)}</b> to spend per person per month`) },
+  { k: "forest", g: "green", d: 1, est: 1, lab: ["满眼是绿", "Green everywhere"], b: ["绿", "Green"], ph: c => ZH(`卫星看下去，<b>${FMTS.pct(c.forest)}</b> 的地块以林为主`, `<b>${FMTS.pct(c.forest)}</b> of the land is forest`) },
+  { k: "water", g: "water", d: 1, est: 1, lab: ["水乡本色", "Water country"], b: ["水乡", "Water"], ph: c => ZH(`水面和湿地占 <b>${FMTS.pct1(c.water)}</b>`, `Water and wetland cover <b>${FMTS.pct1(c.water)}</b>`) },
+  { k: "elev", g: "elev", d: 1, est: 1, lab: ["离天最近", "Closest to the sky"], b: ["海拔", "Altitude"], ph: c => c.elev > 1545 ? ZH(`平均海拔比泰山顶还高 <b>${Math.round(c.elev - 1545).toLocaleString()} 米</b>`, `Average ground <b>${Math.round(c.elev - 1545).toLocaleString()} m</b> above Mount Tai's summit`) : ZH(`平均海拔 <b>${Math.round(c.elev)} 米</b>`, `Average elevation <b>${Math.round(c.elev)} m</b>`) },
+  { k: "area", g: "size", d: 1, est: 1, lab: ["地盘超大", "Huge territory"], b: ["地盘", "Size"], ph: c => ZH(`地盘能装下 <b>${(c.area / 6340).toFixed(c.area > 63400 ? 0 : 1)}</b> 个上海`, `<b>${(c.area / 6340).toFixed(1)}×</b> the size of Shanghai`) },
+  { k: "landpp", g: "size", d: 1, est: 1, lab: ["超宽敞", "Most room"], b: ["宽敞", "Room"], ph: c => ZH(`每人摊到 <b>${(c.landpp / 7140).toFixed(1)}</b> 个足球场的土地`, `<b>${(c.landpp / 7140).toFixed(1)}</b> football pitches of land per person`) },
+  { k: "dpop", g: "pop", d: 1, lab: ["人气狂涨", "People pouring in"], b: ["人气", "Draw"], ph: c => ZH(`三年多了 <b>${FMTS.wan(c.dpop)}</b>`, `<b>${FMTS.wan(c.dpop)}</b> people in three years`) },
+  { k: "gg", g: "econ", d: 1, lab: ["增速狂飙", "Growth sprint"], b: ["增速", "Growth"], ph: c => ZH(`2023 年经济增长 <b>${(+c.gg).toFixed(1)}%</b>`, `Economy grew <b>${(+c.gg).toFixed(1)}%</b> in 2023`) },
+  { k: "month", g: "money", d: 1, lab: ["钱包鼓鼓", "Fat wallets"], b: ["钱包", "Wallet"], ph: c => ZH(`每人每月可支配 <b>${FMTS.yuan(c.month)}</b>`, `<b>${FMTS.yuan(c.month)}</b> to spend per person per month`) },
   { k: "incR", g: "money", d: 1, lab: ["农民最富", "Richest farmers"], b: ["农民收入", "Rural income"], ph: c => ZH(`农村居民一年 <b>${FMTS.yuan(c.incR)}</b>`, `Rural residents earn <b>${FMTS.yuan(c.incR)}</b> a year`) },
   { k: "eq", g: "eq", d: -1, lab: ["城乡最均衡", "Most even"], b: ["均衡", "Even"], ph: c => ZH(`城里人只比乡下人多挣 <b>${Math.round((c.eq - 1) * 100)}%</b>`, `Town earns only <b>${Math.round((c.eq - 1) * 100)}%</b> more than country`) },
-  { k: "day", g: "money", d: 1, lab: ["最能干", "Most productive"], b: ["能干", "Output"], ph: c => ZH(`每人每天创造 <b>${FMTS.yuan(c.day)}</b>`, `<b>${FMTS.yuan(c.day)}</b> produced per person per day`) },
-  { k: "popAny", g: "big", d: 1, lab: ["人最多", "Most people"], b: ["人口", "People"], ph: c => ZH(`住着 <b>${fmtPopShort(c.popAny)}</b> 人`, `Home to <b>${fmtPopShort(c.popAny)}</b> people`) },
-  { k: "gdp", g: "big", d: 1, lab: ["体量最大", "Biggest economy"], b: ["体量", "Economy"], ph: c => ZH(`一年创造 <b>${fmtYuan(c.gdp)}</b>`, `<b>${fmtYuan(c.gdp)}</b> a year`) }];
+  { k: "day", g: "money", d: 1, lab: ["打工人最能干", "Hardest-working"], b: ["能干", "Output"], ph: c => ZH(`每人每天创造 <b>${FMTS.yuan(c.day)}</b>`, `<b>${FMTS.yuan(c.day)}</b> produced per person per day`) },
+  { k: "popAny", g: "big", d: 1, lab: ["人超多", "Crowds"], b: ["人口", "People"], ph: c => ZH(`住着 <b>${fmtPopShort(c.popAny)}</b> 人`, `Home to <b>${fmtPopShort(c.popAny)}</b> people`) },
+  { k: "gdp", g: "big", d: 1, lab: ["实力派", "Powerhouse"], b: ["实力", "Economy"], ph: c => ZH(`一年创造 <b>${fmtYuan(c.gdp)}</b>`, `<b>${fmtYuan(c.gdp)}</b> a year`) }];
 const RAR = [["寻常", "Common"], ["稀有", "Rare"], ["珍品", "Epic"], ["传世", "Legendary"]];
 function v5Derive() {
   const acc = new Map(), z = DEM.z; let natLand = 0, natForest = 0;
@@ -2179,7 +2227,7 @@ const rankBadge = h => h.r <= 30 ? ZH(`${h.m.b[0]}·第${h.r}`, `#${h.r} ${h.m.b
 function prideHTML(c, n = 3, col = false) { const hs = prideOf(c).slice(0, n); if (!hs.length) return `<p class="note">${t("noData")}</p>`;
   return `<div class="pride ${col ? "col" : ""}">${hs.map(h => { const r = h.r, cls = r <= 3 ? "g" + r : r <= 10 ? "t10" : "";
     const top = r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b class="num">${r}</b>` : `<small>${ZH("前", "Top")}</small><b class="num">${Math.max(1, Math.round(h.q * 100))}%</b>`;
-    return `<div class="honor ${cls} ${r <= 3 ? "shine" : ""}"><span class="rkb">${top}</span><span class="lab">${ZH(h.m.lab[0], h.m.lab[1])}</span><span class="ph">${h.m.ph(c)}</span>${h.m.est ? `<span class="src5">${ZH("卫星估算", "satellite est.")}</span>` : ""}</div>`; }).join("")}</div>`; }
+    return `<div class="honor ${cls} ${r <= 3 ? "shine" : ""}"><span class="rkb">${top}</span><span class="lab">${ZH(h.m.lab[0], h.m.lab[1])}${r <= 3 ? `<em class="tch">${ZH("天花板", "No.1 tier")}</em>` : ""}</span><span class="ph">${h.m.ph(c)}</span>${h.m.est ? `<span class="src5">${ZH("卫星估算", "satellite est.")}</span>` : ""}</div>`; }).join("")}</div>`; }
 
 /* ---------- 生活账本 ---------- */
 function ledgerHTML(c, mode = "full") { const N = NAT5;
@@ -2295,16 +2343,16 @@ function cardHTML(c, o = {}) { const rr = rarity(c), best = prideOf(c)[0], hs = 
     <div class="cd-art"><canvas data-art="${c.id}" width="${o.big ? 300 : 240}" height="${o.big ? 170 : 140}" role="img" aria-label="${cname(c)}"></canvas><span class="cd-rar">${ZH(...RAR[rr])}</span>${best ? `<span class="cd-hon">${rankBadge(best)}</span>` : ""}</div>
     <div class="cd-sub">${pvOf(c)} · ${kindOf(c)}</div><div class="cd-stats">${stats}</div>
     <div class="cd-foot"><span>No.${String(CITIES.indexOf(c) + 1).padStart(3, "0")}</span><span>JIANGSHAN ATLAS</span></div></div>
-    <div class="cd-back">${seal("图鉴")}<b>${cname(c)}</b><div class="bk">${hs.map(h => `${rankBadge(h)}：${h.m.ph(c).replace(/<[^>]+>/g, "")}`).join("<br>")}<br><br>${ZH("数据：2023 年统计公报（中国统计信息网转载）、七普、ESA WorldCover、高程。稀有度按骄傲榜最好的名次：前 3 传世、前 10 珍品、前 30 稀有。", "Data: 2023 communiqués, 2020 census, ESA WorldCover, elevation. Rarity follows the best pride rank: top 3 legendary, top 10 epic, top 30 rare.")}</div></div></div></div>`; }
+    <div class="cd-back">${seal("图鉴")}<b>${cname(c)}</b><div class="bk">${hs.map(h => `${rankBadge(h)}：${h.m.ph(c).replace(/<[^>]+>/g, "")}`).join("<br>")}<br><br>${ZH("数据：2023 年统计公报（中国统计信息网转载）、七普、ESA WorldCover、高程。稀有度按宝藏点最好的名次：前 3 传世、前 10 珍品、前 30 稀有。", "Data: 2023 communiqués, 2020 census, ESA WorldCover, elevation. Rarity follows the best pride rank: top 3 legendary, top 10 epic, top 30 rare.")}</div></div></div></div>`; }
 
-/* ---------- 叁 · 骄傲榜与生活账本 (section) ---------- */
+/* ---------- 叁 · 宝藏点与生活账本 (section) ---------- */
 function renderLife() { const el = $("[data-life]"); if (!el) return; const ids = ["330100", "511300", "540400", "341000", "230700"].filter(id => BYID.has(id)).slice(0, 3);
   el.innerHTML = ids.map(id => { const c = BYID.get(id); return `<div class="leaf mingpian"><div class="top">${seal(c.n.slice(0, 2))}<div><b>${cname(c)}</b><span>${pvOf(c)} · ${kindOf(c)} · ${ZH(RAR[rarity(c)][0], RAR[rarity(c)][1])}</span></div>${tierImg(c)}</div>
-    <h4 style="margin:0;font:600 var(--fs-3)/1.2 var(--serif)">${ZH("骄傲榜", "Pride board")}</h4>${prideHTML(c, 3, true)}<h4 style="margin:0;font:600 var(--fs-3)/1.2 var(--serif)">${ZH("生活账本", "Everyday numbers")}</h4>${ledgerHTML(c, "panel")}
-    <button class="btn primary" data-sec="s-share" style="justify-self:start">${icon("i-share")}${ZH(`分享${c.n}名片`, `Share ${c.en}'s card`)}</button></div>`; }).join("");
+    <h4 style="margin:0;font:600 var(--fs-3)/1.2 var(--serif)">${ZH("宝藏点", "Hidden gems")}</h4>${prideHTML(c, 3, true)}<h4 style="margin:0;font:600 var(--fs-3)/1.2 var(--serif)">${ZH("生活账本", "Everyday numbers")}</h4>${ledgerHTML(c, "panel")}
+    <button class="btn primary" data-sec="s-share" style="justify-self:start">${icon("i-share")}${ZH(`晒晒${c.n}`, `Share ${c.en}'s card`)}</button></div>`; }).join("");
   const hz = BYID.get("330100");
   $("[data-swap]").innerHTML = `<div class="swap"><div class="old"><h4>${ZH("以前放在最前面", "What came first before")}</h4><ul><li><s>${ZH("地区生产总值", "GDP")} ${fmtYuan(hz.gdp)}</s></li><li><s>${ZH("第一产业增加值", "Primary sector")} ${fmtYuan(hz.p1)}</s></li><li><s>${ZH("第二产业增加值", "Secondary sector")} ${fmtYuan(hz.p2)}</s></li><li><s>${ZH("第三产业增加值", "Tertiary sector")} ${fmtYuan(hz.p3)}</s></li><li><s>${ZH("服务业占比", "Services share")} ${Math.round(hz.sv * 100)}%</s></li></ul></div><div class="arrow">→</div>
-    <div class="new"><h4>${ZH("现在放在最前面（以杭州为例）", "What comes first now (Hangzhou)")}</h4><ul><li>${ZH("骄傲榜：", "Pride: ")}${prideOf(hz).slice(0, 3).map(h => rankBadge(h)).join(" · ")}</li><li>${ZH("每人每月可支配", "Monthly disposable income")} ${FMTS.yuan(hz.month)}${ZH("，比全国高", ", above China by ")} ${Math.round((hz.month / (NAT5.inc / 12) - 1) * 100)}%</li><li>${ZH("每人每天创造", "Output per person per day")} ${FMTS.yuan(hz.day)}</li><li>${ZH("三年多了", "Gained")} ${FMTS.wan(hz.dpop)}${ZH("（全国在减少）", " (China shrank)")}</li><li>${ZH("人去哪儿了：户籍与常住之差、七普省际去向", "Where people go: registered vs resident, 2020 census flows")}</li></ul>
+    <div class="new"><h4>${ZH("现在放在最前面（以杭州为例）", "What comes first now (Hangzhou)")}</h4><ul><li>${ZH("宝藏点：", "Hidden gems: ")}${prideOf(hz).slice(0, 3).map(h => rankBadge(h)).join(" · ")}</li><li>${ZH("每人每月可支配", "Monthly disposable income")} ${FMTS.yuan(hz.month)}${ZH("，比全国高", ", above China by ")} ${Math.round((hz.month / (NAT5.inc / 12) - 1) * 100)}%</li><li>${ZH("每人每天创造", "Output per person per day")} ${FMTS.yuan(hz.day)}</li><li>${ZH("三年多了", "Gained")} ${FMTS.wan(hz.dpop)}${ZH("（全国在减少）", " (China shrank)")}</li><li>${ZH("人去哪儿了：户籍与常住之差、七普省际去向", "Where people go: registered vs resident, 2020 census flows")}</li></ul>
     <p class="note">${ZH("GDP、人口这些“家底”仍然在，只是放到后面；三产结构不再单列。", "GDP and population stay, further down; the sector split is gone.")}</p></div></div>`; }
 
 /* ---------- 肆 · 猜城 ---------- */
@@ -2338,11 +2386,11 @@ function renderGuess(anim) { const el = $("[data-gs]"); if (!el || !CITIES) retu
     <div class="gs-arena">${card(q.a, "a")}<span class="gs-vs">${ZH("比", "vs")}</span>${card(q.b, "b")}</div>
     <div class="gs-foot">${st ? `<span class="gs-fact rise">${ok ? ZH("答对了！", "Right! ") : ZH("差一点！", "Not quite! ")}${fact}</span><button class="btn primary rise" data-v5="${last ? "g-end" : "g-next"}" style="height:44px;padding:0 20px;font-size:var(--fs-4)">${last ? ZH("看成绩", "See score") : ZH("下一题 →", "Next →")}</button>` : `<span class="note">${ZH("点一张卡作答 · 数字来自统计公报与卫星数据", "Tap a card to answer · official and satellite data")}</span>`}</div>
     ${G5.done ? `<div class="gs-res"><div class="leaf box"><span class="eyebrow">${ZH("今日猜城 · 成绩", "Today's score")}</span><div class="ttl">${ZH(["初出茅庐", "初出茅庐", "略知一二", "行万里路", "见多识广", "江山在胸"][score], ["Just starting", "Just starting", "Getting there", "Well travelled", "Worldly", "Master of the land"][score])}</div><div class="sc num">${score} / ${G5.qs.length}</div><div class="row5">${dots}</div>
-      <span class="note">${ZH(`连对 ${G5.streak} · 最佳 ${G5.best} · 明天 0 点换新题`, `Streak ${G5.streak} · best ${G5.best} · new questions at midnight`)}</span><div class="row-gap"><button class="btn primary" data-sec="s-share">${icon("i-share")}${ZH("分享战绩", "Share score")}</button><button class="btn" data-v5="g-again">${icon("i-dice")}${ZH("再来一局", "Play again")}</button></div></div></div>` : ""}`;
+      <span class="note">${ZH(`连对 ${G5.streak} · 最佳 ${G5.best} · 明天 0 点换新题`, `Streak ${G5.streak} · best ${G5.best} · new questions at midnight`)}</span><div class="row-gap"><button class="btn primary" data-sec="s-share">${icon("i-share")}${ZH("晒战绩", "Share score")}</button><button class="btn" data-v5="g-again">${icon("i-dice")}${ZH("再来一局", "Play again")}</button></div></div></div>` : ""}`;
   paintArts(el); if (st && anim) { countUp(el); setTimeout(() => { const s = $(".stampmark", el); spatter(s, 20, ok ? "#b23a2b" : "#2b231d"); snd(ok ? "ok" : "no"); }, 260); } }
 function guessPick(side) { if (G5.picked != null) return; const q = G5.qs[G5.i], win = q.a[q.m.k] >= q.b[q.m.k] ? "a" : "b"; G5.picked = side; const ok = side === win; G5.res[G5.i] = ok; G5.streak = ok ? G5.streak + 1 : 0; G5.best = Math.max(G5.best, G5.streak); snd("stamp"); renderGuess(true); }
 
-/* ---------- 伍 · 城市卡牌与游历图 ---------- */
+/* ---------- 伍 · 城市卡牌与打卡地图 ---------- */
 const AL = { got: ["511300", "510100", "500000", "330100", "310000", "110000", "320500", "320100", "610100", "440300", "420100", "330500", "320400", "410200"], seq: ["410300", "410500"], cur: "330100", drawn: false, flipped: false, newest: null, t0: 0, done: new Set() };
 let ACHS = null;
 function achs() { if (ACHS) return ACHS; const ex = ids => ids.filter(id => BYID.has(id)); const green = CITIES.filter(c => c.prk && c.prk.forest && c.prk.forest.r <= 12).map(c => c.id);
@@ -2354,12 +2402,12 @@ function achs() { if (ACHS) return ACHS; const ex = ids => ids.filter(id => BYID
     { id: "gr", seal: "青绿", zh: "最绿十二城", en: "Twelve greenest", ids: green }];
   for (const a of ACHS) if (a.ids.every(id => AL.got.includes(id))) AL.done.add(a.id); return ACHS; }
 function renderAlbum(anim) { const box = $("[data-al-card]"); if (!box || !CITIES) return; const c = BYID.get(AL.cur), got = AL.got.includes(AL.cur), provs = new Set(AL.got.map(id => id.slice(0, 2)));
-  $("[data-al-prog]").innerHTML = `<div class="t"><b>${ZH("游历图", "Travel map")}</b><span class="num"${anim === "stamp" ? ` data-cu="${AL.got.length}" data-cuf="int"` : ""}>${AL.got.length}</span><small>/ ${CITIES.length} ${ZH("城", "cities")}</small></div><div class="pb"><i style="width:${AL.got.length / CITIES.length * 100}%"></i></div><span class="note">${ZH(`走过 ${provs.size} 个省份 · 吾乡 南充`, `${provs.size} provinces · hometown Nanchong`)} ${SHI()}</span>`;
+  $("[data-al-prog]").innerHTML = `<div class="t"><b>${ZH("打卡地图", "Travel map")}</b><span class="num"${anim === "stamp" ? ` data-cu="${AL.got.length}" data-cuf="int"` : ""}>${AL.got.length}</span><small>/ ${CITIES.length} ${ZH("城", "cities")}</small></div><div class="pb"><i style="width:${AL.got.length / CITIES.length * 100}%"></i></div><span class="note">${ZH(`走过 ${provs.size} 个省份 · 吾乡 南充`, `${provs.size} provinces · hometown Nanchong`)} ${SHI()}</span>`;
   box.innerHTML = cardHTML(c, { cls: (anim === "deal" ? "deal " : "") + (AL.flipped ? "flipped" : "") });
   $("[data-al-ctl]").innerHTML = `<button class="btn primary" data-v5="al-draw">${icon("i-dice")}${ZH("抽一张", "Draw a card")}</button>
-    <button class="btn ${!got && AL.drawn ? "pulse" : ""}" data-v5="al-stamp" ${got ? "disabled" : ""}>${seal("已游", 22)}${got ? ZH("已收入游历图", "On your map") : ZH("收入游历图", "Stamp onto map")}</button>
+    <button class="btn ${!got && AL.drawn ? "pulse" : ""}" data-v5="al-stamp" ${got ? "disabled" : ""}>${seal("打卡", 22)}${got ? ZH("已打卡", "On your map") : ZH("打卡", "Stamp onto map")}</button>
     <button class="btn" data-v5="al-flip">${icon("i-cards")}${ZH("翻面看出处", "Flip for sources")}</button>
-    <p class="note">${ZH(`稀有度：${RAR.map(r => r[0]).join(" · ")}。按这座城在骄傲榜上最好的名次定，和城市大小无关：小城只要有一项全国前 3，就是传世卡。`, "Rarity follows the city's best pride rank, not its size: any top-3 national rank makes a legendary card.")}</p>`;
+    <p class="note">${ZH(`稀有度：${RAR.map(r => r[0]).join(" · ")}。按这座城在宝藏点上最好的名次定，和城市大小无关：小城只要有一项全国前 3，就是传世卡。`, "Rarity follows the city's best pride rank, not its size: any top-3 national rank makes a legendary card.")}</p>`;
   $("[data-al-ach]").innerHTML = `<h4 style="margin:0 0 8px;font:600 var(--fs-4)/1.2 var(--serif)">${ZH("成就", "Achievements")}</h4><div class="achs">${achs().map(a => { const have = a.ids.filter(id => AL.got.includes(id)).length, done = AL.done.has(a.id);
     return `<div class="ach ${done ? "done" : ""} ${anim === "unlock:" + a.id ? "unlock" : ""}" data-ach="${a.id}">${seal(a.seal)}<b>${ZH(a.zh, a.en)}</b><div style="display:grid;gap:3px"><div class="hbar"><i style="width:${have / a.ids.length * 100}%"></i></div><span class="n num">${have} / ${a.ids.length}${done ? ZH(" · 已成就", " · done") : ""}</span></div></div>`; }).join("")}</div>`;
   $("[data-al-hand]").innerHTML = `<h4 style="margin:0 0 6px;font:600 var(--fs-4)/1.2 var(--serif)">${ZH("最近收入", "Recently stamped")}</h4><div class="hand">${AL.got.slice(-7).reverse().map(id => cardHTML(BYID.get(id), {})).join("").replace(/class="card5/g, 'data-al-pick class="card5')}</div>`;
@@ -2371,13 +2419,13 @@ function alDraw() { const pool = CITIES.filter(c => !AL.got.includes(c.id) && (c
   v4Refresh("album"); }
 function alStamp() { if (AL.got.includes(AL.cur)) return; AL.got.push(AL.cur); AL.newest = AL.cur; AL.t0 = performance.now(); const before = new Set(AL.done); achs().forEach(a => { if (a.ids.every(id => AL.got.includes(id))) AL.done.add(a.id); });
   const unlocked = [...AL.done].filter(id => !before.has(id)); renderAlbum(unlocked.length ? "unlock:" + unlocked[0] : "stamp"); if (unlocked.length) countUp($("[data-al-prog]"));
-  const card = $("[data-al-card] .card5"); if (card) { card.insertAdjacentHTML("beforeend", `<span class="stampmark"><span class="seal stamp"><span>已游</span></span></span>`); card.classList.add("thud"); spatter(card.querySelector(".stampmark"), 18); }
+  const card = $("[data-al-card] .card5"); if (card) { card.insertAdjacentHTML("beforeend", `<span class="stampmark"><span class="seal stamp"><span>打卡</span></span></span>`); card.classList.add("thud"); spatter(card.querySelector(".stampmark"), 18); }
   snd("stamp"); const a = V4APPS.album; if (a) { const t0 = performance.now(), step = now => { frame(a); if (now - t0 < 760) requestAnimationFrame(step); }; requestAnimationFrame(step); }
   if (unlocked.length) { const A = achs().find(x => x.id === unlocked[0]); setTimeout(() => { const host = $("[data-al-toast]"); host.innerHTML = `<div class="toast5">${seal(A.seal)}<span>${ZH("成就达成 · ", "Achievement · ")}${ZH(A.zh, A.en)}</span></div>`; spatter($(".toast5", host), 26, "#d9b25a", 120); snd("win"); setTimeout(() => host.innerHTML = "", 2600); }, 450); } }
 function drawAlbum(app, ctx, u, v) { const pts = AL.got.map(id => BYID.get(id)).filter(Boolean); ctx.save();
   ctx.strokeStyle = "rgba(178,58,43,.38)"; ctx.lineWidth = 1.3 * u; ctx.setLineDash([3 * u, 4 * u]); ctx.beginPath(); pts.forEach((c, i) => { const [x, y] = toPx(v, c.x, c.y); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke(); ctx.setLineDash([]);
   for (const c of pts) { const [x, y] = toPx(v, c.x, c.y); let s = 18 * u; ctx.globalAlpha = 1; if (c.id === AL.newest) { const dt = performance.now() - AL.t0; if (dt < 760) { const p = dt / 760; s *= 1 + 1.8 * Math.pow(1 - p, 3); ctx.globalAlpha = Math.min(1, p * 2.5); } } drawSeal(ctx, x, y - 10 * u, s, c.n.slice(0, 2), u, c.id.charCodeAt(3)); }
-  ctx.globalAlpha = 1; const f = BYID.get(AL.cur); if (f && !AL.got.includes(f.id)) { const [x, y] = toPx(v, f.x, f.y); ctx.strokeStyle = DAY.seal; ctx.lineWidth = 2 * u; ctx.setLineDash([4 * u, 3 * u]); ctx.beginPath(); ctx.arc(x, y - 6 * u, 16 * u, 0, 7); ctx.stroke(); ctx.setLineDash([]); ctx.font = `${13 * u}px "Ma Shan Zheng", serif`; ctx.textAlign = "center"; haloText(ctx, ZH("未游", "new"), x, y - 26 * u, DAY.seal, "rgba(246,239,224,.9)", 3 * u); }
+  ctx.globalAlpha = 1; const f = BYID.get(AL.cur); if (f && !AL.got.includes(f.id)) { const [x, y] = toPx(v, f.x, f.y); ctx.strokeStyle = DAY.seal; ctx.lineWidth = 2 * u; ctx.setLineDash([4 * u, 3 * u]); ctx.beginPath(); ctx.arc(x, y - 6 * u, 16 * u, 0, 7); ctx.stroke(); ctx.setLineDash([]); ctx.font = `${13 * u}px "Ma Shan Zheng", serif`; ctx.textAlign = "center"; haloText(ctx, ZH("待打卡", "new"), x, y - 26 * u, DAY.seal, "rgba(246,239,224,.9)", 3 * u); }
   ctx.restore(); }
 
 /* ---------- init / render / bind ---------- */
