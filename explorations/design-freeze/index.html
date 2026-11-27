@@ -2173,7 +2173,7 @@ function v5Derive() {
   for (const k of ["month", "day", "forest", "dpop"]) CITIES.forEach(c => c.rk[k] = c.prk[k] ? c.prk[k].r : null);
 }
 function prideOf(c) { if (!c.prk) return []; const all = PRIDE.map(m => c.prk[m.k] ? { m, r: c.prk[m.k].r, n: c.prk[m.k].n, q: c.prk[m.k].r / c.prk[m.k].n } : null).filter(Boolean).sort((a, b) => a.q - b.q || a.r - b.r);
-  const out = [], gs = new Set(); for (const h of all) { if (gs.has(h.m.g)) continue; gs.add(h.m.g); out.push(h); } return out; }
+  const out = [], gs = new Set(); for (const h of all) { if (gs.has(h.m.g)) continue; if (out.length && h.q > .35) continue; if (h.m.k === "water" && h.r > 10) continue; gs.add(h.m.g); out.push(h); } return out; }
 const rarity = c => { const b = prideOf(c)[0]; return !b ? 0 : b.r <= 3 ? 3 : b.r <= 10 ? 2 : b.r <= 30 ? 1 : 0; };
 const rankBadge = h => h.r <= 30 ? ZH(`${h.m.b[0]}·第${h.r}`, `#${h.r} ${h.m.b[1]}`) : ZH(`${h.m.b[0]}·前${Math.max(1, Math.round(h.q * 100))}%`, `Top ${Math.max(1, Math.round(h.q * 100))}% ${h.m.b[1]}`);
 function prideHTML(c, n = 3, col = false) { const hs = prideOf(c).slice(0, n); if (!hs.length) return `<p class="note">${t("noData")}</p>`;
