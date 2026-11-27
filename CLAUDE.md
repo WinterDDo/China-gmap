@@ -9,8 +9,8 @@
 |---|---|
 | 做什么、为谁、分期、红线、许可 | `docs/PRODUCT.md` |
 | 千里江山设计语言（颜色、字体、组件） | `docs/DESIGN.md` |
-| 统计公报怎么采、怎么解析 | `docs/DATA-COLLECTION.md` |
-| 设计定稿原型怎么跑 | `explorations/design-freeze/README.md` |
+| 统计公报怎么采、怎么解析；接新数据 | `docs/DATA-COLLECTION.md`；接新数据照 `add-data-source` skill 做 |
+| 设计定稿原型怎么跑；出新一版 | `explorations/design-freeze/README.md`；出新一版照 `design-freeze` skill 做 |
 | 延后的事 | `TODOS.md`（唯一的延后清单，不另起） |
 | 现在做到哪、什么还没验证、等用户做什么 | `STATUS.md`（完成一项功能和收工时更新） |
 

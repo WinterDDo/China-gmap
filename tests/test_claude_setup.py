@@ -104,6 +104,42 @@ def test_commit_hook_blocks_red_and_lets_green_through(tmp_path):
     assert _commit_hook(tmp_path, "git -c user.name=x commit -m x").returncode == 0
 
 
+SKILLS = ROOT / ".claude" / "skills"
+REPO_PATH = re.compile(r"`((?:\.claude|pipeline|tests|tools|docs|explorations)/[^`\s<>…]+)`")
+# Code a project skill tells Claude to copy or edit. If it moves, the skill is lying: update both.
+SKILL_ANCHORS = {
+    "add-data-source": {
+        "pipeline/core/source.py": ["class SourceInfo", "def download(", "def offline("],
+        "pipeline/core/store.py": ['"_files"'],
+        "pipeline/sources/census_flows.py": ["def check_matrix"],
+        "pipeline/sources/tjcn_bulletins.py": ["DELAY ="],
+        "pipeline/parse/places.py": ["class PlaceMatcher"],
+    },
+    "design-freeze": {
+        "explorations/design-freeze/index.html": ["const RUBRIC", "const BASICS", "const SCORE", "const T = {",
+                                                  "const ZH", 'id="s-decide"', 'class="newtag"', 'data-t="'],
+        "explorations/design-freeze/audit-buttons.js": ["const secs", "dead:"],
+    },
+}
+
+
+def test_project_skills_are_wellformed_and_point_at_real_things():
+    for skill in sorted(p for p in SKILLS.iterdir() if p.is_dir()):
+        md = (skill / "SKILL.md").read_text(encoding="utf-8")
+        head = re.match(r"---\nname: (\S+)\ndescription: (.+?)\n---\n", md, re.S)
+        assert head and head.group(1) == skill.name, f"{skill.name}: frontmatter name must match the folder"
+        for path in REPO_PATH.findall(md):
+            assert (ROOT / path).exists(), f"skill {skill.name} mentions {path}, which does not exist"
+    for path in REPO_PATH.findall((ROOT / "docs" / "TOOLBOX.md").read_text(encoding="utf-8")):
+        assert (ROOT / path).exists(), f"docs/TOOLBOX.md mentions {path}, which does not exist"
+    for skill, files in SKILL_ANCHORS.items():
+        assert (SKILLS / skill / "SKILL.md").is_file(), skill
+        for path, anchors in files.items():
+            text = (ROOT / path).read_text(encoding="utf-8")
+            for anchor in anchors:
+                assert anchor in text, f"skill {skill} relies on {anchor!r} in {path}"
+
+
 def test_claude_md_within_line_budget():
     lines = (ROOT / "CLAUDE.md").read_text(encoding="utf-8").count("\n")
     assert lines <= CLAUDE_MD_MAX_LINES, (
