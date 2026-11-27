@@ -40,7 +40,7 @@ description: "江山图鉴接入一个新数据源的固定做法：先问清口
 
 ## 第四步：规则和测试
 
-- **数据铁律**：新数据的形状 `pipeline/check.py` 还不认识，就在里面加对应的检查。机器能查的规则写成检查，不写成散文。
+- **数据铁律**：新数据的形状 `pipeline/check.py` 还不认识，就在里面加对应的检查。它和 `pipeline/parse/bulletin.py` 都是热点文件，动之前看一眼开工看板，别的会话在改就先把它并进来。机器能查的规则写成检查，不写成散文。
 - **测试**（`tests/test_<id>.py`，不联网）：
   - 拿一份真实页面的精简副本放进 `tests/fixtures/`（像 `tjcn_shijiazhuang_2023_text.html`），或者在测试里造一张小表（像 `test_census_flows.py` 造的工作簿）。
   - 至少测三件事：正常值解析对、缺失得到 `None`、样本过得了 `pipeline/check.py` 的检查。

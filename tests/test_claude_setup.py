@@ -98,6 +98,8 @@ def test_commit_hook_blocks_red_and_lets_green_through(tmp_path):
 
     assert _commit_hook(tmp_path, "git status && git log --grep commit").returncode == 0
     assert _commit_hook(tmp_path, "git -C /somewhere/else commit -m x").returncode == 0
+    pushed = _commit_hook(tmp_path, "git merge origin/x && git push -u origin claude/y")
+    assert pushed.returncode == 2 and "推送被拦下" in pushed.stderr
 
     # Different length on purpose: same size + same second would reuse the stale bytecode.
     (tests / "test_a.py").write_text("def test_a():\n    assert True\n", encoding="utf-8")

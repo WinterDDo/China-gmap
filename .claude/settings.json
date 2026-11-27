@@ -18,6 +18,16 @@
         "hooks": [
           {
             "type": "command",
+            "command": "python3 \"${CLAUDE_PROJECT_DIR:-.}/tools/board.py\"",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "startup|resume|clear",
+        "hooks": [
+          {
+            "type": "command",
             "command": "bash \"${CLAUDE_PROJECT_DIR:-.}/.claude/skills/i-dont-read-code/scripts/session-start.sh\"",
             "timeout": 10
           }
