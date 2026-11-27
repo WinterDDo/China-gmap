@@ -701,16 +701,21 @@ def fetch_known(http_: Http, folder: str, t: dict, manifest: dict) -> int:
 
 
 def process_target(http_: Http, t: dict, out_dir: str, engines: list, any_host: bool = False,
-                   search_fn=search, images_mode: str = "all") -> dict:
+                   search_fn=search, images_mode: str = "all", use_search: bool = True) -> dict:
     folder = os.path.join(out_dir, str(t["year"]), t["code"])
     os.makedirs(folder, exist_ok=True)
     manifest = {"code": t["code"], "name": t["zh_full"], "province": t.get("province"), "year": t["year"],
                 "reason": t.get("reason"), "hint_host": t.get("hint_host"), "status": "running",
                 "started_at": now_iso(), "script_version": VERSION, "searches": [], "files": []}
     write_manifest(folder, manifest)
+    got = 0
     if t.get("known_urls"):
         got = fetch_known(http_, folder, t, manifest)
         say(f"      已知图片/附件 {got}/{len(t['known_urls'])} 个")
+    if not use_search:  # --known-only: the bureau's own file addresses are already known; no search engine needed
+        manifest.update(status="done" if got else "error", mode="known_only", finished_at=now_iso())
+        write_manifest(folder, manifest)
+        return manifest
     chosen = None
     for engine in engines:
         for q in queries_for(t):
@@ -793,19 +798,23 @@ def main(argv=None) -> int:
     ap.add_argument("--min-delay", type=float, default=2.0)
     ap.add_argument("--max-delay", type=float, default=5.0)
     ap.add_argument("--zip-only", action="store_true", help="不下载，只把已有结果打包")
+    ap.add_argument("--known-only", action="store_true",
+                    help="只下载清单里已知网址的附件/图片，不用搜索引擎（在境外网络下也能用）")
     a = ap.parse_args(argv)
 
     if a.zip_only:
         say("打包：", make_zip(a.out, os.path.dirname(os.path.abspath(a.out))))
         return 0
     targets = select_targets(load_targets(a.targets), set(a.years or []), set(a.codes or []))
+    if a.known_only:
+        targets = [t for t in targets if t.get("known_urls")]
     engines = ["bing", "baidu"] if a.engine == "both" else [a.engine]
     todo = []
     for t in targets:
         m = read_manifest(os.path.join(a.out, str(t["year"]), t["code"]))
         if m and m.get("status") == "done":
             continue
-        if m and m.get("status") in ("not_found", "error") and not a.retry:
+        if m and m.get("status") in ("not_found", "error") and not a.retry and not (a.known_only and m.get("mode") != "known_only"):
             continue
         todo.append(t)
     if a.limit:
@@ -822,7 +831,7 @@ def main(argv=None) -> int:
     try:
         for i, t in enumerate(todo, 1):
             say(f"[{i}/{len(todo)}] {t['year']} {t['zh_full']}（{t['code']}）")
-            m = process_target(http_, t, a.out, engines, a.any_host, images_mode=a.images)
+            m = process_target(http_, t, a.out, engines, a.any_host, images_mode=a.images, use_search=not a.known_only)
             counts[m["status"]] = counts.get(m["status"], 0) + 1
             mark = {"done": "完成", "not_found": "未找到", "error": "出错"}.get(m["status"], m["status"])
             say(f"      → {mark}")
