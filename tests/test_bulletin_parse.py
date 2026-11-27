@@ -40,7 +40,8 @@ def test_full_city_bulletin():
     assert f["gdp"]["quote"] == "初步核算，全年全市生产总值7534.2亿元，按不变价格计算，比上年增长6.1%。"
     assert f["population"]["quote"] == "年末全市常住总人口1123.35万人，比上年末增加1万人。"
     assert f["gdp"]["unit"] == "亿元" and f["population"]["unit"] == "万人" and f["income"]["unit"] == "元"
-    assert all(v["quote"] in SJZ for v in f.values())
+    assert f["population_registered"] is None  # the bulletin gives no 户籍 figure
+    assert all(v["quote"] in SJZ for v in f.values() if v)
     assert validate(f, "city") == []
 
 
@@ -110,11 +111,11 @@ def test_median_income_is_not_income():
 
 
 def test_registered_population_is_not_resident_population():
-    # 大连市2020年 / 延边州2020年: 户籍 figures must stay null
-    assert values("年末全市户籍人口601.6万人，比上年末增加2.9万人。", 2020) == {}
+    # 大连市2020年 / 延边州2020年: 户籍 figures never become the resident population (only population_registered)
+    assert values("年末全市户籍人口601.6万人，比上年末增加2.9万人。", 2020) == {"population_registered": 601.6}
     t = ("年末户籍总人口204.66万人，比上年末减少2.55万人，其中城镇人口142.16万人，占总人口比重（户籍人口城镇化率）为69.5%，"
          "比上年末提高0.1个百分点。")
-    assert values(t, 2020) == {}
+    assert values(t, 2020) == {"population_registered": 204.66}
 
 
 def test_national_population_and_urbanisation():
@@ -262,8 +263,8 @@ def test_total_population_broken_down_by_residence():
          "比上年末提高0.37个百分点。")
     assert values(t, 2022) == {"population": 2347.69, "urbanization": 63.73}
     assert values("年末全市人口357.90万人，比上年末减少0.04万人，其中城镇常住人口209.67万人。", 2022) == {"population": 357.9}
-    # 大连市2020年: a registered total stays null
-    assert values("年末全市户籍人口601.6万人，比上年末增加2.9万人，其中城镇人口400万人。", 2020) == {}
+    # 大连市2020年: a registered total is not the resident population
+    assert values("年末全市户籍人口601.6万人，比上年末增加2.9万人，其中城镇人口400万人。", 2020) == {"population_registered": 601.6}
 
 
 def test_births_are_not_population():
@@ -292,3 +293,68 @@ def test_2023_patterns_found_by_review():
     # 湖州市2023年
     t = "初步核算，2023年GDP总量迈上4千亿台阶，达到4015.1亿元，按可比价计算，比上年增长5.8%。"
     assert values(t, 2023) == {"gdp": 4015.1, "gdp_growth": 5.8}
+
+
+# --------------------------------------------------------------------- 户籍人口 (population_registered)
+
+
+def test_registered_and_resident_in_one_sentence():
+    # 十堰市2021年 (tjcn 17hb/37060) / 宜昌市2021年 (17hb/37210) / 荆门市2021年 (17hb/37087): both figures, kept apart
+    t = ("年末全市户籍人口339.95万人，常住人口315.82万人，其中城镇常住人口195.93万人，占常住总人口比重（常住人口城镇化率）为62.04%，"
+         "比上年末提高0.1个百分点。")
+    f = parse_fields(t, 2021)
+    assert values(t, 2021) == {"population": 315.82, "population_registered": 339.95, "urbanization": 62.04}
+    assert f["population_registered"]["quote"] == t and f["population_registered"]["raw"] == "339.95万人"
+    assert values("年末全市常住人口391.01万人，户籍人口为387.89万人。", 2021) == {"population": 391.01,
+                                                                    "population_registered": 387.89}
+    t = "年末全市常住人口254.67万人，常住人口城镇化率59.76%；户籍人口285.69万人，户籍人口城镇化率43.42%。"
+    assert values(t, 2021) == {"population": 254.67, "population_registered": 285.69, "urbanization": 59.76}
+
+
+def test_resident_hukou_holders_are_not_the_registered_population():
+    # 深圳市2021年 (19gd/37215) / 上海市2021年 (09sh/36960): 常住户籍人口 / 户籍常住人口 are the residents holding a local
+    # hukou, a part of the resident population – not the registered total
+    assert values("其中，常住户籍人口556.39万人，占常住人口比重31.5%；常住非户籍人口1211.77万人，占比重68.5%。", 2021) == {}
+    assert values("其中，户籍常住人口1457.44万人，外来常住人口1031.99万人。", 2021) == {}
+
+
+def test_registered_population_in_persons_and_in_parentheses():
+    # 迪庆州2021年 (25yn/37282) / 甘南州2021年 (28gs/37189)
+    assert values("2021年末，全州常住总人口38.9万人；户籍人口371448人。", 2021) == {"population": 38.9,
+                                                                  "population_registered": 37.1448}
+    t = "年末全州总人口（户籍人口）75.34万人，比上年末增加0.12万人，其中藏族人口42.94万人，增加0.22万人，占总人口数的56.99%。"
+    assert values(t, 2021) == {"population_registered": 75.34}
+
+
+def test_births_sexes_and_rates_are_not_the_registered_population():
+    # 济宁市2021年 (15sd/37026) / 广州市2022年 (19gd/37586) / 厦门市2020年 (13fj/36662) / 镇江市2020年 (10js/36628) /
+    # 景德镇市2021年 (14jx/37256)
+    assert values("全年出生户籍人口7.1万人，死亡人口3.9万人，净增户籍人口0.4万人。", 2021) == {}
+    t = ("年末户籍人口1034.91万人，其中，户籍出生人口10.96万人，出生率10.71‰；死亡人口5.74万人，死亡率5.61‰；"
+         "自然增长人口5.22万人，自然增长率5.10‰。")
+    assert values(t, 2022) == {"population_registered": 1034.91}
+    assert values("户籍人口中，男性人口和女性人口分别为133.80万人、139.34万人，性别比为96.00（女性为100）。", 2020) == {}
+    assert values("户籍人口中男性132.82万人，减少0.52人；女性136.43万人，减少0.39万人。", 2020) == {}
+    assert values("户籍人口城镇化率为49.4%,比上年末提高0.2个百分点。", 2021) == {}
+
+
+def test_registered_total_after_households_or_labelled_by_its_source():
+    # 淄博市2021年 (15sd/37054): households first
+    assert values("户籍人口总户数155.58万户，总人口434.04万人，其中，男性215.37万人，女性218.66万人。", 2021) \
+        == {"population_registered": 434.04}
+    # 丹东市2021年 (06ln/37080) / 葫芦岛市2020年 (06ln/36593) / 楚雄州2021年 (25yn/37038) / 黑河市2020年 (08hlj/36611):
+    # a 总人口 that its own sentence attributes to the household registration (户籍 / 公安)
+    assert values("根据户籍人口统计，年末总人口229.1万人，其中城镇人口105.4万人。", 2021) == {"population_registered": 229.1}
+    assert values("从户籍看，年末全市总户数98.9万户，总人口272.4万人。", 2020) == {"population_registered": 272.4}
+    assert values("按公安户籍人口统计，年末全州总人口2655301人，比上年末减少5108人。", 2021) \
+        == {"population_registered": 265.5301}
+    t = "据公安部门统计，年末，全市总人口155.5万人，其中，男性人口78.2万人，女性人口77.3万人；城镇人口90.7万人，乡村人口64.8万人。"
+    assert values(t, 2020) == {"population_registered": 155.5}
+    # 四平市2021年 (07jl/37277): an unlabelled 总人口 is neither
+    assert values("年末全市总人口209.4万人，市区人口66.1万人，占总人口31.6%。", 2021) == {}
+
+
+def test_registered_population_of_another_year_is_skipped():
+    # 鞍山市2020年国民经济和社会发展统计公报; read as if a 2021 bulletin restated it, the figure is not 2021's
+    assert values("2020年全市户籍总人口336.4万人。", 2020) == {"population_registered": 336.4}
+    assert values("2020年全市户籍总人口336.4万人。", 2021) == {}

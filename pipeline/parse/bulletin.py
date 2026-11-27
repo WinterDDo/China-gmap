@@ -31,6 +31,7 @@ FIELDS = {
     "gdp_tertiary": ("第三产业增加值", "亿元"),
     "gdp_growth": ("地区生产总值实际增长", "%"),
     "population": ("年末常住人口", "万人"),
+    "population_registered": ("年末户籍人口", "万人"),
     "urbanization": ("常住人口城镇化率", "%"),
     "income": ("全体居民人均可支配收入", "元"),
     "income_urban": ("城镇居民人均可支配收入", "元"),
@@ -123,13 +124,14 @@ def _other_year_before(norm: str, sent_start: int, pos: int, year: int | None) -
 
 
 def _find_value(norm: str, keyword: str, units: dict[str, float], *, year: int | None, exclude_before: str = "",
-                filler: int = 12, allow_stop: str | None = None, start: int = 0, end: int | None = None):
+                filler: int = 12, allow_stop: str | None = None, extra_stop: str | None = None, start: int = 0,
+                end: int | None = None):
     """First (sentence span, match span, value, raw) where `keyword` is followed in its clause by NUM+unit.
 
     `exclude_before`: regex of prefixes that disqualify the keyword (tested against the 6 preceding characters).
     The text between keyword and number ("gap") may hold up to `filler` characters, no comma and none of the stop
-    words (except those matching `allow_stop`). A number introduced by 突破/超过 is replaced by the next one.
-    Only keywords starting in norm[start:end] are considered."""
+    words (except those matching `allow_stop`; `extra_stop` adds field-specific ones). A number introduced by
+    突破/超过 is replaced by the next one. Only keywords starting in norm[start:end] are considered."""
     unit_re = "|".join(sorted((re.escape(u) for u in units), key=len, reverse=True))
     num_unit = re.compile(NUM + r"\s*(" + unit_re + r")(?!\s*(?:台阶|大关|关口))")
     for m in re.compile(keyword).finditer(norm, start, len(norm) if end is None else end):
@@ -146,6 +148,8 @@ def _find_value(norm: str, keyword: str, units: dict[str, float], *, year: int |
         if _MILESTONE.fullmatch(gap):  # "突破千亿元大关，达到1041.7亿元": the milestone has no digits
             gap = ""
         stops = [w for w in _STOP_BETWEEN.findall(gap) if not (allow_stop and re.fullmatch(allow_stop, w))]
+        if extra_stop and re.search(extra_stop, gap):
+            stops.append(gap)
         if len(gap) > filler or re.search(r"[，,、]", gap) or stops:
             continue
         if _BREAKTHROUGH.search(gap):  # "突破5000亿元，达到5123.4亿元": the figure is the next number
@@ -272,6 +276,45 @@ def _population(norm: str, orig: str, year: int | None):
     return _field(orig, hit, "万人", digits=4)
 
 
+_REG_KW = r"户籍(?:登记)?(?:总)?人(?:口)?(?:总数|总量|数)?|(?:总)?人口\s*\(户籍(?:人口)?\)"
+# a part of the registered population, or another population: 城镇户籍人口, 常住户籍人口 (Shenzhen: the residents who
+# hold a local hukou – not the registered total), 非户籍人口, 市辖区户籍人口, "按户籍人口计算"
+_REG_EXCL = (r"城镇|城市|乡村|农村|非农|农业|市区|市辖区|城区|县城|主城区|中心城区|镇|常住|非|外来|流动|暂住|新增|净增|迁入|迁出|"
+             r"出生|死亡|每千|每万|每百|每|按|占")
+_REG_STOP = r"中|男|女|净|户数|迁|岁|老年|少年|儿童|劳动|就业|参保|失业|登记失业|覆盖"
+_REG_TOTAL = re.compile(r"(?:年末)?(?:全市|全省|全区|全州|全盟|全地区)?(?:年末)?总人口(?:总数|总量)?")
+_REG_LEADIN = re.compile(r"户籍|公安")  # 从户籍看 / 根据户籍人口统计 / 按公安户籍人口统计 / 据公安部门统计 / 公安年报数据显示
+_REG_HOUSEHOLDS = re.compile(r"户籍(?:人口)?(?:登记)?(?:总)?户数\s*" + NUM + r"\s*万?户[，,]\s*(?:户籍)?(?:总)?人口(?:为|达|共)?\s*"
+                             + NUM + r"\s*(万人|人)")
+
+
+def _population_registered(norm: str, orig: str, year: int | None):
+    """户籍人口 (公安 household registration): 户籍人口, 户籍总人口, 户籍人口数, 总人口（户籍人口）. Kept apart from the
+    resident population of the same sentence ("年末全市常住人口391.01万人，户籍人口为387.89万人"), and never a part of it
+    (城镇户籍人口, 户籍人口中男性…) or the residents holding a local hukou (常住户籍人口, 户籍常住人口)."""
+    hit = _find_value(norm, _REG_KW, PEOPLE, year=year, exclude_before=_REG_EXCL, filler=10, extra_stop=_REG_STOP)
+    if hit is None:  # "户籍人口总户数155.58万户，总人口434.04万人" (households first)
+        for m in _REG_HOUSEHOLDS.finditer(norm):
+            sa, sb = _sentence_at(norm, m.start())
+            if _SKIP_SENT.search(norm[sa: m.start()]) or _other_year_before(norm, sa, m.start(), year):
+                continue
+            hit = ((sa, sb), (m.start(), m.end()), to_number(m.group(2)) * PEOPLE[m.group(3)],
+                   f"{m.group(2)}{m.group(3)}")
+            break
+    if hit is None:  # "根据户籍人口统计，年末总人口229.1万人": a 总人口 the same sentence says is a registration count
+        for cand in _REG_TOTAL.finditer(norm):
+            if re.search(f"(?:{_REG_EXCL}|户籍)$", norm[max(0, cand.start() - 6): cand.start()]):
+                continue
+            sa, _sb = _sentence_at(norm, cand.start())
+            if not _REG_LEADIN.search(norm[sa: cand.start()]):
+                continue
+            hit = _find_value(norm, _REG_TOTAL.pattern, PEOPLE, year=year, filler=4, extra_stop=_REG_STOP,
+                              start=cand.start(), end=cand.end())
+            if hit:
+                break
+    return _field(orig, hit, "万人", digits=4)
+
+
 def _urbanization(norm: str, orig: str, year: int | None):
     hit = _find_value(norm, r"城镇化(?:率|水平)(?:\s*\))?", PERCENT, year=year, exclude_before=r"户籍(?:人口)?", filler=6)
     if not hit:
@@ -383,6 +426,7 @@ _TABLE_KW = {
     "gdp_secondary": (r"第二产业(?:增加值)?", MONEY, "亿元"),
     "gdp_tertiary": (r"第三产业(?:增加值)?", MONEY, "亿元"),
     "population": (r"年末常住人口|常住人口", PEOPLE, "万人"),
+    "population_registered": (r"(?:年末)?(?:全市|全省|全区|全州)?户籍(?:总)?人口(?:数)?", PEOPLE, "万人"),
     "budget_revenue": (r"一般公共预算收入", MONEY, "亿元"),
     "retail_sales": (r"社会消费品零售总额", MONEY, "亿元"),
 }
@@ -402,6 +446,7 @@ def parse_fields(text: str, year: int | None = None) -> dict[str, dict | None]:
         gdp_at = hit[0][0] if hit else norm.find(normalize(out["gdp"]["quote"]))
     out.update(_industries(norm, orig, year, gdp_at if gdp_at is not None and gdp_at >= 0 else None))
     out["population"] = _population(norm, orig, year)
+    out["population_registered"] = _population_registered(norm, orig, year)
     out["urbanization"] = _urbanization(norm, orig, year)
     out.update(_incomes(norm, orig, year))
     out["budget_revenue"] = _budget_revenue(norm, orig, year)
@@ -414,13 +459,16 @@ def parse_fields(text: str, year: int | None = None) -> dict[str, dict | None]:
 
 # plausible ranges by level (inclusive); anything outside is flagged, never dropped
 RANGES = {
-    "city": {"gdp": (5, 60000), "gdp_growth": (-25, 30), "population": (0.05, 4000), "urbanization": (5, 100),
+    "city": {"gdp": (5, 60000), "gdp_growth": (-25, 30), "population": (0.05, 4000), "population_registered": (0.05, 4000),
+             "urbanization": (5, 100),
              "income": (5000, 120000), "income_urban": (10000, 130000), "income_rural": (3000, 70000),
              "budget_revenue": (0.05, 5000), "retail_sales": (0.5, 20000)},
-    "province": {"gdp": (100, 200000), "gdp_growth": (-25, 30), "population": (100, 15000), "urbanization": (15, 100),
+    "province": {"gdp": (100, 200000), "gdp_growth": (-25, 30), "population": (100, 15000),
+                 "population_registered": (100, 15000), "urbanization": (15, 100),
                  "income": (8000, 120000), "income_urban": (15000, 130000), "income_rural": (5000, 70000),
                  "budget_revenue": (10, 30000), "retail_sales": (50, 70000)},
     "nation": {"gdp": (500000, 2000000), "gdp_growth": (-10, 20), "population": (130000, 150000),
+               "population_registered": (130000, 150000),
                "urbanization": (50, 100), "income": (20000, 100000), "income_urban": (30000, 120000),
                "income_rural": (10000, 60000), "budget_revenue": (100000, 400000), "retail_sales": (200000, 800000)},
 }

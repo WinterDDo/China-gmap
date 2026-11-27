@@ -200,3 +200,93 @@ def media(html: str, base_url: str | None = None) -> dict[str, list[str]]:
         elif u.split("?")[0].lower().endswith(IMG_EXT) and u not in images:
             images.append(u)
     return {"images": images, "attachments": docs}
+
+
+class _Tables(HTMLParser):
+    """Rows of every <table>: [[(text, colspan, rowspan), …], …] per table (nested tables are flattened)."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.tables: list[list[list[tuple[str, int, int]]]] = []
+        self.depth = 0
+        self.row: list[tuple[str, int, int]] | None = None
+        self.cell: list[str] | None = None
+        self.spans = (1, 1)
+        self.skip = 0
+
+    @staticmethod
+    def _span(attrs, name: str) -> int:
+        v = dict(attrs).get(name) or "1"
+        m = re.match(r"\s*(\d+)", v)
+        return max(1, min(int(m.group(1)), 1000)) if m else 1
+
+    def _end_cell(self):
+        if self.cell is not None and self.row is not None:
+            self.row.append((re.sub(r"\s+", " ", "".join(self.cell)).strip(), *self.spans))
+        self.cell = None
+
+    def _end_row(self):
+        self._end_cell()
+        if self.row is not None and self.tables:
+            self.tables[-1].append(self.row)
+        self.row = None
+
+    def handle_starttag(self, tag, attrs):
+        if tag in SKIP:
+            self.skip += 1
+        elif tag == "table":
+            self.depth += 1
+            if self.depth == 1:
+                self.tables.append([])
+        elif tag == "tr" and self.depth:
+            self._end_row()
+            self.row = []
+        elif tag in CELL and self.depth:
+            self._end_cell()
+            if self.row is None:
+                self.row = []
+            self.cell = []
+            self.spans = (self._span(attrs, "colspan"), self._span(attrs, "rowspan"))
+        elif tag == "br" and self.cell is not None:
+            self.cell.append("\n")
+
+    def handle_endtag(self, tag):
+        if tag in SKIP:
+            self.skip = max(0, self.skip - 1)
+        elif tag in CELL:
+            self._end_cell()
+        elif tag == "tr":
+            self._end_row()
+        elif tag == "table" and self.depth:
+            if self.depth == 1:
+                self._end_row()
+            self.depth -= 1
+
+    def handle_data(self, data):
+        if self.cell is not None and not self.skip:
+            self.cell.append(data)
+
+
+def table_grids(html: str) -> list[list[list[str | None]]]:
+    """Every table of `html` as a rectangular grid: row and column spans are laid out as in a spreadsheet, the text
+    sits in the top-left cell of a merged block and the rest of the block is None (empty cells are "")."""
+    p = _Tables()
+    p.feed(html or "")
+    p.close()
+    p._end_row()
+    grids = []
+    for rows in p.tables:
+        taken: dict[tuple[int, int], str | None] = {}
+        for r, row in enumerate(rows):
+            c = 0
+            for text, colspan, rowspan in row:
+                while (r, c) in taken:
+                    c += 1
+                for dr in range(rowspan):
+                    for dc in range(colspan):
+                        taken[r + dr, c + dc] = text if dr == dc == 0 else None
+                c += colspan
+        n_rows = max((r for r, _ in taken), default=-1) + 1
+        n_cols = max((c for _, c in taken), default=-1) + 1
+        grids.append([[taken.get((r, c)) for c in range(n_cols)] for r in range(n_rows)])
+    return grids
