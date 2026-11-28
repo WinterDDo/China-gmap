@@ -228,6 +228,22 @@ def build(src, out_dir):
             if kind not in e["kinds"]:
                 e["kinds"].append(kind)
 
+    # a protected site takes its name from the State Council's lists (build_guobao.py); Wikidata keeps the pin
+    import build_guobao
+    official, review = build_guobao.names(found, cities)
+    for (cid, q), r in official.items():
+        e = found[cid][q]
+        e["label"], e["name"] = e["name"], r[4]
+        e["src"] = f"国务院公布第{'一二三四五六七八'[r[0] - 1]}批全国重点文物保护单位 {r[2]}：{r[4]}，{r[5]}，{r[6]}"
+    marked = [(cid, q) for cid in found for q, e in found[cid].items() if "guobao" in e["kinds"]]
+    print(f"protected sites on the map: {len(marked)}; named from the lists: {len(official)}; looser likenesses left for a reader: {len(review)}")
+    if os.environ.get("GUOBAO_REVIEW"):
+        with open(os.environ["GUOBAO_REVIEW"], "w", encoding="utf-8") as f:
+            for row in review:
+                f.write("\t".join(map(str, row)) + "\n")
+            for cid, q in marked:
+                if (cid, q) not in official:
+                    f.write("\t".join(["UNMATCHED", cities[cid]["n"], q, found[cid][q]["name"], str(found[cid][q]["links"])]) + "\n")
     # World Heritage from the project's own list leads; Wikidata fills in 5A areas and well-known protected sites
     own = defaultdict(list)
     sites = json.load(open(os.path.join(out_dir, "cityview.json"), encoding="utf-8")).get("sites", {})

@@ -337,3 +337,11 @@
 - 谁定的：Claude（按复查结果）；惨案类不上卡是用户同意过的方向
 - 出处：会话 session_01DGeZrdANx45XY7zhNDtypj
 - 相关文件：explorations/design-freeze/build_pride.py, explorations/design-freeze/build_feiyi.py, explorations/design-freeze/data/pride.json, tests/test_hometown_data.py
+
+### 2026-11-28 · 下一步先把景点古迹改成读国务院名单原文，不先补抽不了卡的 14 座城
+- 决定：第五批非遗并进主线后，摆了两条路：A 把全国重点文物保护单位改成直接读国务院八批公布名单的原文；B 先补亮点不到 4 个、抽不了卡的 14 座城。用户选 A。做法：名字、时代、所在地都用名单原文，按名单上的地址归到地级市；维基数据只留下来提供地图上的位置、名气排序和英文名，而且要和名单上的地址对得上同一座城才用。
+- 为什么：北极星第一句是「每个数字都能点回官方原文，可信排在好看前面」。景点古迹这一层是全站唯一还靠二手名字的地方，上一轮靠人通读才查出 79 处错。B 只影响 14 座城，而且不解决这个问题。
+- 放弃了：先做 B（工作量小，但二手名字原样留着）；继续用维基数据的名字、靠一张张修正表补（每放宽一次就要再通读一次）。
+- 谁定的：用户（2026-11-28，回复「A」）
+- 出处：会话 session_01DGeZrdANx45XY7zhNDtypj
+- 相关文件：explorations/design-freeze/build_pride.py, TODOS.md
