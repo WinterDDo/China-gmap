@@ -100,7 +100,7 @@ def test_heritage_filings_name_a_place_of_the_city_they_sit_under():
     cities = {c["n"]: c for c in load("cities.json")}
     counties = load("cityview.json")["counties"]
     rows = heritage_rows()
-    assert len(rows) >= 2400 and len({r[0] for r in rows}) >= 300
+    assert len(rows) >= 2600 and len({r[0] for r in rows}) >= 320
     for city, cat, name, code, orig, by in rows:
         c = cities[city]
         assert re.fullmatch(rf"B[1-4]x? [{NUMERALS}]-\d+", code), (city, name, code)
@@ -111,10 +111,10 @@ def test_heritage_filings_name_a_place_of_the_city_they_sit_under():
         assert 2 <= len(name) <= 18 and (name in item or (m and item.startswith(m.group(1) + "（") and m.group(2) in item)), (city, name, item)
         # no place and no list fused into the name, nothing the page could not print
         assert not re.search(r"省|自治区|自治州|字旁|[、，]$|^[（(]|[\ue000-\uf8ff]", name) and name.count("（") == name.count("）"), (city, name)
-        if by:      # declared by a county: it is one of this city's, and the notice names it
-            assert by in {r[1] for r in counties.get(c["id"], [])} and by in where, (city, name, by)
+        if by:      # declared by a county: it is one of this city's, and the notice names it (湟中区 as 湟中县 if it has changed rank since)
+            assert by in {r[1] for r in counties.get(c["id"], [])} and (by in where or re.search(re.escape(by[:-1]) + "(县|市|区|旗)", where)), (city, name, by)
         else:       # declared by the prefecture itself (or, for a municipality, by a body in it)
-            assert c["full"] in where, (city, name, where)
+            assert c["full"] in where or c["n"] + "地区" in where, (city, name, where)    # 哈密地区 is 哈密市 today
     filed = {(r[0], r[2]): r for r in rows}
     # ones checked by hand against the notices, including two that an earlier version of the reader got wrong
     assert filed[("天水", "太昊伏羲祭典")][1] == "民俗" and filed[("天水", "太昊伏羲祭典")][3] == "B1 Ⅹ-37"
@@ -127,9 +127,13 @@ def test_heritage_filings_name_a_place_of_the_city_they_sit_under():
     # name that happens to occur in a sub-item (黄山区 declared 太平猴魁, though "黄山" is in 黄山毛峰)
     assert filed[("黄山", "绿茶制作技艺（太平猴魁）")][5] == "黄山区" and filed[("黄山", "绿茶制作技艺（黄山毛峰）")][5] == "徽州区"
     assert not [r for r in rows if r[0] == "镇江" and r[3] == "B2x Ⅶ-50"]      # the saved page is in doubt there: left out
+    # a county that has become a district or a city since the notice is found under today's name
+    assert [r for r in rows if r[0] == "西宁" and r[5] == "湟中区"] and [r for r in rows if r[0] == "荆门" and r[5] == "京山市"]
+    assert [r for r in rows if r[0] == "普洱" and "思茅市" in r[4]]             # and a prefecture renamed since, through its seat
 
 
 def test_the_draw_pool_only_holds_what_the_provenance_file_holds():
+    import re
     pool, doc = load("pool.json"), load("pride.json")
     cities = {c["id"]: c for c in load("cities.json")}
     counties = load("cityview.json")["counties"]
@@ -141,6 +145,9 @@ def test_the_draw_pool_only_holds_what_the_provenance_file_holds():
         assert rows == [r[:5] for r in doc["more"][cid]]
         for name, marks, x, y, en in rows:
             assert len(name) >= 2 and marks and set(marks) <= {"遗", "5A", "保"}, (cid, name)
+    sombre = re.compile(r"万人坑|侵华|屠杀|惨案|细菌|集中营|遇难|殉难|死难|劳工|慰安|毒气|罪证|罪行|监狱")
+    for key in ("pride", "more"):                 # a draw celebrates what it turns up: no massacre site, no prison
+        assert not [r[0] for rows in doc[key].values() for r in rows if sombre.search(r[0])]
     for cid, rows in doc["more"].items():
         assert all(r[5] for r in rows), cid       # each carries its record
     for cid, rows in pool["food"].items():
@@ -156,4 +163,4 @@ def test_the_draw_pool_only_holds_what_the_provenance_file_holds():
             assert full[4].startswith("国家级非遗 B") and " @ " in full[4], (cid, name)
     # enough to draw from: a draw shows three, so a city needs more than three for the next draw to differ
     size = {cid: len(doc["pride"].get(cid, [])) + len(pool["more"].get(cid, [])) + len(pool["food"].get(cid, [])) + len(pool["lore"].get(cid, [])) for cid in cities}
-    assert sum(1 for n in size.values() if n > 3) >= 270, sum(1 for n in size.values() if n > 3)
+    assert sum(1 for n in size.values() if n > 3) >= 320, sum(1 for n in size.values() if n > 3)

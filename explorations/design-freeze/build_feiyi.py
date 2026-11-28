@@ -129,6 +129,7 @@ class Places:
                 core = r[6] if len(r) > 6 and r[6] else re.sub(r"(自治县|县|区|市|旗)$", "", r[1])
                 if len(core) >= 2:
                     self.cores[c["id"]].add(core)
+        self.renamed = {}                                       # old county name as printed -> its name today
         self.prov_re = re.compile("|".join(sorted(map(re.escape, self.provs), key=len, reverse=True)))
 
     def segments(self, text):
@@ -150,6 +151,10 @@ class Places:
                 cid, core = None, t
                 # the prefecture must open the token: 眉山市 is inside 峨眉山市, which belongs to 乐山
                 pref = sorted((c for c in self.by_prov[prov] if t.startswith(c["full"])), key=lambda c: -len(c["full"]))
+                if not pref:    # a prefecture the notice still calls 地区: 铜仁地区, 哈密地区
+                    old = [c for c in self.by_prov[prov] if t.startswith(c["n"] + "地区")]
+                    if len(old) == 1:
+                        pref, t = old, t.replace(old[0]["n"] + "地区", old[0]["full"], 1)
                 if direct:
                     cid, last = direct[0]["id"], direct[0]["id"]
                 elif pref:
@@ -157,6 +162,11 @@ class Places:
                     core = t.replace(pref[0]["full"], "") or t
                 else:
                     owners = {o for name, ids in self.counties[prov].items() if t.startswith(name) for o in ids}
+                    if not owners:      # a county since made a district or a city keeps its name: 湟中县 is 湟中区, 同仁县 is 同仁市
+                        m = re.fullmatch(r"(.{2,}?)(自治县|县|市|区|旗)", t)
+                        now = {name: ids for name, ids in self.counties[prov].items() if m and re.fullmatch(re.escape(m.group(1)) + r"(县|市|区|旗)", name)}
+                        if len(now) == 1 and len(next(iter(now.values()))) == 1:
+                            owners, self.renamed[t] = next(iter(now.values())), next(iter(now))
                     if len(owners) == 1:
                         cid = next(iter(owners))
                     elif last and last in owners:
@@ -253,6 +263,7 @@ def build(src, out_dir):
                     filed += 1
                     rest = word.replace(by_id[cid]["full"], "")
                     by = next((n for n in sorted(places.counties[by_id[cid]["prov"]], key=len, reverse=True) if rest.startswith(n) and cid in places.counties[by_id[cid]["prov"]][n]), "")
+                    by = by or places.renamed.get(rest, "")
                     out.append([by_id[cid]["n"], CATS[r["code"][0]], name, f"{batch}{'x' if which else ''} {r['code']}", f"{r['name']} @ {text}", by])
             stats.append((batch, "扩展" if which else "新列", len(part), filed))
     with open(os.path.join(HERE, "sources", "feiyi_all.tsv"), "w", encoding="utf-8") as f:
@@ -266,6 +277,7 @@ def build(src, out_dir):
         print("%s %s: %d rows in the notice, %d filings under a city" % s)
     per = Counter(r[0] for r in out)
     print(f"{len(out)} filings, {len(per)} cities; without any: {[c['n'] for c in places.cities if c['n'] not in per]}")
+    print("counties matched under today's name:", sorted(places.renamed.items()))
     print("declaring places left out, most frequent:", lost.most_common(40))
     return out
 

@@ -53,7 +53,10 @@ LOC_QUERIES = {k: f"""SELECT ?item ?code WHERE {{ ?item {v[1]} ; wdt:P131+ ?a . 
 BONUS = {"whs": 100, "a5": 15, "guobao": 0}
 GENERIC = {"孔庙", "文庙", "清真寺", "大佛寺", "城隍庙", "关帝庙", "鼓楼", "钟楼", "白塔", "古城"}   # a bare type is not a name
 FAMOUS, ALONE = 10, 5   # language editions a plain protected site needs: among others / as the only name
-DEEP, POOL = 2, 12      # the draw's deeper pool: a protected site needs 2 language editions; at most 12 places a city
+DEEP, POOL = 0, 12      # the draw's deeper pool: any protected site that passes the two checks, best known first; at most 12 a city
+# A draw celebrates what it turns up. Sites of massacre, war crime and imprisonment are protected for another reason:
+# they stay off the card (they belong in the history layer, told properly).
+SOMBRE = re.compile(r"万人坑|侵华|屠杀|惨案|细菌|集中营|遇难|殉难|死难|劳工|慰安|毒气|罪证|罪行|监狱")
 FOODS, LORE = 6, 12     # and at most 6 foods and 12 heritage items a city
 CATS = ["民间文学", "传统音乐", "传统舞蹈", "传统戏剧", "曲艺", "传统体育、游艺与杂技", "传统美术", "传统技艺", "传统医药", "民俗"]
 
@@ -208,7 +211,7 @@ def build(src, out_dir):
                 twin["kinds"] += [k for k in e["kinds"] if k not in twin["kinds"]]
                 continue
             plain = e["kinds"] == ["guobao"]
-            if len(picked) >= 3 or (plain and e["links"] < (FAMOUS if picked else ALONE)):
+            if len(picked) >= 3 or (plain and e["links"] < (FAMOUS if picked else ALONE)) or SOMBRE.search(e["name"]):
                 continue
             picked.append(dict(e))
         if picked:
@@ -220,7 +223,7 @@ def build(src, out_dir):
                 break
             # beside one of the three it is a part of that site; among themselves two old-town sites a street apart are two sites
             twin = lambda p, km: same(p["name"], e["name"], cities[cid]["n"]) or math.hypot(p["x"] - e["x"], p["y"] - e["y"]) < km
-            if any(twin(p, 1.2) for p in picked) or any(twin(p, 0.3) for p in deep) or (e["kinds"] == ["guobao"] and e["links"] < DEEP):
+            if any(twin(p, 1.2) for p in picked) or any(twin(p, 0.3) for p in deep) or (e["kinds"] == ["guobao"] and e["links"] < DEEP) or SOMBRE.search(e["name"]):
                 continue
             deep.append(dict(e))
         if deep:
