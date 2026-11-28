@@ -44,13 +44,24 @@ TOTALS = {
 }
 MISSING = {7: "国发〔2013〕13号 (1,943 units): the State Council's own page for it is gone and the heritage administration's site is not reachable from the cloud machine"}
 # prefectures a list calls by an earlier name
-OLD_PREF = {"襄樊市": "襄阳市", "思茅市": "普洱市", "思茅地区": "普洱市", "大庸市": "张家界市", "淮阴市": "淮安市", "锦西市": "葫芦岛市"}
+OLD_PREF = {"襄樊市": "襄阳市", "思茅市": "普洱市", "思茅地区": "普洱市", "大庸市": "张家界市", "淮阴市": "淮安市", "锦西市": "葫芦岛市", "旅大市": "大连市",
+            "河北省蓟县": "天津市蓟州区"}     # 蓟县 went from 河北 to 天津 in 1973 and is 蓟州区 today
 PROV_NAMES = ["北京市", "天津市", "河北省", "山西省", "内蒙古自治区", "辽宁省", "吉林省", "黑龙江省", "上海市", "江苏省", "浙江省", "安徽省", "福建省", "江西省", "山东省",
               "河南省", "湖北省", "湖南省", "广东省", "广西壮族自治区", "海南省", "重庆市", "四川省", "贵州省", "云南省", "西藏自治区", "陕西省", "甘肃省", "青海省",
               "宁夏回族自治区", "新疆维吾尔自治区"]
 PROV_CODE = dict(zip(PROV_NAMES, ["11", "12", "13", "14", "15", "21", "22", "23", "31", "32", "33", "34", "35", "36", "37", "41", "42", "43", "44", "45", "46",
                                   "50", "51", "52", "53", "54", "61", "62", "63", "64", "65"]))
 PROVS = re.compile("|".join(PROV_NAMES))
+# A listed name in an older spelling or with a misprint, and how it is written today. The list's own form stays in the
+# record; each line says what settles it. Only same-sounding characters are ever swapped.
+SPELL = {
+    "芦沟桥": "卢沟桥",                      # 1961 list 蘆沟桥; the bridge has been written 卢沟桥 officially since 1981
+    "硇州灯塔": "硇洲灯塔",                  # 1996 list prints 州; the island it stands on is 硇洲岛
+    "兰田猿人遗址": "蓝田猿人遗址",           # 1982 list, in the short-lived second simplification; the county is 蓝田县
+    "庐山青龙寺大殿": "芦山青龙寺大殿",       # the 2006 notice's own page; its address column reads 四川省芦山县
+    "二郞庙": "二郎庙",                      # 郞 is a variant form of 郎
+    "敏竹林寺": "敏珠林寺",                  # 国发〔2021〕8号 writes 敏珠林寺藏香制作技艺
+}
 RARE = re.compile(r"字旁加|[\ue000-\uf8ff]|[\U00020000-\U0003ffff]")   # a name the page spells out because it cannot print it
 
 
@@ -163,18 +174,35 @@ def checked(rows, batch):
 
 
 class Addresses(Places):
-    def filed(self, addr):
+    def filed(self, addr, batch=8):
         """Short names of the prefectures an address names, in order, each once. A line across the country
-        (京杭大运河: six provinces) is no one city's own: three provinces or more files nowhere."""
-        if len(self.segments(addr)) > 2:
-            return []
-        for prov, pname, seg in self.segments(addr):
-            for c in self.by_prov[prov]:
-                for old in (c["n"] + "盟", c["n"] + "行署", c["n"] + "专区"):     # 呼伦贝尔盟 is 呼伦贝尔市 now
-                    if old != c["full"] and old in seg:
-                        addr = addr.replace(old, c["full"])
+        (京杭大运河: six provinces) is no one city's own: three provinces or more files nowhere.
+        The older lists write places as they stood: handled here are a prefecture under its earlier style
+        (呼伦贝尔盟, 延安县 for today's 延安市, 景德镇 with no 市) and a county listed under the province it lay in
+        then (重庆 was part of 四川 until 1997, 海南 of 广东 until 1988, 蓟县 of 河北 until 1973). A county since
+        abolished or renamed past recognition (光化县, 吴县) is left alone: it files nowhere."""
+        addr = addr.replace("广西僮族自治区", "广西壮族自治区")        # as the 1961 list writes it
         for old, new in OLD_PREF.items():
             addr = addr.replace(old, new)
+        if len(self.segments(addr)) > 2:
+            return []
+        stem = lambda t: re.sub(r"(自治县|县|市|区)$", "", t)
+        for prov, pname, seg in self.segments(addr):
+            toks = [t for t in re.split(r"[、，,；;。]+", seg) if t]
+            known = lambda t: any(t.startswith(name) for name in self.counties[prov]) or any(t.startswith(c["full"]) for c in self.by_prov[prov])
+            was = {"四川省": ("重庆市", "50", 4), "广东省": ("海南省", "46", 3), "河北省": ("天津市", "12", 1)}.get(pname)
+            if was and batch <= was[2] and any(
+                    not known(t) and ([n for n in self.counties[was[1]] if t.startswith(stem(n)) and (len(stem(n)) >= 2 or t == stem(n) + "县")]
+                                      or [c for c in self.by_prov[was[1]] if t.startswith(c["n"])]) for t in toks):
+                addr = addr.replace(pname + seg, was[0] + seg)
+                continue
+            for t in toks:
+                for c in self.by_prov[prov]:
+                    for old in (c["n"] + "盟", c["n"] + "行署", c["n"] + "专区", c["n"] + "县"):
+                        if old != c["full"] and t.startswith(old) and not known(t):
+                            addr = addr.replace(pname + seg, pname + seg.replace(old, c["full"], 1))
+                    if t == c["n"] and not known(t):
+                        addr = addr.replace(pname + seg, pname + seg.replace(t, c["full"], 1))
         by_id = {c["id"]: c["n"] for c in self.cities}
         return list(dict.fromkeys(by_id[cid] for cid, _, _ in self.tokens(addr) if cid))
 
@@ -190,7 +218,7 @@ def build(src, out_dir):
         rows += checked(got, batch)
     out, nowhere = [], Counter()
     for r in rows:
-        cities = [] if RARE.search(r[4]) else places.filed(r[6])
+        cities = [] if RARE.search(r[4]) else places.filed(r[6], r[0])
         nowhere[r[0]] += not cities
         out.append("\t".join(map(str, r)) + "\t" + "、".join(cities))
     head = ["# 全国重点文物保护单位，按国务院公布名单原文。build_guobao.py 生成，不要手改。",
@@ -240,58 +268,77 @@ def alike(label, name):
     return "alike", 0.8 * difflib.SequenceMatcher(None, a, b).ratio()
 
 
+def shown(name):
+    """The name as a card prints it: the list's own, less a closing note of scope (李宗仁故居（包括李宗仁官邸）).
+    A second name in brackets stays (佛宫寺释迦塔（应县木塔）)."""
+    name = re.sub(r"（(包括|含)[^（）]*）$", "", name).replace("造象", "造像")    # 造象: the spelling of the 1961 and 1982 lists
+    return SPELL.get(name, name)
+
+
 def names(found, cities, pairs=None):
     """Give each mapped site that carries the protected-site mark the row of the lists it is.
-    found: city id -> {wikidata id -> {"name", "kinds", ...}} as build_pride gathers them.
-    A site takes a listed row when the names are the same (or the same in sound, for a label in traditional
-    characters) and the row's address puts it in that city — or names only the province, or a county since
-    abolished there. Any looser likeness counts only when the pair is in sources/guobao_pairs.tsv, which was read
-    by a person. Returns ({(city id, wikidata id): row}, [looser candidates for review])."""
-    rows = listed()
+    found: city id -> {wikidata id -> {"name", "kinds", "links", ...}} as build_pride gathers them.
+    Two things must agree before a site takes a listed row on its own: the names are the same (or the same in
+    sound: a label in traditional characters, a list in an older spelling), and the row's printed address puts the
+    unit in the city the site lies in. Everything short of that is only offered to a reader, and counts once the
+    pair is in sources/guobao_pairs.tsv: a looser likeness within the city (周口店北京人遗址 / 周口店遗址), or the very
+    name found elsewhere in the province when the address names no city of today (the older lists give counties as
+    they stood: 封氏墓群 under 吴桥县 in 1961, in 景县 now — while 安济桥 of 衡水 is not the 安济桥 of 赵县).
+    Returns ({(city id, wikidata id): row}, [candidates for the reader])."""
+    rows = [r for r in listed() if not RARE.search(r[4])]
     by_n = {c["n"]: cid for cid, c in cities.items()}
-    by_city, loose = {}, {}
+    pairs = pairs if pairs is not None else read_pairs()
+    out, review = {}, []
+    by_key = {(r[0], r[1]): r for r in rows}
+    where = {q: cid for cid in found for q, e in found[cid].items() if "guobao" in e["kinds"]}
+    for q, batch, seq in sorted(pairs):                 # what a reader approved comes first
+        if q in where and (batch, seq) in by_key:
+            out[(where[q], q)] = by_key[(batch, seq)]
+    placed = lambda: {(r[0], r[1]) for r in out.values()}
+    by_city = {}
     for r in rows:
-        if RARE.search(r[4]):
-            continue
         for n in r[7]:
             by_city.setdefault(by_n[n], []).append(r)
-        if not r[7]:
-            for m in PROVS.finditer(r[6]):
-                loose.setdefault(m.group(0), []).append(r)
-    pairs = pairs if pairs is not None else read_pairs()
-    sure, review = {}, []                 # listed row -> [(city id, wikidata id, links)] with the same name
+    sure = {}                                           # listed row -> [(city id, wikidata id, links)] of the same name
     for cid in sorted(found):
-        c = cities[cid]
-        cands = by_city.get(cid, []) + [r for full, rs in loose.items() if c["prov"] == PROV_CODE[full] for r in rs]
         for q, e in found[cid].items():
-            if "guobao" not in e["kinds"]:
+            if "guobao" not in e["kinds"] or (cid, q) in out:
                 continue
-            best = []
-            for r in cands:
-                how, sc = ("read", 2.0) if (q, r[0], r[1]) in pairs else alike(e["name"], r[4])
-                if how in ("same", "same sound", "read"):
-                    sure.setdefault((r[0], r[1]), []).append((cid, q, e["links"], r))
-                elif sc >= 0.5:
-                    best.append((sc, how, r))
-            for sc, how, r in sorted(best, key=lambda t: -t[0])[:2]:
-                review.append((c["n"], q, e["name"], r[0], r[1], r[4], r[6], how, round(sc, 2)))
-    out, by_site = {}, {}
+            near = []
+            for r in by_city.get(cid, []):
+                how, sc = alike(e["name"], r[4])
+                if how in ("same", "same sound"):
+                    sure.setdefault((r[0], r[1]), []).append((cid, q, e["links"]))
+                elif sc >= 0.6:
+                    near.append((sc, how, r))
+            for sc, how, r in sorted(near, key=lambda t: -t[0])[:2]:
+                review.append((cities[cid]["n"], q, e["name"], r[0], r[1], r[4], r[6], how, round(sc, 2)))
+    by_site = {}
     for key, hits in sure.items():
-        r = hits[0][3]
-        if not r[7] and len({h[0] for h in hits}) > 1:      # the address names no city and two cities have a site of that name
-            review += [(cities[cid]["n"], q, r[4], r[0], r[1], r[4], r[6], "two cities", 1.0) for cid, q, _, _ in hits]
+        if key in placed():
             continue
-        for cid in dict.fromkeys(h[0] for h in hits):       # one mapped site in each city the unit lies in: the best known
-            cid, q, links, _ = max((h for h in hits if h[0] == cid), key=lambda h: h[2])
-            by_site.setdefault((cid, q), []).append(r)
+        for cid in dict.fromkeys(h[0] for h in hits):   # one mapped site in each city the unit lies in: the best known
+            cid, q, _ = max((h for h in hits if h[0] == cid), key=lambda h: h[2])
+            by_site.setdefault((cid, q), []).append(by_key[key])
     for (cid, q), rs in by_site.items():
         if len(rs) == 1:
             out[(cid, q)] = rs[0]
-        else:                                               # two listed units of one name in one city
-            review += [(cities[cid]["n"], q, r[4], r[0], r[1], r[4], r[6], "two units", 1.0) for r in rs]
-    done = {(cid, q) for cid, q in out}
-    review = [v for v in review if (by_n[v[0]], v[1]) not in done or v[7] in ("two cities", "two units")]
-    return out, review
+        else:                                           # two listed units of one name for one site
+            review.extend((cities[cid]["n"], q, found[cid][q]["name"], r[0], r[1], r[4], r[6], "two units", 1.0) for r in rs)
+    done = placed()
+    loose = {}                                          # rows still without a site, by province
+    for r in rows:
+        if (r[0], r[1]) not in done:
+            for m in PROVS.finditer(r[6].replace("广西僮族自治区", "广西壮族自治区")):
+                loose.setdefault(PROV_CODE[m.group(0)], []).append(r)
+    for cid in sorted(found):
+        for q, e in found[cid].items():
+            if "guobao" in e["kinds"] and (cid, q) not in out:
+                for r in loose.get(cities[cid]["prov"], []):
+                    if alike(e["name"], r[4])[0] in ("same", "same sound") and cities[cid]["n"] not in r[7]:
+                        review.append((cities[cid]["n"], q, e["name"], r[0], r[1], r[4], r[6], "elsewhere", 1.0))
+    review = [v for v in review if (by_n[v[0]], v[1]) not in out and (v[3], v[4]) not in done]
+    return out, sorted(set(review))
 
 
 def read_pairs():

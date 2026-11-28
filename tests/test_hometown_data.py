@@ -58,7 +58,7 @@ def test_named_treasures_are_few_marked_and_match_the_page():
     assert set(pride) <= cities and len(pride) >= 150
     for cid, rows in pride.items():
         assert 1 <= len(rows) <= 3, cid
-        for name, marks, x, y, en, src in rows:
+        for name, marks, x, y, en, src in (r[:6] for r in rows):      # a seventh, when there, is the row of the State Council's list
             assert len(name) >= 2 and marks and set(marks) <= {"遗", "5A", "保"} and src, (cid, name)
             assert not name.endswith(("市", "县", "自治州")), f"{name}: an administrative unit is not a treasure"
         assert len({r[0] for r in rows}) == len(rows), cid
@@ -185,3 +185,78 @@ def test_the_draw_pool_only_holds_what_the_provenance_file_holds():
     # enough to draw from: a draw shows three, so a city needs more than three for the next draw to differ
     size = {cid: len(doc["pride"].get(cid, [])) + len(pool["more"].get(cid, [])) + len(pool["food"].get(cid, [])) + len(pool["lore"].get(cid, [])) for cid in cities}
     assert sum(1 for n in size.values() if n > 3) >= 320, sum(1 for n in size.values() if n > 3)
+
+
+def guobao_rows():
+    return [line.rstrip("\n").split("\t") for line in open(SRC / "guobao_all.tsv", encoding="utf-8") if line.strip() and not line.startswith("#")]
+
+
+def test_protected_sites_are_read_off_the_state_council_lists():
+    """The owner chose this over everything else on 2026-11-28: a name on a card must lead back to the official
+    original. Each list is checked against the count its own notice states."""
+    import re
+    from collections import Counter
+    rows, cities = guobao_rows(), {c["n"] for c in load("cities.json")}
+    stated = {"1": 180, "2": 62, "3": 258, "4": 250, "5": 518, "6": 1080, "7": 1943, "8": 762}
+    per = Counter(r[0] for r in rows)
+    assert {"1", "2", "3", "4", "5", "6", "8"} <= set(per) <= set(stated)
+    assert all(per[b] == stated[b] for b in per), per
+    prov = re.compile("^(北京市|天津市|上海市|重庆市|.{2,3}省|内蒙古自治区|广西[壮僮]族自治区|西藏自治区|宁夏回族自治区|新疆维吾尔自治区|新疆生产建设兵团)")
+    for b in per:
+        assert [int(r[1]) for r in rows if r[0] == b] == list(range(1, per[b] + 1)), b
+    for r in rows:
+        assert len(r) == 8 and r[3] and r[4] and prov.match(r[6]), r
+        assert not re.search(r"\s", "".join(r)) and set(c for c in r[7].split("、") if c) <= cities, r
+    at = {(r[0], r[4]): r[7] for r in rows}
+    # as printed, and filed by the printed address: an old style of today's city, a county that changed province
+    assert at[("1", "故宫")] == "北京" and at[("1", "芦沟桥")] == "北京" and at[("6", "元大都城墙遗址")] == "北京" and at[("8", "上宅遗址")] == "北京"
+    assert at[("1", "延安革命遗址")] == "延安" and at[("1", "中苏友谊纪念塔")] == "大连" and at[("1", "独乐寺")] == "天津"
+    assert at[("4", "龙骨坡遗址")] == "重庆" and at[("1", "八路军重庆办事处旧址")] == "重庆" and at[("6", "闽东北廊桥")] == "宁德、南平"
+    # a county since abolished, a whole province, a line across the country, a name the page cannot print: nowhere
+    assert at[("1", "武当山金殿")] == "" and at[("6", "京杭大运河")] == "" and at[("5", "长城")] == ""
+    assert [r[7] for r in rows if "字旁加" in r[4]] == [""]
+    # the transcribed lists say how they were read, and state their sections
+    for b in "12345":
+        text = open(SRC / f"guobao_b{b}.tsv", encoding="utf-8").read()
+        assert "两位互不相见的读者" in text and "https://www.gov.cn/" in text and text.count("#HEAD") == 6, b
+    # the fifth list's picture drops or garbles a few characters: the file keeps them as printed
+    assert ("5", "泥国王墓") in at and ("5", "大丕山摩崖大佛及石刻") in at and ("4", "硇州灯塔") in at
+
+
+def test_a_protected_site_on_a_card_is_named_as_its_list_names_it():
+    import sys
+    sys.path.insert(0, str(DATA.parent))
+    import build_guobao as bg
+    doc = load("pride.json")
+    cities = {c["id"]: c["n"] for c in load("cities.json")}
+    rows = {(int(r[0]), int(r[1])): r for r in guobao_rows()}
+    pairs = {(int(f[2]), int(f[3])) for f in (line.rstrip("\n").split("\t") for line in open(SRC / "guobao_pairs.tsv", encoding="utf-8") if line.strip() and not line.startswith("#"))}
+    assert pairs <= set(rows)
+    marked = named = 0
+    seen = set()
+    for key in ("pride", "more"):
+        for cid, rs in doc[key].items():
+            for r in rs:
+                if "保" not in r[1]:
+                    assert len(r) == 6, (cities[cid], r[0])
+                    continue
+                marked += 1
+                if len(r) == 6:        # not yet found in a list in hand: the seventh list is still to come
+                    continue
+                named += 1
+                head, no, name, era, addr = r[6].split("｜")
+                k = ("一二三四五六七八".index(head[len("国务院公布第")]) + 1, int(no[1:-1]))
+                row = rows[k]
+                assert (row[4], row[5], row[6]) == (name, era, addr), (cities[cid], r[0])
+                assert r[0] == bg.shown(name) and len(r[0]) >= 2, (cities[cid], r[0], name)
+                # the list's own address puts it in this city, or a reader approved the pair
+                assert cities[cid] in row[7].split("、") or k in pairs, (cities[cid], r[0], row[6])
+                assert (cid, k) not in seen, (cities[cid], r[0])      # one unit, one line on a city's card
+                seen.add((cid, k))
+    assert marked >= 2400 and named >= 1400, (marked, named)     # the rest wait for the seventh list (1,943 units) and for a reader's pairs
+    # spelled as today where the list's print is old or broken, and the list's own form kept in the record
+    names = {(cities[cid], r[0]): r for key in ("pride", "more") for cid, rs in doc[key].items() for r in rs}
+    assert "硇州灯塔" in names[("湛江", "硇洲灯塔")][6] and "皇泽寺摩崖造象" in names[("广元", "皇泽寺摩崖造像")][6]
+    assert "庐山青龙寺大殿" in names[("雅安", "芦山青龙寺大殿")][6] and names[("桂林", "李宗仁故居")][6].count("包括李宗仁官邸") == 1
+    assert not [k for k in names if "造象" in k[1] or k[1] in bg.SPELL]
+

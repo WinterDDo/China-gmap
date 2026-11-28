@@ -233,14 +233,16 @@ def build(src, out_dir):
     official, review = build_guobao.names(found, cities)
     for (cid, q), r in official.items():
         e = found[cid][q]
-        e["label"], e["name"] = e["name"], r[4]
-        e["src"] = f"国务院公布第{'一二三四五六七八'[r[0] - 1]}批全国重点文物保护单位 {r[2]}：{r[4]}，{r[5]}，{r[6]}"
+        e["label"], e["name"] = e["name"], build_guobao.shown(r[4])
+        e["src"] = "｜".join([f"国务院公布第{'一二三四五六七八'[r[0] - 1]}批全国重点文物保护单位", f"第{r[1]}号", r[4], r[5], r[6]])
     marked = [(cid, q) for cid in found for q, e in found[cid].items() if "guobao" in e["kinds"]]
     print(f"protected sites on the map: {len(marked)}; named from the lists: {len(official)}; looser likenesses left for a reader: {len(review)}")
     if os.environ.get("GUOBAO_REVIEW"):
         with open(os.environ["GUOBAO_REVIEW"], "w", encoding="utf-8") as f:
             for row in review:
                 f.write("\t".join(map(str, row)) + "\n")
+            for (cid, q), r in official.items():
+                f.write("\t".join(["MATCHED", cities[cid]["n"], q, found[cid][q]["label"], str(r[0]), str(r[1]), r[4]]) + "\n")
             for cid, q in marked:
                 if (cid, q) not in official:
                     f.write("\t".join(["UNMATCHED", cities[cid]["n"], q, found[cid][q]["name"], str(found[cid][q]["links"])]) + "\n")
@@ -252,6 +254,8 @@ def build(src, out_dir):
             if r[0] == "whs":
                 own[cid].append({"name": OWN_FIX.get(r[1], r[1]), "en": r[6] or "", "kinds": ["whs"], "links": 0, "x": r[2], "y": r[3], "q": f"UNESCO {r[4]}"})
     out, more = {}, {}
+    # name, marks, x, y, English name, record; a protected site named from the lists carries the listed row as a seventh
+    row = lambda p: [p["name"], [KINDS[k][0] for k in KINDS if k in p["kinds"]], p["x"], p["y"], p["en"], p["q"]] + ([p["src"]] if p.get("src") else [])
     for cid in set(found) | set(own):
         rows = sorted(found.get(cid, {}).values(), key=lambda e: -(e["links"] + sum(BONUS[k] for k in e["kinds"])))
         picked = [dict(e) for e in own.get(cid, [])][:3]
@@ -268,7 +272,7 @@ def build(src, out_dir):
                 continue
             picked.append(dict(e))
         if picked:
-            out[cid] = [[p["name"], [KINDS[k][0] for k in KINDS if k in p["kinds"]], p["x"], p["y"], p["en"], p["q"]] for p in picked[:3]]
+            out[cid] = [row(p) for p in picked[:3]]
         # the card draw turns up more than the three best known: every other place that passed the same two checks
         deep = []
         for e in rows:
@@ -281,7 +285,7 @@ def build(src, out_dir):
                 continue
             deep.append(dict(e))
         if deep:
-            more[cid] = [[p["name"], [KINDS[k][0] for k in KINDS if k in p["kinds"]], p["x"], p["y"], p["en"], p["q"]] for p in deep]
+            more[cid] = [row(p) for p in deep]
     food, by_name = {}, {c["n"]: cid for cid, c in cities.items()}
     here = os.path.dirname(os.path.abspath(__file__))
     for line in open(os.path.join(here, "sources", "feiyi_food.tsv"), encoding="utf-8"):
@@ -321,7 +325,7 @@ def build(src, out_dir):
             rows += [v[depth] for v in cats.values() if len(v) > depth]
             depth += 1
         lore[cid] = rows[:LORE]
-    doc = {"note": "世界遗产（联合国教科文组织）、5A 景区（文化和旅游部）、全国重点文物保护单位（国务院）；经维基数据汇编，坐标与行政归属一致才收；名录不全，只列名字，不计数",
+    doc = {"note": "世界遗产（联合国教科文组织）、5A 景区（文化和旅游部）、全国重点文物保护单位（国务院）；位置取自维基数据，坐标与行政归属一致才收；全国重点文物保护单位的名字取自国务院公布名单原文（每行第七项是名单上的那一行），还没对上名单的沿用维基数据的名字；名录不全，只列名字，不计数",
            "pride": out,
            "food_note": "遗：列入国家级非物质文化遗产代表性项目名录（传统技艺）的饮食项目，国务院五批公布通知（www.gov.cn），按申报地区归到地级市；标：中欧地理标志协定保护的中国地理标志产品（商务部 ipr.mofcom.gov.cn，按原产地）",
            "food": food,
