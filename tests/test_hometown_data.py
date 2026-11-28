@@ -244,7 +244,8 @@ def test_a_protected_site_on_a_card_is_named_as_its_list_names_it():
                 if len(r) == 6:        # not yet found in a list in hand: the seventh list is still to come
                     continue
                 named += 1
-                head, no, name, era, addr = r[6].split("｜")
+                head, no, name, era, addr, *since = r[6].split("｜")
+                assert since == ([f"{bg.RENAMED[name][1]}改称{bg.RENAMED[name][0]}"] if name in bg.RENAMED else []), (cities[cid], r[0])
                 k = ("一二三四五六七八".index(head[len("国务院公布第")]) + 1, int(no[1:-1]))
                 row = rows[k]
                 assert (row[4], row[5], row[6]) == (name, era, addr), (cities[cid], r[0])
@@ -253,10 +254,12 @@ def test_a_protected_site_on_a_card_is_named_as_its_list_names_it():
                 assert cities[cid] in row[7].split("、") or k in pairs, (cities[cid], r[0], row[6])
                 assert (cid, k) not in seen, (cities[cid], r[0])      # one unit, one line on a city's card
                 seen.add((cid, k))
-    assert marked >= 2400 and named >= 1550, (marked, named)     # the rest wait for the seventh list (1,943 units) and for a reader's pairs
+    assert marked >= 2400 and named >= 1600, (marked, named)     # the rest wait for the seventh list (1,943 units) and for a reader's pairs
     # spelled as today where the list's print is old or broken, and the list's own form kept in the record
     names = {(cities[cid], r[0]): r for key in ("pride", "more") for cid, rs in doc[key].items() for r in rs}
     assert "硇州灯塔" in names[("湛江", "硇洲灯塔")][6] and "皇泽寺摩崖造象" in names[("广元", "皇泽寺摩崖造像")][6]
     assert "庐山青龙寺大殿" in names[("雅安", "芦山青龙寺大殿")][6] and names[("桂林", "李宗仁故居")][6].count("包括李宗仁官邸") == 1
     assert not [k for k in names if "造象" in k[1] or k[1] in bg.SPELL]
+    # a unit a later list renamed goes by that name, and the row says which list renamed it
+    assert "杨粲墓" in names[("遵义", "杨氏土司墓群")][6] and names[("遵义", "杨氏土司墓群")][6].endswith("改称杨氏土司墓群")
 

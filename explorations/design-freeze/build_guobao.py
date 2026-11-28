@@ -70,6 +70,29 @@ SPELL = {
     "大丕山摩崖大佛及石刻": "大伾山摩崖大佛及石刻",   # 丕 for 伾: the hill at 浚县 is 大伾山
     "已略黄公祠": "己略黄公祠",              # 已 for 己
 }
+# A later list sometimes folds new items into an earlier unit and gives the whole a new name ("与…合并。名称：…",
+# "并入…，更名为…"). That is the unit's name from then on. Listed name -> (name since, where the State Council says so).
+RENAMED = {
+    "冯焕阙": ("渠县汉阙", "第五批合并项目第13条"), "沈府君阙": ("渠县汉阙", "第五批合并项目第13条"),
+    "苏州文庙内宋代石刻": ("苏州文庙及石刻", "第五批合并项目第12条"),
+    "丸都山故城": ("丸都山城与国内城", "第五批合并项目第3条"),
+    "泰宁尚书第": ("泰宁尚书第建筑群", "第五批合并项目第11条"),
+    "老君岩造像": ("清源山石造像", "第五批合并项目第15条"),
+    "二宜楼": ("福建土楼", "第五批合并项目第23条"),
+    "古荥冶铁遗址": ("荥阳故城", "第六批合并项目第10条"),
+    "钧台钧窑遗址": ("禹县钧窑址", "第六批合并项目第11条"),
+    "黄冶三彩窑址": ("巩义窑址", "第六批合并项目第12条"),
+    "临安吴越国王陵": ("吴越国王陵", "第六批合并项目第24条"),
+    "孟庙及孟府": ("孟庙、孟府和孟林", "第六批合并项目第25条"),
+    "清远楼": ("宣化古城", "第六批合并项目第35条"),
+    "开元寺钟楼": ("开元寺", "第六批合并项目第36条"),
+    "显通寺": ("五台山古建筑群", "第六批合并项目第37条"),
+    "兴城城墙": ("兴城古城", "第六批合并项目第38条"),
+    "峨眉山圣寿万年寺铜铁佛像": ("峨眉山古建筑群", "第六批合并项目第43条"),
+    "卧佛院摩崖造像": ("安岳石窟", "第六批合并项目第50条"),
+    "杨粲墓": ("杨氏土司墓群", "第八批合并项目 8-0000-2-004"),
+    "西峡颂摩崖石刻": ("西狭古栈道及摩崖石刻", "第八批合并项目 8-0000-4-007"),   # the fifth list's picture prints 峡; the eighth list writes 西狭颂
+}
 RARE = re.compile(r"字旁加|[\ue000-\uf8ff]|[\U00020000-\U0003ffff]")   # a name the page spells out because it cannot print it
 
 
@@ -232,11 +255,18 @@ def build(src, out_dir):
     head = ["# 全国重点文物保护单位，按国务院公布名单原文。build_guobao.py 生成，不要手改。",
             "# 批次 <tab> 批内序号 <tab> 名单上的编号 <tab> 类别 <tab> 名称 <tab> 时代 <tab> 地址 <tab> 按地址归到的地级市（归不了的留空）"]
     head += [f"# 第 {b} 批还没读进来：{why}" for b, why in MISSING.items() if not any(r[0] == b for r in rows)]
+    names = {r[4] for r in rows}
+    assert set(RENAMED) | set(SPELL) <= names, (set(RENAMED) | set(SPELL)) - names      # every entry of the two tables is a listed name
     open(os.path.join(HERE, "sources", "guobao_all.tsv"), "w", encoding="utf-8").write("\n".join(head + out) + "\n")
     per = Counter(r[0] for r in rows)
     print("units:", dict(per), "total", len(rows))
     print("filed nowhere by address:", dict(nowhere), "renamed counties recognised:", len(places.renamed))
     return rows
+
+
+def renamed_note(name):
+    """For the record on a card's row: where a later list renames the unit, or ''."""
+    return f"{RENAMED[name][1]}改称{RENAMED[name][0]}" if name in RENAMED else ""
 
 
 def listed():
@@ -279,6 +309,8 @@ def alike(label, name):
 def shown(name):
     """The name as a card prints it: the list's own, less a closing note of scope (李宗仁故居（包括李宗仁官邸）).
     A second name in brackets stays (佛宫寺释迦塔（应县木塔）)."""
+    if name in RENAMED:
+        return RENAMED[name][0]
     name = re.sub(r"（(包括|含)[^（）]*）$", "", name).replace("造象", "造像")    # 造象: the spelling of the 1961 and 1982 lists
     return SPELL.get(name, name)
 

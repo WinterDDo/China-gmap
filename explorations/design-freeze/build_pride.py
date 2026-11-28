@@ -234,7 +234,7 @@ def build(src, out_dir):
     for (cid, q), r in official.items():
         e = found[cid][q]
         e["label"], e["name"] = e["name"], build_guobao.shown(r[4])
-        e["src"] = "｜".join([f"国务院公布第{'一二三四五六七八'[r[0] - 1]}批全国重点文物保护单位", f"第{r[1]}号", r[4], r[5], r[6]])
+        e["src"] = "｜".join([f"国务院公布第{'一二三四五六七八'[r[0] - 1]}批全国重点文物保护单位", f"第{r[1]}号", r[4], r[5], r[6]] + [x for x in [build_guobao.renamed_note(r[4])] if x])
     marked = [(cid, q) for cid in found for q, e in found[cid].items() if "guobao" in e["kinds"]]
     print(f"protected sites on the map: {len(marked)}; named from the lists: {len(official)}; looser likenesses left for a reader: {len(review)}")
     if os.environ.get("GUOBAO_REVIEW"):
