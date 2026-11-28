@@ -305,3 +305,11 @@
 - 谁定的：用户
 - 出处：会话 session_01DGeZrdANx45XY7zhNDtypj
 - 相关文件：explorations/design-freeze/index.html, TODOS.md
+
+### 2026-11-28 · 抽卡每一抽的三个亮点都要不一样
+- 决定：每抽一张，卡上的三个亮点必须换一批；只换颜色和版本不算抽卡。亮点只从查得到官方出处的名单里出（位次、吃的、景点古迹、国家级非遗）。一座城的亮点不到四个，就不给「再抽」，界面上直说只收到几个。版本（素笺、洒金、泥金、传世）保留，只当锦上添花，概率公开写在抽卡界面上。
+- 为什么：用户看到四张只换了颜色的卡后说「你这 4 张卡上的信息都是一样的呀，这个不行啊！你这不能只是长得不一样、颜色不一样，这太糊弄了。你肯定得关于它这三个亮点也不一样才行」。
+- 放弃了：同一座城同样三条、只抽版本（做出来了，被用户否掉）；拿卫星估算的排名（森林、海拔等）凑亮点数量（不是官方口径，之前定过先不放）；给亮点少的城市照样开放「再抽」（那就又成了只换颜色）。
+- 谁定的：用户定「内容每抽必须不同」；Claude 定「亮点少的城市不给再抽」「估算排名不进池子」，是从「宁少勿错」和「先不放非官方内容」两条已有决定推出来的，用户可以推翻。
+- 出处：会话 session_01DGeZrdANx45XY7zhNDtypj
+- 相关文件：explorations/design-freeze/index.html, explorations/design-freeze/build_feiyi.py, explorations/design-freeze/build_pride.py, explorations/design-freeze/sources/feiyi_all.tsv

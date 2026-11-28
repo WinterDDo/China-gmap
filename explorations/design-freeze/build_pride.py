@@ -53,6 +53,17 @@ LOC_QUERIES = {k: f"""SELECT ?item ?code WHERE {{ ?item {v[1]} ; wdt:P131+ ?a . 
 BONUS = {"whs": 100, "a5": 15, "guobao": 0}
 GENERIC = {"孔庙", "文庙", "清真寺", "大佛寺", "城隍庙", "关帝庙", "鼓楼", "钟楼", "白塔", "古城"}   # a bare type is not a name
 FAMOUS, ALONE = 10, 5   # language editions a plain protected site needs: among others / as the only name
+DEEP, POOL = 2, 12      # the draw's deeper pool: a protected site needs 2 language editions; at most 12 places a city
+FOODS, LORE = 6, 12     # and at most 6 foods and 12 heritage items a city
+CATS = ["民间文学", "传统音乐", "传统舞蹈", "传统戏剧", "曲艺", "传统体育、游艺与杂技", "传统美术", "传统技艺", "传统医药", "民俗"]
+
+
+def roman(name):
+    """Syllable by syllable, as the EU register writes Chinese names (Yantai Pu Tao Jiu): a reading aid, not a translation."""
+    from pypinyin import lazy_pinyin
+    say = lambda t: " ".join(x.capitalize() for x in lazy_pinyin(re.sub(r"[（()）、，·“”\s]", "", t), v_to_u=True) if x.isalpha())
+    m = re.fullmatch(r"([^（]+)（([^（）]+)）", name)      # 灯彩（佛山彩灯）: the item, then the local one in brackets
+    return f"{say(m.group(1))} ({say(m.group(2))})" if m else say(name)
 D = math.pi / 180
 Rr, P1, P2, L0 = 6371.0088, 25 * D, 47 * D, 105 * D
 N = (math.sin(P1) + math.sin(P2)) / 2
@@ -185,7 +196,7 @@ def build(src, out_dir):
         for r in rows:
             if r[0] == "whs":
                 own[cid].append({"name": r[1], "en": r[6] or "", "kinds": ["whs"], "links": 0, "x": r[2], "y": r[3], "q": f"UNESCO {r[4]}"})
-    out = {}
+    out, more = {}, {}
     for cid in set(found) | set(own):
         rows = sorted(found.get(cid, {}).values(), key=lambda e: -(e["links"] + sum(BONUS[k] for k in e["kinds"])))
         picked = [dict(e) for e in own.get(cid, [])][:3]
@@ -202,6 +213,18 @@ def build(src, out_dir):
             picked.append(dict(e))
         if picked:
             out[cid] = [[p["name"], [KINDS[k][0] for k in KINDS if k in p["kinds"]], p["x"], p["y"], p["en"], p["q"]] for p in picked[:3]]
+        # the card draw turns up more than the three best known: every other place that passed the same two checks
+        deep = []
+        for e in rows:
+            if len(picked) + len(deep) >= POOL:
+                break
+            # beside one of the three it is a part of that site; among themselves two old-town sites a street apart are two sites
+            twin = lambda p, km: same(p["name"], e["name"], cities[cid]["n"]) or math.hypot(p["x"] - e["x"], p["y"] - e["y"]) < km
+            if any(twin(p, 1.2) for p in picked) or any(twin(p, 0.3) for p in deep) or (e["kinds"] == ["guobao"] and e["links"] < DEEP):
+                continue
+            deep.append(dict(e))
+        if deep:
+            more[cid] = [[p["name"], [KINDS[k][0] for k in KINDS if k in p["kinds"]], p["x"], p["y"], p["en"], p["q"]] for p in deep]
     food, by_name = {}, {c["n"]: cid for cid, c in cities.items()}
     here = os.path.dirname(os.path.abspath(__file__))
     for line in open(os.path.join(here, "sources", "feiyi_food.tsv"), encoding="utf-8"):
@@ -210,7 +233,7 @@ def build(src, out_dir):
         city, name, code, orig, en = line.rstrip("\n").split("\t")
         assert city in by_name, f"feiyi_food.tsv: no city called {city}"
         rows = food.setdefault(by_name[city], [])
-        if len(rows) < 2 and name not in [r[0] for r in rows]:
+        if name not in [r[0] for r in rows]:
             rows.append([name, en, f"国家级非遗 {code}：{orig}", "遗"])
     # second source: geographical indications protected under the China-EU agreement (sources/gi_cn_eu.tsv, build_gi.py)
     gi_p = os.path.join(here, "sources", "gi_cn_eu.tsv")
@@ -220,13 +243,39 @@ def build(src, out_dir):
         city, name, origin, reg, page, en = (line.rstrip("\n").split("\t") + [""])[:6]
         rows = food.setdefault(by_name[city], [])
         core = re.sub(r"(茶|酒|醋)$", "", name)
-        if len(rows) < 2 and not any(r[0] in name or name in r[0] or (len(core) >= 2 and core in r[0]) or r[0][:2] == name[:2] for r in rows):
+        if not any(r[0] in name or name in r[0] or (len(core) >= 2 and core in r[0]) or (r[3] == "遗" and r[0][:2] == name[:2]) for r in rows):
             rows.append([name, en, f"地理标志（中欧地理标志协定保护）：原产地 {origin}；{reg}；{page}", "标"])
+    food_all = {cid: rows[:FOODS] for cid, rows in food.items()}
+    food = {cid: rows[:2] for cid, rows in food.items()}   # the card's own food line stays the first two
+    # culture: the same heritage lists beyond food (sources/feiyi_all.tsv, build_feiyi.py), a few from each category in turn
+    lore, eaten = {}, {(cid, re.search(r"Ⅷ-\d+", r[2]).group(0)) for cid, rows in food_all.items() for r in rows if r[3] == "遗" and re.search(r"Ⅷ-\d+", r[2])}
+    by_cat = defaultdict(lambda: defaultdict(list))
+    for line in open(os.path.join(here, "sources", "feiyi_all.tsv"), encoding="utf-8"):
+        if line.startswith("#") or not line.strip():
+            continue
+        city, cat, name, code, orig, by = (line.rstrip("\n").split("\t") + [""])[:6]
+        cid = by_name[city]
+        if (cid, code.split(" ")[1]) in eaten or any(name == r[0] for r in food_all.get(cid, [])):
+            continue
+        by_cat[cid][cat].append([name, roman(name), CATS.index(cat), by, f"国家级非遗 {code}：{orig}"])
+    for cid, cats in by_cat.items():
+        rows, depth = [], 0
+        while len(rows) < LORE and any(len(v) > depth for v in cats.values()):
+            rows += [v[depth] for v in cats.values() if len(v) > depth]
+            depth += 1
+        lore[cid] = rows[:LORE]
     doc = {"note": "世界遗产（联合国教科文组织）、5A 景区（文化和旅游部）、全国重点文物保护单位（国务院）；经维基数据汇编，坐标与行政归属一致才收；名录不全，只列名字，不计数",
            "pride": out,
            "food_note": "遗：列入国家级非物质文化遗产代表性项目名录（传统技艺）的饮食项目，国务院五批公布通知（www.gov.cn），按申报地区归到地级市；标：中欧地理标志协定保护的中国地理标志产品（商务部 ipr.mofcom.gov.cn，按原产地）",
-           "food": food}
+           "food": food,
+           "pool_note": "抽卡用的更深一层：more 是前三名之外通过同样两项核对的景点古迹；food_all 是全部饮食项目；lore 是国家级非遗名录里饮食以外的项目（前四批，按门类轮流取）",
+           "more": more, "food_all": food_all, "lore": lore}
     json.dump(doc, open(os.path.join(out_dir, "pride.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+    # what the page fetches when someone first draws a card: names only, no provenance (that stays in pride.json)
+    pool = {"more": {cid: [r[:5] for r in rows] for cid, rows in more.items()},
+            "food": {cid: [[r[0], r[1], r[3]] for r in rows] for cid, rows in food_all.items()},
+            "lore": {cid: [r[:4] for r in rows] for cid, rows in lore.items()}}
+    json.dump(pool, open(os.path.join(out_dir, "pool.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     for k, (a, b, c) in stats.items():
         print(f"{k}: {a} with coordinates, {b} inside a city, {c} where the admin chain agrees")
     print(f"food: {len(food)} cities")

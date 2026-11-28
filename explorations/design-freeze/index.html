@@ -804,6 +804,52 @@ i.tg { display: inline-grid; place-items: center; width: 18px; height: 18px; bor
 .card5.r3 .cd-prd b { color: #fbf1e4; } .card5.r3 .cd-prd small, .card5.r3 .cd-roll { color: rgba(243,213,138,.85); } .card5.r3 .cd-roll { border-color: rgba(243,213,138,.35); } .card5.r3 i.tg { box-shadow: 0 0 0 1px rgba(243,213,138,.7); }
 .card5.r3 .cd-rar { background: #f3d58a; color: #7d2118; }
 .card5.r3 .cd-front::after, .card5.r2 .cd-front::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.4) 48%, transparent 66%); transform: translateX(-130%); animation: shine 3.2s ease-in-out infinite; pointer-events: none; }
+.card5.e1 .cd-front { background: radial-gradient(circle at 12% 18%, rgba(201,162,74,.6) 0 1.2px, transparent 1.7px) 0 0/22px 26px, radial-gradient(circle at 70% 60%, rgba(201,162,74,.5) 0 1px, transparent 1.5px) 0 0/31px 23px, radial-gradient(circle at 40% 85%, rgba(217,164,60,.5) 0 1.7px, transparent 2.2px) 0 0/37px 41px, #f8f0dc; --bd: #a9812f; box-shadow: 0 12px 28px -10px rgba(120,84,20,.55), inset 0 0 0 4px #f8f0dc, inset 0 0 0 5.5px #c9a24a; }
+.card5.e2 { --bd: #0d1c28; } .card5.e2 .cd-front { background: linear-gradient(165deg, #23455c, #12222f); color: #f3d58a; box-shadow: 0 14px 30px -10px rgba(10,25,38,.75), inset 0 0 0 4px #1b3547, inset 0 0 0 5.5px #c9a24a; }
+.card5.e2 .cd-nm { color: #f3d58a; } .card5.e2 .cd-sub, .card5.e2 .cd-foot { color: rgba(233,207,138,.8); } .card5.e2 .cd-prd b { color: #f6efe0; } .card5.e2 .cd-prd small, .card5.e2 .cd-roll { color: rgba(233,207,138,.85); } .card5.e2 .cd-roll { border-color: rgba(233,207,138,.35); } .card5.e2 i.tg { box-shadow: 0 0 0 1px rgba(243,213,138,.7); }
+.card5.e2 .cd-front::after, .card5.r3 .cd-front::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 38%, rgba(255,240,190,.32) 50%, transparent 62%); background-size: 260% 100%; animation: sheen 3.2s linear infinite; pointer-events: none; mix-blend-mode: screen; }
+@keyframes sheen { 0% { background-position: 130% 0; } 100% { background-position: -130% 0; } }
+.cd-rar.ed1 { background: #c9a24a; color: #fffaf0; } .cd-rar.ed2 { background: #14283a; color: #f3d58a; box-shadow: 0 0 0 1px #c9a24a; } .cd-rar.ed3 { background: #7d2118; color: #f8dc94; box-shadow: 0 0 0 1px #f3d58a; }
+.gx { position: absolute; inset: 0; z-index: 40; display: grid; grid-template-rows: 1fr auto; justify-items: center; align-items: center; padding: 60px 18px 20px; background: radial-gradient(circle at 50% 40%, rgba(46,34,26,.94), rgba(14,10,8,.97)); overflow: hidden; -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+.gx-card { position: relative; z-index: 2; } .gx .card5 { width: 256px; } .gx .cd-back .bk { display: none; } .gx .cd-back .seal { --s: 86px; } .gx .cd-back b { font-size: 30px; }
+.gx.tell.s0 .gx-card { filter: drop-shadow(0 0 20px var(--gxc)); animation: gxdrop .5s cubic-bezier(.2,.8,.2,1) both, gxcharge .09s .5s linear infinite; } .gx.ed3.tell.s0 .gx-card { filter: drop-shadow(0 0 22px #f3d58a); }
+.gx.tell .gx-ring { border-color: var(--gxc); border-width: 3px; } .gx.ed3.tell.s0 .gx-ring { border-color: #f3d58a; }
+.gx:not(.ed0).s2 .gx-card::before { content: ""; position: absolute; inset: -46px; z-index: -1; background: radial-gradient(closest-side, var(--gxc), transparent 72%); opacity: .42; animation: gxglow 2.6s ease-in-out infinite; }
+.gx-dust { position: absolute; inset: 0; pointer-events: none; z-index: 3; } .gx-dust i { position: absolute; bottom: 36%; width: var(--sz); height: var(--sz); border-radius: 50%; background: var(--gxc); box-shadow: 0 0 8px var(--gxc); opacity: 0; }
+.gx.s2 .gx-dust i { animation: gxdust 2.6s ease-out infinite; }
+@keyframes gxdust { 0% { transform: translate(0, 0) scale(.4); opacity: 0; } 14% { opacity: .95; } 100% { transform: translate(var(--dx), -340px) scale(1.15); opacity: 0; } }
+@keyframes gxglow { 0%, 100% { opacity: .3; transform: scale(.96); } 50% { opacity: .5; transform: scale(1.04); } }
+.gx.s0 .gx-card { animation: gxdrop .5s cubic-bezier(.2,.8,.2,1) both, gxcharge .16s .5s linear infinite; } .gx.s1 .gx-card { animation: gxpop .5s cubic-bezier(.2,.8,.2,1) both; }
+.gx-ring { position: absolute; left: 50%; top: 42%; width: 40px; height: 40px; margin: -20px; border-radius: 50%; border: 2px solid rgba(246,239,224,.75); opacity: 0; z-index: 1; } .gx.s0 .gx-ring { animation: gxring .9s .35s ease-out infinite; } .gx.s0 .gx-ring.r2 { animation-delay: .8s; }
+.gx-flash { position: absolute; inset: -30%; background: radial-gradient(circle at 50% 45%, #fff 0, var(--gxc) 18%, transparent 60%); opacity: 0; pointer-events: none; z-index: 3; } .gx.s1 .gx-flash { animation: gxflash .6s ease-out both; }
+.gx-rays { position: absolute; left: 50%; top: 42%; width: 900px; height: 900px; margin: -450px; background: repeating-conic-gradient(from 0deg, var(--gxc) 0 6deg, transparent 6deg 18deg); opacity: 0; z-index: 0; -webkit-mask: radial-gradient(circle, #000 0, transparent 62%); mask: radial-gradient(circle, #000 0, transparent 62%); }
+.gx.big.s1 .gx-rays, .gx.big.s2 .gx-rays { opacity: .34; animation: gxspin 14s linear infinite; } .gx.ed1.s2 .gx-rays { opacity: .14; animation: gxspin 22s linear infinite; }
+.gx.big.s1 { animation: gxshake .45s; }
+.gx-ui { z-index: 4; display: grid; gap: 8px; justify-items: center; width: 100%; opacity: 0; transform: translateY(14px); pointer-events: none; transition: opacity .35s .35s, transform .35s .35s; } .gx.s2 .gx-ui { opacity: 1; transform: none; pointer-events: auto; }
+.gx-ttl { text-align: center; color: #f6efe0; } .gx-ttl b { display: block; font: 400 30px/1.2 var(--brush); color: var(--gxc); text-shadow: 0 0 18px var(--gxc); } .gx-ttl span { font-size: 12.5px; opacity: .85; }
+.gx-acts { display: grid; grid-template-columns: 1.15fr 1fr; gap: 8px; width: 100%; } .gx-acts.one { grid-template-columns: 1fr; } .gx-acts .btn, .gx-ui > .btn { height: 46px; justify-content: center; border-radius: 12px; font-size: 14.5px; } .gx-acts .btn:not(.primary) { background: #f6efe0; color: #2b231d; border-color: transparent; }
+.gx.ed2 .gx-ttl b { color: #f3d58a; } .gx-ui > .btn.ghost { text-decoration: underline; text-underline-offset: 4px; } .gx-ui > .btn.ghost { color: #f6efe0; height: 38px; }
+.gx-prog { width: 100%; display: grid; gap: 6px; justify-items: center; color: rgba(246,239,224,.88); font-size: 12.5px; } .gx-prog i { width: 72%; height: 5px; border-radius: 3px; background: rgba(246,239,224,.18); overflow: hidden; } .gx-prog b { display: block; height: 100%; border-radius: 3px; background: var(--gxc); }
+.cd-prd b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .cd-prd small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cd-prd b.nwb { display: flex; align-items: center; min-width: 0; } .cd-prd b.nwb span { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.cd-prd em.nw { flex: none; font: 600 9px/1 var(--sans); font-style: normal; margin-left: 5px; padding: 2px 4px; border-radius: 3px; background: #b23a2b; color: #fbf4e6; vertical-align: 2px; } .card5.r3 .cd-prd em.nw { background: #f3d58a; color: #7d2118; }
+.gx-odds { margin: 0; font-size: 10.5px; color: rgba(246,239,224,.6); text-align: center; }
+.gx .cd-prd { opacity: 0; } .gx.s2 .cd-prd { animation: gxline .4s both; } .gx.s2 .cd-prd:nth-child(1) { animation-delay: .5s; } .gx.s2 .cd-prd:nth-child(2) { animation-delay: .72s; } .gx.s2 .cd-prd:nth-child(3) { animation-delay: .94s; }
+.gx .cd-rar { transform: scale(0); } .gx.s2 .cd-rar { animation: gxstamp .35s 1.1s cubic-bezier(.2,1.6,.4,1) both; }
+@keyframes gxdrop { 0% { transform: translateY(-420px) rotate(-14deg) scale(.7); opacity: 0; } 100% { transform: none; opacity: 1; } }
+@keyframes gxcharge { 0%, 100% { transform: translate(0, 0) rotate(0); } 25% { transform: translate(-2px, 1px) rotate(-.8deg); } 75% { transform: translate(2px, -1px) rotate(.8deg); } }
+@keyframes gxpop { 0% { transform: scale(1); } 40% { transform: scale(1.14); } 100% { transform: scale(1); } }
+@keyframes gxring { 0% { transform: scale(.4); opacity: .9; } 100% { transform: scale(9); opacity: 0; } }
+@keyframes gxflash { 0% { opacity: 0; transform: scale(.3); } 25% { opacity: 1; } 100% { opacity: 0; transform: scale(1.5); } }
+@keyframes gxspin { to { transform: rotate(360deg); } }
+@keyframes gxshake { 0%, 100% { transform: none; } 20% { transform: translate(-5px, 3px); } 40% { transform: translate(5px, -3px); } 60% { transform: translate(-3px, -2px); } 80% { transform: translate(3px, 2px); } }
+@keyframes gxline { 0% { opacity: 0; transform: translateX(-10px); } 100% { opacity: 1; transform: none; } }
+@keyframes gxstamp { 0% { transform: scale(2.6) rotate(-12deg); opacity: 0; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .gx *, .gx { animation: none !important; } .gx .cd-prd { opacity: 1; } .gx .cd-rar { transform: none; } .card5 .cd-front::after { animation: none; } }
+.gx-pill { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 16px; border: 1px solid var(--accent); background: rgba(178,58,43,.08); color: var(--accent); font: 600 13px/1 var(--sans); cursor: pointer; justify-self: start; } .gx-pill .ic { width: 16px; height: 16px; } .gx-pill i { font-style: normal; font: 400 12px/1 var(--brush); padding: 3px 6px; border-radius: 3px; background: #c9a24a; color: #fffaf0; }
+.xhs.xed1 { background: radial-gradient(circle at 12% 18%, rgba(201,162,74,.5) 0 1.6px, transparent 2.2px) 0 0/34px 40px, radial-gradient(circle at 70% 60%, rgba(201,162,74,.45) 0 1.2px, transparent 1.8px) 0 0/47px 35px, linear-gradient(175deg, #fbf3dc, #f1e2b8); box-shadow: inset 0 0 0 3px #c9a24a; }
+.xhs.xed2 { background: linear-gradient(170deg, #23455c, #12222f); color: #f3d58a; box-shadow: inset 0 0 0 3px #c9a24a; } .xhs.xed3 { background: linear-gradient(170deg, #b23a2b, #6f1c14); color: #f8dc94; box-shadow: inset 0 0 0 3px #f3d58a; }
+.xhs.xed2 .xh-title b, .xhs.xed3 .xh-title b, .xhs.xed2 .xh-title span, .xhs.xed3 .xh-title span { color: inherit; } .xhs.xed2 .xh-row, .xhs.xed3 .xh-row { background: rgba(255,244,214,.1); } .xhs.xed2 .xh-row b, .xhs.xed3 .xh-row b { color: #f6efe0; } .xhs.xed2 .xh-row span, .xhs.xed3 .xh-row span, .xhs.xed2 .xh-roll, .xhs.xed3 .xh-roll, .xhs.xed2 .xh-h, .xhs.xed3 .xh-h { color: rgba(243,213,138,.85); } .xhs.xed2 .xh-tag, .xhs.xed3 .xh-tag { background: rgba(243,213,138,.16); color: #f3d58a; } .xhs.xed2 .wordmark, .xhs.xed3 .wordmark { color: #f3d58a; }
 @keyframes deal { 0% { transform: translate(260px, 200px) rotate(24deg) scale(.6); opacity: 0; } 70% { transform: translate(-6px, -4px) rotate(-2deg) scale(1.02); opacity: 1; } 100% { transform: none; } }
 .card5.deal { animation: deal .6s cubic-bezier(.2,.7,.2,1) both; }
 .card5 .stampmark { position: absolute; z-index: 3; left: 50%; top: 52%; translate: -50% -50%; pointer-events: none; }
@@ -1404,7 +1450,7 @@ i.plate { display: inline-block; white-space: nowrap; font-style: normal; font: 
         <nav class="m-tabs" data-mtabs aria-label="玩法"></nav>
         <div class="m-layers" data-mlayers></div><div class="m-coach" data-mcoach></div><div class="m-popwrap" data-mpop></div><div data-mwxg></div>
         <div class="m-modal" data-mmodal hidden></div>
-        <div data-mtoast aria-live="polite"></div>
+        <div data-mtoast aria-live="polite"></div><div data-mgx></div>
       </div></div></div><div class="phone-cap">真机比例 390 × 844 · 鼠标拖动、滚轮缩放、点击</div></div>
       <aside class="leaf m-side" data-mscore></aside>
     </div>
@@ -2829,18 +2875,19 @@ function cardArt(cv, c) { const ctx = cv.getContext("2d"), W = cv.width, H = cv.
     ctx.fillStyle = "rgba(240,231,210,.74)"; ctx.fill(veil, "evenodd"); ctx.lineJoin = "round"; ctx.strokeStyle = "rgba(201,162,74,.5)"; ctx.lineWidth = 4.5 * u; ctx.stroke(line); ctx.strokeStyle = "#b23a2b"; ctx.lineWidth = 1.4 * u; ctx.stroke(line); }
   else { const g = ctx.createRadialGradient(W / 2, H * .55, H * .25, W / 2, H * .55, W * .72); g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(1, "rgba(40,25,10,.38)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); }
   ctx.fillStyle = "#2b231d"; ctx.strokeStyle = "#f6efe0"; ctx.lineWidth = 1.2 * u; ctx.beginPath(); ctx.arc(c.x * sc + ox, c.y * sc + oy, 2.6 * u, 0, 7); ctx.fill(); ctx.stroke();
-  for (const r of prideItems(c)) { const kk = r[1][0], x = clamp(r[2] * sc + ox, 9 * u, W - 9 * u), y = clamp(r[3] * sc + oy, 9 * u, H - 9 * u), rad = 7.5 * u; ctx.save(); ctx.shadowColor = "rgba(0,0,0,.3)"; ctx.shadowBlur = 3 * u; ctx.fillStyle = TG[kk][0]; ctx.beginPath(); ctx.arc(x, y, rad, 0, 7); ctx.fill(); ctx.shadowBlur = 0; ctx.strokeStyle = "#fbf1e4"; ctx.lineWidth = 1.1 * u; ctx.stroke();
+  const pins = cv.dataset && cv.dataset.pins != null ? cv.dataset.pins.split(";").filter(Boolean).map(t => { const a = t.split(","); return [0, [a[0]], +a[1], +a[2]]; }) : prideItems(c);
+  for (const r of pins) { const kk = r[1][0], x = clamp(r[2] * sc + ox, 9 * u, W - 9 * u), y = clamp(r[3] * sc + oy, 9 * u, H - 9 * u), rad = 7.5 * u; ctx.save(); ctx.shadowColor = "rgba(0,0,0,.3)"; ctx.shadowBlur = 3 * u; ctx.fillStyle = TG[kk][0]; ctx.beginPath(); ctx.arc(x, y, rad, 0, 7); ctx.fill(); ctx.shadowBlur = 0; ctx.strokeStyle = "#fbf1e4"; ctx.lineWidth = 1.1 * u; ctx.stroke();
     ctx.fillStyle = "#fbf1e4"; ctx.font = `${rad * 1.15}px "Ma Shan Zheng", serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(kk === "5A" ? "景" : kk, x, y + rad * .06); ctx.restore(); } }
 function paintArts(root) { if (!root || !CITIES) return; $$("canvas[data-art]", root).forEach(cv => { const c = BYID.get(cv.dataset.art); if (c) cardArt(cv, c); }); }
-function cardHTML(c, o = {}) { const rr = rarity(c), hs = prideOf(c).slice(0, 3), fs = facesOf(c).slice(0, 3), cs = countiesOf(c), pl = plateOf(c);
-  const body = o.statsHTML != null ? `<div class="cd-stats">${o.statsHTML}</div>` : `<div class="cd-body">${fs.map(f => `<div class="cd-prd">${faceSeal(f)}<b>${f.b}</b><small>${f.s}</small></div>`).join("")}${cs.length ? `<p class="cd-roll${fs.length ? (fs.length > 2 ? " one" : "") : " solo"}">${cs.map(r => shortCounty(c, r)).join(" · ")}</p>` : ""}</div>`;
-  return `<div class="card5 r${rr} ${o.cls || ""}" data-card="${c.id}"><div class="cd-in"><div class="cd-front">
+function cardHTML(c, o = {}) { const ed = o.ed != null ? o.ed : edOf(c), rr = ed, hs = prideOf(c).slice(0, 3), fs = o.faces || facesOf(c).slice(0, 3), cs = countiesOf(c), pl = plateOf(c);
+  const body = o.statsHTML != null ? `<div class="cd-stats">${o.statsHTML}</div>` : `<div class="cd-body">${fs.map(f => `<div class="cd-prd">${faceSeal(f)}<b${o.fresh && o.fresh.includes(f.id) ? ` class="nwb"><span>${f.b}</span><em class="nw">${ZH("新", "new")}</em>` : `>${f.b}`}</b><small>${f.s}</small></div>`).join("")}${cs.length ? `<p class="cd-roll${fs.length ? (fs.length > 2 ? " one" : "") : " solo"}">${cs.map(r => shortCounty(c, r)).join(" · ")}</p>` : ""}</div>`;
+  return `<div class="card5 ${EDS[ed][4]} ${o.cls || ""}" data-card="${c.id}"><div class="cd-in"><div class="cd-front">
     <div class="cd-top"><span class="cd-nm">${cname(c)}</span>${seal(c.n.slice(0, 2))}</div>
     <div class="cd-sub">${pvOf(c) && pvOf(c) !== cname(c) ? pvOf(c) : ""}${pl ? `${pvOf(c) && pvOf(c) !== cname(c) ? " · " : ""}<i class="plate">${pl}</i>` : ""}</div>
-    <div class="cd-art"><canvas data-art="${c.id}" width="${o.big ? 300 : 240}" height="${o.big ? 170 : 140}" role="img" aria-label="${cname(c)}"></canvas>${rarTag(c, "cd-rar")}</div>
+    <div class="cd-art"><canvas data-art="${c.id}"${o.faces ? pinsAttr(fs) : ""} width="${o.big ? 300 : 240}" height="${o.big ? 170 : 140}" role="img" aria-label="${cname(c)}"></canvas>${edTag(ed)}</div>
     ${body}
     <div class="cd-foot"><span>No.${String(CITIES.indexOf(c) + 1).padStart(3, "0")}</span><span>JIANGSHAN ATLAS</span></div></div>
-    <div class="cd-back">${seal("图鉴")}<b>${cname(c)}</b><div class="bk">${hs.map(h => `${rankBadge(h)}：${h.m.ph(c).replace(/<[^>]+>/g, "")}`).join("<br>")}<br><br>${ZH("数据：2023 年统计公报（中国统计信息网转载）、七普、ESA WorldCover、高程。稀有度按宝藏点最好的名次：前 3 传世、前 10 珍品、前 30 稀有。", "Data: 2023 communiqués, 2020 census, ESA WorldCover, elevation. Rarity follows the best pride rank: top 3 legendary, top 10 epic, top 30 rare.")}</div></div></div></div>`; }
+    <div class="cd-back">${seal("图鉴")}<b>${cname(c)}</b><div class="bk">${hs.map(h => `${rankBadge(h)}：${h.m.ph(c).replace(/<[^>]+>/g, "")}`).join("<br>")}<br><br>${ZH("数据：2023 年统计公报（中国统计信息网转载）、七普、ESA WorldCover、高程。版本（素笺、洒金、泥金、传世）是抽出来的，和城市大小无关。", "Data: 2023 communiqués, 2020 census, ESA WorldCover, elevation. Editions (Plain, Gold-flecked, Gold on indigo, Heirloom) come from the draw, whatever the city's size.")}</div></div></div></div>`; }
 
 /* ---------- 叁 · 宝藏点与生活账本 (section) ---------- */
 function renderLife() { const el = $("[data-life]"); if (!el) return; const ids = ["330100", "511300", "540400", "341000", "230700"].filter(id => BYID.has(id)).slice(0, 3);
@@ -3067,6 +3114,7 @@ function mPeekHTML() { const c = M.city && BYID.get(M.city);
     <div class="m-head">${seal(c.n.slice(0, 2))}<div><b>${cname(c)}</b><span>${[pvOf(c) !== cname(c) ? pvOf(c) : kindOf(c), plateOf(c) ? `<i class="plate">${plateOf(c)}</i>` : ""].filter(Boolean).join(" · ")}${rr > 0 ? ` · <span class="m-chip r${rr}">${ZH(...RAR[rr])}</span>` : ""}</span></div>${mFavBtn(c)}</div>
     ${c.id === M.home ? helloHTML(c, M.homeCounty) + countyPickHTML(c, M.county, "data-mcounty", true) : M.county ? countyPickHTML(c, M.county, "data-mcounty", false) : ""}
     ${treasureChips(c)}
+    ${drawable(c) ? `<button class="gx-pill" data-m="gx-draw">${icon("i-dice", "")}${ZH("抽卡", "Draw")}${seenOf(c).length ? `<i>${ZH("已翻出 ", "")}${seenOf(c).length}${POOL && POOL !== "pending" ? " / " + poolOf(c).length : ""}</i>` : ""}</button>` : ""}
     ${c.id === M.home || M.county || facesOf(c).length ? "" : h ? `<div class="m-hon1"><span class="rk">${h.r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b>${h.r}</b>` : `<small>${ZH("全国前", "Top")}</small><b>${Math.max(1, Math.round(h.q * 100))}%</b>`}</span><div class="t"><b>${ZH(...h.m.lab)}</b><span>${h.m.ph(c)}</span></div></div>` : ""}
     ${c.id === M.home || M.county ? "" : `<div class="m-mini">${mini.map(([y, v, l]) => `<div>${medalSVG(y)}<b class="num">${v == null ? "—" : YIELDS[y].short(v)}</b><span>${l}</span></div>`).join("")}</div>`}
     <div class="m-acts"><button class="btn primary" data-m="expand">${ZH("看完整档案 ▲", "Full archive ▲")}</button><button class="btn" data-m="stamp">${seal("打卡", 20)}${AL.got.includes(c.id) ? ZH("已打卡", "Stamped") : ZH("打卡", "Stamp")}</button><button class="btn" data-m="topk">${icon("i-versus")}PK</button></div></div>`; }
@@ -3133,7 +3181,7 @@ function mOnboardHTML() { const q = M.q.trim().toLowerCase(), sub = new Map(), h
     ${hits.length ? `<div class="st-hits">${hits.map(x => `<button class="chip" data-mob="${x.id}" data-mobc="${sub.get(x.id) || ""}">${tierImg(x)}${cname(x)}${sub.get(x.id) ? `<span class="note">${ZH(`含${sub.get(x.id)}`, `incl. ${sub.get(x.id)}`)}</span>` : ""}</button>`).join("")}</div>` : q ? `<p class="note" style="margin:0">${ZH("没找到，试试拼音或县名", "No match; try pinyin or a county")}</p>` : ""}
     <span class="eyebrow">${ZH("最近出圈的城", "Trending lately")}</span><div class="st-hits">${TREND.filter(id => BYID.has(id)).map(id => `<button class="chip" data-mob="${id}">${cname(BYID.get(id))}</button>`).join("")}</div>
     <span class="note">${ZH("不注册、不定位，随时可改", "No sign-up, no location; change any time")}</span><button class="btn ghost" data-m="skip-ob" style="height:44px">${ZH("先随便逛逛", "Just look around")}</button></div>`;
-  if (M.ob === 2) { const c = BYID.get(M.home); return `<div class="box">${helloHTML(c, M.homeCounty)}<span class="eyebrow">${ZH("你的家乡卡", "Your hometown card")}</span><div data-mobcard>${cardHTML(c, { cls: "deal flipped" })}</div><button class="btn primary" data-m="ob-done">${ZH("收下，开始逛 →", "Keep it and explore →")}</button><button class="btn ghost" data-m="share" style="height:44px">${icon("i-share")}${ZH("先晒一下", "Share it first")}</button></div>`; }
+  if (M.ob === 2) { const c = BYID.get(M.home); return `<div class="box">${helloHTML(c, M.homeCounty)}<span class="eyebrow">${ZH("你的家乡卡", "Your hometown card")}</span><div data-mobcard>${cardHTML(c, { cls: "deal flipped" })}</div>${drawable(c) ? `<button class="btn" data-m="gx-draw" style="height:44px;justify-content:center;border-radius:22px">${icon("i-dice", "")}${ZH("抽一张，换三个亮点", "Draw: three other things about it")}</button>` : ""}<button class="btn primary" data-m="ob-done">${ZH("收下，开始逛 →", "Keep it and explore →")}</button><button class="btn ghost" data-m="share" style="height:44px">${icon("i-share")}${ZH("先晒一下", "Share it first")}</button></div>`; }
   return ""; }
 function mCoachHTML() { if (!M.coach) return ""; const steps = [
     { ring: [120, 300, 150, 150], tip: [60, 470, "up", 110], t: ZH("拖动地图，双指或 +/− 缩放", "Drag; pinch or +/− to zoom"), s: ZH("点任意城池，底部会弹出它的宝藏点", "Tap any town to see its hidden gems") },
@@ -3146,7 +3194,7 @@ function mShareHTML(kind) { const c = BYID.get(M.city || M.home || "540400");
   return `<div class="box"><span class="eyebrow">${ZH("晒一晒", "Share")}</span><div class="m-share"><div data-mshareprev><div class="frame" style="aspect-ratio:3/4"><div class="screen" style="width:450px;height:600px"><div class="xhs" data-mxhs></div></div></div></div>
     <div class="m-targets">${[["send", "i-share", ZH("发给朋友", "Send")], ["moments", "i-out", ZH("朋友圈", "Moments")], ["link", "i-link", ZH("复制链接", "Copy link")], ["save", "i-download", ZH("保存图片", "Save")]].map(([k, ic, l]) => `<button data-mshare="${k}"><i>${icon(ic, "")}</i>${l}</button>`).join("")}</div>
     <span class="note">${ZH("保存的是 1080×1440 的真图，二维码扫了就打开这座城", "Saves a real 1080×1440 image; the QR code opens this city")}</span><button class="btn ghost" data-m="close-modal" style="height:44px">${ZH("关闭", "Close")}</button></div></div>`; }
-function renderMob(anim) { const r = mRoot(); if (!r || !CITIES) return;
+function renderMob(anim) { const r = mRoot(); if (!r || !CITIES) return; { const gh = $("[data-mgx]", r); if (gh) { gh.innerHTML = gxHTML(); if (M.gx) paintArts(gh); } }
   $("[data-mtabs]", r).innerHTML = mTabsHTML();
   const onMap = M.tab === "map" || M.tab === "album";
   $("[data-mtop]", r).innerHTML = M.tab === "map" ? mTopHTML() : ""; $("[data-mzoom]", r).hidden = !onMap;
@@ -3165,9 +3213,9 @@ function renderMob(anim) { const r = mRoot(); if (!r || !CITIES) return;
   if (M.ob === 2 && anim === "card") setTimeout(() => { const k = $("[data-mobcard] .card5", r); if (k) { k.classList.remove("flipped"); snd("flip"); if (rarity(BYID.get(M.home)) >= 2) setTimeout(() => { spatter(k, 20, "#d9b25a", 90); snd("win"); }, 420); } }, RM() ? 0 : 650);
   if (anim === "count") countUp(r); }
 function renderMxhs() { const el = $("[data-mxhs]"); if (!el) return; const keep = ST.city; ST.city = M.city || M.home || "540400"; renderXhsInto(el); ST.city = keep; }
-function renderXhsInto(el) { const c = BYID.get(ST.city || "540400"), fs = facesOf(c).slice(0, 3), hs = boastRanks(c), pl = plateOf(c), pv = pvOf(c) !== cname(c) ? pvOf(c) : "";
+function renderXhsInto(el) { const c0 = BYID.get(ST.city || "540400"), sed = shareEdOf(c0); el.className = el.className.replace(/ ?xed\d/g, "") + " xed" + sed; const c = c0, fs = shareFaces(c), hand = M.shareEd && M.shareEd.city === c.id && M.shareEd.hand, hs = boastRanks(c), pl = plateOf(c), pv = pvOf(c) !== cname(c) ? pvOf(c) : "";
   el.innerHTML = `<div class="xh-top"><span class="xh-tag">#${ZH("这就是", "This is ")}${cname(c)}</span>${seal("图鉴", 30)}</div><div class="xh-title"><b>${cname(c)}</b><span>${pv}${pv && pl ? " · " : ""}${pl ? `<i class="plate">${pl}</i>` : ""}</span></div>
-    <div class="xh-art"><canvas data-art="${c.id}" width="450" height="180"></canvas>${rarTag(c, "cd-rar")}</div>
+    <div class="xh-art"><canvas data-art="${c.id}"${hand ? pinsAttr(fs) : ""} width="450" height="180"></canvas>${edTag(sed)}</div>
     <div class="xh-list">${fs.map(f => `<div class="xh-row pr">${faceSeal(f)}<div><b>${f.b}</b><span>${f.s}</span></div></div>`).join("")}${hs.map(h => `<div class="xh-row"><span class="xh-no">${ZH(`第${h.r}`, `#${h.r}`)}</span><div><b>${ZH(...h.m.lab)}</b><span>${h.m.ph(c)}</span></div></div>`).join("")}${rollText(c) ? `<p class="xh-roll">${rollText(c)}</p>` : ""}</div>
     <div class="xh-foot"><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span><span class="xh-h">#${cname(c)} #${ZH("家乡", "hometown")}</span><span class="qr">${ZH("扫码<br>看这座城", "Scan")}</span></div>`; paintArts(el); }
 /* ---------- map ---------- */
@@ -3194,7 +3242,7 @@ function mSelect(id, zoom = 2.6, county) { const c = BYID.get(id); if (!c) retur
 function mStamp() { const c = BYID.get(M.city); if (!c || AL.got.includes(c.id)) return; AL.got.push(c.id); AL.newest = c.id; AL.t0 = performance.now(); const before = new Set(AL.done); achs().forEach(a => { if (a.ids.every(id => AL.got.includes(id))) AL.done.add(a.id); });
   const un = [...AL.done].filter(x => !before.has(x)); snd("stamp"); spatter($("[data-m=stamp]"), 16); mTask("stamp"); renderMob(); full(MAPP); renderAlbum(); if (!un.length) setTimeout(() => mToast(`${seal("打卡")}<span>${ZH(`已打卡 ${c.n} · 共 ${AL.got.length} 城。下一步：拉它去 PK，或晒一晒`, `Stamped ${c.en} · ${AL.got.length} total. Next: PK it or share`)}</span>`, 3000), 500);
   if (un.length) { const A = achs().find(x => x.id === un[0]); setTimeout(() => { mToast(`${seal(A.seal)}<span>${ZH("成就达成 · ", "Achievement · ")}${ZH(A.zh, A.en)}</span>`); snd("win"); }, 600); } }
-function mObPick(id, cty) { const c = BYID.get(id); if (!c) return; const hit = cty && countiesOf(c).find(k => k[1] === cty); M.home = id; M.homeCounty = hit ? hit[0] : null; M.county = M.homeCounty; M.ob = 1; M.city = id; renderMob(); snd("pluck"); flyTo(MAPP, mTarget(c, 3), RM() ? 0 : 1300);
+function mObPick(id, cty) { const c = BYID.get(id); if (!c) return; const hit = cty && countiesOf(c).find(k => k[1] === cty); M.home = id; M.homeCounty = hit ? hit[0] : null; M.county = M.homeCounty; M.ob = 1; M.city = id; poolLoad(); renderMob(); snd("pluck"); flyTo(MAPP, mTarget(c, 3), RM() ? 0 : 1300);
   setTimeout(() => { full(MAPP); const r = MAPP.canvas.getBoundingClientRect(), k = r.width / MAPP.canvas.width, v = MAPP.view; spatterAt(r.left + (v.ox + c.x * v.s) * k, r.top + (v.oy + c.y * v.s) * k - 20, 22); snd("stamp");
     mToast(`${seal("吾乡")}<span>${ZH(`已认 ${c.n} 为家乡 · 你是第 1,285 位`, `${c.en} is your hometown · No. 1,285`)}</span>`); setTimeout(() => { M.ob = 2; renderMob("card"); }, RM() ? 0 : 900); }, RM() ? 50 : 1400); }
 function initMob() { const el = $("[data-mmap]"); if (!el) return;
@@ -3209,12 +3257,16 @@ function initMob() { const el = $("[data-mmap]"); if (!el) return;
     if (b.dataset.m6pk) { const [x, y] = b.dataset.m6pk.split(","); P6.a = x; P6.b = y; P6.step = -1; clearInterval(P6.timer); renderMob(); snd("flip"); return; }
     if (k === "expand") { M.sheet = "full"; renderMob("count"); mPush(); } else if (k === "collapse") { M.sheet = "peek"; renderMob(); mPush(); }
     else if (k === "stamp") mStamp(); else if (k === "topk") { P6.a = M.city; P6.b = M.home && M.home !== M.city ? M.home : (M.city === "500000" ? "510100" : "500000"); P6.step = -1; M.tab = "pk"; renderMob(); }
-    else if (k === "share" || k === "share-quiz") { M.shareKind = k; M.modal = "share"; renderMob(); } else if (k === "close-modal") { M.modal = null; renderMob(); }
+    else if (k === "share" || k === "share-quiz") { M.shareEd = null; M.shareKind = k; M.modal = "share"; renderMob(); } else if (k === "close-modal") { M.modal = null; renderMob(); }
     else if (k === "flows") { M.flows = true; M.sheet = "peek"; renderMob(); if (MAPP) { MAPP.view = { ...MAPP.home }; full(MAPP); } }
     else if (k === "q-next") { G6.i++; G6.picked = null; renderMob(); snd("flip"); } else if (k === "q-end") { G6.done = true; renderMob(); mTask("quiz"); }
     else if (k === "pk-go" || k === "pk-again") { const n = DUEL5.filter(r => r.k).length; clearInterval(P6.timer); if (RM()) { P6.step = n; renderMob(); mTask("pk"); return; } P6.step = 0; renderMob(); P6.timer = setInterval(() => { P6.step++; renderMob(); snd("flip"); setTimeout(() => snd("stamp"), 300); if (P6.step >= n) { clearInterval(P6.timer); snd("win"); mTask("pk"); } }, 800); }
     else if (k === "swap-a" || k === "swap-b") { const pool = ["330100", "320100", "320500", "420100", "610100", "440300", "440100", "510100", "500000", "540400"]; const cur = k === "swap-a" ? P6.a : P6.b; const nx = pool[(pool.indexOf(cur) + 1) % pool.length]; if (k === "swap-a") P6.a = nx; else P6.b = nx; renderMob(); }
-    else if (k === "draw") { const pool = CITIES.filter(c => !AL.got.includes(c.id) && rarity(c) >= 1); const c = pool[Math.floor(Math.random() * pool.length)]; M.tab = "map"; mSelect(c.id, 2.4); mToast(`${icon("i-dice", "")}<span>${ZH(`抽到 ${c.n} · ${RAR[rarity(c)][0]}卡`, `Drew ${c.en} · ${RAR[rarity(c)][1]}`)}</span>`); }
+    else if (k === "draw") { const pool = CITIES.filter(c => !AL.got.includes(c.id)), c = (pool.length ? pool : CITIES)[Math.floor(Math.random() * (pool.length || CITIES.length))]; M.tab = "map"; mSelect(c.id, 2.4); gachaStart(c.id); }
+    else if (k === "gx-draw") gachaStart(M.city || M.home); else if (k === "gx-again") gachaStart(M.gx.city);
+    else if (k === "gx-skip") { if (M.gx && M.gx.stage < 2 && !e.target.closest(".gx-ui")) { GXT.forEach(clearTimeout); gxStage(2); } }
+    else if (k === "gx-close") { GXT.forEach(clearTimeout); M.gx = null; if (M.ob === 2) { M.ob = 3; M.coach = 1; M.sheet = "peek"; mSelect(M.home); } else renderMob(); }
+    else if (k === "gx-share") { const g = M.gx; GXT.forEach(clearTimeout); M.shareEd = { city: g.city, ed: g.ed, hand: g.hand }; M.city = g.city; M.gx = null; if (M.ob === 2) { M.ob = 3; M.coach = 0; } M.shareKind = "share"; M.modal = "share"; renderMob(); }
     else if (k === "tasks") { M.tab = "me"; renderMob(); mPush(); }
     else if (k === "ob-done") { M.ob = 3; M.coach = 1; M.sheet = "peek"; mSelect(M.home); } else if (k === "skip-ob") { M.ob = 3; M.coach = 1; renderMob(); if (MAPP) flyTo(MAPP, { ...MAPP.home }, 500); }
     else if (k === "coach-next") { M.coach = M.coach >= 3 ? 0 : M.coach + 1; renderMob(); }
@@ -3249,8 +3301,8 @@ function renderScore() { const el = $("[data-mscore]"); if (!el) return; const i
 let SEARCH = null;
 Object.assign(M, { recent: [], fav: [], searches: [], lens: "none", year: 2023, view: null, rankK: "month", rankProv: "", rankAsc: false, exp: null, fix: null, wx: false, wxGuide: false, big: false, loaded: false });
 const MKEY = "jsatlas.mobile.v1";
-function mSave() { try { localStorage.setItem(MKEY, JSON.stringify({ recent: M.recent, fav: M.fav, searches: M.searches, home: M.home, homeCounty: M.homeCounty || null, big: M.big })); } catch (e) { } }
-function mLoad() { try { const d = JSON.parse(localStorage.getItem(MKEY) || "null"); if (d) { Object.assign(M, { recent: d.recent || [], fav: d.fav || [], searches: d.searches || [], big: !!d.big }); } } catch (e) { } }
+function mSave() { try { localStorage.setItem(MKEY, JSON.stringify({ recent: M.recent, fav: M.fav, searches: M.searches, home: M.home, homeCounty: M.homeCounty || null, big: M.big, eds: M.eds || {}, draw: M.draw || null, seen: M.seen || {} })); } catch (e) { } }
+function mLoad() { try { const d = JSON.parse(localStorage.getItem(MKEY) || "null"); if (d) { Object.assign(M, { recent: d.recent || [], fav: d.fav || [], searches: d.searches || [], big: !!d.big, eds: d.eds || {}, draw: d.draw || null, seen: d.seen || {} }); } } catch (e) { } }
 function mVisit(id) { M.recent = [id, ...M.recent.filter(x => x !== id)].slice(0, 12); mSave(); }
 /* ---- search: Chinese, pinyin, initials, counties → their city ---- */
 function mFind(q) { q = q.trim().toLowerCase(); if (!q || !SEARCH) return []; const out = [], seen = new Set();
@@ -3343,7 +3395,7 @@ function mRestore(h) { const p = (h || "").replace(/^#/, "").split("/"); if (p[0
   renderMob(); if (M.city && MAPP) flyTo(MAPP, mTarget(BYID.get(M.city), 2.6), 0); M.restoring = false; return true; }
 function mBack() { if (M.exp || M.fix) { M.exp = null; M.fix = null; } else if (M.modal) M.modal = null; else if (M.view) M.view = null; else if (M.sheet === "full") M.sheet = "peek"; else if (M.city) M.city = null; else if (M.tab !== "map") M.tab = "map"; renderMob(); mPush(); }
 let DLS = null; (async () => { try { if (window.claude && window.claude.use) DLS = await window.claude.use("downloads"); } catch (e) { DLS = null; } })();
-window.__jsatlas = { map: () => MAPP, state: () => M, desk: () => APPS[0] };
+window.__jsatlas = { map: () => MAPP, state: () => M, desk: () => APPS[0], pool: id => poolOf(BYID.get(id)), poolLoad };
 /* ================= 城市视图：一座城放大后看到的细节（借鉴 usaciv 的 City View） ================= */
 const CVK = { relic: ["保", "#2d5e78", ["全国重点文物保护单位", "National heritage site"]], whs: ["遗", "#b23a2b", ["世界遗产", "World Heritage"]], park: ["园", "#3d7a4f", ["国家公园", "National park"]], a5: ["景", "#b8862b", ["5A 景区", "5A scenic area"]], uni: ["学", "#2d5e78", ["双一流大学", "Double First-Class university"]],
   air: ["机", "#4b4a63", ["机场", "Airport"]], port: ["港", "#2d6e78", ["港口", "Port"]], power: ["电", "#7a5a2a", ["电站", "Power plant"]], mine: ["矿", "#6b5a4a", ["矿山", "Mine"]], oil: ["油", "#3a3a3a", ["油气田", "Oil & gas field"]] };
@@ -3374,19 +3426,53 @@ const plateOf = c => (CV && CV.plates && CV.plates[c.id]) || "";
 /* named treasures (World Heritage, 5A areas, nationally protected sites): [name, [marks], x, y, English] */
 const prideItems = c => (CV && CV.pride && CV.pride[c.id]) || [];
 const TG = { "遗": ["#b23a2b", ["世界遗产", "World Heritage"]], "5A": ["#b8862b", ["5A 景区", "5A scenic area"]], "保": ["#2d5e78", ["全国重点文保", "national heritage site"]] };
+/* 版本 = 纸的装帧。概率公开写在抽卡界面上。城市本身不分三六九等：谁的家乡都可能出金。 */
+const EDS = [["素笺", "Plain", 60, "#f6efe0", "r0"], ["洒金", "Gold-flecked", 28, "#e3b84f", "e1"], ["泥金", "Gold on indigo", 10, "#7cc3ea", "e2"], ["传世", "Heirloom", 2, "#ff8a5c", "r3"]];
+const rollEd = () => { const r = Math.random() * 100; return r < EDS[3][2] ? 3 : r < EDS[3][2] + EDS[2][2] ? 2 : r < EDS[3][2] + EDS[2][2] + EDS[1][2] ? 1 : 0; };
+const edSet = c => (typeof M !== "undefined" && M.eds && M.eds[c.id]) || 0;
+const edOf = c => { const m = edSet(c); return m >= 8 ? 3 : m >= 4 ? 2 : m >= 2 ? 1 : 0; };
+const shareEdOf = c => typeof M !== "undefined" && M.shareEd && M.shareEd.city === c.id ? M.shareEd.ed : edOf(c);
+const edTag = ed => ed > 0 ? `<span class="cd-rar ed${ed}">${ZH(EDS[ed][0], EDS[ed][1])}</span>` : "";
 const foodItems = c => (CV && CV.food && CV.food[c.id]) || [];
 const RK3 = ["一", "二", "三"];
 /* 位次: what locals say first. A trillion-yuan economy; else top three of its province by people, else by output.
    A rank is claimed only when no city with a missing figure could change it (2020 census stands in, with a 15% margin). */
-function standingOf(c) { if (!c) return null; const memo = standingOf.m || (standingOf.m = new Map()); if (memo.has(c.id)) return memo.get(c.id); let out = null;
-  const main = CITIES.filter(x => x.kind !== "sar"), wan = v => (v / 1e4).toFixed(v >= 1e7 ? 0 : 0);
-  if (c.kind !== "sar" && c.gdp >= 1e12) { const r = main.filter(x => x.gdp > c.gdp).length + 1; out = { b: ZH("万亿之城", "A trillion-yuan economy"), s: ZH(`2023 年生产总值 ${(c.gdp / 1e12).toFixed(2)} 万亿 · 全国第 ${r}`, `GDP ¥${(c.gdp / 1e12).toFixed(2)}T in 2023 · No. ${r} in China`) }; }
-  else if (!["municipality", "sar"].includes(c.kind)) { const peers = main.filter(x => x.prov === c.prov && !["municipality"].includes(x.kind)), pv = pvOf(c);
+function standings(c) { if (!c) return []; const memo = standings.m || (standings.m = new Map()), key = c.id + (EN() ? "e" : "z"); if (memo.has(key)) return memo.get(key); const out = [];
+  const main = CITIES.filter(x => x.kind !== "sar");
+  if (c.kind !== "sar" && c.gdp >= 1e12) { const r = main.filter(x => x.gdp > c.gdp).length + 1; out.push({ id: "万亿", b: ZH("万亿之城", "A trillion-yuan economy"), s: ZH(`2023 年生产总值 ${(c.gdp / 1e12).toFixed(2)} 万亿 · 全国第 ${r}`, `GDP ¥${(c.gdp / 1e12).toFixed(2)}T in 2023 · No. ${r} in China`) }); }
+  if (!["municipality", "sar"].includes(c.kind)) { const peers = main.filter(x => x.prov === c.prov && !["municipality"].includes(x.kind)), pv = pvOf(c);
     const rank = (key, est) => { if (c[key] == null) return 0; let r = 1; for (const x of peers) { if (x === c) continue; const v = x[key] != null ? x[key] : est ? x[est] : null; if (v == null) return 0; if (x[key] == null && v > c[key] * .85 && v < c[key] * 1.15) return 0; if (v > c[key]) r++; } return r; };
     const rp = rank("pop", "pop20"), rg = rank("gdp", null);
-    if (rp && rp <= 3 && (!rg || rp <= rg)) out = { b: ZH(`人口${pv}第${RK3[rp - 1]}`, `No. ${rp} in ${pv}`), s: ZH(`常住 ${Math.round(c.pop / 1e4)} 万人 · 2023 年统计公报`, `by population: ${(c.pop / 1e6).toFixed(2)}M · 2023 communiqué`) };
-    else if (rg && rg <= 3) out = { b: ZH(`经济${pv}第${RK3[rg - 1]}`, `No. ${rg} economy in ${pv}`), s: ZH(`2023 年生产总值 ${Math.round(c.gdp / 1e8).toLocaleString("en-US")} 亿`, `GDP ¥${Math.round(c.gdp / 1e8).toLocaleString("en-US")}00M in 2023`) }; }
-  memo.set(c.id, out); return out; }
+    const pf = rp && rp <= 3 ? { id: "人口", b: ZH(`人口${pv}第${RK3[rp - 1]}`, `No. ${rp} in ${pv}`), s: ZH(`常住 ${Math.round(c.pop / 1e4)} 万人 · 2023 年统计公报`, `by population: ${(c.pop / 1e6).toFixed(2)}M · 2023 communiqué`) } : null;
+    const gf = rg && rg <= 3 ? { id: "经济", b: ZH(`经济${pv}第${RK3[rg - 1]}`, `No. ${rg} economy in ${pv}`), s: ZH(`2023 年生产总值 ${Math.round(c.gdp / 1e8).toLocaleString("en-US")} 亿`, `GDP ¥${Math.round(c.gdp / 1e8).toLocaleString("en-US")}00M in 2023`) } : null;
+    if (!out.length) out.push(...(pf && (!rg || rp <= rg) ? [pf, gf] : [gf, pf]).filter(Boolean)); else out.push(...[pf, gf].filter(Boolean)); }
+  memo.set(key, out); return out; }
+const standingOf = c => standings(c)[0] || null;
+/* ---------- 抽卡的池子：一座城所有查得到出处的亮点（位次、吃的、景点古迹、国家级非遗），第一次抽卡时才取 ---------- */
+let POOL = null, POOLP = null;   // null: not asked · "pending" · false: could not be fetched · { more, food, lore }
+function poolLoad() { if (POOLP) return POOLP; POOL = "pending"; return POOLP = fetch("data/pool.json").then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => { POOL = d; }).catch(() => { POOL = false; }); }
+const LORE = [["文", "民间文学", "folk literature"], ["乐", "传统音乐", "traditional music"], ["舞", "传统舞蹈", "traditional dance"], ["戏", "传统戏剧", "traditional opera"], ["曲", "曲艺", "storytelling and ballads"], ["技", "体育游艺杂技", "sports, games and acrobatics"], ["美", "传统美术", "folk art"], ["艺", "传统技艺", "craftsmanship"], ["医", "传统医药", "traditional medicine"], ["俗", "民俗", "folk custom"]];
+/* every face has an id that does not change with the language; g is its group, used to mix a hand */
+function poolOf(c) { const P = POOL && POOL !== "pending" ? POOL : null, out = [];
+  for (const st of standings(c)) out.push({ id: "位:" + st.id, g: "位", k: "位", col: "#5d4e40", b: st.b, s: st.s, go: null });
+  for (const f of (P && P.food[c.id]) || foodItems(c)) out.push({ id: "吃:" + f[0], g: "吃", k: "吃", col: "#3d7a4f", b: EN() && f[1] ? f[1] : f[0], s: f[2] === "标" ? ZH("国家地理标志", "geographical indication") : ZH("国家级非遗 · 传统技艺", "national intangible heritage · craft"), go: null });
+  for (const r of [...prideItems(c), ...((P && P.more[c.id]) || [])]) { if (EN() && !r[4]) continue; out.push({ id: "地:" + r[0], g: "地", k: r[1][0] === "5A" ? "景" : r[1][0], col: TG[r[1][0]][0], b: prName(r), s: r[1].map(k => ZH(...TG[k][1])).join(" · "), go: [r[2], r[3]], pin: r[1][0] }); }
+  for (const r of (P && P.lore[c.id]) || []) { const L = LORE[r[2]], cty = r[3] && countiesOf(c).find(k => k[1] === r[3]);
+    out.push({ id: "文:" + r[0], g: "文", k: L[0], col: "#7a4a6e", b: EN() ? r[1] : r[0], s: ZH(`国家级非遗 · ${L[1]}${r[3] ? " · " + r[3] : ""}`, `national intangible heritage · ${L[2]}${cty && cty[5] ? " · " + cty[5] : ""}`), go: null }); }
+  return out; }
+const handFaces = (c, ids) => { const by = new Map(poolOf(c).map(f => [f.id, f])); return ids.map(i => by.get(i)).filter(Boolean); };
+const drawable = c => !(POOL && POOL !== "pending") || poolOf(c).length > 3;   // unknown until the pool has arrived: offer it
+const seenOf = c => (typeof M !== "undefined" && M.seen && M.seen[c.id]) || [];
+/* three faces for one draw: ones never shown come first, then ones not in the hand just before; mixed across groups when it can be */
+function drawHand(c, prev) { const pool = poolOf(c), seen = new Set(seenOf(c)), last = new Set(prev || []), pick = [];
+  const tier = f => seen.has(f.id) ? (last.has(f.id) ? 2 : 1) : 0, sh = pool.map(f => [Math.random(), f]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
+  for (const t of [0, 1, 2]) { const fs = sh.filter(f => tier(f) === t);
+    for (const f of fs) if (pick.length < 3 && !pick.some(q => q.g === f.g)) pick.push(f);
+    for (const f of fs) if (pick.length < 3 && !pick.includes(f)) pick.push(f); }
+  const ord = ["位", "吃", "地", "文"]; pick.sort((a, b) => ord.indexOf(a.g) - ord.indexOf(b.g));
+  return { faces: pick, fresh: pick.filter(f => !seen.has(f.id)).map(f => f.id), total: pool.length }; }
+const shareFaces = c => typeof M !== "undefined" && M.shareEd && M.shareEd.city === c.id && M.shareEd.hand ? handFaces(c, M.shareEd.hand) : facesOf(c).slice(0, 3);
+const pinsAttr = fs => ` data-pins="${fs.filter(f => f.go).map(f => [f.pin, f.go[0], f.go[1]].join(",")).join(";")}"`;
 /* a city's faces in card order: standing, food, then named places; each {k: mark, col, b: name, s: small print, go: [x, y] | null} */
 function facesOf(c) { const out = [], st = standingOf(c); if (st) out.push({ k: "位", col: "#5d4e40", b: st.b, s: st.s, go: null });
   const fd = foodItems(c); if (fd.length) out.push({ k: "吃", col: "#3d7a4f", b: fd.map(f => EN() && f[1] ? f[1] : f[0]).join(ZH("、", ", ")), s: [...new Set(fd.map(f => f[2] === "标" ? ZH("国家地理标志", "geographical indication") : ZH("国家级非遗", "national intangible heritage")))].join(" · "), go: null });
@@ -3395,7 +3481,7 @@ function facesOf(c) { const out = [], st = standingOf(c); if (st) out.push({ k: 
 const faceSeal = f => `<i class="tg" style="background:${f.col}">${f.k}</i>`;
 const tgSeal = r => { const k = r[1][0], ch = k === "5A" ? "景" : k; return `<i class="tg" style="background:${TG[k][0]}">${ch}</i>`; };
 const prName = r => EN() && r[4] ? r[4] : r[0];
-const boastRanks = c => prideOf(c).filter(h => h.r <= 30).slice(0, Math.max(0, 3 - facesOf(c).length));
+const boastRanks = c => prideOf(c).filter(h => h.r <= 30).slice(0, Math.max(0, 3 - shareFaces(c).length));
 const rollText = c => countiesOf(c).map(r => shortCounty(c, r)).join(" · ");
 const rarTag = (c, cls = "") => { const rr = rarity(c); return rr > 0 ? `<span class="${cls} r${rr}">${ZH(...RAR[rr])}</span>` : ""; };   /* the lowest tier carries no label: nobody's hometown is "ordinary" */
 const shortCounty = (c, r) => EN() ? r[5] || r[1] : r[6] || r[1];
@@ -3421,6 +3507,33 @@ function cvCounties(app, ctx, u, v, sel) { const d = cntGet(sel); if (!d) return
 document.addEventListener("click", e => { const b = e.target.closest("[data-mcounty],[data-dcounty]"); if (!b) return; const mob = b.dataset.mcounty != null, code = mob ? b.dataset.mcounty : b.dataset.dcounty, st = mob ? M : S, cid = mob ? M.city : S.city, c = BYID.get(cid); if (!c) return;
   const home = cid === (mob ? M.home : dHome()); st.county = st.county === code && !home ? null : code; if (home) { st.homeCounty = st.homeCounty === code ? null : code; st.county = st.homeCounty; if (mob) mSave(); }
   if (mob) renderMob(); else renderPanels(false); const app = mob ? MAPP : APPS[0]; if (app && app.view) { if (app.zoom() < 2.1) flyTo(app, prefFit(app, c, mob ? 9 : 6.5, mob ? [8, 104, 374, 330] : undefined) || viewOn(app, c, 2.4)); else frame(app); } snd("stamp"); });
+/* ---------- 抽卡 ---------- */
+let GXT = [];
+function gachaStart(cityId) { const c = BYID.get(cityId); if (!c) return; const ed = rollEd(), prev = M.gx && M.gx.city === cityId ? M.gx.hand : M.lastHand && M.lastHand.city === cityId ? M.lastHand.hand : null; M.eds = M.eds || {}; M.eds[cityId] = edSet(c) | (1 << ed); const day = new Date().toLocaleDateString("sv"); if (!M.draw || M.draw.d !== day) M.draw = { d: day, n: 0 }; M.draw.n++;
+  const g = M.gx = { city: cityId, ed, stage: 0, hand: null, fresh: [], total: 0 }; M.modal = null; mSave(); renderMob(); gxRun();
+  // the hand is dealt once the pool has arrived (or has failed: then from what the page already holds); the card stays face down until then
+  poolLoad().then(() => { if (M.gx !== g) return; const h = drawHand(c, prev); g.hand = h.faces.map(f => f.id); g.fresh = h.fresh; g.total = h.total; M.seen = M.seen || {}; M.seen[cityId] = [...new Set([...seenOf(c), ...g.hand])]; M.lastHand = { city: cityId, hand: g.hand }; mSave(); gxFill(); if (g.wait) gxStage(2); }); }
+const gxCard = (g, c) => cardHTML(c, { ed: g.ed, faces: g.hand ? handFaces(c, g.hand) : [], fresh: g.fresh, cls: g.stage < 2 ? "flipped" : "" });
+function gxFill() { const g = M.gx, el = $("[data-mgx] .gx"); if (!g || !el) return; const c = BYID.get(g.city), k = el.querySelector(".gx-card"), u = el.querySelector(".gx-ui"); if (k) { k.innerHTML = gxCard(g, c); paintArts(k); } if (u) u.innerHTML = gxUI(g, c); }
+function gxUI(g, c) { const E = EDS[g.ed], n = g.total, got = Math.min(n, seenOf(c).length), fr = g.fresh.length, nm = cname(c);
+  const line = !g.hand ? "" : !n ? ZH(`${nm}还没有收到亮点，名单在补`, `Nothing on record for ${nm} yet`) : n <= 3 ? ZH(`${nm}目前只收到 ${n} 个亮点，都在这了`, `Only ${n} on record for ${nm} so far`) : got >= n ? (fr ? ZH(`最后 ${fr} 个也翻出来了，集齐`, `The last ${fr} turned up. All found`) : ZH(`${n} 个亮点你都见过了`, `You have seen all ${n}`)) : fr ? ZH(`翻出 ${fr} 个新亮点`, `${fr} new ${fr > 1 ? "finds" : "find"}`) : ZH("这几个见过了，再抽", "Seen these. Draw again");
+  return `<div class="gx-ttl"><b>${ZH(E[0] + "版", E[1])}</b><span>${line}</span></div>
+      ${n > 3 ? `<div class="gx-prog"><span>${ZH(`${nm}的 ${n} 个亮点 · 已翻出 ${got}`, `${got} of ${n} for ${nm}`)}</span><i><b style="width:${got / n * 100}%"></b></i></div>` : ""}
+      <div class="gx-acts${n > 3 ? "" : " one"}">${n > 3 ? `<button class="btn primary" data-m="gx-again">${icon("i-dice", "")}${ZH("再抽一张", "Draw again")}</button>` : ""}<button class="btn" data-m="gx-share">${icon("i-share")}${ZH("晒这一张", "Share this one")}</button></div>
+      <button class="btn ghost" data-m="gx-close">${ZH("收下", "Keep it")}</button>
+      <p class="gx-odds">${ZH(`今天第 ${M.draw.n} 抽 · 版本概率：`, `Draw ${M.draw.n} today · edition odds: `)}${EDS.map(e => `${ZH(e[0], e[1])} ${e[2]}%`).join(" · ")}</p>`; }
+function gxRun() { GXT.forEach(clearTimeout); GXT = []; const g = M.gx; if (!g) return; const big = g.ed >= 2, go = (ms, st) => GXT.push(setTimeout(() => gxStage(st), ms));
+  if (RM()) { gxStage(2); return; } snd("pluck"); const t1 = g.ed === 3 ? 1900 : big ? 1600 : g.ed ? 1300 : 1050;
+  if (g.ed) GXT.push(setTimeout(() => { g.tell = 1; const el = $("[data-mgx] .gx"); if (el) el.classList.add("tell"); snd("tick"); }, t1 - (big ? 800 : 450)));
+  go(t1, 1); go(t1 + (big ? 560 : 420), 2); }
+function gxStage(st) { const g = M.gx, el = $("[data-mgx] .gx"); if (!g || !el) return; if (st === 2 && !g.hand) { g.wait = 1; return; } g.stage = st; el.classList.remove("s0", "s1", "s2"); el.classList.add("s" + st);
+  if (st === 1) { snd("stamp"); try { navigator.vibrate && navigator.vibrate(g.ed >= 2 ? [30, 40, 90] : 18); } catch (e) {} } if (st === 2) { const ag = el.querySelector('[data-m="gx-again"]'); if (ag) setTimeout(() => ag.focus({ preventScroll: true }), 700); const k = el.querySelector(".card5"); if (k) k.classList.remove("flipped"); snd("flip"); setTimeout(() => { if (g.ed >= 1 && k) { spatter(k, g.ed >= 2 ? 34 : 18, g.ed === 3 ? "#b23a2b" : "#d9b25a", g.ed >= 2 ? 150 : 100); snd(g.ed >= 2 ? "ok" : "tick"); } }, RM() ? 0 : 420); } }
+function gxHTML() { const g = M.gx; if (!g) return ""; const c = BYID.get(g.city), E = EDS[g.ed], big = g.ed >= 2;
+  const dust = g.ed ? Array.from({ length: [0, 10, 18, 26][g.ed] }, (_, i) => `<i style="left:${8 + (i * 37 % 84)}%;--dx:${(i * 53 % 90) - 45}px;animation-delay:${(i * 0.137 % 2.2).toFixed(2)}s;--sz:${3 + i % 4}px"></i>`).join("") : "";
+  return `<div class="gx s${g.stage} ${big ? "big" : ""} ${g.tell ? "tell" : ""} ed${g.ed}" style="--gxc:${E[3]}" data-m="gx-skip" role="dialog" aria-label="${ZH("抽卡", "Card draw")}">
+    <div class="gx-rays"></div><div class="gx-flash"></div><div class="gx-ring"></div><div class="gx-ring r2"></div><div class="gx-dust">${dust}</div>
+    <div class="gx-card">${gxCard(g, c)}</div>
+    <div class="gx-ui">${gxUI(g, c)}</div></div>`; }
 /* ---------- 城市视图的铁路与高速（OpenStreetMap，用户 2026-11-27 选定） ---------- */
 function trLoad() { fetch("data/transport.json").then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => { TR = trIndex(d); APPS.forEach(a => a.view && frame(a)); if (S.city) renderPanels(false); if (M.city && M.sheet === "full") renderMob(); }).catch(e => { TR = e === 404 ? "pending" : false; if (S.city) renderPanels(false); }); }
 function trIndex(d) { d.L = d.lines.map(r => { const n = (r.length - 1) / 2, pts = new Float32Array(n * 2); let x = r[1], y = r[2], b = [1e9, 1e9, -1e9, -1e9];
@@ -3694,29 +3807,29 @@ async function qrDraw(x, text, px, py, size) { try { await qrLoad(); const q = q
 function rrect(x, a, b, w, h, r) { x.beginPath(); x.moveTo(a + r, b); x.arcTo(a + w, b, a + w, b + h, r); x.arcTo(a + w, b + h, a, b + h, r); x.arcTo(a, b + h, a, b, r); x.arcTo(a, b, a + w, b, r); x.closePath(); }
 const stripTags = h => String(h).replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ");
 /* the 3:4 card (1080 × 1440), drawn natively so it can be saved as a real PNG */
-async function shareCanvas(c) { const W = 1080, H = 1440, cv = document.createElement("canvas"); cv.width = W; cv.height = H; const x = cv.getContext("2d"), P = 84, small = (c.popAny || 0) < 4e6, hs = prideOf(c).slice(0, 3);
-  const g = x.createLinearGradient(0, 0, W * .25, H); g.addColorStop(0, "#fbf3dc"); g.addColorStop(1, "#efe2c2"); x.fillStyle = g; x.fillRect(0, 0, W, H);
+async function shareCanvas(c) { const W = 1080, H = 1440, cv = document.createElement("canvas"); cv.width = W; cv.height = H; const x = cv.getContext("2d"), sed = shareEdOf(c), K = [{ a: "#fbf3dc", b: "#efe2c2", ink: "#2b231d", sub: "#4a3b2f", dim: "#8a7a68", row: "rgba(251,246,234,.9)", line: "rgba(43,35,29,.3)" }, { a: "#fbf3dc", b: "#f1e2b8", ink: "#2b231d", sub: "#4a3b2f", dim: "#8a7a68", row: "rgba(255,250,236,.92)", line: "#c9a24a" }, { a: "#1f3d52", b: "#12222f", ink: "#f3d58a", sub: "#e9cf8a", dim: "rgba(233,207,138,.75)", row: "rgba(246,239,224,.1)", line: "#c9a24a" }, { a: "#b23a2b", b: "#6f1c14", ink: "#f8dc94", sub: "#f3d58a", dim: "rgba(243,213,138,.8)", row: "rgba(255,244,214,.12)", line: "#f3d58a" }][sed], P = 84, small = (c.popAny || 0) < 4e6, hs = prideOf(c).slice(0, 3);
+  const g = x.createLinearGradient(0, 0, W * .25, H); g.addColorStop(0, K.a); g.addColorStop(1, K.b); x.fillStyle = g; x.fillRect(0, 0, W, H);
   x.save(); x.globalAlpha = .3; x.globalCompositeOperation = "multiply"; x.fillStyle = paperPattern(x); x.fillRect(0, 0, W, H); x.restore();
-  x.strokeStyle = "rgba(43,35,29,.3)"; x.lineWidth = 3; x.strokeRect(26, 26, W - 52, H - 52); x.lineWidth = 1; x.strokeRect(38, 38, W - 76, H - 76);
+  if (sed === 1) { const rr = rng(c.id.length * 131 + 7); x.fillStyle = "rgba(201,162,74,.55)"; for (let k = 0; k < 420; k++) { x.beginPath(); x.arc(rr() * W, rr() * H, 1.2 + rr() * 3.2, 0, 7); x.fill(); } } x.strokeStyle = K.line; x.lineWidth = sed ? 5 : 3; x.strokeRect(26, 26, W - 52, H - 52); x.lineWidth = 1; x.strokeRect(38, 38, W - 76, H - 76);
   const tag = "#" + ZH("这就是", "This is ") + cname(c); x.font = `600 34px "Noto Sans SC", sans-serif`; const tw = x.measureText(tag).width + 44;
-  x.fillStyle = "rgba(178,58,43,.1)"; rrect(x, P, 86, tw, 60, 30); x.fill(); x.fillStyle = "#b23a2b"; x.textBaseline = "middle"; x.fillText(tag, P + 22, 117); drawSeal(x, W - P - 46, 116, 92, "图鉴", 4, 7);
-  x.textBaseline = "alphabetic"; x.fillStyle = "#2b231d"; x.font = `900 136px "Noto Serif SC", serif`; x.fillText(cname(c), P, 306);
-  x.fillStyle = "#4a3b2f"; x.font = `500 46px "Noto Serif SC", serif`; { const pv = pvOf(c) !== cname(c) ? pvOf(c) : "", pl = plateOf(c); x.fillText(pv, P, 372); if (pl) { const px = P + (pv ? x.measureText(pv).width + 24 : 0); x.font = `700 38px "Noto Sans SC", sans-serif`; const pw = x.measureText(pl).width + 30; x.fillStyle = "#2d5e78"; rrect(x, px, 330, pw, 54, 8); x.fill(); x.fillStyle = "#f6f2e8"; x.fillText(pl, px + 15, 371); } }
-  x.fillStyle = "#8a7a68"; x.font = `500 30px "Noto Sans SC", sans-serif`; { let roll = rollText(c); while (roll && x.measureText(roll).width > W - 2 * P) roll = roll.slice(0, roll.lastIndexOf(" · ")) ; x.fillText(roll, P, 422); }
-  const art = document.createElement("canvas"); art.width = 912; art.height = 320; try { cardArt(art, c); } catch (e) { }
+  x.fillStyle = sed >= 2 ? "rgba(243,213,138,.18)" : "rgba(178,58,43,.1)"; rrect(x, P, 86, tw, 60, 30); x.fill(); x.fillStyle = sed >= 2 ? K.ink : "#b23a2b"; x.textBaseline = "middle"; x.fillText(tag, P + 22, 117); drawSeal(x, W - P - 46, 116, 92, "图鉴", 4, 7); if (sed) { x.save(); x.font = `600 34px "Noto Sans SC", sans-serif`; const et = ZH(EDS[sed][0] + "版", EDS[sed][1]), ew = x.measureText(et).width + 44, ex = P + tw + 16; x.fillStyle = sed === 1 ? "#c9a24a" : "rgba(243,213,138,.22)"; rrect(x, ex, 86, ew, 60, 30); x.fill(); x.fillStyle = sed === 1 ? "#fffaf0" : K.ink; x.textBaseline = "middle"; x.fillText(et, ex + 22, 117); x.restore(); }
+  x.textBaseline = "alphabetic"; x.fillStyle = K.ink; x.font = `900 136px "Noto Serif SC", serif`; x.fillText(cname(c), P, 306);
+  x.fillStyle = K.sub; x.font = `500 46px "Noto Serif SC", serif`; { const pv = pvOf(c) !== cname(c) ? pvOf(c) : "", pl = plateOf(c); x.fillText(pv, P, 372); if (pl) { const px = P + (pv ? x.measureText(pv).width + 24 : 0); x.font = `700 38px "Noto Sans SC", sans-serif`; const pw = x.measureText(pl).width + 30; x.fillStyle = "#2d5e78"; rrect(x, px, 330, pw, 54, 8); x.fill(); x.fillStyle = "#f6f2e8"; x.fillText(pl, px + 15, 371); } }
+  x.fillStyle = K.dim; x.font = `500 30px "Noto Sans SC", sans-serif`; { let roll = rollText(c); while (roll && x.measureText(roll).width > W - 2 * P) roll = roll.slice(0, roll.lastIndexOf(" · ")) ; x.fillText(roll, P, 422); }
+  const art = document.createElement("canvas"); art.width = 912; art.height = 320; if (typeof M !== "undefined" && M.shareEd && M.shareEd.city === c.id && M.shareEd.hand) art.dataset.pins = shareFaces(c).filter(f => f.go).map(f => [f.pin, f.go[0], f.go[1]].join(",")).join(";"); try { cardArt(art, c); } catch (e) { }
   x.save(); rrect(x, P, 448, W - 2 * P, 320, 18); x.clip(); x.drawImage(art, P, 448, W - 2 * P, 320); x.restore(); x.strokeStyle = "rgba(43,35,29,.25)"; x.lineWidth = 2; rrect(x, P, 448, W - 2 * P, 320, 18); x.stroke();
-  let y = 796; for (const f of facesOf(c).slice(0, 3)) { rrect(x, P, y, W - 2 * P, 112, 16); x.fillStyle = "rgba(251,246,234,.9)"; x.fill(); x.strokeStyle = "rgba(43,35,29,.14)"; x.lineWidth = 2; x.stroke();
+  let y = 796; for (const f of shareFaces(c)) { rrect(x, P, y, W - 2 * P, 112, 16); x.fillStyle = K.row; x.fill(); x.strokeStyle = "rgba(43,35,29,.14)"; x.lineWidth = 2; x.stroke();
     x.fillStyle = f.col; x.beginPath(); x.arc(P + 68, y + 56, 42, 0, 7); x.fill(); x.fillStyle = "#fbf4e6"; x.textAlign = "center"; x.textBaseline = "middle"; x.font = `400 50px "Ma Shan Zheng", serif`; x.fillText(f.k, P + 68, y + 59);
-    x.textAlign = "left"; x.textBaseline = "alphabetic"; x.fillStyle = "#2b231d"; x.font = `700 ${f.b.length > 14 ? 34 : 44}px "Noto Serif SC", serif`; x.fillText(f.b.slice(0, 30), P + 140, y + 54); x.fillStyle = "#5a4a3c"; x.font = `500 28px "Noto Serif SC", serif`; x.fillText(f.s, P + 140, y + 94); y += 126; }
-  for (const h of boastRanks(c)) { rrect(x, P, y, W - 2 * P, 112, 16); x.fillStyle = "rgba(251,246,234,.9)"; x.fill(); x.strokeStyle = "rgba(43,35,29,.14)"; x.lineWidth = 2; x.stroke();
+    x.textAlign = "left"; x.textBaseline = "alphabetic"; x.fillStyle = K.ink; x.font = `700 ${f.b.length > 14 ? 34 : 44}px "Noto Serif SC", serif`; x.fillText(f.b.slice(0, 30), P + 140, y + 54); x.fillStyle = K.sub; x.font = `500 28px "Noto Serif SC", serif`; x.fillText(f.s, P + 140, y + 94); y += 126; }
+  for (const h of boastRanks(c)) { rrect(x, P, y, W - 2 * P, 112, 16); x.fillStyle = K.row; x.fill(); x.strokeStyle = "rgba(43,35,29,.14)"; x.lineWidth = 2; x.stroke();
     const no = h.r <= 30 ? ZH(`第${h.r}`, `#${h.r}`) : ZH(`前${Math.max(1, Math.round(h.q * 100))}%`, `top ${Math.max(1, Math.round(h.q * 100))}%`);
     x.fillStyle = h.r <= 3 ? "#c9a24a" : "#b23a2b"; x.beginPath(); x.arc(P + 68, y + 56, 42, 0, 7); x.fill(); x.fillStyle = "#fbf4e6"; x.textAlign = "center"; x.textBaseline = "middle"; if (EN() && h.r > 30) { x.font = `600 16px "Noto Sans SC", sans-serif`; x.fillText("top", P + 68, y + 42); x.font = `800 24px "Noto Serif SC", serif`; x.fillText(`${Math.max(1, Math.round(h.q * 100))}%`, P + 68, y + 66); } else { x.font = `800 ${no.length > 3 ? 24 : 30}px "Noto Serif SC", serif`; x.fillText(no, P + 68, y + 57); }
-    x.textAlign = "left"; x.textBaseline = "alphabetic"; x.fillStyle = "#2b231d"; x.font = EN() ? `700 38px "Noto Serif SC", serif` : `400 46px "Ma Shan Zheng", serif`; x.fillText(ZH(...h.m.lab), P + 140, y + 52); x.fillStyle = "#5a4a3c"; x.font = `500 30px "Noto Serif SC", serif`; x.fillText(stripTags(h.m.ph(c)).slice(0, 26), P + 140, y + 94); y += 126; }
+    x.textAlign = "left"; x.textBaseline = "alphabetic"; x.fillStyle = K.ink; x.font = EN() ? `700 38px "Noto Serif SC", serif` : `400 46px "Ma Shan Zheng", serif`; x.fillText(ZH(...h.m.lab), P + 140, y + 52); x.fillStyle = K.sub; x.font = `500 30px "Noto Serif SC", serif`; x.fillText(stripTags(h.m.ph(c)).slice(0, 26), P + 140, y + 94); y += 126; }
   const fy = H - 256; x.strokeStyle = "rgba(43,35,29,.2)"; x.lineWidth = 2; x.beginPath(); x.moveTo(P, fy); x.lineTo(W - P, fy); x.stroke();
-  x.fillStyle = "#2b231d"; x.font = `400 64px "Ma Shan Zheng", serif`; x.fillText("江山图鉴", P, fy + 96); x.fillStyle = "#8a7a68"; x.font = `600 20px "Noto Serif SC", serif`; x.fillText("J I A N G S H A N   A T L A S", P, fy + 132);
-  x.fillStyle = "#b23a2b"; x.font = `500 30px "Noto Sans SC", sans-serif`; x.fillText(`#${cname(c)}  #${small ? ZH("宝藏小城", "gems") : ZH("城市实力", "cities")}`, P, fy + 186);
-  x.fillStyle = "#8a7a68"; x.font = `400 20px "Noto Sans SC", sans-serif`; x.fillText(ZH("数据：各地统计公报、七普、ESA WorldCover", "Data: city communiqués, 2020 census, ESA WorldCover"), P, fy + 224);
-  const qs = 178, qx = W - P - qs, qy = fy + 22; await qrDraw(x, shrUrl(c), qx, qy, qs); x.fillStyle = "#5a4a3c"; x.font = `500 22px "Noto Sans SC", sans-serif`; x.textAlign = "center"; x.fillText(ZH("扫码看它排第几", "Scan to see the ranks"), qx + qs / 2, qy + qs + 30); x.textAlign = "left";
+  x.fillStyle = K.ink; x.font = `400 64px "Ma Shan Zheng", serif`; x.fillText("江山图鉴", P, fy + 96); x.fillStyle = K.dim; x.font = `600 20px "Noto Serif SC", serif`; x.fillText("J I A N G S H A N   A T L A S", P, fy + 132);
+  x.fillStyle = sed >= 2 ? K.ink : "#b23a2b"; x.font = `500 30px "Noto Sans SC", sans-serif`; x.fillText(`#${cname(c)}  #${small ? ZH("宝藏小城", "gems") : ZH("城市实力", "cities")}`, P, fy + 186);
+  x.fillStyle = K.dim; x.font = `400 20px "Noto Sans SC", sans-serif`; x.fillText(ZH("数据：各地统计公报、七普、ESA WorldCover", "Data: city communiqués, 2020 census, ESA WorldCover"), P, fy + 224);
+  const qs = 178, qx = W - P - qs, qy = fy + 22; await qrDraw(x, shrUrl(c), qx, qy, qs); x.fillStyle = K.sub; x.font = `500 22px "Noto Sans SC", sans-serif`; x.textAlign = "center"; x.fillText(ZH("扫码看它排第几", "Scan to see the ranks"), qx + qs / 2, qy + qs + 30); x.textAlign = "left";
   return cv; }
 const shareBlob = async c => { const cv = await shareCanvas(c); return await new Promise(r => cv.toBlob(r, "image/png")); };
 /* one place for every share button: send / moments / link / save */
