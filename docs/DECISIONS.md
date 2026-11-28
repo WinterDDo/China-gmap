@@ -344,4 +344,4 @@
 - 放弃了：先做 B（工作量小，但二手名字原样留着）；继续用维基数据的名字、靠一张张修正表补（每放宽一次就要再通读一次）。
 - 谁定的：用户（2026-11-28，回复「A」）
 - 出处：会话 session_01DGeZrdANx45XY7zhNDtypj
-- 相关文件：explorations/design-freeze/build_pride.py, TODOS.md
+- 相关文件：explorations/design-freeze/build_guobao.py, explorations/design-freeze/build_pride.py, explorations/design-freeze/sources/guobao_all.tsv, explorations/design-freeze/sources/guobao_pairs.tsv, tests/test_hometown_data.py, TODOS.md

@@ -52,15 +52,23 @@ PROV_NAMES = ["北京市", "天津市", "河北省", "山西省", "内蒙古自�
 PROV_CODE = dict(zip(PROV_NAMES, ["11", "12", "13", "14", "15", "21", "22", "23", "31", "32", "33", "34", "35", "36", "37", "41", "42", "43", "44", "45", "46",
                                   "50", "51", "52", "53", "54", "61", "62", "63", "64", "65"]))
 PROVS = re.compile("|".join(PROV_NAMES))
-# A listed name in an older spelling or with a misprint, and how it is written today. The list's own form stays in the
-# record; each line says what settles it. Only same-sounding characters are ever swapped.
+# A listed name in an older spelling, or one the list's own print garbles, and how it is written today. The list's form
+# stays in the record (sources/guobao_b*.tsv, and the seventh item of a card's row); each line says what settles it.
 SPELL = {
     "芦沟桥": "卢沟桥",                      # 1961 list 蘆沟桥; the bridge has been written 卢沟桥 officially since 1981
     "硇州灯塔": "硇洲灯塔",                  # 1996 list prints 州; the island it stands on is 硇洲岛
     "兰田猿人遗址": "蓝田猿人遗址",           # 1982 list, in the short-lived second simplification; the county is 蓝田县
+    "铜录山古铜矿遗址": "铜绿山古铜矿遗址",   # 1982 list, the same shorthand; the hill is 铜绿山
     "庐山青龙寺大殿": "芦山青龙寺大殿",       # the 2006 notice's own page; its address column reads 四川省芦山县
     "二郞庙": "二郎庙",                      # 郞 is a variant form of 郎
     "敏竹林寺": "敏珠林寺",                  # 国发〔2021〕8号 writes 敏珠林寺藏香制作技艺
+    "余家碑坊": "余家牌坊",                  # the 2006 notice's page prints 碑 for 牌; an independent reader flagged it
+    "白鹿书院": "白鹿洞书院",                # the 1988 gazette drops 洞; both transcribers and an independent reader flagged it
+    "中国共产党第一次代表大会会址": "中国共产党第一次全国代表大会会址",   # 1961 wording; the 2001 list itself writes 全国 (merged item 22)
+    # the fifth list survives on www.gov.cn as a picture that loses characters its font lacked
+    "泥国王墓": "浡泥国王墓",                # the first character is missing in the picture; 泥国 is no country
+    "大丕山摩崖大佛及石刻": "大伾山摩崖大佛及石刻",   # 丕 for 伾: the hill at 浚县 is 大伾山
+    "已略黄公祠": "己略黄公祠",              # 已 for 己
 }
 RARE = re.compile(r"字旁加|[\ue000-\uf8ff]|[\U00020000-\U0003ffff]")   # a name the page spells out because it cannot print it
 

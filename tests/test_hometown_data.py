@@ -253,7 +253,7 @@ def test_a_protected_site_on_a_card_is_named_as_its_list_names_it():
                 assert cities[cid] in row[7].split("、") or k in pairs, (cities[cid], r[0], row[6])
                 assert (cid, k) not in seen, (cities[cid], r[0])      # one unit, one line on a city's card
                 seen.add((cid, k))
-    assert marked >= 2400 and named >= 1400, (marked, named)     # the rest wait for the seventh list (1,943 units) and for a reader's pairs
+    assert marked >= 2400 and named >= 1550, (marked, named)     # the rest wait for the seventh list (1,943 units) and for a reader's pairs
     # spelled as today where the list's print is old or broken, and the list's own form kept in the record
     names = {(cities[cid], r[0]): r for key in ("pride", "more") for cid, rs in doc[key].items() for r in rs}
     assert "硇州灯塔" in names[("湛江", "硇洲灯塔")][6] and "皇泽寺摩崖造象" in names[("广元", "皇泽寺摩崖造像")][6]
