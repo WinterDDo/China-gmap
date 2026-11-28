@@ -313,3 +313,12 @@
 - 谁定的：用户定「内容每抽必须不同」；Claude 定「亮点少的城市不给再抽」「估算排名不进池子」，是从「宁少勿错」和「先不放非官方内容」两条已有决定推出来的，用户可以推翻。
 - 出处：会话 session_01DGeZrdANx45XY7zhNDtypj
 - 相关文件：explorations/design-freeze/index.html, explorations/design-freeze/build_feiyi.py, explorations/design-freeze/build_pride.py, explorations/design-freeze/sources/feiyi_all.tsv
+
+### 2026-11-28 · 抽卡不限次数；5.11 到 5.15 并进主线
+- 决定：抽卡每天不限次数，想抽几张抽几张。设计定稿 5.11 到 5.15（铁路高速的画法、到家卡、家乡卡的几个面、抽卡）并进主线。
+- 为什么：用户看过抽卡对照图后回「并进主线，B」。B 是我给的两个选项里「不限」那一个：玩得痛快；代价当时讲明了，亮点多的城几分钟就翻完，没有第二天再来的理由。
+- 放弃了：每天限 5 抽（A，我推荐的那个：留一个第二天再来的理由，但当天想接着玩的人会被挡住）。
+- 谁定的：用户
+- 出处：会话 session_01DGeZrdANx45XY7zhNDtypj
+- 相关文件：explorations/design-freeze/index.html, STATUS.md
+
