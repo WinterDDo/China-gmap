@@ -3389,7 +3389,7 @@ function standingOf(c) { if (!c) return null; const memo = standingOf.m || (stan
   memo.set(c.id, out); return out; }
 /* a city's faces in card order: standing, food, then named places; each {k: mark, col, b: name, s: small print, go: [x, y] | null} */
 function facesOf(c) { const out = [], st = standingOf(c); if (st) out.push({ k: "位", col: "#5d4e40", b: st.b, s: st.s, go: null });
-  const fd = foodItems(c); if (fd.length) out.push({ k: "吃", col: "#3d7a4f", b: fd.map(f => EN() && f[1] ? f[1] : f[0]).join(ZH("、", ", ")), s: ZH("国家级非遗 · 传统技艺", "national intangible heritage"), go: null });
+  const fd = foodItems(c); if (fd.length) out.push({ k: "吃", col: "#3d7a4f", b: fd.map(f => EN() && f[1] ? f[1] : f[0]).join(ZH("、", ", ")), s: [...new Set(fd.map(f => f[2] === "标" ? ZH("国家地理标志", "geographical indication") : ZH("国家级非遗", "national intangible heritage")))].join(" · "), go: null });
   for (const r of prideItems(c)) out.push({ k: r[1][0] === "5A" ? "景" : r[1][0], col: TG[r[1][0]][0], b: prName(r), s: r[1].map(k => ZH(...TG[k][1])).join(" · "), go: [r[2], r[3]] });
   return out; }
 const faceSeal = f => `<i class="tg" style="background:${f.col}">${f.k}</i>`;

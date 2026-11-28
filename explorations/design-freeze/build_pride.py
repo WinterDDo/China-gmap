@@ -29,8 +29,10 @@ pride. Cities left with nothing show the plate and the county question only.
 Food ("吃的", the owner's second face after standing, 2026-11-28) comes from sources/feiyi_food.tsv: the food and
 drink entries of the State Council's five lists of national intangible cultural heritage (传统技艺), read off the
 notices on www.gov.cn and filed under the prefecture of the declaring place. Entries declared by a whole province are
-left out. Up to two per city, in the order of that file. Geographical-indication products and time-honoured brands
-would widen this face; their official lists are not reachable from the cloud yet (TODOS.md).
+left out. Up to two per city, in the order of that file. A second source fills cities the heritage lists miss:
+the geographical indications protected under the China-EU agreement (sources/gi_cn_eu.tsv, made by build_gi.py from
+the Ministry of Commerce's product pages, each with its place of origin). There is no single official list of all
+geographical indications, so this is the well-known hundred, not the full set (TODOS.md).
 
 Usage   python3 build_pride.py <dir with whs.json a5.json guobao.json + *_loc.json> data
         The queries are in QUERIES; each result is the SPARQL JSON from https://query.wikidata.org/sparql.
@@ -209,10 +211,20 @@ def build(src, out_dir):
         assert city in by_name, f"feiyi_food.tsv: no city called {city}"
         rows = food.setdefault(by_name[city], [])
         if len(rows) < 2 and name not in [r[0] for r in rows]:
-            rows.append([name, en, f"国家级非遗 {code}：{orig}"])
+            rows.append([name, en, f"国家级非遗 {code}：{orig}", "遗"])
+    # second source: geographical indications protected under the China-EU agreement (sources/gi_cn_eu.tsv, build_gi.py)
+    gi_p = os.path.join(here, "sources", "gi_cn_eu.tsv")
+    for line in open(gi_p, encoding="utf-8") if os.path.exists(gi_p) else ():
+        if line.startswith("#") or not line.strip():
+            continue
+        city, name, origin, reg, page, en = (line.rstrip("\n").split("\t") + [""])[:6]
+        rows = food.setdefault(by_name[city], [])
+        core = re.sub(r"(茶|酒|醋)$", "", name)
+        if len(rows) < 2 and not any(r[0] in name or name in r[0] or (len(core) >= 2 and core in r[0]) or r[0][:2] == name[:2] for r in rows):
+            rows.append([name, en, f"地理标志（中欧地理标志协定保护）：原产地 {origin}；{reg}；{page}", "标"])
     doc = {"note": "世界遗产（联合国教科文组织）、5A 景区（文化和旅游部）、全国重点文物保护单位（国务院）；经维基数据汇编，坐标与行政归属一致才收；名录不全，只列名字，不计数",
            "pride": out,
-           "food_note": "列入国家级非物质文化遗产代表性项目名录（传统技艺）的饮食项目，国务院五批公布通知（www.gov.cn）；按申报地区归到地级市",
+           "food_note": "遗：列入国家级非物质文化遗产代表性项目名录（传统技艺）的饮食项目，国务院五批公布通知（www.gov.cn），按申报地区归到地级市；标：中欧地理标志协定保护的中国地理标志产品（商务部 ipr.mofcom.gov.cn，按原产地）",
            "food": food}
     json.dump(doc, open(os.path.join(out_dir, "pride.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     for k, (a, b, c) in stats.items():

@@ -71,10 +71,15 @@ def test_food_names_come_from_the_state_council_lists_and_match_the_page():
     assert set(food) <= cities and len(food) >= 80
     for cid, rows in food.items():
         assert 1 <= len(rows) <= 2, cid
-        for name, en, src in rows:
-            assert name and en and src.startswith("国家级非遗 B") and "Ⅷ-" in src and " @ " in src, (cid, name, src)
-    assert load("cityview.json")["food"] == {cid: [r[:2] for r in rows] for cid, rows in food.items()}
+        for name, en, src, kind in rows:
+            assert name and en, (cid, name)
+            if kind == "遗":   # the State Council's lists: batch, item code, declaring place
+                assert src.startswith("国家级非遗 B") and "Ⅷ-" in src and " @ " in src, (cid, name, src)
+            else:              # a geographical indication: place of origin as printed, and the ministry's page
+                assert kind == "标" and src.startswith("地理标志") and "原产地" in src and "ipr.mofcom.gov.cn" in src, (cid, name, src)
+    assert load("cityview.json")["food"] == {cid: [[r[0], r[1], r[3]] for r in rows] for cid, rows in food.items()}
+    assert sum(1 for rows in food.values() for r in rows if r[3] == "标") >= 40
     # a few everyone knows, each in the right city
     by_name = {c["n"]: c["id"] for c in load("cities.json")}
-    for city, dish in (("兰州", "兰州牛肉面"), ("柳州", "柳州螺蛳粉"), ("南充", "保宁醋"), ("遵义", "茅台酒"), ("北京", "北京烤鸭"), ("三明", "沙县小吃")):
-        assert food[by_name[city]][0][0] == dish
+    for city, dish in (("兰州", "兰州牛肉面"), ("柳州", "柳州螺蛳粉"), ("南充", "保宁醋"), ("遵义", "茅台酒"), ("北京", "北京烤鸭"), ("三明", "沙县小吃"), ("哈尔滨", "五常大米"), ("湖州", "安吉白茶"), ("烟台", "烟台葡萄酒")):
+        assert dish in [r[0] for r in food[by_name[city]]], (city, dish)

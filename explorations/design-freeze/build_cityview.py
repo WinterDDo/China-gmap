@@ -145,7 +145,7 @@ pride_p = os.path.join(out_dir, "pride.json")  # the named treasures on the home
 if os.path.exists(pride_p):
     pj = json.load(open(pride_p, encoding="utf-8"))
     out["pride"] = {cid: [r[:5] for r in rows] for cid, rows in pj["pride"].items()}
-    out["food"] = {cid: [r[:2] for r in rows] for cid, rows in pj.get("food", {}).items()}
+    out["food"] = {cid: [[r[0], r[1], r[3]] for r in rows] for cid, rows in pj.get("food", {}).items()}
 json.dump(out, open(os.path.join(out_dir, "cityview.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 print("counties for", len(counties), "cities,", sum(len(v) for v in counties.values()), "units; sites for", len(sites), "cities,",
       sum(len(v) for v in sites.values()), "sites; chinaciv shift", round(dx, 2), round(dy, 2),
