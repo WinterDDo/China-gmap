@@ -41,7 +41,7 @@ def proj(lon, lat):
     return round(rho * math.sin(th) - FR["x0"], 1), round(FR["y1"] - (RHO0 - rho * math.cos(th)), 1)
 
 
-from placenames import py  # noqa: E402  (English place names: names.json first, else corrected pinyin)
+from placenames import core, py  # noqa: E402  (English place names: names.json first, else corrected pinyin)
 
 
 EN = {  # official English names of the listed universities, 5A scenic areas and national parks
@@ -86,7 +86,8 @@ for cid, c in ours.items():
             continue
         lon, lat = k.get("centroid") or k.get("center")
         x, y = proj(lon, lat)
-        kids.append([str(k["adcode"]), k["name"], k["level"][0], x, y, py(k["name"], str(k["adcode"]))])
+        short = core(k["name"])[0]   # 张家川回族自治县 -> 张家川, for the card's roll-call of counties; 忠县 stays whole
+        kids.append([str(k["adcode"]), k["name"], k["level"][0], x, y, py(k["name"], str(k["adcode"])), short if len(short) >= 2 else k["name"]])
     if kids:
         counties[cid] = kids
     parent = next((p for p in (infos.get(cid[:2] + "0000") or {}).get("children") or [] if str(p.get("adcode")) == cid), None)
@@ -140,6 +141,9 @@ out = {"counties": counties, "sites": sites,
 plates_p = os.path.join(out_dir, "plates.json")  # the hometown card's plate prefix, checked city by city in build_plates.py
 if os.path.exists(plates_p):
     out["plates"] = {cid: v["plate"] for cid, v in json.load(open(plates_p, encoding="utf-8"))["plates"].items()}
+pride_p = os.path.join(out_dir, "pride.json")  # the named treasures on the hometown card, picked in build_pride.py
+if os.path.exists(pride_p):
+    out["pride"] = {cid: [r[:5] for r in rows] for cid, rows in json.load(open(pride_p, encoding="utf-8"))["pride"].items()}
 json.dump(out, open(os.path.join(out_dir, "cityview.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 print("counties for", len(counties), "cities,", sum(len(v) for v in counties.values()), "units; sites for", len(sites), "cities,",
       sum(len(v) for v in sites.values()), "sites; chinaciv shift", round(dx, 2), round(dy, 2),

@@ -768,15 +768,22 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .card5 .cd-back .seal { --s: 64px; box-shadow: 0 0 0 3px #f3d58a; }
 .card5 .cd-back b { font: 400 22px/1 var(--brush); }
 .card5 .cd-back .bk { padding: 10px 14px; background: rgba(43,20,14,.55); border-radius: 4px; font-size: 10.5px; line-height: 1.5; text-align: left; max-width: 86%; color: #f6efe0; }
-.card5 .cd-top { display: flex; align-items: center; gap: 6px; }
-.card5 .cd-nm { font: 900 20px/1.1 var(--serif); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.card5 .cd-top .seal { --s: 26px; }
+.card5 .cd-top { position: relative; display: flex; align-items: center; justify-content: center; min-height: 26px; }
+.card5 .cd-nm { font: 900 20px/1.1 var(--serif); min-width: 0; max-width: calc(100% - 64px); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card5 .cd-top .seal { --s: 26px; position: absolute; right: 0; top: 0; }
 .card5 .cd-top .seal > span { font-size: 10px; }
 .card5 .cd-art { position: relative; height: 38%; border-radius: 4px; overflow: hidden; border: 1px solid rgba(43,35,29,.3); background: var(--water); }
 .card5 .cd-art canvas { width: 100%; height: 100%; display: block; }
 .card5 .cd-rar { position: absolute; left: 6px; bottom: 6px; font: 600 10px/1 var(--sans); letter-spacing: .1em; padding: 4px 7px; border-radius: 10px; background: rgba(43,35,29,.78); color: #f6efe0; }
 .card5 .cd-hon { position: absolute; right: 6px; top: 6px; font: 400 12px/1 var(--brush); padding: 4px 6px; border-radius: 2px; background: var(--accent); color: var(--accent-ink); box-shadow: 0 2px 6px rgba(0,0,0,.25); }
-.card5 .cd-sub { font-size: 10.5px; color: var(--ink-3); }
+.card5 .cd-sub { font-size: 10.5px; color: var(--ink-3); text-align: center; min-height: 15px; }
+.card5 .cd-body { display: grid; gap: 4px; flex: 1; align-content: start; min-height: 0; overflow: hidden; }
+.card5 .cd-prd { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 0 6px; align-items: center; text-align: left; } .card5 .cd-prd b { font: 600 13px/1.25 var(--serif); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .card5 .cd-prd small { grid-column: 2; font-size: 9.5px; color: var(--ink-3); line-height: 1.2; }
+.card5 .cd-prd .tg { grid-row: span 2; }
+.card5 .cd-roll { margin: 2px 0 0; padding-top: 4px; border-top: 1px dotted var(--rule-strong); font: 400 10.5px/1.5 var(--serif); color: var(--ink-2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } .card5 .cd-roll.one { display: none; } .card5 .cd-roll.solo { border-top: 0; font-size: 12.5px; line-height: 1.7; -webkit-line-clamp: 5; text-align: center; }
+i.tg { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; color: #fbf1e4; font: 400 12px/1 var(--brush); font-style: normal; flex: none; }
+.trs { display: flex; flex-wrap: wrap; gap: 6px; } .trs .chip { height: 32px; padding: 0 10px 0 6px; gap: 6px; font-family: var(--serif); font-weight: 600; }
+.hello i.plate { font-size: 19px; padding: 3px 9px 4px; border-radius: 5px; vertical-align: 3px; letter-spacing: 1px; box-shadow: inset 0 0 0 1.5px rgba(246,242,232,.55); } .hello small i.plate { font-size: 11px; padding: 2px 5px; vertical-align: 0; box-shadow: none; letter-spacing: .5px; }
 .card5 .cd-stats { display: grid; gap: 3px; flex: 1; align-content: start; }
 .card5 .cd-stats div { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; gap: 6px; align-items: center; font-size: 11px; border-bottom: 1px dotted var(--rule-strong); padding-bottom: 3px; }
 .card5 .cd-stats .medal { width: 16px; height: 16px; }
@@ -959,6 +966,8 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .xh-title span { font: 900 22px/1.3 var(--serif); }
 .xh-art { position: relative; height: 150px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(43,35,29,.25); }
 .xh-art canvas { width: 100%; height: 100%; display: block; }
+.xh-row.pr { grid-template-columns: 34px minmax(0, 1fr); text-align: left; } .xh-row.pr i.tg { width: 30px; height: 30px; font-size: 19px; } .xh-row.pr div { text-align: left; }
+.xh-roll { margin: 2px 0 0; font: 400 13px/1.6 var(--serif); color: var(--ink-2); text-align: center; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } .xh-title span i.plate { font-size: 13px; padding: 2px 6px; }
 .xh-art .cd-rar { position: absolute; left: 8px; bottom: 8px; font: 600 11px/1 var(--sans); padding: 5px 8px; border-radius: 10px; background: rgba(43,35,29,.78); color: #f6efe0; }
 .xh-list { display: grid; gap: 8px; }
 .xh-row { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 10px; align-items: center; background: rgba(255,255,255,.55); border-radius: 8px; padding: 8px 10px; }
@@ -2114,12 +2123,12 @@ function renderLensDock() { const L = LENSES[S.lens];
   $$("[data-lens-demo]").forEach(el => el.innerHTML = lensButtons()); }
 function cityHTML(c, compact) {
   const kind = kindOf(c), pv = pvOf(c);
-  const head = `<div class="cp-head"><span class="seal stamp"><span>${c.n.slice(0, 2)}</span></span><div><h2>${cname(c)}<img src="${TIER_IMG[c.tier]}" alt="" width="120" height="80"></h2><div class="en">${EN() ? c.n : (c.en || "")}</div><div class="meta">${kind}${pv && !["municipality", "sar"].includes(c.kind) ? " · " + pv : ""}${plateOf(c) ? ` · <i class="plate">${plateOf(c)}</i>` : ""} · ${ZH(...RAR[rarity(c)])}</div></div>${compact ? "" : `<button class="btn icon ghost" data-close aria-label="${ZH("关闭", "Close")}">${icon("i-close")}</button>`}</div>`;
+  const head = `<div class="cp-head"><span class="seal stamp"><span>${c.n.slice(0, 2)}</span></span><div><h2>${cname(c)}<img src="${TIER_IMG[c.tier]}" alt="" width="120" height="80"></h2><div class="en">${EN() ? c.n : (c.en || "")}</div><div class="meta">${kind}${pv && !["municipality", "sar"].includes(c.kind) ? " · " + pv : ""}${plateOf(c) ? ` · <i class="plate">${plateOf(c)}</i>` : ""}${rarity(c) > 0 ? " · " + ZH(...RAR[rarity(c)]) : ""}</div></div>${compact ? "" : `<button class="btn icon ghost" data-close aria-label="${ZH("关闭", "Close")}">${icon("i-close")}</button>`}</div>`;
   if (compact) return head + yieldsRow(c);
   const iB = k => `<button class="m-i" data-dexp="${k}" aria-label="${ZH("这是什么", "What is this")}" title="${ZH("定义、算法、出处", "Definition, method, source")}">ⓘ</button>`;
   const peers = c.peers ? `<div class="block"><h4>${t("peers")}</h4><div class="peers">${c.peers.map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-goto="${o.id}"><img src="${TIER_IMG[o.tier]}" alt="" width="120" height="80">${cname(o)}</button>`).join("")}</div></div>` : "";
   const src = `<div class="src">${icon("i-info")}<span>${t("src")}：${ZH("2023 年统计公报（本项目采集，附原文句子）、七普、ESA WorldCover", "2023 communiqués (collected with source sentences), 2020 census, ESA WorldCover")} · <button class="btn ghost" style="height:auto;padding:0;color:var(--river)" data-open-almanac>${t("srcLink")}</button><span class="asof">${ZH("数据截至 2023 年公报 · 2026-11 更新", "As of 2023 communiqués · updated 2026-11")} · <button class="lnk" data-dm="fix">${ZH("这个数不对？纠错", "Wrong? Report it")}</button></span></span></div>`;
-  return head + dToolsHTML(c) + yieldsRow(c) + `<div class="cp-body">${c.id === dHome() ? `<div class="block homeblk">${helloHTML(c, S.homeCounty)}${countyPickHTML(c, S.county, "data-dcounty", true)}</div>` : ""}<div class="block"><h4>${ZH("宝藏点", "Hidden gems")}${iB("gems")}<small>${ZH("全国排名最能打的三项", "best three national ranks")}</small></h4>${prideHTML(c, 3, true)}</div>
+  return head + dToolsHTML(c) + yieldsRow(c) + `<div class="cp-body">${c.id === dHome() ? `<div class="block homeblk">${helloHTML(c, S.homeCounty)}${countyPickHTML(c, S.county, "data-dcounty", true)}</div>` : ""}<div class="block"><h4>${ZH("宝藏点", "Hidden gems")}${iB("gems")}<small>${prideItems(c).length ? ZH("点名字飞过去", "tap a name to fly there") : ZH("全国排名最能打的三项", "best three national ranks")}</small></h4>${treasureChips(c)}${prideHTML(c, 3, true)}</div>
     <div class="block"><h4>${ZH("这座城的人", "The people")}<small>${ZH("每排 10 个小人", "rows of 10")}</small></h4>${citizensHTML(c)}</div>
     <div class="block"><h4>${ZH("生活账本", "Everyday numbers")}${iB(c.month != null ? "month" : "day")}<small>2023</small></h4>${ledgerHTML(c, "panel", 1)}</div>
     <div class="block"><h4>${ZH("人去哪儿了", "Where people go")}${iB("flows")}<small>${ZH("七普 · 公报", "census · communiqués")}</small></h4>${flowHTML(c, true)}</div>
@@ -2810,18 +2819,24 @@ function inkReveal(a, ox, oy) { const f = a.fade, W = f.clientWidth, H = f.clien
     f.style.webkitMaskImage = f.style.maskImage = m; if (p < 1) requestAnimationFrame(step); else { f.style.opacity = 0; f.style.webkitMaskImage = f.style.maskImage = ""; } }; requestAnimationFrame(step); }
 
 /* ---------- 城市卡牌 ---------- */
-function cardArt(cv, c) { const ctx = cv.getContext("2d"), W = cv.width, H = cv.height, r2 = dayRaster2(false), kmW = 330, kmH = kmW * H / W;
+function cardArt(cv, c) { const ctx = cv.getContext("2d"), W = cv.width, H = cv.height, r2 = dayRaster2(false), bb = CVBOX.get(c.id), pa = CVPATH.get(c.id), u = W / 240;
+  const kmW = bb ? Math.max((bb[2] - bb[0]) * 1.3, (bb[3] - bb[1]) * 1.3 * W / H, 60) : 330, kmH = kmW * H / W, cx = bb ? (bb[0] + bb[2]) / 2 : c.x, cy = bb ? (bb[1] + bb[3]) / 2 : c.y, sc = W / kmW, ox = W / 2 - cx * sc, oy = H / 2 - cy * sc;
   ctx.fillStyle = DAY.sea; ctx.fillRect(0, 0, W, H); ctx.fillStyle = wavePattern(ctx, 1, "rgba(52,96,104,0.22)"); ctx.fillRect(0, 0, W, H); ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
-  if (r2) { const k = 1 / r2.km; ctx.drawImage(r2.cv, (c.x - kmW / 2) * k, (c.y - kmH * .55) * k, kmW * k, kmH * k, 0, 0, W, H); } else { const k = 1 / DEM.km; ctx.drawImage(dayRaster(false), (c.x - kmW / 2) * k, (c.y - kmH * .55) * k, kmW * k, kmH * k, 0, 0, W, H); }
-  const g = ctx.createRadialGradient(W / 2, H * .55, H * .25, W / 2, H * .55, W * .72); g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(1, "rgba(40,25,10,.38)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-  drawTown(ctx, W / 2, H * .64, c.tier, [3.4, 2.5, 2.05, 1.75][c.tier] * W / 240); }
+  const src = r2 ? r2.cv : dayRaster(false), k = 1 / (r2 ? r2.km : DEM.km); ctx.drawImage(src, (cx - kmW / 2) * k, (cy - kmH / 2) * k, kmW * k, kmH * k, 0, 0, W, H);
+  if (pa) { const m = new DOMMatrix([sc, 0, 0, sc, ox, oy]), veil = new Path2D(), line = new Path2D(); veil.rect(0, 0, W, H); veil.addPath(pa, m); line.addPath(pa, m);
+    ctx.fillStyle = "rgba(240,231,210,.74)"; ctx.fill(veil, "evenodd"); ctx.lineJoin = "round"; ctx.strokeStyle = "rgba(201,162,74,.5)"; ctx.lineWidth = 4.5 * u; ctx.stroke(line); ctx.strokeStyle = "#b23a2b"; ctx.lineWidth = 1.4 * u; ctx.stroke(line); }
+  else { const g = ctx.createRadialGradient(W / 2, H * .55, H * .25, W / 2, H * .55, W * .72); g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(1, "rgba(40,25,10,.38)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); }
+  ctx.fillStyle = "#2b231d"; ctx.strokeStyle = "#f6efe0"; ctx.lineWidth = 1.2 * u; ctx.beginPath(); ctx.arc(c.x * sc + ox, c.y * sc + oy, 2.6 * u, 0, 7); ctx.fill(); ctx.stroke();
+  for (const r of prideItems(c)) { const kk = r[1][0], x = clamp(r[2] * sc + ox, 9 * u, W - 9 * u), y = clamp(r[3] * sc + oy, 9 * u, H - 9 * u), rad = 7.5 * u; ctx.save(); ctx.shadowColor = "rgba(0,0,0,.3)"; ctx.shadowBlur = 3 * u; ctx.fillStyle = TG[kk][0]; ctx.beginPath(); ctx.arc(x, y, rad, 0, 7); ctx.fill(); ctx.shadowBlur = 0; ctx.strokeStyle = "#fbf1e4"; ctx.lineWidth = 1.1 * u; ctx.stroke();
+    ctx.fillStyle = "#fbf1e4"; ctx.font = `${rad * 1.15}px "Ma Shan Zheng", serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(kk === "5A" ? "景" : kk, x, y + rad * .06); ctx.restore(); } }
 function paintArts(root) { if (!root || !CITIES) return; $$("canvas[data-art]", root).forEach(cv => { const c = BYID.get(cv.dataset.art); if (c) cardArt(cv, c); }); }
-function cardHTML(c, o = {}) { const rr = rarity(c), best = prideOf(c)[0], hs = prideOf(c).slice(0, 3);
-  const stats = o.statsHTML ?? ["gold", "ind", "food", "com"].map(k => { const Y = YIELDS[k], v = c[Y.key]; return `<div>${medalSVG(k)}<span>${ZH(Y.lab5[0], Y.lab5[1])}</span><b class="num">${v == null ? "—" : Y.short(v)}</b></div>`; }).join("");
+function cardHTML(c, o = {}) { const rr = rarity(c), hs = prideOf(c).slice(0, 3), pr = prideItems(c), cs = countiesOf(c), pl = plateOf(c);
+  const body = o.statsHTML != null ? `<div class="cd-stats">${o.statsHTML}</div>` : `<div class="cd-body">${pr.map(r => `<div class="cd-prd">${tgSeal(r)}<b>${prName(r)}</b><small>${r[1].map(k => ZH(...TG[k][1])).join(" · ")}</small></div>`).join("")}${cs.length ? `<p class="cd-roll${pr.length ? (pr.length > 2 ? " one" : "") : " solo"}">${cs.map(r => shortCounty(c, r)).join(" · ")}</p>` : ""}</div>`;
   return `<div class="card5 r${rr} ${o.cls || ""}" data-card="${c.id}"><div class="cd-in"><div class="cd-front">
     <div class="cd-top"><span class="cd-nm">${cname(c)}</span>${seal(c.n.slice(0, 2))}</div>
-    <div class="cd-art"><canvas data-art="${c.id}" width="${o.big ? 300 : 240}" height="${o.big ? 170 : 140}" role="img" aria-label="${cname(c)}"></canvas><span class="cd-rar">${ZH(...RAR[rr])}</span>${best ? `<span class="cd-hon">${rankBadge(best)}</span>` : ""}</div>
-    <div class="cd-sub">${pvOf(c)} · ${kindOf(c)}</div><div class="cd-stats">${stats}</div>
+    <div class="cd-sub">${pvOf(c) && pvOf(c) !== cname(c) ? pvOf(c) : ""}${pl ? `${pvOf(c) && pvOf(c) !== cname(c) ? " · " : ""}<i class="plate">${pl}</i>` : ""}</div>
+    <div class="cd-art"><canvas data-art="${c.id}" width="${o.big ? 300 : 240}" height="${o.big ? 170 : 140}" role="img" aria-label="${cname(c)}"></canvas>${rarTag(c, "cd-rar")}</div>
+    ${body}
     <div class="cd-foot"><span>No.${String(CITIES.indexOf(c) + 1).padStart(3, "0")}</span><span>JIANGSHAN ATLAS</span></div></div>
     <div class="cd-back">${seal("图鉴")}<b>${cname(c)}</b><div class="bk">${hs.map(h => `${rankBadge(h)}：${h.m.ph(c).replace(/<[^>]+>/g, "")}`).join("<br>")}<br><br>${ZH("数据：2023 年统计公报（中国统计信息网转载）、七普、ESA WorldCover、高程。稀有度按宝藏点最好的名次：前 3 传世、前 10 珍品、前 30 稀有。", "Data: 2023 communiqués, 2020 census, ESA WorldCover, elevation. Rarity follows the best pride rank: top 3 legendary, top 10 epic, top 30 rare.")}</div></div></div></div>`; }
 
@@ -2988,7 +3003,7 @@ function stReset() { const app = V4APPS.start; ST.step = 0; ST.city = null; ST.s
 function renderXhs() { const el = $("[data-xhs]"); if (!el || !CITIES) return; const c = BYID.get(ST.city || "540400"), small = (c.popAny || 0) < 4e6, hs = prideOf(c).slice(0, 3);
   el.innerHTML = `<div class="xh-top"><span class="xh-tag">#${small ? ZH("被低估的宝藏小城", "underrated gem") : ZH("城市隐藏实力", "hidden strengths")}</span>${seal("图鉴", 30)}</div>
     <div class="xh-title"><b>${cname(c)}</b><span>${small ? ZH("被低估的宝藏小城", "An underrated gem") : ZH("隐藏实力有多强？", "How strong is it, really?")}</span></div>
-    <div class="xh-art"><canvas data-art="${c.id}" width="450" height="180" role="img" aria-label="${cname(c)}"></canvas><span class="cd-rar">${ZH(...RAR[rarity(c)])}</span></div>
+    <div class="xh-art"><canvas data-art="${c.id}" width="450" height="180" role="img" aria-label="${cname(c)}"></canvas>${rarTag(c, "cd-rar")}</div>
     <div class="xh-list">${hs.map((h, i) => `<div class="xh-row"><span class="xh-no">${h.r <= 30 ? ZH(`第${h.r}`, `#${h.r}`) : ZH(`前${Math.max(1, Math.round(h.q * 100))}%`, `top ${Math.max(1, Math.round(h.q * 100))}%`)}</span><div><b>${ZH(...h.m.lab)}${h.r <= 3 ? `<em class="tch">${ZH("天花板", "No.1 tier")}</em>` : ""}</b><span>${h.m.ph(c)}</span></div></div>`).join("")}</div>
     <div class="xh-foot"><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span><span class="xh-h">#${cname(c)} #${ZH("家乡", "hometown")} #${ZH("宝藏小城", "gems")}</span><span class="qr">${ZH("扫码<br>看全国排名", "Scan for<br>rankings")}</span></div>`;
   paintArts(el); }
@@ -3047,9 +3062,10 @@ function mPeekHTML() { const c = M.city && BYID.get(M.city);
       <button class="btn primary" data-mgo="${f.id}" style="height:44px;justify-content:center;border-radius:10px">${ZH("去看看 →", "Take a look →")}</button></div>`; }
   const hs = prideOf(c), h = hs[0], rr = rarity(c), mini = [["gold", c.month, ZH("每月可支配", "monthly")], ["ind", c.day, ZH("每天创造", "per day")], ["com", c.dpop, ZH("三年人口", "3-yr change")], ["food", c.forest, ZH("森林占比", "forest")], ["pop", c.popAny, ZH("常住人口", "people")]].filter(x => x[1] != null).slice(0, 3);
   return `<div class="m-handle" data-m="expand"></div><div class="m-sc">
-    <div class="m-head">${seal(c.n.slice(0, 2))}<div><b>${cname(c)}</b><span>${pvOf(c)} · ${kindOf(c)}${plateOf(c) ? ` · <i class="plate">${plateOf(c)}</i>` : ""} · <span class="m-chip r${rr}">${ZH(...RAR[rr])}</span></span></div>${mFavBtn(c)}</div>
+    <div class="m-head">${seal(c.n.slice(0, 2))}<div><b>${cname(c)}</b><span>${[pvOf(c) !== cname(c) ? pvOf(c) : kindOf(c), plateOf(c) ? `<i class="plate">${plateOf(c)}</i>` : ""].filter(Boolean).join(" · ")}${rr > 0 ? ` · <span class="m-chip r${rr}">${ZH(...RAR[rr])}</span>` : ""}</span></div>${mFavBtn(c)}</div>
     ${c.id === M.home ? helloHTML(c, M.homeCounty) + countyPickHTML(c, M.county, "data-mcounty", true) : M.county ? countyPickHTML(c, M.county, "data-mcounty", false) : ""}
-    ${c.id === M.home || M.county ? "" : h ? `<div class="m-hon1"><span class="rk">${h.r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b>${h.r}</b>` : `<small>${ZH("全国前", "Top")}</small><b>${Math.max(1, Math.round(h.q * 100))}%</b>`}</span><div class="t"><b>${ZH(...h.m.lab)}</b><span>${h.m.ph(c)}</span></div></div>` : ""}
+    ${treasureChips(c)}
+    ${c.id === M.home || M.county || prideItems(c).length ? "" : h ? `<div class="m-hon1"><span class="rk">${h.r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b>${h.r}</b>` : `<small>${ZH("全国前", "Top")}</small><b>${Math.max(1, Math.round(h.q * 100))}%</b>`}</span><div class="t"><b>${ZH(...h.m.lab)}</b><span>${h.m.ph(c)}</span></div></div>` : ""}
     ${c.id === M.home || M.county ? "" : `<div class="m-mini">${mini.map(([y, v, l]) => `<div>${medalSVG(y)}<b class="num">${v == null ? "—" : YIELDS[y].short(v)}</b><span>${l}</span></div>`).join("")}</div>`}
     <div class="m-acts"><button class="btn primary" data-m="expand">${ZH("看完整档案 ▲", "Full archive ▲")}</button><button class="btn" data-m="stamp">${seal("打卡", 20)}${AL.got.includes(c.id) ? ZH("已打卡", "Stamped") : ZH("打卡", "Stamp")}</button><button class="btn" data-m="topk">${icon("i-versus")}PK</button></div></div>`; }
 function mFullHTML() { const c = BYID.get(M.city); if (!c) return ""; const rr = rarity(c), km = c.coastKm;
@@ -3115,7 +3131,7 @@ function mOnboardHTML() { const q = M.q.trim().toLowerCase(), sub = new Map(), h
     ${hits.length ? `<div class="st-hits">${hits.map(x => `<button class="chip" data-mob="${x.id}" data-mobc="${sub.get(x.id) || ""}">${tierImg(x)}${cname(x)}${sub.get(x.id) ? `<span class="note">${ZH(`含${sub.get(x.id)}`, `incl. ${sub.get(x.id)}`)}</span>` : ""}</button>`).join("")}</div>` : q ? `<p class="note" style="margin:0">${ZH("没找到，试试拼音或县名", "No match; try pinyin or a county")}</p>` : ""}
     <span class="eyebrow">${ZH("最近出圈的城", "Trending lately")}</span><div class="st-hits">${TREND.filter(id => BYID.has(id)).map(id => `<button class="chip" data-mob="${id}">${cname(BYID.get(id))}</button>`).join("")}</div>
     <span class="note">${ZH("不注册、不定位，随时可改", "No sign-up, no location; change any time")}</span><button class="btn ghost" data-m="skip-ob" style="height:44px">${ZH("先随便逛逛", "Just look around")}</button></div>`;
-  if (M.ob === 2) { const c = BYID.get(M.home); return `<div class="box">${helloHTML(c, M.homeCounty)}<span class="eyebrow">${ZH("你的家乡卡", "Your hometown card")}</span><div data-mobcard>${cardHTML(c, { cls: "deal flipped" })}</div>${prideHTML(c, 3, true)}<button class="btn primary" data-m="ob-done">${ZH("收下，开始逛 →", "Keep it and explore →")}</button><button class="btn ghost" data-m="share" style="height:44px">${icon("i-share")}${ZH("先晒一下", "Share it first")}</button></div>`; }
+  if (M.ob === 2) { const c = BYID.get(M.home); return `<div class="box">${helloHTML(c, M.homeCounty)}<span class="eyebrow">${ZH("你的家乡卡", "Your hometown card")}</span><div data-mobcard>${cardHTML(c, { cls: "deal flipped" })}</div><button class="btn primary" data-m="ob-done">${ZH("收下，开始逛 →", "Keep it and explore →")}</button><button class="btn ghost" data-m="share" style="height:44px">${icon("i-share")}${ZH("先晒一下", "Share it first")}</button></div>`; }
   return ""; }
 function mCoachHTML() { if (!M.coach) return ""; const steps = [
     { ring: [120, 300, 150, 150], tip: [60, 470, "up", 110], t: ZH("拖动地图，双指或 +/− 缩放", "Drag; pinch or +/− to zoom"), s: ZH("点任意城池，底部会弹出它的宝藏点", "Tap any town to see its hidden gems") },
@@ -3147,11 +3163,11 @@ function renderMob(anim) { const r = mRoot(); if (!r || !CITIES) return;
   if (M.ob === 2 && anim === "card") setTimeout(() => { const k = $("[data-mobcard] .card5", r); if (k) { k.classList.remove("flipped"); snd("flip"); if (rarity(BYID.get(M.home)) >= 2) setTimeout(() => { spatter(k, 20, "#d9b25a", 90); snd("win"); }, 420); } }, RM() ? 0 : 650);
   if (anim === "count") countUp(r); }
 function renderMxhs() { const el = $("[data-mxhs]"); if (!el) return; const keep = ST.city; ST.city = M.city || M.home || "540400"; renderXhsInto(el); ST.city = keep; }
-function renderXhsInto(el) { const c = BYID.get(ST.city || "540400"), small = (c.popAny || 0) < 4e6, hs = prideOf(c).slice(0, 3);
-  el.innerHTML = `<div class="xh-top"><span class="xh-tag">#${small ? ZH("被低估的宝藏小城", "underrated gem") : ZH("城市隐藏实力", "hidden strengths")}</span>${seal("图鉴", 30)}</div><div class="xh-title"><b>${cname(c)}</b><span>${small ? ZH("被低估的宝藏小城", "An underrated gem") : ZH("隐藏实力有多强？", "How strong is it, really?")}</span></div>
-    <div class="xh-art"><canvas data-art="${c.id}" width="450" height="180"></canvas><span class="cd-rar">${ZH(...RAR[rarity(c)])}</span></div>
-    <div class="xh-list">${hs.map(h => `<div class="xh-row"><span class="xh-no">${h.r <= 30 ? ZH(`第${h.r}`, `#${h.r}`) : ZH(`前${Math.max(1, Math.round(h.q * 100))}%`, `top ${Math.max(1, Math.round(h.q * 100))}%`)}</span><div><b>${ZH(...h.m.lab)}</b><span>${h.m.ph(c)}</span></div></div>`).join("")}</div>
-    <div class="xh-foot"><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span><span class="xh-h">#${cname(c)} #${ZH("宝藏小城", "gems")}</span><span class="qr">${ZH("扫码<br>看排名", "Scan")}</span></div>`; paintArts(el); }
+function renderXhsInto(el) { const c = BYID.get(ST.city || "540400"), pr = prideItems(c), hs = boastRanks(c), pl = plateOf(c), pv = pvOf(c) !== cname(c) ? pvOf(c) : "";
+  el.innerHTML = `<div class="xh-top"><span class="xh-tag">#${ZH("这就是", "This is ")}${cname(c)}</span>${seal("图鉴", 30)}</div><div class="xh-title"><b>${cname(c)}</b><span>${pv}${pv && pl ? " · " : ""}${pl ? `<i class="plate">${pl}</i>` : ""}</span></div>
+    <div class="xh-art"><canvas data-art="${c.id}" width="450" height="180"></canvas>${rarTag(c, "cd-rar")}</div>
+    <div class="xh-list">${pr.map(r => `<div class="xh-row pr">${tgSeal(r)}<div><b>${prName(r)}</b><span>${r[1].map(k => ZH(...TG[k][1])).join(" · ")}</span></div></div>`).join("")}${hs.map(h => `<div class="xh-row"><span class="xh-no">${ZH(`第${h.r}`, `#${h.r}`)}</span><div><b>${ZH(...h.m.lab)}</b><span>${h.m.ph(c)}</span></div></div>`).join("")}${rollText(c) ? `<p class="xh-roll">${rollText(c)}</p>` : ""}</div>
+    <div class="xh-foot"><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span><span class="xh-h">#${cname(c)} #${ZH("家乡", "hometown")}</span><span class="qr">${ZH("扫码<br>看这座城", "Scan")}</span></div>`; paintArts(el); }
 /* ---------- map ---------- */
 function drawMobOver(app, ctx, u, v) { if (M.tab === "album") { drawAlbum(app, ctx, u, v); return; }
   const c = M.city && BYID.get(M.city); if (M.flows && c && M.sheet !== "full") { const f = flowsOf(c); if (f) { const [x0, y0] = toPx(v, c.x, c.y); f.list.slice(0, 4).forEach((d, i) => { const cap = PROV_CAP(d.p); if (!cap) return; let a = [x0, y0], b = toPx(v, cap.x, cap.y); if (f.inflow) [a, b] = [b, a];
@@ -3327,7 +3343,7 @@ function mBack() { if (M.exp || M.fix) { M.exp = null; M.fix = null; } else if (
 let DLS = null; (async () => { try { if (window.claude && window.claude.use) DLS = await window.claude.use("downloads"); } catch (e) { DLS = null; } })();
 window.__jsatlas = { map: () => MAPP, state: () => M, desk: () => APPS[0] };
 /* ================= 城市视图：一座城放大后看到的细节（借鉴 usaciv 的 City View） ================= */
-const CVK = { whs: ["遗", "#b23a2b", ["世界遗产", "World Heritage"]], park: ["园", "#3d7a4f", ["国家公园", "National park"]], a5: ["景", "#b8862b", ["5A 景区", "5A scenic area"]], uni: ["学", "#2d5e78", ["双一流大学", "Double First-Class university"]],
+const CVK = { relic: ["保", "#2d5e78", ["全国重点文物保护单位", "National heritage site"]], whs: ["遗", "#b23a2b", ["世界遗产", "World Heritage"]], park: ["园", "#3d7a4f", ["国家公园", "National park"]], a5: ["景", "#b8862b", ["5A 景区", "5A scenic area"]], uni: ["学", "#2d5e78", ["双一流大学", "Double First-Class university"]],
   air: ["机", "#4b4a63", ["机场", "Airport"]], port: ["港", "#2d6e78", ["港口", "Port"]], power: ["电", "#7a5a2a", ["电站", "Power plant"]], mine: ["矿", "#6b5a4a", ["矿山", "Mine"]], oil: ["油", "#3a3a3a", ["油气田", "Oil & gas field"]] };
 const cvKind = k => k.startsWith("res:") ? (/plant|nuclear|hydro|wind|solar|pumped|geothermal/.test(k) ? "power" : /oil|^res:gas$/.test(k) ? "oil" : "mine") : k;
 function prefFit(app, c, maxZ = 6.5, area) { const bb = CVBOX.get(c.id); if (!bb) return null; const a = area || app.cfg.area(), u = app.u, bw = Math.max(bb[2] - bb[0], 40), bh = Math.max(bb[3] - bb[1], 40);
@@ -3353,13 +3369,23 @@ function cvRoof(ctx, x, y, w, tall, seed) { const r = rng(seed), h = w * (tall ?
   ctx.fillStyle = r() < .5 ? "#4a4036" : "#545a5c"; eave(ry + w * .12, w); if (tall) { ctx.fillStyle = "#efe6d2"; ctx.fillRect(x - w * .22, ry - w * .3, w * .44, w * .2); ctx.fillStyle = "#4a4036"; eave(ry - w * .26, w * .66); } }
 /* ---------- 到家卡：车牌问候、家乡精确到县（用户 2026-11-27 选定：到县、只放官方有据的、越精简越好） ---------- */
 const plateOf = c => (CV && CV.plates && CV.plates[c.id]) || "";
+/* named treasures (World Heritage, 5A areas, nationally protected sites): [name, [marks], x, y, English] */
+const prideItems = c => (CV && CV.pride && CV.pride[c.id]) || [];
+const TG = { "遗": ["#b23a2b", ["世界遗产", "World Heritage"]], "5A": ["#b8862b", ["5A 景区", "5A scenic area"]], "保": ["#2d5e78", ["全国重点文保", "national heritage site"]] };
+const tgSeal = r => { const k = r[1][0], ch = k === "5A" ? "景" : k; return `<i class="tg" style="background:${TG[k][0]}">${ch}</i>`; };
+const prName = r => EN() && r[4] ? r[4] : r[0];
+const boastRanks = c => prideOf(c).filter(h => h.r <= 30).slice(0, Math.max(0, 3 - prideItems(c).length));
+const rollText = c => countiesOf(c).map(r => shortCounty(c, r)).join(" · ");
+const rarTag = (c, cls = "") => { const rr = rarity(c); return rr > 0 ? `<span class="${cls} r${rr}">${ZH(...RAR[rr])}</span>` : ""; };   /* the lowest tier carries no label: nobody's hometown is "ordinary" */
+const shortCounty = (c, r) => EN() ? r[5] || r[1] : r[6] || r[1];
+function treasureChips(c) { const pr = prideItems(c); return pr.length ? `<div class="trs">${pr.map(r => `<button class="chip" data-cvgo="${r[2]},${r[3]}" title="${r[1].map(k => ZH(...TG[k][1])).join(" · ")}">${tgSeal(r)}${prName(r)}</button>`).join("")}</div>` : ""; }
 const countiesOf = c => (CV && CV.counties && CV.counties[c.id]) || [];
 const countyRow = (c, code) => code ? countiesOf(c).find(r => r[0] === code) || null : null;
 const countyName = r => EN() ? r[5] || r[1] : r[1];
 const dHome = () => (typeof M !== "undefined" && M.home) || V4.home;
 /* the greeting: the county once one is picked, else the plate everyone from the city knows, else the city's name */
-function helloHTML(c, code) { const r = countyRow(c, code), pl = plateOf(c), who = r ? countyName(r) : pl || cname(c);
-  return `<div class="hello"><span><b>${who}</b>${ZH("，到家了。", " — you're home.")}</span>${r ? `<small>${cname(c)}${pl ? " · " + pl : ""}</small>` : ""}</div>`; }
+function helloHTML(c, code) { const r = countyRow(c, code), pl = plateOf(c), who = r ? `<b>${countyName(r)}</b>` : pl ? `<i class="plate">${pl}</i>` : `<b>${cname(c)}</b>`;
+  return `<div class="hello"><span>${who}${ZH("，到家了。", " — you're home.")}</span>${r ? `<small>${cname(c)}${pl ? ` · <i class="plate">${pl}</i>` : ""}</small>` : ""}</div>`; }
 function countyPickHTML(c, code, attr, ask) { const cs = countiesOf(c); if (!cs.length) return "";
   return `<div class="where"><span>${ask ? ZH(`你是${c.n}哪里的？`, `Which part of ${c.en || c.n}?`) : ZH("下辖区县", "Counties")}</span><div class="cty">${[...cs].sort((a, b) => (b[0] === code) - (a[0] === code)).map(r => `<button class="chip${r[0] === code ? " on" : ""}" ${attr}="${r[0]}" aria-pressed="${r[0] === code}">${countyName(r)}</button>`).join("")}</div></div>`; }
 /* county outlines: one small file per province, fetched the first time a city of that province is opened */
@@ -3423,7 +3449,8 @@ function cvOver(app, ctx, u, v, z, sel, Lb, tu) { if (!CV) return; const c = BYI
     const label = EN() ? (en || nm) : nm, w = ctx.measureText(label).width, box = [px - 3 * u, py - 7 * tu, w + 10 * u, 14 * tu]; if (!on && !Lb.free(box)) continue; Lb.add(box);
     ctx.fillStyle = "#6b5040"; ctx.beginPath(); ctx.arc(px, py, 2.4 * u, 0, 7); ctx.fill(); ctx.strokeStyle = "#f6efe0"; ctx.lineWidth = 1 * u; ctx.stroke();
     ctx.textAlign = "left"; haloText(ctx, label, px + 5 * u, py, on ? "#b23a2b" : "#4a3628", "rgba(246,239,224,.92)", 3 * tu); }
-  for (const [kind, zh, x, y, , , en] of st) { const k = CVK[cvKind(kind)]; if (!k) continue; const nm = EN() && en ? cvShort(en) : zh, [px, py] = toPx(v, x, y), r = 8 * tu; ctx.font = `600 ${11 * tu}px "Noto Serif SC", serif`;
+  const had = new Set(st.map(r => r[1])), prd = prideItems(c).filter(r => !had.has(r[0])).map(r => [r[1][0] === "遗" ? "whs" : r[1][0] === "5A" ? "a5" : "relic", r[0], r[2], r[3], null, null, r[4]]);
+  for (const [kind, zh, x, y, , , en] of [...prd, ...st]) { const k = CVK[cvKind(kind)]; if (!k) continue; const nm = EN() && en ? cvShort(en) : zh, [px, py] = toPx(v, x, y), r = 8 * tu; ctx.font = `600 ${11 * tu}px "Noto Serif SC", serif`;
     const w = ctx.measureText(nm).width, box = [px - r, py - r, r * 2 + w + 8 * u, r * 2]; if (!Lb.free(box)) { if (!Lb.free([px - r, py - r, r * 2, r * 2])) continue; Lb.add([px - r, py - r, r * 2, r * 2]); cvBadge(ctx, px, py, r, k, tu); continue; } Lb.add(box);
     cvBadge(ctx, px, py, r, k, tu); ctx.textAlign = "left"; haloText(ctx, nm, px + r + 4 * u, py, "#2b231d", "rgba(246,239,224,.92)", 3 * tu); }
   ctx.restore(); }
@@ -3650,14 +3677,17 @@ async function shareCanvas(c) { const W = 1080, H = 1440, cv = document.createEl
   const g = x.createLinearGradient(0, 0, W * .25, H); g.addColorStop(0, "#fbf3dc"); g.addColorStop(1, "#efe2c2"); x.fillStyle = g; x.fillRect(0, 0, W, H);
   x.save(); x.globalAlpha = .3; x.globalCompositeOperation = "multiply"; x.fillStyle = paperPattern(x); x.fillRect(0, 0, W, H); x.restore();
   x.strokeStyle = "rgba(43,35,29,.3)"; x.lineWidth = 3; x.strokeRect(26, 26, W - 52, H - 52); x.lineWidth = 1; x.strokeRect(38, 38, W - 76, H - 76);
-  const tag = "#" + (small ? ZH("被低估的宝藏小城", "underrated gem") : ZH("城市隐藏实力", "hidden strengths")); x.font = `600 34px "Noto Sans SC", sans-serif`; const tw = x.measureText(tag).width + 44;
+  const tag = "#" + ZH("这就是", "This is ") + cname(c); x.font = `600 34px "Noto Sans SC", sans-serif`; const tw = x.measureText(tag).width + 44;
   x.fillStyle = "rgba(178,58,43,.1)"; rrect(x, P, 86, tw, 60, 30); x.fill(); x.fillStyle = "#b23a2b"; x.textBaseline = "middle"; x.fillText(tag, P + 22, 117); drawSeal(x, W - P - 46, 116, 92, "图鉴", 4, 7);
   x.textBaseline = "alphabetic"; x.fillStyle = "#2b231d"; x.font = `900 136px "Noto Serif SC", serif`; x.fillText(cname(c), P, 306);
-  x.fillStyle = "#4a3b2f"; x.font = `500 46px "Noto Serif SC", serif`; x.fillText(small ? ZH("被低估的宝藏小城", "An underrated gem") : ZH("隐藏实力有多强？", "How strong is it, really?"), P, 372);
-  x.fillStyle = "#8a7a68"; x.font = `500 30px "Noto Sans SC", sans-serif`; x.fillText(`${pvOf(c)} · ${kindOf(c)} · ${ZH(...RAR[rarity(c)])}`, P, 416);
+  x.fillStyle = "#4a3b2f"; x.font = `500 46px "Noto Serif SC", serif`; { const pv = pvOf(c) !== cname(c) ? pvOf(c) : "", pl = plateOf(c); x.fillText(pv, P, 372); if (pl) { const px = P + (pv ? x.measureText(pv).width + 24 : 0); x.font = `700 38px "Noto Sans SC", sans-serif`; const pw = x.measureText(pl).width + 30; x.fillStyle = "#2d5e78"; rrect(x, px, 330, pw, 54, 8); x.fill(); x.fillStyle = "#f6f2e8"; x.fillText(pl, px + 15, 371); } }
+  x.fillStyle = "#8a7a68"; x.font = `500 30px "Noto Sans SC", sans-serif`; { let roll = rollText(c); while (roll && x.measureText(roll).width > W - 2 * P) roll = roll.slice(0, roll.lastIndexOf(" · ")) ; x.fillText(roll, P, 422); }
   const art = document.createElement("canvas"); art.width = 912; art.height = 320; try { cardArt(art, c); } catch (e) { }
   x.save(); rrect(x, P, 448, W - 2 * P, 320, 18); x.clip(); x.drawImage(art, P, 448, W - 2 * P, 320); x.restore(); x.strokeStyle = "rgba(43,35,29,.25)"; x.lineWidth = 2; rrect(x, P, 448, W - 2 * P, 320, 18); x.stroke();
-  let y = 796; for (const h of hs) { rrect(x, P, y, W - 2 * P, 112, 16); x.fillStyle = "rgba(251,246,234,.9)"; x.fill(); x.strokeStyle = "rgba(43,35,29,.14)"; x.lineWidth = 2; x.stroke();
+  let y = 796; const prs = prideItems(c); for (const r of prs) { rrect(x, P, y, W - 2 * P, 112, 16); x.fillStyle = "rgba(251,246,234,.9)"; x.fill(); x.strokeStyle = "rgba(43,35,29,.14)"; x.lineWidth = 2; x.stroke();
+    const kk = r[1][0]; x.fillStyle = TG[kk][0]; x.beginPath(); x.arc(P + 68, y + 56, 42, 0, 7); x.fill(); x.fillStyle = "#fbf4e6"; x.textAlign = "center"; x.textBaseline = "middle"; x.font = `400 50px "Ma Shan Zheng", serif`; x.fillText(kk === "5A" ? "景" : kk, P + 68, y + 59);
+    x.textAlign = "left"; x.textBaseline = "alphabetic"; x.fillStyle = "#2b231d"; x.font = `700 ${prName(r).length > 14 ? 34 : 44}px "Noto Serif SC", serif`; x.fillText(prName(r).slice(0, 30), P + 140, y + 54); x.fillStyle = "#5a4a3c"; x.font = `500 28px "Noto Serif SC", serif`; x.fillText(r[1].map(k => ZH(...TG[k][1])).join(" · "), P + 140, y + 94); y += 126; }
+  for (const h of boastRanks(c)) { rrect(x, P, y, W - 2 * P, 112, 16); x.fillStyle = "rgba(251,246,234,.9)"; x.fill(); x.strokeStyle = "rgba(43,35,29,.14)"; x.lineWidth = 2; x.stroke();
     const no = h.r <= 30 ? ZH(`第${h.r}`, `#${h.r}`) : ZH(`前${Math.max(1, Math.round(h.q * 100))}%`, `top ${Math.max(1, Math.round(h.q * 100))}%`);
     x.fillStyle = h.r <= 3 ? "#c9a24a" : "#b23a2b"; x.beginPath(); x.arc(P + 68, y + 56, 42, 0, 7); x.fill(); x.fillStyle = "#fbf4e6"; x.textAlign = "center"; x.textBaseline = "middle"; if (EN() && h.r > 30) { x.font = `600 16px "Noto Sans SC", sans-serif`; x.fillText("top", P + 68, y + 42); x.font = `800 24px "Noto Serif SC", serif`; x.fillText(`${Math.max(1, Math.round(h.q * 100))}%`, P + 68, y + 66); } else { x.font = `800 ${no.length > 3 ? 24 : 30}px "Noto Serif SC", serif`; x.fillText(no, P + 68, y + 57); }
     x.textAlign = "left"; x.textBaseline = "alphabetic"; x.fillStyle = "#2b231d"; x.font = EN() ? `700 38px "Noto Serif SC", serif` : `400 46px "Ma Shan Zheng", serif`; x.fillText(ZH(...h.m.lab), P + 140, y + 52); x.fillStyle = "#5a4a3c"; x.font = `500 30px "Noto Serif SC", serif`; x.fillText(stripTags(h.m.ph(c)).slice(0, 26), P + 140, y + 94); y += 126; }

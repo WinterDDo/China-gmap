@@ -50,3 +50,16 @@ def test_every_county_on_the_card_has_an_outline_and_files_stay_small():
         have = cache[pp].get(cid, {})
         missing += [(cid, r[1]) for r in rows if r[0] not in have]
     assert len(missing) <= 15, missing  # a few new or disputed units have no outline in the source; they still show as a name
+
+
+def test_named_treasures_are_few_marked_and_match_the_page():
+    pride = load("pride.json")["pride"]
+    cities = {c["id"] for c in load("cities.json")}
+    assert set(pride) <= cities and len(pride) >= 150
+    for cid, rows in pride.items():
+        assert 1 <= len(rows) <= 3, cid
+        for name, marks, x, y, en, src in rows:
+            assert len(name) >= 2 and marks and set(marks) <= {"遗", "5A", "保"} and src, (cid, name)
+            assert not name.endswith(("市", "县", "自治州")), f"{name}: an administrative unit is not a treasure"
+        assert len({r[0] for r in rows}) == len(rows), cid
+    assert load("cityview.json")["pride"] == {cid: [r[:5] for r in rows] for cid, rows in pride.items()}
