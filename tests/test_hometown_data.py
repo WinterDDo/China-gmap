@@ -99,6 +99,9 @@ def test_heritage_filings_name_a_place_of_the_city_they_sit_under():
     import re
     cities = {c["n"]: c for c in load("cities.json")}
     counties = load("cityview.json")["counties"]
+    import sys
+    sys.path.insert(0, str(DATA.parent))
+    from build_feiyi import WAS_PREFECTURE as was_prefecture
     rows = heritage_rows()
     assert len(rows) >= 2600 and len({r[0] for r in rows}) >= 320
     for city, cat, name, code, orig, by in rows:
@@ -114,7 +117,11 @@ def test_heritage_filings_name_a_place_of_the_city_they_sit_under():
         if by:      # declared by a county: it is one of this city's, and the notice names it (湟中区 as 湟中县 if it has changed rank since)
             assert by in {r[1] for r in counties.get(c["id"], [])} and (by in where or re.search(re.escape(by[:-1]) + "(县|市|区|旗)", where)), (city, name, by)
         else:       # declared by the prefecture itself (or, for a municipality, by a body in it)
-            assert c["full"] in where or c["n"] + "地区" in where, (city, name, where)    # 哈密地区 is 哈密市 today
+            # 哈密地区 is 哈密市 today; 思茅市 is 普洱 and 莱芜市 is part of 济南 (the reader's own short list of such cases)
+            # or the reader left the county blank on purpose, because it has been split since (揭东, 余杭)
+            mine = [r[1] for r in counties.get(c["id"], []) if len(r[1]) >= 3]
+            assert (c["full"] in where or c["n"] + "地区" in where or any(old in where for old in was_prefecture)
+                    or any(re.search(re.escape(n[:-1]) + "(县|市|区|旗)", where) for n in mine)), (city, name, where)
     filed = {(r[0], r[2]): r for r in rows}
     # ones checked by hand against the notices, including two that an earlier version of the reader got wrong
     assert filed[("天水", "太昊伏羲祭典")][1] == "民俗" and filed[("天水", "太昊伏羲祭典")][3] == "B1 Ⅹ-37"
@@ -129,7 +136,8 @@ def test_heritage_filings_name_a_place_of_the_city_they_sit_under():
     assert not [r for r in rows if r[0] == "镇江" and r[3] == "B2x Ⅶ-50"]      # the saved page is in doubt there: left out
     # a county that has become a district or a city since the notice is found under today's name
     assert [r for r in rows if r[0] == "西宁" and r[5] == "湟中区"] and [r for r in rows if r[0] == "荆门" and r[5] == "京山市"]
-    assert [r for r in rows if r[0] == "普洱" and "思茅市" in r[4]]             # and a prefecture renamed since, through its seat
+    assert [r for r in rows if r[0] == "普洱" and "思茅市" in r[4]]             # and a prefecture renamed since, through its seat,
+    assert filed[("普洱", "牡帕密帕")][5] == "" and filed[("济南", "莱芜梆子")][5] == ""   # without naming that seat as the declaring county
 
 
 def test_the_draw_pool_only_holds_what_the_provenance_file_holds():
@@ -145,9 +153,21 @@ def test_the_draw_pool_only_holds_what_the_provenance_file_holds():
         assert rows == [r[:5] for r in doc["more"][cid]]
         for name, marks, x, y, en in rows:
             assert len(name) >= 2 and marks and set(marks) <= {"遗", "5A", "保"}, (cid, name)
-    sombre = re.compile(r"万人坑|侵华|屠杀|惨案|细菌|集中营|遇难|殉难|死难|劳工|慰安|毒气|罪证|罪行|监狱")
-    for key in ("pride", "more"):                 # a draw celebrates what it turns up: no massacre site, no prison
-        assert not [r[0] for rows in doc[key].values() for r in rows if sombre.search(r[0])]
+    import sys
+    sys.path.insert(0, str(DATA.parent))
+    import build_pride as bp                      # the rules themselves: one place for the pattern and the lists
+    names = [(cities[cid]["n"], r[0]) for key in ("pride", "more") for cid, rows in doc[key].items() for r in rows]
+    # a draw celebrates what it turns up: no massacre site, no prison, no war cemetery
+    assert not [x for x in names if bp.SOMBRE.search(x[1]) or x[1] in bp.DROP or x in bp.DROP_IN]
+    # what an independent read of every name found (2026-11-28): labels in traditional characters, a character phones
+    # cannot draw, a bare type standing in for a name. The first is a tripwire of common characters, not a full test.
+    trad = re.compile("[國會舊島萬墳關營驛漢樓橋龍閣觀遠晉鄧張園樂薩爾滸煬蘆飛峽東門廟寶陽陰陳劉趙吳鄭馬馮楊黃齊魯遼寧廣蘇貴雲滿區縣鎮鄉莊橫嶺巖灣澤濟溫滄瀘澗淵塢壩壇牆壘塚處遺跡蹟紀館學書畫傳圖磚窯鐵銅銀鋼鐘鑄鍾錢鏡長開閘間階隊陣戰軍總統議辦業廠礦產倉庫車輪運郵電氣機農漁鹽麥麵絲織紡綢繡紙筆硯藝術戲劇臺碼頭邊內側鄰與壽祿禎禪釋聖靈齋廳鋪衛嶽崗灘溝場]")
+    assert not [x for x in names if trad.search(x[1]) or any(ord(ch) > 0xFFFF for ch in x[1]) or x[1] in bp.GENERIC]
+    # a mark belongs to the place itself: a neighbour does not lend its own (东方明珠 is a 5A area, not a protected site)
+    marks = {(cities[cid]["n"], r[0]): r[1] for cid, rows in doc["pride"].items() for r in rows}
+    assert marks[("上海", "东方明珠广播电视塔")] == ["5A"] and marks[("开封", "清明上河园")] == ["5A"] and marks[("南昌", "滕王阁")] == ["5A"]
+    assert marks[("天水", "麦积山石窟")] == ["5A", "保"]      # one place under two records still carries both
+    assert ("泉州", "泉州") not in marks and ("马鞍山", "采石矶") in marks and ("韶关", "丹霞山") not in marks
     for cid, rows in doc["more"].items():
         assert all(r[5] for r in rows), cid       # each carries its record
     for cid, rows in pool["food"].items():

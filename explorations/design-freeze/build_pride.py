@@ -51,12 +51,42 @@ QUERIES = {k: f"""SELECT ?item ?itemLabel ?itemLabel_en ?coord ?links WHERE {{ ?
 LOC_QUERIES = {k: f"""SELECT ?item ?code WHERE {{ ?item {v[1]} ; wdt:P131+ ?a . ?a wdt:P442 ?code . FILTER(REGEX(?code, "^[0-9]{{2}}( ?[0-9]{{2}})?$")) }}"""
                for k, v in KINDS.items()}
 BONUS = {"whs": 100, "a5": 15, "guobao": 0}
-GENERIC = {"孔庙", "文庙", "清真寺", "大佛寺", "城隍庙", "关帝庙", "鼓楼", "钟楼", "白塔", "古城"}   # a bare type is not a name
+GENERIC = {"孔庙", "文庙", "清真寺", "大佛寺", "城隍庙", "关帝庙", "鼓楼", "钟楼", "白塔", "古城",
+           "观音堂", "观音阁", "文昌阁", "文昌庙", "府君庙", "大王庙"}   # a bare type is not a name
 FAMOUS, ALONE = 10, 5   # language editions a plain protected site needs: among others / as the only name
 DEEP, POOL = 0, 12      # the draw's deeper pool: any protected site that passes the two checks, best known first; at most 12 a city
 # A draw celebrates what it turns up. Sites of massacre, war crime and imprisonment are protected for another reason:
 # they stay off the card (they belong in the history layer, told properly).
-SOMBRE = re.compile(r"万人坑|侵华|屠杀|惨案|细菌|集中营|遇难|殉难|死难|劳工|慰安|毒气|罪证|罪行|监狱")
+SOMBRE = re.compile(r"万人坑|万人[坟墳]|侵华|屠杀|惨案|细菌|集中营|遇难|殉难|死难|殉国|阵亡|劳工|矿工墓|血泪|慰安|毒气|罪证|罪行|监狱|战俘|战犯|管理所|警察厅|教案|大地震|墓园|红军墓|革命公墓|将士公墓")
+# What follows is what an independent reader found wanting when all 2,832 names were read (2026-11-28). A label on
+# Wikidata is not the name on the State Council's list; until the lists themselves are read (TODOS.md), a name found
+# wrong is put right here, and one that cannot be put right with confidence is left out.
+FIX = {"采石磯": "采石矶", "应昌": "应昌路故城遗址", "天津張園": "天津张园", "薩爾滸城": "萨尔浒城", "潮音橋": "潮音桥", "晉江龍山寺": "晋江龙山寺",
+       "中國國民黨第一次全國代表大會舊址": "中国国民党第一次全国代表大会旧址", "夾江千佛岩摩岩造像": "夹江千佛岩摩崖造像",
+       "蘆山飛仙關及南界牌坊": "芦山飞仙关及南界牌坊", "零關古道清溪峽段": "零关古道清溪峡段", "登相營古驛站": "登相营古驿站",
+       "漢長陵": "汉长陵", "唐橋陵": "唐桥陵", "惠遠城": "惠远城", "庐山青龙寺大殿": "芦山青龙寺大殿",
+       "碧色寨站": "碧色寨车站", "鸡街站": "鸡街火车站"}   # 芦山县, not the mountain in 江西
+OWN_FIX = {"泉州": "泉州：宋元中国的世界海洋商贸中心"}     # the World Heritage entry, not the bare city name
+DROP = {  # sombre, by a name the pattern cannot catch
+        "万忠墓", "乐道院", "石人血泪山", "虎头要塞", "胜山要塞", "三灶島萬人墳",
+        # not in the city the record puts it in, or an umbrella for sites across several cities
+        "万安陵", "九门口", "唐十八陵",
+        # a part of one protected unit, under a bare name nobody will recognise
+        "景安陵", "修陵", "修安陵", "兴安陵",
+        # today's institution or business standing in for the site
+        "东北电力大学", "喜林苑", "烟台市博物馆", "上海圣约翰大学", "德华大学", "北京动物园", "工部局宰牲場",
+        # a bare name of an old capital or a tomb, short of what the list calls it
+        "盛樂", "煬帝陵", "漢禪陵", "鄧城", "辽陵", "兴京", "雍城", "泰陵", "觀音閣",
+        # a railway station under a label that reads as a working stop, where the list's own name is not known to me
+        "白塔站", "吉林西站", "富拉尔基站", "沈阳东站"}
+DROP_IN = {  # the same site as one already on the city's card, or its parts beside the whole
+           ("长沙", "刘少奇故居"), ("延安", "延安革命遗址"), ("北海", "德国领事馆旧址"), ("北海", "法国领事馆旧址"), ("北海", "双孖楼旧址"), ("北海", "普仁医院旧址"),
+           ("北海", "英国领事馆旧址"), ("北海", "北海天主堂旧址"), ("北海", "德国信义会教会楼旧址"), ("镇江", "庄陵"), ("镇江", "建陵"),
+           ("韶关", "丹霞山"),                    # 中国丹霞 is the same mountain
+           ("恩施", "湖北神农架国家公园"),          # all but an edge of it lies in 神农架林区
+           ("黔东南", "和平村旧址")}               # a wartime camp for prisoners
+PARTS_IN = {("北海", "旧址")}   # 北海近代建筑 is one protected unit of some twenty buildings; each is on record as "…旧址"
+EN_DROP = {"Mukden Naniwa Square", "Hoten prisoner-of-war camp", "Schwarzwasserstaat site"}   # not names to greet a visitor with
 FOODS, LORE = 6, 12     # and at most 6 foods and 12 heritage items a city
 CATS = ["民间文学", "传统音乐", "传统舞蹈", "传统戏剧", "曲艺", "传统体育、游艺与杂技", "传统美术", "传统技艺", "传统医药", "民俗"]
 
@@ -172,6 +202,9 @@ def build(src, out_dir):
             loc[b["item"]["value"].split("/")[-1]].add(code + "0000" if len(code) == 2 else code + "00")
         for b in json.load(open(os.path.join(src, kind + ".json"), encoding="utf-8"))["results"]["bindings"]:
             q, name = b["item"]["value"].split("/")[-1], tidy(b["itemLabel"]["value"], kind)
+            if name in DROP or any(ord(ch) > 0xFFFF for ch in name):   # the second: a character most phones cannot draw
+                continue
+            name = FIX.get(name, name)
             m = re.match(r"Point\(([-\d.]+) ([-\d.]+)\)", b["coord"]["value"])
             if not m or re.fullmatch(r"Q\d+", name) or not name:
                 continue
@@ -187,8 +220,11 @@ def build(src, out_dir):
                 # recorded only as "in <province>": fine for a mountain everyone knows, not for a wall that crosses ten cities
                 if prefs or cid[:2] + "0000" not in codes or (kind == "guobao" and links < 25):
                     continue
+            if (cities[cid]["n"], name) in DROP_IN or any(c == cities[cid]["n"] and name.endswith(tail) for c, tail in PARTS_IN):
+                continue
             stats[kind][2] += 1
-            e = found[cid].setdefault(q, {"name": name, "en": b.get("itemLabel_en", {}).get("value", "").replace("_", " "), "kinds": [], "links": int(b["links"]["value"]), "x": x, "y": y, "q": q})
+            en = b.get("itemLabel_en", {}).get("value", "").replace("_", " ")
+            e = found[cid].setdefault(q, {"name": name, "en": "" if en in EN_DROP else en, "kinds": [], "links": int(b["links"]["value"]), "x": x, "y": y, "q": q})
             if kind not in e["kinds"]:
                 e["kinds"].append(kind)
 
@@ -198,17 +234,18 @@ def build(src, out_dir):
     for cid, rows in sites.items():
         for r in rows:
             if r[0] == "whs":
-                own[cid].append({"name": r[1], "en": r[6] or "", "kinds": ["whs"], "links": 0, "x": r[2], "y": r[3], "q": f"UNESCO {r[4]}"})
+                own[cid].append({"name": OWN_FIX.get(r[1], r[1]), "en": r[6] or "", "kinds": ["whs"], "links": 0, "x": r[2], "y": r[3], "q": f"UNESCO {r[4]}"})
     out, more = {}, {}
     for cid in set(found) | set(own):
         rows = sorted(found.get(cid, {}).values(), key=lambda e: -(e["links"] + sum(BONUS[k] for k in e["kinds"])))
         picked = [dict(e) for e in own.get(cid, [])][:3]
+        # next door, or a plain protected site beside a World Heritage entry: parts of one site (孔府 and 曲阜三孔), one line
+        near = lambda p, e: math.hypot(p["x"] - e["x"], p["y"] - e["y"]) < (5 if "whs" in p["kinds"] and e["kinds"] == ["guobao"] else 1.2)
         for e in rows:
-            twin = next((p for p in picked if same(p["name"], e["name"], cities[cid]["n"])
-                         or math.hypot(p["x"] - e["x"], p["y"] - e["y"]) < (5 if "whs" in p["kinds"] and e["kinds"] == ["guobao"] else 1.2)),
-                        None)   # next door, or a plain protected site beside a World Heritage entry: parts of one site (孔府 and 曲阜三孔)
-            if twin:  # the 5A area, the protected site and the World Heritage entry of the same place: one line, all marks
-                twin["kinds"] += [k for k in e["kinds"] if k not in twin["kinds"]]
+            twin = next((p for p in picked if same(p["name"], e["name"], cities[cid]["n"]) or near(p, e)), None)
+            if twin:  # the 5A area and the protected site of one name share their marks; a neighbour of another name
+                if same(twin["name"], e["name"], cities[cid]["n"]):   # lends none (东方明珠 is not a protected site)
+                    twin["kinds"] += [k for k in e["kinds"] if k not in twin["kinds"]]
                 continue
             plain = e["kinds"] == ["guobao"]
             if len(picked) >= 3 or (plain and e["links"] < (FAMOUS if picked else ALONE)) or SOMBRE.search(e["name"]):
@@ -223,6 +260,7 @@ def build(src, out_dir):
                 break
             # beside one of the three it is a part of that site; among themselves two old-town sites a street apart are two sites
             twin = lambda p, km: same(p["name"], e["name"], cities[cid]["n"]) or math.hypot(p["x"] - e["x"], p["y"] - e["y"]) < km
+            # (a temple inside a World Heritage landscape stays: 灵隐寺 and 留园 are highlights in their own right)
             if any(twin(p, 1.2) for p in picked) or any(twin(p, 0.3) for p in deep) or (e["kinds"] == ["guobao"] and e["links"] < DEEP) or SOMBRE.search(e["name"]):
                 continue
             deep.append(dict(e))

@@ -329,3 +329,11 @@
 - 谁定的：Claude 提出（数据口径上的判断）；第 3 条是内容判断，单独问过用户，用户 2026-11-28 同意（原话「同意，继续」）
 - 出处：会话 session_01DGeZrdANx45XY7zhNDtypj
 - 相关文件：explorations/design-freeze/build_pride.py, explorations/design-freeze/build_feiyi.py, explorations/design-freeze/data/pool.json, tests/test_hometown_data.py
+
+### 2026-11-28 · 景点古迹的名字和标记，按一轮独立通读的结果改
+- 决定：放宽池子之后，请一个不知道我思路的复查者把 2832 个景点古迹名字全部读了一遍，按结果改：(1) 标记只属于这处地方自己，隔壁的不借给它（之前东方明珠、清明上河园、滕王阁、黄鹤楼被标成「全国重点文保」，是错的，已在主线上，这次改掉）；(2) 惨案类再去掉 12 处名字里看不出来的（抚顺战犯管理所、辽源矿工墓、万忠墓、乐道院、战俘营等），阵亡将士公墓这类也不上卡；(3) 不在本市的、同一处写两遍的、繁体字的、只有一个通名的（观音阁）、拿今天的单位顶替的（东北电力大学）、手机显示不出来的字，改对或者拿掉，一共 79 处；(4) 改了名的县有两处标错了申报县（思茅市、莱芜市当年是地级市），县名留空。世界遗产范围里另有名气的地方（灵隐寺、留园、普宁寺）留在池子里，不算重复。
+- 为什么：数据铁律第 4 条和「宁少勿错」。这层名字来自维基数据，不是国务院名单的原文，放宽之后问题就露出来了。抚顺因此没有了家乡卡上的那一条，辽源一条都不剩，这是对的。
+- 放弃了：退回原来的名气门槛（那样问题只是藏起来，东方明珠的假标记还在）；让世界遗产 5 公里内的文保都算重复（会把灵隐寺、留园这些拿掉）。
+- 谁定的：Claude（按复查结果）；惨案类不上卡是用户同意过的方向
+- 出处：会话 session_01DGeZrdANx45XY7zhNDtypj
+- 相关文件：explorations/design-freeze/build_pride.py, explorations/design-freeze/build_feiyi.py, explorations/design-freeze/data/pride.json, tests/test_hometown_data.py

@@ -35,7 +35,9 @@ ROMAN = "ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ"
 # the fifth list, section by section as pictured: its numeral and the number of items the notice states
 FIFTH = [("Ⅰ", 12), ("Ⅱ", 19), ("Ⅲ", 13), ("Ⅳ", 9), ("Ⅴ", 18), ("Ⅵ", 27), ("Ⅶ", 17), ("Ⅷ", 46), ("Ⅹ", 24),
          ("Ⅰ", 9), ("Ⅱ", 8), ("Ⅲ", 9), ("Ⅳ", 14), ("Ⅴ", 2), ("Ⅵ", 13), ("Ⅶ", 22), ("Ⅷ", 36), ("Ⅸ", 11), ("Ⅹ", 16)]
-DOUBT = {("B2x", "Ⅶ-50", "镇江")}   # 灯彩: the page prints 江苏省句容市 where 秦淮灯彩 (南京) is expected
+DOUBT = {("B2x", "Ⅶ-50", "镇江")}
+WAS_PREFECTURE = {"思茅市", "莱芜市"}   # prefecture-level when the notice was printed: the city is right, no one county declared it
+COUNTY_DOUBT = {("揭阳", "揭东区"), ("杭州", "余杭区")}   # the county has been split since; which part holds the item is not checked   # 灯彩: the page prints 江苏省句容市 where 秦淮灯彩 (南京) is expected
 LATIN = dict(zip(["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"], ROMAN))
 WS = " \t 　"
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -283,6 +285,8 @@ def build(src, out_dir):
                 rest = word.replace(by_id[cid]["full"], "")
                 by = next((n for n in sorted(places.counties[by_id[cid]["prov"]], key=len, reverse=True) if rest.startswith(n) and cid in places.counties[by_id[cid]["prov"]][n]), "")
                 by = by or places.renamed.get(rest, "")
+                if rest in WAS_PREFECTURE or (by_id[cid]["n"], by) in COUNTY_DOUBT:
+                    by = ""
                 out.append([by_id[cid]["n"], CATS[r["code"][0]], name, f"{label} {r['code']}", f"{r['name']} @ {text}", by])
         stats.append((label, len({r["no"] for r in part}), filed))
 
