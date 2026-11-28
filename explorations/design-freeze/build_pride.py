@@ -58,8 +58,9 @@ DEEP, POOL = 0, 12      # the draw's deeper pool: any protected site that passes
 # A draw celebrates what it turns up. Sites of massacre, war crime and imprisonment are protected for another reason:
 # they stay off the card (they belong in the history layer, told properly).
 SOMBRE = re.compile(r"万人坑|万人[坟墳]|侵华|屠杀|惨案|细菌|集中营|遇难|殉难|死难|殉国|阵亡|劳工|矿工墓|血泪|慰安|毒气|罪证|罪行|监狱|战俘|战犯|管理所|警察厅|教案|大地震|墓园|红军墓|革命公墓|将士公墓")
-# What follows is what an independent reader found wanting when all 2,832 names were read (2026-11-28). A label on
-# Wikidata is not the name on the State Council's list; until the lists themselves are read (TODOS.md), a name found
+# What follows is what an independent reader found wanting when all 2,832 names were read (2026-11-28), when every
+# name was still a Wikidata label. Sites found in the State Council's lists now take the listed name (build_guobao.py);
+# these tables still serve the sites not found in a list in hand (most of them of the seventh list): a label found
 # wrong is put right here, and one that cannot be put right with confidence is left out.
 FIX = {"采石磯": "采石矶", "应昌": "应昌路故城遗址", "天津張園": "天津张园", "薩爾滸城": "萨尔浒城", "潮音橋": "潮音桥", "晉江龍山寺": "晋江龙山寺",
        "中國國民黨第一次全國代表大會舊址": "中国国民党第一次全国代表大会旧址", "夾江千佛岩摩岩造像": "夹江千佛岩摩崖造像",
@@ -177,6 +178,18 @@ def same(a, b, city=""):
     return a[:2] == b[:2] and a[:2] != city[:2]            # same leading word, and it is not just the city's name
 
 
+def one_place(p, e, city):
+    """same(), for two entries of a city's list. Two units of the State Council's lists are two places whatever their
+    names share (贵池清溪塔 and 贵池百牙山塔; 渠县汉阙 twice is one). A listed unit with a bare name does not swallow a
+    place of a longer name that lies elsewhere in the city (玉皇庙 at 府城 and 石掌玉皇庙, ten kilometres off)."""
+    if p["name"] == e["name"] or (p.get("src") and e.get("src")):
+        return p["name"] == e["name"]          # one name is one line on a card, wherever its two records lie
+    plain = lambda z: z["kinds"] == ["guobao"]      # a World Heritage entry or a 5A area still gathers its parts by name
+    if plain(p) and plain(e) and (p.get("src") or e.get("src")) and math.hypot(p["x"] - e["x"], p["y"] - e["y"]) > 5:
+        return False
+    return same(p["name"], e["name"], city)
+
+
 def build(src, out_dir):
     geo = json.load(open(os.path.join(out_dir, "geo.json"), encoding="utf-8"))
     fr = geo["frame"]
@@ -262,9 +275,9 @@ def build(src, out_dir):
         # next door, or a plain protected site beside a World Heritage entry: parts of one site (孔府 and 曲阜三孔), one line
         near = lambda p, e: math.hypot(p["x"] - e["x"], p["y"] - e["y"]) < (5 if "whs" in p["kinds"] and e["kinds"] == ["guobao"] else 1.2)
         for e in rows:
-            twin = next((p for p in picked if same(p["name"], e["name"], cities[cid]["n"]) or near(p, e)), None)
+            twin = next((p for p in picked if one_place(p, e, cities[cid]["n"]) or near(p, e)), None)
             if twin:  # the 5A area and the protected site of one name share their marks; a neighbour of another name
-                if same(twin["name"], e["name"], cities[cid]["n"]):   # lends none (东方明珠 is not a protected site)
+                if one_place(twin, e, cities[cid]["n"]):   # lends none (东方明珠 is not a protected site)
                     twin["kinds"] += [k for k in e["kinds"] if k not in twin["kinds"]]
                 continue
             plain = e["kinds"] == ["guobao"]
@@ -279,7 +292,7 @@ def build(src, out_dir):
             if len(picked) + len(deep) >= POOL:
                 break
             # beside one of the three it is a part of that site; among themselves two old-town sites a street apart are two sites
-            twin = lambda p, km: same(p["name"], e["name"], cities[cid]["n"]) or math.hypot(p["x"] - e["x"], p["y"] - e["y"]) < km
+            twin = lambda p, km: one_place(p, e, cities[cid]["n"]) or math.hypot(p["x"] - e["x"], p["y"] - e["y"]) < km
             # (a temple inside a World Heritage landscape stays: 灵隐寺 and 留园 are highlights in their own right)
             if any(twin(p, 1.2) for p in picked) or any(twin(p, 0.3) for p in deep) or (e["kinds"] == ["guobao"] and e["links"] < DEEP) or SOMBRE.search(e["name"]):
                 continue

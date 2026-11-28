@@ -22,7 +22,8 @@ Output, one line per listed unit:
 "cities" is where the address puts it, by the same strict reading as the heritage lists (build_feiyi.Places): a
 prefecture named outright, or a county that belongs to exactly one prefecture of the province named before it.
 An address of a whole province, or of a county since abolished, files nowhere: the column is empty and the unit
-can still be placed by build_pride.py when a mapped site of the same name lies in that province.
+can still be placed, but only by a reader: build_pride.py offers the pair when a mapped site of the same name lies
+in that province, and uses it once it is in sources/guobao_pairs.tsv.
 
 Usage   python3 build_guobao.py <dir with b6.htm b8.htm> data
 """
@@ -61,7 +62,6 @@ SPELL = {
     "铜录山古铜矿遗址": "铜绿山古铜矿遗址",   # 1982 list, the same shorthand; the hill is 铜绿山
     "庐山青龙寺大殿": "芦山青龙寺大殿",       # the 2006 notice's own page; its address column reads 四川省芦山县
     "二郞庙": "二郎庙",                      # 郞 is a variant form of 郎
-    "敏竹林寺": "敏珠林寺",                  # 国发〔2021〕8号 writes 敏珠林寺藏香制作技艺
     "余家碑坊": "余家牌坊",                  # the 2006 notice's page prints 碑 for 牌; an independent reader flagged it
     "白鹿书院": "白鹿洞书院",                # the 1988 gazette drops 洞; both transcribers and an independent reader flagged it
     "中国共产党第一次代表大会会址": "中国共产党第一次全国代表大会会址",   # 1961 wording; the 2001 list itself writes 全国 (merged item 22)
@@ -93,18 +93,26 @@ RENAMED = {
     "杨粲墓": ("杨氏土司墓群", "第八批合并项目 8-0000-2-004"),
     "西峡颂摩崖石刻": ("西狭古栈道及摩崖石刻", "第八批合并项目 8-0000-4-007"),   # the fifth list's picture prints 峡; the eighth list writes 西狭颂
 }
-RARE = re.compile(r"字旁加|[\ue000-\uf8ff]|[\U00020000-\U0003ffff]")   # a name the page spells out because it cannot print it
+# Where a unit lies today, when the printed address would file it wrongly: between 1958 and 1961 several counties were
+# merged into a neighbour, and the first list prints the merged county (赵县 was then part of 宁晋县, 景县 of 吴桥县,
+# 长清 of 肥城; 嘉峪关 was under 酒泉 until 1965). Each was confirmed by an independent reader against the mapped site.
+# The third list's 掖县 is today's 莱州市 (烟台), a rename the county table cannot see.
+NOW_IN = {
+    (1, "孝堂山郭氏墓石祠"): ["济南"], (1, "安济桥（大石桥）"): ["石家庄"], (1, "永通桥（小石桥）"): ["石家庄"], (1, "赵州陀罗尼经幢"): ["石家庄"],
+    (1, "万里长城—嘉峪关"): ["嘉峪关"], (1, "封氏墓群"): ["衡水"], (3, "云峰山、天柱山摩崖石刻"): ["烟台", "青岛"],
+}
+RARE = re.compile(r"字旁加|〓|[\ue000-\uf8ff]|[\U00020000-\U0003ffff]")   # a name the page spells out because it cannot print it
 
 
 def text_of(doc):
     """The page as lines; a table row becomes one line with its cells set apart by wide spaces, like the rest."""
     doc = re.sub(r"(?is)<(script|style).*?</\1>", "", doc)
-    cell = lambda c: re.sub(r"[\s\u3000]+", "", html.unescape(re.sub(r"<[^>]+>", "", c)).replace("\xa0", ""))
+    cell = lambda c: re.sub(r"[\s\u3000]+", "", html.unescape(re.sub(r"<[^>]+>", "", re.sub(r"(?i)<img[^>]*>", "〓", c))).replace("\xa0", ""))
     # innermost rows only: the whole page sits in a layout table of its own
     doc = re.sub(r"(?is)<tr[^>]*>((?:(?!<tr).)*?)</tr>",
                  lambda m: "<br>" + "\u3000\u3000".join(cell(c) for c in re.findall(r"(?is)<td[^>]*>((?:(?!<td).)*?)</td>", m.group(1))) + "<br>", doc)
     doc = re.sub(r"(?i)<br\s*/?>|</p>", "\n", doc)
-    return html.unescape(re.sub(r"<[^>]+>", "", doc)).replace("\xa0", " ")
+    return html.unescape(re.sub(r"<[^>]+>", "", re.sub(r"(?i)<img[^>]*>", "〓", doc))).replace("\xa0", " ")
 
 
 ERA = re.compile(r"(?:(?:旧石器|新石器|青铜|铁器)(?:时代)?|时代|夏|商|西周|东周|周|春秋|战国|秦|西汉|东汉|汉|三国|魏|蜀|吴|西晋|东晋|晋|十六国|南北朝|南朝|北朝|"
@@ -113,7 +121,7 @@ ERA = re.compile(r"(?:(?:旧石器|新石器|青铜|铁器)(?:时代)?|时代|�
 
 def sixth(path, prov_re):
     """Set with wide spaces in columns: number, code, name, era, address. Where a column is full the next one starts
-    with no space between (新石器至青铜时代青海省乐都县), and eight entries run onto a second line, set under the
+    with no space between (新石器至青铜时代青海省乐都县), and eighteen entries run onto further lines, set under the
     name column or under the address column."""
     t = text_of(open(path, encoding="utf-8", errors="replace").read())
     t = t[t.index("第六批全国重点文物保护单位名单"):]
@@ -160,7 +168,8 @@ def eighth(path):
     doc = doc[doc.index("第八批全国重点文物保护单位名单"):]
     rows, heads, sec = [], [], None
     for part in re.split(r"(?i)<tr[^>]*>", doc):
-        cells = [re.sub(r"[\s\u3000]+", "", html.unescape(re.sub(r"<[^>]+>", "", c)).replace("\xa0", "")) for c in re.findall(r"(?is)<td[^>]*>(.*?)</td>", part)]
+        # a rare character set as a picture (石〓村冯氏祠堂) is kept as 〓, so the name is seen to be incomplete
+        cells = [re.sub(r"[\s\u3000]+", "", html.unescape(re.sub(r"<[^>]+>", "", re.sub(r"(?i)<img[^>]*>", "〓", c))).replace("\xa0", "")) for c in re.findall(r"(?is)<td[^>]*>(.*?)</td>", part)]
         if len(cells) == 5 and re.fullmatch(r"8-\d{4}-\d-\d{3}", cells[1]):     # merged items carry 8-0000 and a sixth cell
             assert SECS[int(cells[1][7]) - 1] == SECS[len(heads) - 1], cells    # the code's own section digit
             rows.append([8, int(cells[0]), cells[1], sec, cells[2], cells[3], cells[4]])
@@ -227,13 +236,15 @@ class Addresses(Places):
                                       or [c for c in self.by_prov[was[1]] if t.startswith(c["n"])]) for t in toks):
                 addr = addr.replace(pname + seg, was[0] + seg)
                 continue
+            now = seg                           # the segment with each old style written as today
             for t in toks:
                 for c in self.by_prov[prov]:
                     for old in (c["n"] + "盟", c["n"] + "行署", c["n"] + "专区", c["n"] + "县"):
                         if old != c["full"] and t.startswith(old) and not known(t):
-                            addr = addr.replace(pname + seg, pname + seg.replace(old, c["full"], 1))
+                            now = now.replace(old, c["full"], 1)
                     if t == c["n"] and not known(t):
-                        addr = addr.replace(pname + seg, pname + seg.replace(t, c["full"], 1))
+                        now = re.sub(rf"(?<![^、，,；;。]){re.escape(t)}(?![^、，,；;。])", c["full"], now, count=1)
+            addr = addr.replace(pname + seg, pname + now, 1)
         by_id = {c["id"]: c["n"] for c in self.cities}
         return list(dict.fromkeys(by_id[cid] for cid, _, _ in self.tokens(addr) if cid))
 
@@ -249,14 +260,17 @@ def build(src, out_dir):
         rows += checked(got, batch)
     out, nowhere = [], Counter()
     for r in rows:
-        cities = [] if RARE.search(r[4]) else places.filed(r[6], r[0])
+        cities = [] if RARE.search(r[4]) else NOW_IN.get((r[0], r[4])) or places.filed(r[6], r[0])
         nowhere[r[0]] += not cities
         out.append("\t".join(map(str, r)) + "\t" + "、".join(cities))
     head = ["# 全国重点文物保护单位，按国务院公布名单原文。build_guobao.py 生成，不要手改。",
-            "# 批次 <tab> 批内序号 <tab> 名单上的编号 <tab> 类别 <tab> 名称 <tab> 时代 <tab> 地址 <tab> 按地址归到的地级市（归不了的留空）"]
+            "# 批次 <tab> 批内序号 <tab> 名单上的编号 <tab> 类别 <tab> 名称 <tab> 时代 <tab> 地址 <tab> 按地址归到的地级市（归不了的留空）",
+            "# 名称里的〓：网页上这个字是一张图片，不是文字，这里读不出来；这样的名称不完整，不上卡。"]
     head += [f"# 第 {b} 批还没读进来：{why}" for b, why in MISSING.items() if not any(r[0] == b for r in rows)]
-    names = {r[4] for r in rows}
-    assert set(RENAMED) | set(SPELL) <= names, (set(RENAMED) | set(SPELL)) - names      # every entry of the two tables is a listed name
+    count = Counter(r[4] for r in rows)
+    for name in list(RENAMED) + list(SPELL) + [k[1] for k in NOW_IN]:       # each entry of the tables is one listed unit, no more
+        assert count[name] == 1, f"{name}: {count[name]} listed units of this name"
+    assert all((r[0], r[4]) in {(x[0], x[4]) for x in rows} for r in [[b, 0, 0, 0, n] for b, n in NOW_IN])
     open(os.path.join(HERE, "sources", "guobao_all.tsv"), "w", encoding="utf-8").write("\n".join(head + out) + "\n")
     per = Counter(r[0] for r in rows)
     print("units:", dict(per), "total", len(rows))
@@ -331,9 +345,14 @@ def names(found, cities, pairs=None):
     out, review = {}, []
     by_key = {(r[0], r[1]): r for r in rows}
     where = {q: cid for cid in found for q, e in found[cid].items() if "guobao" in e["kinds"]}
-    for q, batch, seq in sorted(pairs):                 # what a reader approved comes first
-        if q in where and (batch, seq) in by_key:
-            out[(where[q], q)] = by_key[(batch, seq)]
+    for q, (batch, seq, label, name, city) in sorted(pairs.items()):    # what a reader approved comes first
+        if q not in where:
+            continue                                    # the site is no longer on the map (or not in a city of ours)
+        # the pair was approved for this label, this unit and this city: if any has moved, it must be read again
+        assert by_key[(batch, seq)][4] == name, f"guobao_pairs.tsv {q}: list row {batch}-{seq} is {by_key[(batch, seq)][4]}, not {name}"
+        assert cities[where[q]]["n"] == city, f"guobao_pairs.tsv {q}: the site lies in {cities[where[q]]['n']}, the pair says {city}"
+        assert found[where[q]][q]["name"] == label, f"guobao_pairs.tsv {q}: the site is labelled {found[where[q]][q]['name']}, the pair says {label}"
+        out[(where[q], q)] = by_key[(batch, seq)]
     placed = lambda: {(r[0], r[1]) for r in out.values()}
     by_city = {}
     for r in rows:
@@ -382,13 +401,15 @@ def names(found, cities, pairs=None):
 
 
 def read_pairs():
-    """sources/guobao_pairs.tsv: wikidata id <tab> label <tab> batch <tab> number <tab> listed name — pairs a reader approved."""
+    """sources/guobao_pairs.tsv, pairs approved after a reader's judgement (a few by the main session alone; the last
+    column says which): wikidata id -> (batch, number, the site's label, the listed name, the city)."""
     path = os.path.join(HERE, "sources", "guobao_pairs.tsv")
-    out = set()
+    out = {}
     for line in open(path, encoding="utf-8") if os.path.exists(path) else ():
         if line.strip() and not line.startswith("#"):
-            q, _, batch, seq = line.rstrip("\n").split("\t")[:4]
-            out.add((q, int(batch), int(seq)))
+            q, label, batch, seq, name, city = line.rstrip("\n").split("\t")[:6]
+            assert q not in out, f"guobao_pairs.tsv: {q} twice"
+            out[q] = (int(batch), int(seq), label, name, city)
     return out
 
 

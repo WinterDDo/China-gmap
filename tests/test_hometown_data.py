@@ -215,6 +215,17 @@ def test_protected_sites_are_read_off_the_state_council_lists():
     # a county since abolished, a whole province, a line across the country, a name the page cannot print: nowhere
     assert at[("1", "武当山金殿")] == "" and at[("6", "京杭大运河")] == "" and at[("5", "长城")] == ""
     assert [r[7] for r in rows if "字旁加" in r[4]] == [""]
+    # a character the eighth list's page shows as a picture is kept as 〓, never dropped: the name is known to be incomplete
+    assert sorted(r[4] for r in rows if "〓" in r[4]) == ["〓塘陂、亭塘陂水利工程", "石〓村冯氏祠堂"] and not [r for r in rows if "〓" in r[4] and r[7]]
+    # every old style in an address is read, not only the first; and where the 1961 county has since been split, today's city
+    assert at[("5", "金界壕遗址")] == "呼伦贝尔、兴安、通辽、赤峰、乌兰察布、包头、齐齐哈尔"
+    assert at[("1", "安济桥（大石桥）")] == "石家庄" and at[("1", "封氏墓群")] == "衡水" and at[("1", "万里长城—嘉峪关")] == "嘉峪关"
+    assert at[("3", "云峰山、天柱山摩崖石刻")] == "烟台、青岛"
+    # the transcribed lists are what the combined file holds, row for row
+    for b in "12345":
+        mine = [line.rstrip("\n").split("\t") for line in open(SRC / f"guobao_b{b}.tsv", encoding="utf-8") if line.strip() and not line.startswith("#")]
+        mine = [(f + ["", ""])[3:6] for f in mine if f[0] != "并"]
+        assert mine == [r[4:7] for r in rows if r[0] == b], b
     # the transcribed lists say how they were read, and state their sections
     for b in "12345":
         text = open(SRC / f"guobao_b{b}.tsv", encoding="utf-8").read()
@@ -227,11 +238,19 @@ def test_a_protected_site_on_a_card_is_named_as_its_list_names_it():
     import sys
     sys.path.insert(0, str(DATA.parent))
     import build_guobao as bg
+    import re
     doc = load("pride.json")
     cities = {c["id"]: c["n"] for c in load("cities.json")}
     rows = {(int(r[0]), int(r[1])): r for r in guobao_rows()}
-    pairs = {(int(f[2]), int(f[3])) for f in (line.rstrip("\n").split("\t") for line in open(SRC / "guobao_pairs.tsv", encoding="utf-8") if line.strip() and not line.startswith("#"))}
-    assert pairs <= set(rows)
+    # the two tables that let a card differ from the list are short and each entry is one listed unit; a new entry is a
+    # deliberate act (change the numbers here with it)
+    listed = [r[4] for r in rows.values()]
+    assert len(bg.SPELL) == 12 and len(bg.RENAMED) == 20 and all(listed.count(n) == 1 for n in list(bg.SPELL) + list(bg.RENAMED))
+    # a pair is a site, a unit and a city, approved together: wikidata id -> (unit, city)
+    lines = [line.rstrip("\n").split("\t") for line in open(SRC / "guobao_pairs.tsv", encoding="utf-8") if line.strip() and not line.startswith("#")]
+    pairs = {f[0]: ((int(f[2]), int(f[3])), f[5]) for f in lines}
+    assert len(pairs) == len(lines) and all(len(f) == 7 and f[6] for f in lines)
+    assert all(rows[(int(f[2]), int(f[3]))][4] == f[4] for f in lines)
     marked = named = 0
     seen = set()
     for key in ("pride", "more"):
@@ -250,8 +269,11 @@ def test_a_protected_site_on_a_card_is_named_as_its_list_names_it():
                 row = rows[k]
                 assert (row[4], row[5], row[6]) == (name, era, addr), (cities[cid], r[0])
                 assert r[0] == bg.shown(name) and len(r[0]) >= 2, (cities[cid], r[0], name)
-                # the list's own address puts it in this city, or a reader approved the pair
-                assert cities[cid] in row[7].split("、") or k in pairs, (cities[cid], r[0], row[6])
+                # the card differs from the list only by a table entry, a dropped note of scope, or 造象 written 造像
+                assert r[0] == name or name in bg.SPELL or name in bg.RENAMED or "造象" in name or re.search(r"（(包括|含)[^（）]*）$", name), (r[0], name)
+                # the list's own address puts it in this city with this very name, or this site was approved for this unit in this city
+                by_address = cities[cid] in row[7].split("、") and bg.alike(r[0], bg.shown(name))[0] in ("same", "same sound")
+                assert pairs.get(r[5]) == (k, cities[cid]) or (by_address and r[5] not in pairs), (cities[cid], r[0], row[6])
                 assert (cid, k) not in seen, (cities[cid], r[0])      # one unit, one line on a city's card
                 seen.add((cid, k))
     assert marked >= 2400 and named >= 1600, (marked, named)     # the rest wait for the seventh list (1,943 units) and for a reader's pairs
