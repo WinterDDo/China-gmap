@@ -103,10 +103,11 @@ def test_heritage_filings_name_a_place_of_the_city_they_sit_under():
     sys.path.insert(0, str(DATA.parent))
     from build_feiyi import WAS_PREFECTURE as was_prefecture
     rows = heritage_rows()
-    assert len(rows) >= 2600 and len({r[0] for r in rows}) >= 320
+    assert len(rows) >= 3000 and len({r[0] for r in rows}) >= 325
+    assert sum(1 for r in rows if r[3].startswith("B5")) >= 400       # the fifth list, read off pictures by two readers apart
     for city, cat, name, code, orig, by in rows:
         c = cities[city]
-        assert re.fullmatch(rf"B[1-4]x? [{NUMERALS}]-\d+", code), (city, name, code)
+        assert re.fullmatch(rf"B[1-5]x? [{NUMERALS}]-\d+", code), (city, name, code)
         assert CATS[NUMERALS.index(code.split(" ")[1][0])] == cat, (city, name, code, cat)   # the numeral is the category
         item, _, where = orig.partition(" @ ")
         # the item's own name, one of its sub-items, or the two as the notice prints them: 灯彩（佛山彩灯）
@@ -127,7 +128,7 @@ def test_heritage_filings_name_a_place_of_the_city_they_sit_under():
     assert filed[("天水", "太昊伏羲祭典")][1] == "民俗" and filed[("天水", "太昊伏羲祭典")][3] == "B1 Ⅹ-37"
     assert ("乐山", "峨眉武术") in filed and ("眉山", "峨眉武术") not in filed    # 峨眉山市 belongs to 乐山
     assert filed[("塔城", "江格尔")][5] == "和布克赛尔蒙古自治县" and ("巴音郭楞", "江格尔") in filed   # a place list wrapped over four lines
-    for pair in (("天水", "武山旋鼓舞"), ("天水", "秦安小曲"), ("吉安", "鲤鱼灯舞"), ("佛山", "灯彩（佛山彩灯）"), ("泉州", "江加走木偶头雕刻"), ("郑州", "小相狮舞"), ("苏州", "苏州评弹"),
+    for pair in (("七台河", "七台河刀剑锻制技艺"), ("福州", "佾舞"), ("三亚", "疍歌"), ("泉州", "泉州刣狮"), ("百色", "末伦"), ("天水", "武山旋鼓舞"), ("天水", "秦安小曲"), ("吉安", "鲤鱼灯舞"), ("佛山", "灯彩（佛山彩灯）"), ("泉州", "江加走木偶头雕刻"), ("郑州", "小相狮舞"), ("苏州", "苏州评弹"),
                  ("邯郸", "豫剧（桑派）"), ("沧州", "沧州武术"), ("文山", "铜鼓舞"), ("大同", "广灵染色剪纸")):
         assert pair in filed, pair
     # found by an independent read of every row with sub-items: the place decides by its position in the row, not by a

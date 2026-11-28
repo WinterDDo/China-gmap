@@ -1,8 +1,9 @@
 """Culture for the hometown card: national intangible cultural heritage, filed under the city that declared it.
 
 The State Council has published five lists (2006, 2008, 2011, 2014, 2021). Each row gives the item's code, its name
-and the place or body that declared it ("申报地区或单位"). This reads the first four notices as saved from www.gov.cn
-(the fifth is published as pictures of tables and is not read here) and writes sources/feiyi_all.tsv:
+and the place or body that declared it ("申报地区或单位"). This reads the first four notices as saved from www.gov.cn,
+and the fifth, which is published as pictures of tables, from a transcription (sources/feiyi_b5.tsv, see fifth()),
+and writes sources/feiyi_all.tsv:
 
     city <tab> category <tab> name shown <tab> batch and code <tab> item name as printed @ declaring places <tab> declared by
 
@@ -303,8 +304,8 @@ def build(src, out_dir):
     for label, part in fifth(b5) if os.path.exists(b5) else []:
         file_rows(label, part)
     with open(os.path.join(HERE, "sources", "feiyi_all.tsv"), "w", encoding="utf-8") as f:
-        f.write("# 国家级非物质文化遗产代表性项目名录，按申报地区归到地级市。由 build_feiyi.py 从国务院前四批公布通知（www.gov.cn）读出，不要手改。\n")
-        f.write("# 第五批（国发〔2021〕8号）以图片公布，这里没有读；批次后带 x 的是扩展项目名录。出处网址见 sources/feiyi_food.tsv 文件头。\n")
+        f.write("# 国家级非物质文化遗产代表性项目名录，按申报地区归到地级市。由 build_feiyi.py 从国务院五批公布通知（www.gov.cn）读出，不要手改。\n")
+        f.write("# 第五批（国发〔2021〕8号）以图片公布，抄录在 sources/feiyi_b5.tsv；批次后带 x 的是扩展项目名录。出处网址见 sources/feiyi_food.tsv 文件头。\n")
         f.write("# 第一批通知的网页把第十部分（民俗）每一行的编号印成 Ⅸ，这里按所在部分记为 Ⅹ。\n")
         f.write("# 列：城市、门类、卡上显示的名字、批次与项目编号、名录原文（项目名 @ 申报地区或单位）、申报的县区（地级市本身申报则空）\n")
         for r in out:
