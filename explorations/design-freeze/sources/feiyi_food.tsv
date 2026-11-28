@@ -1,0 +1,142 @@
+# 吃的：列入国家级非物质文化遗产代表性项目名录（传统技艺类）的饮食项目，按申报地区归到地级市。
+# 出处：国务院五批公布通知（中国政府网 www.gov.cn）。第 1 至 4 批是网页正文，第 5 批是通知页面里的名单图片（传统技艺两张），逐条读出。
+#   B1 国发〔2006〕18号 https://www.gov.cn/zwgk/2006-06/02/content_297946.htm
+#   B2 国发〔2008〕19号 https://www.gov.cn/zwgk/2008-06/14/content_1016331.htm
+#   B3 国发〔2011〕14号 https://www.gov.cn/zwgk/2011-06/09/content_1880635.htm
+#   B4 国发〔2014〕59号 https://www.gov.cn/zhengce/content/2014-12/03/content_9286.htm
+#   B5 国发〔2021〕8号  https://www.gov.cn/zhengce/content/2021-06/10/content_5616457.htm
+# 列：城市（cities.json 的简称）、卡上显示的名字、批次与项目编号、名录原文（项目名 @ 申报地区）、English
+# 同一座城排在前面的先显示。申报地区只写到省的不收（徽菜、川菜、羊肉泡馍等）；茅台酒例外，见该行。
+遵义	茅台酒	B1 Ⅷ-57	茅台酒酿制技艺 @ 贵州省（产地仁怀市茅台镇，见国家标准 GB/T 18356 地理标志产品 贵州茅台酒）	Moutai
+遵义	董酒	B5 Ⅷ-144	蒸馏酒传统酿造技艺（董酒酿制技艺） @ 贵州省遵义市汇川区	Dongjiu liquor
+遵义	赤水晒醋	B5 Ⅷ-61	酿醋技艺（赤水晒醋制作技艺） @ 贵州省遵义市赤水市	Chishui sun-dried vinegar
+泸州	泸州老窖	B1 Ⅷ-58	泸州老窖酒酿制技艺 @ 四川省泸州市	Luzhou Laojiao
+泸州	郎酒	B2 Ⅷ-144	蒸馏酒传统酿造技艺（古蔺郎酒传统酿造技艺） @ 四川省古蔺县	Langjiu
+泸州	先市酱油	B4 Ⅷ-154	酱油酿造技艺（先市酱油酿造技艺） @ 四川省合江县	Xianshi soy sauce
+吕梁	汾酒	B1 Ⅷ-59	杏花村汾酒酿制技艺 @ 山西省汾阳市	Fenjiu
+绍兴	绍兴黄酒	B1 Ⅷ-60	绍兴黄酒酿制技艺 @ 浙江省绍兴市	Shaoxing rice wine
+太原	老陈醋	B1 Ⅷ-61	清徐老陈醋酿制技艺 @ 山西省清徐县	Shanxi aged vinegar
+太原	六味斋酱肉	B2 Ⅷ-170	六味斋酱肉传统制作技艺 @ 山西省太原六味斋实业有限公司	Liuweizhai braised pork
+太原	晋式月饼	B2 Ⅷ-163	月饼传统制作技艺（郭杜林晋式月饼制作技艺） @ 山西省太原市	Shanxi-style mooncakes
+镇江	镇江香醋	B1 Ⅷ-62	镇江恒顺香醋酿制技艺 @ 江苏省镇江市	Zhenjiang vinegar
+镇江	封缸酒	B2 Ⅷ-145	酿造酒传统酿造技艺（封缸酒传统酿造技艺） @ 江苏省丹阳市	Fenggang rice wine
+常州	封缸酒	B2 Ⅷ-145	酿造酒传统酿造技艺（封缸酒传统酿造技艺） @ 江苏省金坛市	Fenggang rice wine
+南平	大红袍	B1 Ⅷ-63	武夷岩茶（大红袍）制作技艺 @ 福建省武夷山市	Da Hong Pao tea
+北京	北京烤鸭	B2 Ⅷ-167	烤鸭技艺（全聚德挂炉烤鸭技艺、便宜坊焖炉烤鸭技艺） @ 北京市	Peking duck
+北京	涮羊肉	B2 Ⅷ-168	牛羊肉烹制技艺（东来顺涮羊肉制作技艺） @ 北京市	Mutton hot pot
+北京	二锅头	B2 Ⅷ-144	蒸馏酒传统酿造技艺（北京二锅头酒传统酿造技艺） @ 北京市	Erguotou
+北京	王致和腐乳	B2 Ⅷ-157	腐乳酿造技艺（王致和腐乳酿造技艺） @ 北京市海淀区	Wangzhihe fermented tofu
+北京	六必居酱菜	B2 Ⅷ-158	酱菜制作技艺（六必居酱菜制作技艺） @ 北京市	Liubiju pickles
+北京	茉莉花茶	B2 Ⅷ-147	花茶制作技艺（张一元茉莉花茶制作技艺） @ 北京市	Jasmine tea
+北京	都一处烧麦	B2 Ⅷ-171	都一处烧麦制作技艺 @ 北京市	Duyichu shaomai
+北京	北京果脯	B5 Ⅷ-274	果脯蜜饯制作技艺（北京果脯传统制作技艺） @ 北京市怀柔区	Beijing preserved fruit
+衡水	衡水老白干	B2 Ⅷ-144	蒸馏酒传统酿造技艺（衡水老白干传统酿造技艺） @ 河北省衡水市	Hengshui Laobaigan
+承德	板城烧锅酒	B2 Ⅷ-144	蒸馏酒传统酿造技艺（板城烧锅酒传统五甑酿造技艺） @ 河北省承德县	Bancheng Shaoguo liquor
+承德	山庄老酒	B2 Ⅷ-144	蒸馏酒传统酿造技艺（山庄老酒传统酿造技艺） @ 河北省平泉县	Shanzhuang Laojiu
+朔州	梨花春白酒	B2 Ⅷ-144	蒸馏酒传统酿造技艺（梨花春白酒传统酿造技艺） @ 山西省朔州市	Lihuachun liquor
+沈阳	老龙口白酒	B2 Ⅷ-144	蒸馏酒传统酿造技艺（老龙口白酒传统酿造技艺） @ 辽宁省沈阳市	Laolongkou liquor
+沈阳	辽菜	B4 Ⅷ-227	辽菜传统烹饪技艺 @ 辽宁省沈阳市	Liaoning cuisine
+通化	大泉源酒	B2 Ⅷ-144	蒸馏酒传统酿造技艺（大泉源酒传统酿造技艺） @ 吉林省通化县	Daquanyuan liquor
+平顶山	宝丰酒	B2 Ⅷ-144	蒸馏酒传统酿造技艺（宝丰酒传统酿造技艺） @ 河南省宝丰县	Baofeng liquor
+宜宾	五粮液	B2 Ⅷ-144	蒸馏酒传统酿造技艺（五粮液酒传统酿造技艺） @ 四川省宜宾市	Wuliangye
+成都	郫县豆瓣	B2 Ⅷ-155	豆瓣传统制作技艺（郫县豆瓣传统制作技艺） @ 四川省郫县	Pixian chilli bean paste
+成都	水井坊	B2 Ⅷ-144	蒸馏酒传统酿造技艺（水井坊酒传统酿造技艺） @ 四川省成都市	Shuijingfang
+德阳	剑南春	B2 Ⅷ-144	蒸馏酒传统酿造技艺（剑南春酒传统酿造技艺） @ 四川省绵竹市	Jiannanchun
+遂宁	沱牌曲酒	B2 Ⅷ-144	蒸馏酒传统酿造技艺（沱牌曲酒传统酿造技艺） @ 四川省射洪县	Tuopai liquor
+金华	金华火腿	B2 Ⅷ-166	火腿制作技艺（金华火腿腌制技艺） @ 浙江省金华市	Jinhua ham
+金华	婺州举岩	B2 Ⅷ-148	绿茶制作技艺（婺州举岩） @ 浙江省金华市	Wuzhou Juyan tea
+金华	义乌红糖	B4 Ⅷ-231	传统制糖技艺（义乌红糖制作技艺） @ 浙江省义乌市	Yiwu brown sugar
+金华	金华酒	B2 Ⅷ-145	酿造酒传统酿造技艺（金华酒传统酿造技艺） @ 浙江省金华市	Jinhua rice wine
+杭州	西湖龙井	B2 Ⅷ-148	绿茶制作技艺（西湖龙井） @ 浙江省杭州市	West Lake Longjing tea
+杭州	严东关五加皮酒	B5 Ⅷ-266	严东关五加皮酿酒技艺 @ 浙江省杭州市建德市	Yandongguan Wujiapi liquor
+黄山	黄山毛峰	B2 Ⅷ-148	绿茶制作技艺（黄山毛峰） @ 安徽省黄山市徽州区	Huangshan Maofeng tea
+黄山	祁门红茶	B2 Ⅷ-149	红茶制作技艺（祁门红茶制作技艺） @ 安徽省祁门县	Keemun black tea
+黄山	太平猴魁	B2 Ⅷ-148	绿茶制作技艺（太平猴魁） @ 安徽省黄山市黄山区	Taiping Houkui tea
+六安	六安瓜片	B2 Ⅷ-148	绿茶制作技艺（六安瓜片） @ 安徽省六安市裕安区	Lu'an Guapian tea
+泉州	铁观音	B2 Ⅷ-150	乌龙茶制作技艺（铁观音制作技艺） @ 福建省安溪县	Tieguanyin tea
+普洱	普洱茶	B2 Ⅷ-151	普洱茶制作技艺（贡茶制作技艺） @ 云南省宁洱县	Pu'er tea
+西双版纳	普洱茶	B2 Ⅷ-151	普洱茶制作技艺（大益茶制作技艺） @ 云南省勐海县	Pu'er tea
+益阳	安化黑茶	B2 Ⅷ-152	黑茶制作技艺（千两茶制作技艺、茯砖茶制作技艺） @ 湖南省安化县、益阳市	Anhua dark tea
+雅安	蒙山茶	B5 Ⅷ-148	绿茶制作技艺（蒙山茶传统制作技艺） @ 四川省雅安市	Mengshan tea
+雅安	南路边茶	B2 Ⅷ-152	黑茶制作技艺（南路边茶制作技艺） @ 四川省雅安市	Nanlu border tea
+上海	南翔小笼	B4 Ⅷ-160	传统面食制作技艺（南翔小笼馒头制作技艺） @ 上海市嘉定区	Nanxiang soup dumplings
+上海	本帮菜	B4 Ⅷ-230	上海本帮菜肴传统烹饪技艺 @ 上海市黄浦区	Shanghai cuisine
+上海	梨膏糖	B5 Ⅷ-275	梨膏糖制作技艺（上海梨膏糖制作技艺） @ 上海市黄浦区	Pear syrup candy
+上海	功德林素食	B2 Ⅷ-164	素食制作技艺（功德林素食制作技艺） @ 上海市	Gongdelin vegetarian food
+重庆	涪陵榨菜	B2 Ⅷ-159	榨菜传统制作技艺（涪陵榨菜传统制作技艺） @ 重庆市涪陵区	Fuling pickled mustard
+重庆	永川豆豉	B2 Ⅷ-156	豆豉酿制技艺（永川豆豉酿制技艺） @ 重庆市	Yongchuan douchi
+绵阳	潼川豆豉	B2 Ⅷ-156	豆豉酿制技艺（潼川豆豉酿制技艺） @ 四川省三台县	Tongchuan douchi
+扬州	富春茶点	B2 Ⅷ-161	茶点制作技艺（富春茶点制作技艺） @ 江苏省扬州市	Fuchun tea snacks
+淄博	周村烧饼	B2 Ⅷ-162	周村烧饼制作技艺 @ 山东省淄博市	Zhoucun sesame cakes
+西安	牛羊肉泡馍	B2 Ⅷ-165	同盛祥牛羊肉泡馍制作技艺 @ 陕西省西安市	Paomo bread soup
+晋中	平遥牛肉	B2 Ⅷ-168	牛羊肉烹制技艺（冠云平遥牛肉传统加工技艺） @ 山西省平遥	Pingyao beef
+晋中	太谷饼	B5 Ⅷ-160	传统面食制作技艺（太谷饼制作技艺） @ 山西省晋中市太谷区	Taigu cakes
+阿拉善	烤全羊	B2 Ⅷ-168	牛羊肉烹制技艺（烤全羊技艺） @ 内蒙古自治区阿拉善盟	Whole roast lamb
+洛阳	洛阳水席	B2 Ⅷ-173	真不同洛阳水席制作技艺 @ 河南省洛阳市	Luoyang water banquet
+福州	佛跳墙	B2 Ⅷ-172	聚春园佛跳墙制作技艺 @ 福建省福州市	Fo Tiao Qiang
+福州	茉莉花茶	B4 Ⅷ-147	花茶制作技艺（福州茉莉花茶窨制工艺） @ 福建省福州市仓山区	Fuzhou jasmine tea
+宁德	福鼎白茶	B3 Ⅷ-203	白茶制作技艺（福鼎白茶制作技艺） @ 福建省福鼎市	Fuding white tea
+宁德	坦洋工夫	B5 Ⅷ-149	红茶制作技艺（坦洋工夫茶制作技艺） @ 福建省宁德市福安市	Tanyang Gongfu tea
+保定	直隶官府菜	B3 Ⅷ-205	直隶官府菜烹饪技艺 @ 河北省保定市	Zhili official cuisine
+保定	刘伶醉酒	B5 Ⅷ-145	酿造酒传统酿造技艺（刘伶醉酒酿造技艺） @ 河北省保定市徐水区	Liulingzui liquor
+济宁	孔府菜	B3 Ⅷ-206	孔府菜烹饪技艺 @ 山东省曲阜市	Confucius Mansion cuisine
+嘉兴	五芳斋粽子	B3 Ⅷ-207	五芳斋粽子制作技艺 @ 浙江省嘉兴市	Wufangzhai zongzi
+苏州	碧螺春	B3 Ⅷ-148	绿茶制作技艺（碧螺春制作技艺） @ 江苏省苏州市吴中区	Biluochun tea
+湖州	安吉白茶	B3 Ⅷ-148	绿茶制作技艺（安吉白茶制作技艺） @ 浙江省安吉县	Anji white tea
+湖州	紫笋茶	B3 Ⅷ-148	绿茶制作技艺（紫笋茶制作技艺） @ 浙江省长兴县	Zisun tea
+大理	下关沱茶	B3 Ⅷ-152	黑茶制作技艺（下关沱茶制作技艺） @ 云南省大理白族自治州	Xiaguan Tuocha
+天津	狗不理包子	B3 Ⅷ-160	传统面食制作技艺（天津“狗不理”包子制作技艺） @ 天津市和平区	Goubuli steamed buns
+天津	十八街麻花	B4 Ⅷ-160	传统面食制作技艺（桂发祥十八街麻花制作技艺） @ 天津市河西区	Shibajie fried dough twists
+天津	独流老醋	B5 Ⅷ-61	酿醋技艺（独流老醋酿造技艺） @ 天津市静海区	Duliu aged vinegar
+运城	稷山面点	B3 Ⅷ-160	传统面食制作技艺（稷山传统面点制作技艺） @ 山西省稷山县	Jishan pastries
+曲靖	宣威火腿	B3 Ⅷ-166	火腿制作技艺（宣威火腿制作技艺） @ 云南省宣威市	Xuanwei ham
+延边	朝鲜族泡菜	B4 Ⅷ-228	泡菜制作技艺（朝鲜族泡菜制作技艺） @ 吉林省延吉市	Korean-style kimchi
+淮南	豆腐	B4 Ⅷ-232	豆腐传统制作技艺 @ 安徽省淮南市、寿县	Tofu
+德州	德州扒鸡	B4 Ⅷ-233	德州扒鸡制作技艺 @ 山东省德州市	Dezhou braised chicken
+烟台	龙口粉丝	B4 Ⅷ-234	龙口粉丝传统制作技艺 @ 山东省招远市	Longkou vermicelli
+临汾	小米醋	B4 Ⅷ-61	酿醋技艺（小米醋酿造技艺） @ 山西省襄汾县	Millet vinegar
+赣州	客家擂茶	B4 Ⅷ-148	绿茶制作技艺（赣南客家擂茶制作技艺） @ 江西省全南县	Hakka lei cha
+上饶	婺源绿茶	B4 Ⅷ-148	绿茶制作技艺（婺源绿茶制作技艺） @ 江西省婺源县	Wuyuan green tea
+信阳	信阳毛尖	B4 Ⅷ-148	绿茶制作技艺（信阳毛尖茶制作技艺） @ 河南省信阳市	Xinyang Maojian tea
+恩施	恩施玉露	B4 Ⅷ-148	绿茶制作技艺（恩施玉露制作技艺） @ 湖北省恩施市	Enshi Yulu tea
+黔南	都匀毛尖	B4 Ⅷ-148	绿茶制作技艺（都匀毛尖茶制作技艺） @ 贵州省都匀市	Duyun Maojian tea
+临沧	滇红茶	B4 Ⅷ-149	红茶制作技艺（滇红茶制作技艺） @ 云南省凤庆县	Dianhong black tea
+咸宁	赵李桥砖茶	B4 Ⅷ-152	黑茶制作技艺（赵李桥砖茶制作技艺） @ 湖北省赤壁市	Zhaoliqiao brick tea
+梧州	六堡茶	B4 Ⅷ-152	黑茶制作技艺（六堡茶制作技艺） @ 广西壮族自治区苍梧县	Liubao tea
+梧州	龟苓膏	B5 Ⅷ-278	龟苓膏配制技艺 @ 广西壮族自治区梧州市	Guilinggao herbal jelly
+济南	酱香源酱肉	B4 Ⅷ-169	酱肉制作技艺（亓氏酱香源肉食酱制技艺） @ 山东省莱芜市莱城区	Jiangxiangyuan braised meat
+岳阳	君山银针	B5 Ⅷ-267	黄茶制作技艺（君山银针茶制作技艺） @ 湖南省岳阳市君山区	Junshan Yinzhen tea
+德宏	德昂族酸茶	B5 Ⅷ-268	德昂族酸茶制作技艺 @ 云南省德宏傣族景颇族自治州芒市	De'ang sour tea
+潮州	潮州菜	B5 Ⅷ-271	潮州菜烹饪技艺 @ 广东省潮州市	Chaozhou cuisine
+邯郸	大名小磨香油	B5 Ⅷ-273	食用油传统制作技艺（大名小磨香油制作技艺） @ 河北省邯郸市大名县	Daming sesame oil
+怀化	雕花蜜饯	B5 Ⅷ-274	果脯蜜饯制作技艺（雕花蜜饯制作技艺） @ 湖南省怀化市靖州苗族侗族自治县	Carved candied fruit
+三明	沙县小吃	B5 Ⅷ-276	小吃制作技艺（沙县小吃制作技艺） @ 福建省三明市	Shaxian snacks
+周口	逍遥胡辣汤	B5 Ⅷ-276	小吃制作技艺（逍遥胡辣汤制作技艺） @ 河南省周口市西华县	Xiaoyao hot pepper soup
+长沙	火宫殿臭豆腐	B5 Ⅷ-276	小吃制作技艺（火宫殿臭豆腐制作技艺） @ 湖南省长沙市	Huogongdian stinky tofu
+广州	沙河粉	B5 Ⅷ-277	米粉制作技艺（沙河粉传统制作技艺） @ 广东省广州市	Shahe rice noodles
+柳州	柳州螺蛳粉	B5 Ⅷ-277	米粉制作技艺（柳州螺蛳粉制作技艺） @ 广西壮族自治区柳州市	Liuzhou luosifen
+桂林	桂林米粉	B5 Ⅷ-277	米粉制作技艺（桂林米粉制作技艺） @ 广西壮族自治区桂林市	Guilin rice noodles
+黔东南	凯里酸汤鱼	B5 Ⅷ-279	凯里酸汤鱼制作技艺 @ 贵州省黔东南苗族侗族自治州凯里市	Kaili sour soup fish
+澳门	土生葡人美食	B5 Ⅷ-280	土生葡人美食烹饪技艺 @ 澳门特别行政区	Macanese cuisine
+南充	保宁醋	B5 Ⅷ-61	酿醋技艺（保宁醋传统酿造工艺） @ 四川省南充市	Baoning vinegar
+吴忠	手抓羊肉	B5 Ⅷ-168	牛羊肉烹制技艺（宁夏手抓羊肉制作技艺） @ 宁夏回族自治区吴忠市	Hand-grabbed mutton
+吴忠	吴忠老醋	B5 Ⅷ-61	酿醋技艺（吴忠老醋酿制技艺） @ 宁夏回族自治区吴忠市	Wuzhong aged vinegar
+宿迁	洋河酒	B5 Ⅷ-144	蒸馏酒传统酿造技艺（洋河酒酿造技艺） @ 江苏省宿迁市	Yanghe liquor
+亳州	古井贡酒	B5 Ⅷ-144	蒸馏酒传统酿造技艺（古井贡酒酿造技艺） @ 安徽省亳州市	Gujing Gongjiu
+潍坊	景芝酒	B5 Ⅷ-144	蒸馏酒传统酿造技艺（景芝酒传统酿造技艺） @ 山东省潍坊市安丘市	Jingzhi liquor
+宝鸡	西凤酒	B5 Ⅷ-144	蒸馏酒传统酿造技艺（西凤酒酿造技艺） @ 陕西省宝鸡市凤翔区	Xifeng liquor
+海东	青稞酒	B5 Ⅷ-144	蒸馏酒传统酿造技艺（青海青稞酒传统酿造技艺） @ 青海省海东市互助土族自治县	Highland barley liquor
+南京	雨花茶	B5 Ⅷ-148	绿茶制作技艺（雨花茶制作技艺） @ 江苏省南京市	Yuhua tea
+南京	绿柳居素食	B5 Ⅷ-164	素食制作技艺（绿柳居素食烹制技艺） @ 江苏省南京市	Lüliuju vegetarian food
+九江	宁红茶	B5 Ⅷ-149	红茶制作技艺（宁红茶制作技艺） @ 江西省九江市修水县	Ninghong black tea
+龙岩	漳平水仙茶	B5 Ⅷ-150	乌龙茶制作技艺（漳平水仙茶制作技艺） @ 福建省龙岩市	Zhangping Shuixian tea
+宜昌	青砖茶	B5 Ⅷ-152	黑茶制作技艺（长盛川青砖茶制作技艺） @ 湖北省宜昌市伍家岗区	Qingzhuan brick tea
+咸阳	咸阳茯茶	B5 Ⅷ-152	黑茶制作技艺（咸阳茯茶制作技艺） @ 陕西省咸阳市	Xianyang Fu tea
+四平	李连贵熏肉大饼	B5 Ⅷ-160	传统面食制作技艺（李连贵熏肉大饼制作技艺） @ 吉林省四平市	Li Liangui smoked-meat pancakes
+衢州	邵永丰麻饼	B5 Ⅷ-160	传统面食制作技艺（邵永丰麻饼制作技艺） @ 浙江省衢州市柯城区	Shaoyongfeng sesame cakes
+丽水	缙云烧饼	B5 Ⅷ-160	传统面食制作技艺（缙云烧饼制作技艺） @ 浙江省丽水市缙云县	Jinyun flatbread
+兰州	兰州牛肉面	B5 Ⅷ-160	传统面食制作技艺（兰州牛肉面制作技艺） @ 甘肃省兰州市	Lanzhou beef noodles
+中卫	蒿子面	B5 Ⅷ-160	传统面食制作技艺（中宁蒿子面制作技艺） @ 宁夏回族自治区中卫市中宁县	Haozi noodles
+塔城	塔塔尔族糕点	B5 Ⅷ-160	传统面食制作技艺（塔塔尔族传统糕点制作技艺） @ 新疆维吾尔自治区塔城地区塔城市	Tatar pastries
+泰安	豆腐	B5 Ⅷ-232	豆腐传统制作技艺 @ 山东省泰安市泰山区	Tai'an tofu
+哈尔滨	老汤精	B4 Ⅷ-229	老汤精配制 @ 黑龙江省哈尔滨市阿城区	Laotang soup stock

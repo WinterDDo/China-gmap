@@ -289,3 +289,11 @@
 - 谁定的：用户
 - 出处：会话 session_01DGeZrdANx45XY7zhNDtypj
 - 相关文件：explorations/design-freeze/index.html, explorations/design-freeze/build_pride.py
+
+### 2026-11-28 · 家乡卡先补「位次」和「吃的」两个面
+- 决定：家乡卡在景点古迹之外，先补两个面：位次（省内第几、生产总值过万亿这类，本地人最常挂在嘴边的一句）和吃的（国家地理标志产品、中华老字号、列入非遗的小吃做法）。文化、产业、来历、出过谁排在后面。
+- 为什么：位次的数据现成，马上能上；吃的最容易让人想转发。每一条仍然只用有官方名单可查的。
+- 放弃了：先做文化和产业（更能看出一座城的性格，但名单更杂、核对更慢）。
+- 谁定的：用户（原话「A，先做位次和吃的」）
+- 出处：会话 session_01DGeZrdANx45XY7zhNDtypj
+- 相关文件：explorations/design-freeze/index.html, explorations/design-freeze/build_pride.py

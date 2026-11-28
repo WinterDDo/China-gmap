@@ -143,7 +143,9 @@ if os.path.exists(plates_p):
     out["plates"] = {cid: v["plate"] for cid, v in json.load(open(plates_p, encoding="utf-8"))["plates"].items()}
 pride_p = os.path.join(out_dir, "pride.json")  # the named treasures on the hometown card, picked in build_pride.py
 if os.path.exists(pride_p):
-    out["pride"] = {cid: [r[:5] for r in rows] for cid, rows in json.load(open(pride_p, encoding="utf-8"))["pride"].items()}
+    pj = json.load(open(pride_p, encoding="utf-8"))
+    out["pride"] = {cid: [r[:5] for r in rows] for cid, rows in pj["pride"].items()}
+    out["food"] = {cid: [r[:2] for r in rows] for cid, rows in pj.get("food", {}).items()}
 json.dump(out, open(os.path.join(out_dir, "cityview.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 print("counties for", len(counties), "cities,", sum(len(v) for v in counties.values()), "units; sites for", len(sites), "cities,",
       sum(len(v) for v in sites.values()), "sites; chinaciv shift", round(dx, 2), round(dy, 2),

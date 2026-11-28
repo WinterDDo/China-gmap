@@ -26,6 +26,12 @@ The bar is high on purpose ("宁少勿错"): a protected site that is neither Wo
 editions to be named (5 if it would be the city's only name), so a little-known site is never offered as a city's
 pride. Cities left with nothing show the plate and the county question only.
 
+Food ("吃的", the owner's second face after standing, 2026-11-28) comes from sources/feiyi_food.tsv: the food and
+drink entries of the State Council's five lists of national intangible cultural heritage (传统技艺), read off the
+notices on www.gov.cn and filed under the prefecture of the declaring place. Entries declared by a whole province are
+left out. Up to two per city, in the order of that file. Geographical-indication products and time-honoured brands
+would widen this face; their official lists are not reachable from the cloud yet (TODOS.md).
+
 Usage   python3 build_pride.py <dir with whs.json a5.json guobao.json + *_loc.json> data
         The queries are in QUERIES; each result is the SPARQL JSON from https://query.wikidata.org/sparql.
 """
@@ -194,11 +200,24 @@ def build(src, out_dir):
             picked.append(dict(e))
         if picked:
             out[cid] = [[p["name"], [KINDS[k][0] for k in KINDS if k in p["kinds"]], p["x"], p["y"], p["en"], p["q"]] for p in picked[:3]]
+    food, by_name = {}, {c["n"]: cid for cid, c in cities.items()}
+    here = os.path.dirname(os.path.abspath(__file__))
+    for line in open(os.path.join(here, "sources", "feiyi_food.tsv"), encoding="utf-8"):
+        if line.startswith("#") or not line.strip():
+            continue
+        city, name, code, orig, en = line.rstrip("\n").split("\t")
+        assert city in by_name, f"feiyi_food.tsv: no city called {city}"
+        rows = food.setdefault(by_name[city], [])
+        if len(rows) < 2 and name not in [r[0] for r in rows]:
+            rows.append([name, en, f"国家级非遗 {code}：{orig}"])
     doc = {"note": "世界遗产（联合国教科文组织）、5A 景区（文化和旅游部）、全国重点文物保护单位（国务院）；经维基数据汇编，坐标与行政归属一致才收；名录不全，只列名字，不计数",
-           "pride": out}
+           "pride": out,
+           "food_note": "列入国家级非物质文化遗产代表性项目名录（传统技艺）的饮食项目，国务院五批公布通知（www.gov.cn）；按申报地区归到地级市",
+           "food": food}
     json.dump(doc, open(os.path.join(out_dir, "pride.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     for k, (a, b, c) in stats.items():
         print(f"{k}: {a} with coordinates, {b} inside a city, {c} where the admin chain agrees")
+    print(f"food: {len(food)} cities")
     print(f"{len(out)} of {len(cities)} cities have at least one name; none: {[c['n'] for cid, c in cities.items() if cid not in out]}")
     return doc
 

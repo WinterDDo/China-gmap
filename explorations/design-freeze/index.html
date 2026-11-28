@@ -782,7 +782,7 @@ kbd { font: 500 var(--fs-1)/1 var(--sans); border: 1px solid var(--rule-strong);
 .card5 .cd-prd .tg { grid-row: span 2; }
 .card5 .cd-roll { margin: 2px 0 0; padding-top: 4px; border-top: 1px dotted var(--rule-strong); font: 400 10.5px/1.5 var(--serif); color: var(--ink-2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } .card5 .cd-roll.one { display: none; } .card5 .cd-roll.solo { border-top: 0; font-size: 12.5px; line-height: 1.7; -webkit-line-clamp: 5; text-align: center; }
 i.tg { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; color: #fbf1e4; font: 400 12px/1 var(--brush); font-style: normal; flex: none; }
-.trs { display: flex; flex-wrap: wrap; gap: 6px; } .trs .chip { height: 32px; padding: 0 10px 0 6px; gap: 6px; font-family: var(--serif); font-weight: 600; }
+.trs { display: flex; flex-wrap: wrap; gap: 6px; } .trs .chip.still { cursor: default; background: transparent; border-style: dashed; } .trs .chip { height: 32px; padding: 0 10px 0 6px; gap: 6px; font-family: var(--serif); font-weight: 600; }
 .hello i.plate { font-size: 19px; padding: 3px 9px 4px; border-radius: 5px; vertical-align: 3px; letter-spacing: 1px; box-shadow: inset 0 0 0 1.5px rgba(246,242,232,.55); } .hello small i.plate { font-size: 11px; padding: 2px 5px; vertical-align: 0; box-shadow: none; letter-spacing: .5px; }
 .card5 .cd-stats { display: grid; gap: 3px; flex: 1; align-content: start; }
 .card5 .cd-stats div { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; gap: 6px; align-items: center; font-size: 11px; border-bottom: 1px dotted var(--rule-strong); padding-bottom: 3px; }
@@ -801,6 +801,7 @@ i.tg { display: inline-grid; place-items: center; width: 18px; height: 18px; bor
 .card5.r3 .cd-sub, .card5.r3 .cd-foot { color: rgba(243,213,138,.8); }
 .card5.r3 .cd-stats div { border-color: rgba(243,213,138,.35); }
 .card5.r3 .cd-stats b { color: #fbf1e4; }
+.card5.r3 .cd-prd b { color: #fbf1e4; } .card5.r3 .cd-prd small, .card5.r3 .cd-roll { color: rgba(243,213,138,.85); } .card5.r3 .cd-roll { border-color: rgba(243,213,138,.35); } .card5.r3 i.tg { box-shadow: 0 0 0 1px rgba(243,213,138,.7); }
 .card5.r3 .cd-rar { background: #f3d58a; color: #7d2118; }
 .card5.r3 .cd-front::after, .card5.r2 .cd-front::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.4) 48%, transparent 66%); transform: translateX(-130%); animation: shine 3.2s ease-in-out infinite; pointer-events: none; }
 @keyframes deal { 0% { transform: translate(260px, 200px) rotate(24deg) scale(.6); opacity: 0; } 70% { transform: translate(-6px, -4px) rotate(-2deg) scale(1.02); opacity: 1; } 100% { transform: none; } }
@@ -1652,7 +1653,8 @@ i.plate { display: inline-block; white-space: nowrap; font-style: normal; font: 
   <section class="sec" id="s-decide">
     <div class="sec-head"><span class="seal"><span>拾玖</span></span><h2>请你确认</h2></div>
     <div class="leaf card decide"><ol>
-      <li><b>到家卡（5.12 新）</b>：搜到家乡时，先看到“川R，到家了。”，再问一句“你是南充哪里的？”，点一下就精确到县，地图把这个县标出来。只放了车牌和选县两样，每个车牌都核对过。问候语这个语气对味吗？下一样先加哪个：区号、邮编，还是“身份证开头”（要做成新老两个号）？我的推荐：区号，认得的人最多，等拿到官方表就加。</li>
+      <li><b>家乡卡的几个面（5.14 新）</b>：卡上不再放统计数字，改成一座城的几个面，每个面只挑最硬的一条：位次（“人口甘肃第二”“万亿之城”）、吃的（列入国家级非遗的：兰州牛肉面、保宁醋、柳州螺蛳粉）、景点古迹（世界遗产、5A、国保）。吃的现在只有 95 座城有；要让更多城有，得接国家地理标志产品和中华老字号两份名单。接下来先补哪个：A 地理标志（花牛苹果这类，覆盖最广）；B 文化（戏曲、民俗类非遗，名录已在手）。我的推荐：A。</li>
+      <li><b>到家卡（5.12）</b>：搜到家乡时，先看到“川R，到家了。”，再问一句“你是南充哪里的？”，点一下就精确到县，地图把这个县标出来。只放了车牌和选县两样，每个车牌都核对过。问候语这个语气对味吗？下一样先加哪个：区号、邮编，还是“身份证开头”（要做成新老两个号）？我的推荐：区号，认得的人最多，等拿到官方表就加。</li>
       <li><b>城市视图（5.10 新）</b>：点开一座城，整个市亮起来，周围变淡；地图上标出区县、宝藏点印章（遗 园 景 学 机 港 电 矿 油）和城区小屋顶；面板多了“这座城的人”“城里有什么”“下辖区县”。下一步先借鉴 Karpathy 的哪一项？A 铁路和高速：看这座城怎么连到外面；B 代表性城市的专属地标小画（成都的熊猫、杭州的西湖）；C 先不加新东西，等七普数据把“多大年纪”“念过什么书”两排补齐。我的推荐：A，数据现成，也能和“人去哪儿了”连起来。</li>
       <li><b>新五赋</b>：人 · 钱 · 产 · 绿 · 势（常住人口、每月可支配收入、每人每天创造、森林占比、三年人口增减），代替原来的 人 · 金 · 粮 · 工 · 商。颜色和形制不变，只换内容。</li>
       <li><b>宝藏点</b>：从 13 项全国排名里，每座城自动挑最好的三项，配一句大白话（“地盘能装下 9 个上海”“每 10 块地有 8 块是林子”）。这样的说法你喜欢吗？还想加哪些能让小城骄傲的维度？</li>
@@ -2128,7 +2130,7 @@ function cityHTML(c, compact) {
   const iB = k => `<button class="m-i" data-dexp="${k}" aria-label="${ZH("这是什么", "What is this")}" title="${ZH("定义、算法、出处", "Definition, method, source")}">ⓘ</button>`;
   const peers = c.peers ? `<div class="block"><h4>${t("peers")}</h4><div class="peers">${c.peers.map(id => BYID.get(id)).filter(Boolean).map(o => `<button class="chip" data-goto="${o.id}"><img src="${TIER_IMG[o.tier]}" alt="" width="120" height="80">${cname(o)}</button>`).join("")}</div></div>` : "";
   const src = `<div class="src">${icon("i-info")}<span>${t("src")}：${ZH("2023 年统计公报（本项目采集，附原文句子）、七普、ESA WorldCover", "2023 communiqués (collected with source sentences), 2020 census, ESA WorldCover")} · <button class="btn ghost" style="height:auto;padding:0;color:var(--river)" data-open-almanac>${t("srcLink")}</button><span class="asof">${ZH("数据截至 2023 年公报 · 2026-11 更新", "As of 2023 communiqués · updated 2026-11")} · <button class="lnk" data-dm="fix">${ZH("这个数不对？纠错", "Wrong? Report it")}</button></span></span></div>`;
-  return head + dToolsHTML(c) + yieldsRow(c) + `<div class="cp-body">${c.id === dHome() ? `<div class="block homeblk">${helloHTML(c, S.homeCounty)}${countyPickHTML(c, S.county, "data-dcounty", true)}</div>` : ""}<div class="block"><h4>${ZH("宝藏点", "Hidden gems")}${iB("gems")}<small>${prideItems(c).length ? ZH("点名字飞过去", "tap a name to fly there") : ZH("全国排名最能打的三项", "best three national ranks")}</small></h4>${treasureChips(c)}${prideHTML(c, 3, true)}</div>
+  return head + dToolsHTML(c) + yieldsRow(c) + `<div class="cp-body">${c.id === dHome() ? `<div class="block homeblk">${helloHTML(c, S.homeCounty)}${countyPickHTML(c, S.county, "data-dcounty", true)}</div>` : ""}<div class="block"><h4>${ZH("宝藏点", "Hidden gems")}${iB("gems")}<small>${facesOf(c).some(f => f.go) ? ZH("景点点一下飞过去", "tap a place to fly there") : ZH("全国排名最能打的三项", "best three national ranks")}</small></h4>${treasureChips(c)}${prideHTML(c, 3, true)}</div>
     <div class="block"><h4>${ZH("这座城的人", "The people")}<small>${ZH("每排 10 个小人", "rows of 10")}</small></h4>${citizensHTML(c)}</div>
     <div class="block"><h4>${ZH("生活账本", "Everyday numbers")}${iB(c.month != null ? "month" : "day")}<small>2023</small></h4>${ledgerHTML(c, "panel", 1)}</div>
     <div class="block"><h4>${ZH("人去哪儿了", "Where people go")}${iB("flows")}<small>${ZH("七普 · 公报", "census · communiqués")}</small></h4>${flowHTML(c, true)}</div>
@@ -2830,8 +2832,8 @@ function cardArt(cv, c) { const ctx = cv.getContext("2d"), W = cv.width, H = cv.
   for (const r of prideItems(c)) { const kk = r[1][0], x = clamp(r[2] * sc + ox, 9 * u, W - 9 * u), y = clamp(r[3] * sc + oy, 9 * u, H - 9 * u), rad = 7.5 * u; ctx.save(); ctx.shadowColor = "rgba(0,0,0,.3)"; ctx.shadowBlur = 3 * u; ctx.fillStyle = TG[kk][0]; ctx.beginPath(); ctx.arc(x, y, rad, 0, 7); ctx.fill(); ctx.shadowBlur = 0; ctx.strokeStyle = "#fbf1e4"; ctx.lineWidth = 1.1 * u; ctx.stroke();
     ctx.fillStyle = "#fbf1e4"; ctx.font = `${rad * 1.15}px "Ma Shan Zheng", serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(kk === "5A" ? "景" : kk, x, y + rad * .06); ctx.restore(); } }
 function paintArts(root) { if (!root || !CITIES) return; $$("canvas[data-art]", root).forEach(cv => { const c = BYID.get(cv.dataset.art); if (c) cardArt(cv, c); }); }
-function cardHTML(c, o = {}) { const rr = rarity(c), hs = prideOf(c).slice(0, 3), pr = prideItems(c), cs = countiesOf(c), pl = plateOf(c);
-  const body = o.statsHTML != null ? `<div class="cd-stats">${o.statsHTML}</div>` : `<div class="cd-body">${pr.map(r => `<div class="cd-prd">${tgSeal(r)}<b>${prName(r)}</b><small>${r[1].map(k => ZH(...TG[k][1])).join(" · ")}</small></div>`).join("")}${cs.length ? `<p class="cd-roll${pr.length ? (pr.length > 2 ? " one" : "") : " solo"}">${cs.map(r => shortCounty(c, r)).join(" · ")}</p>` : ""}</div>`;
+function cardHTML(c, o = {}) { const rr = rarity(c), hs = prideOf(c).slice(0, 3), fs = facesOf(c).slice(0, 3), cs = countiesOf(c), pl = plateOf(c);
+  const body = o.statsHTML != null ? `<div class="cd-stats">${o.statsHTML}</div>` : `<div class="cd-body">${fs.map(f => `<div class="cd-prd">${faceSeal(f)}<b>${f.b}</b><small>${f.s}</small></div>`).join("")}${cs.length ? `<p class="cd-roll${fs.length ? (fs.length > 2 ? " one" : "") : " solo"}">${cs.map(r => shortCounty(c, r)).join(" · ")}</p>` : ""}</div>`;
   return `<div class="card5 r${rr} ${o.cls || ""}" data-card="${c.id}"><div class="cd-in"><div class="cd-front">
     <div class="cd-top"><span class="cd-nm">${cname(c)}</span>${seal(c.n.slice(0, 2))}</div>
     <div class="cd-sub">${pvOf(c) && pvOf(c) !== cname(c) ? pvOf(c) : ""}${pl ? `${pvOf(c) && pvOf(c) !== cname(c) ? " · " : ""}<i class="plate">${pl}</i>` : ""}</div>
@@ -3065,7 +3067,7 @@ function mPeekHTML() { const c = M.city && BYID.get(M.city);
     <div class="m-head">${seal(c.n.slice(0, 2))}<div><b>${cname(c)}</b><span>${[pvOf(c) !== cname(c) ? pvOf(c) : kindOf(c), plateOf(c) ? `<i class="plate">${plateOf(c)}</i>` : ""].filter(Boolean).join(" · ")}${rr > 0 ? ` · <span class="m-chip r${rr}">${ZH(...RAR[rr])}</span>` : ""}</span></div>${mFavBtn(c)}</div>
     ${c.id === M.home ? helloHTML(c, M.homeCounty) + countyPickHTML(c, M.county, "data-mcounty", true) : M.county ? countyPickHTML(c, M.county, "data-mcounty", false) : ""}
     ${treasureChips(c)}
-    ${c.id === M.home || M.county || prideItems(c).length ? "" : h ? `<div class="m-hon1"><span class="rk">${h.r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b>${h.r}</b>` : `<small>${ZH("全国前", "Top")}</small><b>${Math.max(1, Math.round(h.q * 100))}%</b>`}</span><div class="t"><b>${ZH(...h.m.lab)}</b><span>${h.m.ph(c)}</span></div></div>` : ""}
+    ${c.id === M.home || M.county || facesOf(c).length ? "" : h ? `<div class="m-hon1"><span class="rk">${h.r <= 30 ? `<small>${ZH("全国第", "No.")}</small><b>${h.r}</b>` : `<small>${ZH("全国前", "Top")}</small><b>${Math.max(1, Math.round(h.q * 100))}%</b>`}</span><div class="t"><b>${ZH(...h.m.lab)}</b><span>${h.m.ph(c)}</span></div></div>` : ""}
     ${c.id === M.home || M.county ? "" : `<div class="m-mini">${mini.map(([y, v, l]) => `<div>${medalSVG(y)}<b class="num">${v == null ? "—" : YIELDS[y].short(v)}</b><span>${l}</span></div>`).join("")}</div>`}
     <div class="m-acts"><button class="btn primary" data-m="expand">${ZH("看完整档案 ▲", "Full archive ▲")}</button><button class="btn" data-m="stamp">${seal("打卡", 20)}${AL.got.includes(c.id) ? ZH("已打卡", "Stamped") : ZH("打卡", "Stamp")}</button><button class="btn" data-m="topk">${icon("i-versus")}PK</button></div></div>`; }
 function mFullHTML() { const c = BYID.get(M.city); if (!c) return ""; const rr = rarity(c), km = c.coastKm;
@@ -3163,10 +3165,10 @@ function renderMob(anim) { const r = mRoot(); if (!r || !CITIES) return;
   if (M.ob === 2 && anim === "card") setTimeout(() => { const k = $("[data-mobcard] .card5", r); if (k) { k.classList.remove("flipped"); snd("flip"); if (rarity(BYID.get(M.home)) >= 2) setTimeout(() => { spatter(k, 20, "#d9b25a", 90); snd("win"); }, 420); } }, RM() ? 0 : 650);
   if (anim === "count") countUp(r); }
 function renderMxhs() { const el = $("[data-mxhs]"); if (!el) return; const keep = ST.city; ST.city = M.city || M.home || "540400"; renderXhsInto(el); ST.city = keep; }
-function renderXhsInto(el) { const c = BYID.get(ST.city || "540400"), pr = prideItems(c), hs = boastRanks(c), pl = plateOf(c), pv = pvOf(c) !== cname(c) ? pvOf(c) : "";
+function renderXhsInto(el) { const c = BYID.get(ST.city || "540400"), fs = facesOf(c).slice(0, 3), hs = boastRanks(c), pl = plateOf(c), pv = pvOf(c) !== cname(c) ? pvOf(c) : "";
   el.innerHTML = `<div class="xh-top"><span class="xh-tag">#${ZH("这就是", "This is ")}${cname(c)}</span>${seal("图鉴", 30)}</div><div class="xh-title"><b>${cname(c)}</b><span>${pv}${pv && pl ? " · " : ""}${pl ? `<i class="plate">${pl}</i>` : ""}</span></div>
     <div class="xh-art"><canvas data-art="${c.id}" width="450" height="180"></canvas>${rarTag(c, "cd-rar")}</div>
-    <div class="xh-list">${pr.map(r => `<div class="xh-row pr">${tgSeal(r)}<div><b>${prName(r)}</b><span>${r[1].map(k => ZH(...TG[k][1])).join(" · ")}</span></div></div>`).join("")}${hs.map(h => `<div class="xh-row"><span class="xh-no">${ZH(`第${h.r}`, `#${h.r}`)}</span><div><b>${ZH(...h.m.lab)}</b><span>${h.m.ph(c)}</span></div></div>`).join("")}${rollText(c) ? `<p class="xh-roll">${rollText(c)}</p>` : ""}</div>
+    <div class="xh-list">${fs.map(f => `<div class="xh-row pr">${faceSeal(f)}<div><b>${f.b}</b><span>${f.s}</span></div></div>`).join("")}${hs.map(h => `<div class="xh-row"><span class="xh-no">${ZH(`第${h.r}`, `#${h.r}`)}</span><div><b>${ZH(...h.m.lab)}</b><span>${h.m.ph(c)}</span></div></div>`).join("")}${rollText(c) ? `<p class="xh-roll">${rollText(c)}</p>` : ""}</div>
     <div class="xh-foot"><span class="wordmark"><b>江山图鉴</b><i>JIANGSHAN ATLAS</i></span><span class="xh-h">#${cname(c)} #${ZH("家乡", "hometown")}</span><span class="qr">${ZH("扫码<br>看这座城", "Scan")}</span></div>`; paintArts(el); }
 /* ---------- map ---------- */
 function drawMobOver(app, ctx, u, v) { if (M.tab === "album") { drawAlbum(app, ctx, u, v); return; }
@@ -3372,13 +3374,32 @@ const plateOf = c => (CV && CV.plates && CV.plates[c.id]) || "";
 /* named treasures (World Heritage, 5A areas, nationally protected sites): [name, [marks], x, y, English] */
 const prideItems = c => (CV && CV.pride && CV.pride[c.id]) || [];
 const TG = { "遗": ["#b23a2b", ["世界遗产", "World Heritage"]], "5A": ["#b8862b", ["5A 景区", "5A scenic area"]], "保": ["#2d5e78", ["全国重点文保", "national heritage site"]] };
+const foodItems = c => (CV && CV.food && CV.food[c.id]) || [];
+const RK3 = ["一", "二", "三"];
+/* 位次: what locals say first. A trillion-yuan economy; else top three of its province by people, else by output.
+   A rank is claimed only when no city with a missing figure could change it (2020 census stands in, with a 15% margin). */
+function standingOf(c) { if (!c) return null; const memo = standingOf.m || (standingOf.m = new Map()); if (memo.has(c.id)) return memo.get(c.id); let out = null;
+  const main = CITIES.filter(x => x.kind !== "sar"), wan = v => (v / 1e4).toFixed(v >= 1e7 ? 0 : 0);
+  if (c.kind !== "sar" && c.gdp >= 1e12) { const r = main.filter(x => x.gdp > c.gdp).length + 1; out = { b: ZH("万亿之城", "A trillion-yuan economy"), s: ZH(`2023 年生产总值 ${(c.gdp / 1e12).toFixed(2)} 万亿 · 全国第 ${r}`, `GDP ¥${(c.gdp / 1e12).toFixed(2)}T in 2023 · No. ${r} in China`) }; }
+  else if (!["municipality", "sar"].includes(c.kind)) { const peers = main.filter(x => x.prov === c.prov && !["municipality"].includes(x.kind)), pv = pvOf(c);
+    const rank = (key, est) => { if (c[key] == null) return 0; let r = 1; for (const x of peers) { if (x === c) continue; const v = x[key] != null ? x[key] : est ? x[est] : null; if (v == null) return 0; if (x[key] == null && v > c[key] * .85 && v < c[key] * 1.15) return 0; if (v > c[key]) r++; } return r; };
+    const rp = rank("pop", "pop20"), rg = rank("gdp", null);
+    if (rp && rp <= 3 && (!rg || rp <= rg)) out = { b: ZH(`人口${pv}第${RK3[rp - 1]}`, `No. ${rp} in ${pv}`), s: ZH(`常住 ${Math.round(c.pop / 1e4)} 万人 · 2023 年统计公报`, `by population: ${(c.pop / 1e6).toFixed(2)}M · 2023 communiqué`) };
+    else if (rg && rg <= 3) out = { b: ZH(`经济${pv}第${RK3[rg - 1]}`, `No. ${rg} economy in ${pv}`), s: ZH(`2023 年生产总值 ${Math.round(c.gdp / 1e8).toLocaleString("en-US")} 亿`, `GDP ¥${Math.round(c.gdp / 1e8).toLocaleString("en-US")}00M in 2023`) }; }
+  memo.set(c.id, out); return out; }
+/* a city's faces in card order: standing, food, then named places; each {k: mark, col, b: name, s: small print, go: [x, y] | null} */
+function facesOf(c) { const out = [], st = standingOf(c); if (st) out.push({ k: "位", col: "#5d4e40", b: st.b, s: st.s, go: null });
+  const fd = foodItems(c); if (fd.length) out.push({ k: "吃", col: "#3d7a4f", b: fd.map(f => EN() && f[1] ? f[1] : f[0]).join(ZH("、", ", ")), s: ZH("国家级非遗 · 传统技艺", "national intangible heritage"), go: null });
+  for (const r of prideItems(c)) out.push({ k: r[1][0] === "5A" ? "景" : r[1][0], col: TG[r[1][0]][0], b: prName(r), s: r[1].map(k => ZH(...TG[k][1])).join(" · "), go: [r[2], r[3]] });
+  return out; }
+const faceSeal = f => `<i class="tg" style="background:${f.col}">${f.k}</i>`;
 const tgSeal = r => { const k = r[1][0], ch = k === "5A" ? "景" : k; return `<i class="tg" style="background:${TG[k][0]}">${ch}</i>`; };
 const prName = r => EN() && r[4] ? r[4] : r[0];
-const boastRanks = c => prideOf(c).filter(h => h.r <= 30).slice(0, Math.max(0, 3 - prideItems(c).length));
+const boastRanks = c => prideOf(c).filter(h => h.r <= 30).slice(0, Math.max(0, 3 - facesOf(c).length));
 const rollText = c => countiesOf(c).map(r => shortCounty(c, r)).join(" · ");
 const rarTag = (c, cls = "") => { const rr = rarity(c); return rr > 0 ? `<span class="${cls} r${rr}">${ZH(...RAR[rr])}</span>` : ""; };   /* the lowest tier carries no label: nobody's hometown is "ordinary" */
 const shortCounty = (c, r) => EN() ? r[5] || r[1] : r[6] || r[1];
-function treasureChips(c) { const pr = prideItems(c); return pr.length ? `<div class="trs">${pr.map(r => `<button class="chip" data-cvgo="${r[2]},${r[3]}" title="${r[1].map(k => ZH(...TG[k][1])).join(" · ")}">${tgSeal(r)}${prName(r)}</button>`).join("")}</div>` : ""; }
+function treasureChips(c) { const fs = facesOf(c); return fs.length ? `<div class="trs">${fs.map(f => f.go ? `<button class="chip" data-cvgo="${f.go[0]},${f.go[1]}" title="${f.s}">${faceSeal(f)}${f.b}</button>` : `<span class="chip still" title="${f.s}">${faceSeal(f)}${f.b}</span>`).join("")}</div>` : ""; }
 const countiesOf = c => (CV && CV.counties && CV.counties[c.id]) || [];
 const countyRow = (c, code) => code ? countiesOf(c).find(r => r[0] === code) || null : null;
 const countyName = r => EN() ? r[5] || r[1] : r[1];
@@ -3684,9 +3705,9 @@ async function shareCanvas(c) { const W = 1080, H = 1440, cv = document.createEl
   x.fillStyle = "#8a7a68"; x.font = `500 30px "Noto Sans SC", sans-serif`; { let roll = rollText(c); while (roll && x.measureText(roll).width > W - 2 * P) roll = roll.slice(0, roll.lastIndexOf(" · ")) ; x.fillText(roll, P, 422); }
   const art = document.createElement("canvas"); art.width = 912; art.height = 320; try { cardArt(art, c); } catch (e) { }
   x.save(); rrect(x, P, 448, W - 2 * P, 320, 18); x.clip(); x.drawImage(art, P, 448, W - 2 * P, 320); x.restore(); x.strokeStyle = "rgba(43,35,29,.25)"; x.lineWidth = 2; rrect(x, P, 448, W - 2 * P, 320, 18); x.stroke();
-  let y = 796; const prs = prideItems(c); for (const r of prs) { rrect(x, P, y, W - 2 * P, 112, 16); x.fillStyle = "rgba(251,246,234,.9)"; x.fill(); x.strokeStyle = "rgba(43,35,29,.14)"; x.lineWidth = 2; x.stroke();
-    const kk = r[1][0]; x.fillStyle = TG[kk][0]; x.beginPath(); x.arc(P + 68, y + 56, 42, 0, 7); x.fill(); x.fillStyle = "#fbf4e6"; x.textAlign = "center"; x.textBaseline = "middle"; x.font = `400 50px "Ma Shan Zheng", serif`; x.fillText(kk === "5A" ? "景" : kk, P + 68, y + 59);
-    x.textAlign = "left"; x.textBaseline = "alphabetic"; x.fillStyle = "#2b231d"; x.font = `700 ${prName(r).length > 14 ? 34 : 44}px "Noto Serif SC", serif`; x.fillText(prName(r).slice(0, 30), P + 140, y + 54); x.fillStyle = "#5a4a3c"; x.font = `500 28px "Noto Serif SC", serif`; x.fillText(r[1].map(k => ZH(...TG[k][1])).join(" · "), P + 140, y + 94); y += 126; }
+  let y = 796; for (const f of facesOf(c).slice(0, 3)) { rrect(x, P, y, W - 2 * P, 112, 16); x.fillStyle = "rgba(251,246,234,.9)"; x.fill(); x.strokeStyle = "rgba(43,35,29,.14)"; x.lineWidth = 2; x.stroke();
+    x.fillStyle = f.col; x.beginPath(); x.arc(P + 68, y + 56, 42, 0, 7); x.fill(); x.fillStyle = "#fbf4e6"; x.textAlign = "center"; x.textBaseline = "middle"; x.font = `400 50px "Ma Shan Zheng", serif`; x.fillText(f.k, P + 68, y + 59);
+    x.textAlign = "left"; x.textBaseline = "alphabetic"; x.fillStyle = "#2b231d"; x.font = `700 ${f.b.length > 14 ? 34 : 44}px "Noto Serif SC", serif`; x.fillText(f.b.slice(0, 30), P + 140, y + 54); x.fillStyle = "#5a4a3c"; x.font = `500 28px "Noto Serif SC", serif`; x.fillText(f.s, P + 140, y + 94); y += 126; }
   for (const h of boastRanks(c)) { rrect(x, P, y, W - 2 * P, 112, 16); x.fillStyle = "rgba(251,246,234,.9)"; x.fill(); x.strokeStyle = "rgba(43,35,29,.14)"; x.lineWidth = 2; x.stroke();
     const no = h.r <= 30 ? ZH(`第${h.r}`, `#${h.r}`) : ZH(`前${Math.max(1, Math.round(h.q * 100))}%`, `top ${Math.max(1, Math.round(h.q * 100))}%`);
     x.fillStyle = h.r <= 3 ? "#c9a24a" : "#b23a2b"; x.beginPath(); x.arc(P + 68, y + 56, 42, 0, 7); x.fill(); x.fillStyle = "#fbf4e6"; x.textAlign = "center"; x.textBaseline = "middle"; if (EN() && h.r > 30) { x.font = `600 16px "Noto Sans SC", sans-serif`; x.fillText("top", P + 68, y + 42); x.font = `800 24px "Noto Serif SC", serif`; x.fillText(`${Math.max(1, Math.round(h.q * 100))}%`, P + 68, y + 66); } else { x.font = `800 ${no.length > 3 ? 24 : 30}px "Noto Serif SC", serif`; x.fillText(no, P + 68, y + 57); }

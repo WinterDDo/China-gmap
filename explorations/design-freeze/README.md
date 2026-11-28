@@ -31,3 +31,12 @@ python3 build_plates.py <维基数据查询结果.json> data
 python3 build_counties.py <缓存目录> data
 python3 build_cityview.py <infos.json> <chinaciv/web/data> data   # 把车牌并进 cityview.json
 ```
+
+家乡卡的几个面（用户 2026-11-28：不放通用统计，放值得自豪的东西，而且不止景点）：
+
+- **位次**：页面里直接从 `cities.json` 算（生产总值过万亿；否则常住人口或生产总值省内前三）。只有在缺数的城市不可能改变名次时才说名次。
+- **吃的**：`sources/feiyi_food.tsv`，国务院五批国家级非遗名录（传统技艺）里的饮食项目，逐条写着批次、项目编号和名录原文；第 5 批是从通知页面的名单图片读出来的。
+- **景点古迹**：`build_pride.py` 从维基数据取世界遗产、5A 景区、全国重点文保，坐标（落在哪个县）和行政归属两边一致才收。
+
+`build_pride.py` 把后两样写进 `data/pride.json`，`build_cityview.py` 再并进 `cityview.json`。
+
