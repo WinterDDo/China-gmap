@@ -297,3 +297,11 @@
 - 谁定的：用户（原话「A，先做位次和吃的」）
 - 出处：会话 session_01DGeZrdANx45XY7zhNDtypj
 - 相关文件：explorations/design-freeze/index.html, explorations/design-freeze/build_pride.py
+
+### 2026-11-28 · 家乡卡的方向确认；「吃的」接地理标志；加抽卡
+- 决定：家乡卡「位次、吃的、景点古迹」这个方向对，可以并进主线；「吃的」下一步接国家地理标志产品名单；分享卡要能反复「抽」，像游戏里的抽卡，特效做得酷炫，让人想一抽再抽。
+- 为什么：用户看过对照图后说「方向对，选 A，接地理标志名单」；又说「大家其实很喜欢抽卡……每一次出来的这个分享卡，我觉得可以让大家有一个反复去抽的动作，把特效做得更酷炫一点……这会是一个非常让人上瘾、能玩起来的功能」。
+- 放弃了：先做「文化」这个面（B）；分享卡一次生成、每次都一样。
+- 谁定的：用户
+- 出处：会话 session_01DGeZrdANx45XY7zhNDtypj
+- 相关文件：explorations/design-freeze/index.html, TODOS.md
