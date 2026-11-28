@@ -32,6 +32,9 @@ NOTICES = [  # file, batch, lists in order with the number of rows the notice st
 CATS = {"Ⅰ": "民间文学", "Ⅱ": "传统音乐", "Ⅲ": "传统舞蹈", "Ⅳ": "传统戏剧", "Ⅴ": "曲艺", "Ⅵ": "传统体育、游艺与杂技", "Ⅶ": "传统美术", "Ⅷ": "传统技艺", "Ⅸ": "传统医药", "Ⅹ": "民俗"}
 ROMAN = "ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ"
 # rows the saved page prints in a way an independent reader doubted: left out until checked against another copy
+# the fifth list, section by section as pictured: its numeral and the number of items the notice states
+FIFTH = [("Ⅰ", 12), ("Ⅱ", 19), ("Ⅲ", 13), ("Ⅳ", 9), ("Ⅴ", 18), ("Ⅵ", 27), ("Ⅶ", 17), ("Ⅷ", 46), ("Ⅹ", 24),
+         ("Ⅰ", 9), ("Ⅱ", 8), ("Ⅲ", 9), ("Ⅳ", 14), ("Ⅴ", 2), ("Ⅵ", 13), ("Ⅶ", 22), ("Ⅷ", 36), ("Ⅸ", 11), ("Ⅹ", 16)]
 DOUBT = {("B2x", "Ⅶ-50", "镇江")}   # 灯彩: the page prints 江苏省句容市 where 秦淮灯彩 (南京) is expected
 LATIN = dict(zip(["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"], ROMAN))
 WS = " \t 　"
@@ -227,10 +230,62 @@ def shown(name, toks, i, places):
     return main
 
 
+def fifth(path):
+    """The fifth list (国发〔2021〕8号) is published as pictures of tables. sources/feiyi_b5.tsv is a transcription made by
+    two readers working apart, with every difference between them settled against the picture. In these tables each row
+    carries its own name, 中医诊疗法（丁氏推拿疗法）, and its own place, so nothing has to be paired up by position.
+    Returns [(batch label, [rows])], after checking each section against the total the notice states."""
+    by_sec = defaultdict(list)
+    for line in open(path, encoding="utf-8"):
+        if line.startswith("#") or not line.strip():
+            continue
+        sec, no, code, name, place = (line.rstrip("\n").split("\t") + [""])[:5]
+        by_sec[sec].append({"no": int(no), "code": code, "name": name, "place": [place]})
+    parts = {"B5": [], "B5x": []}
+    for k, (numeral, stated) in enumerate(FIFTH):
+        sec, rows = f"p{k + 1:02d}", by_sec[f"p{k + 1:02d}"]
+        assert len({r["no"] for r in rows}) == stated, f"fifth list {sec}: the notice states {stated} items, the transcription has {len({r['no'] for r in rows})}"
+        assert all(r["code"].startswith(numeral + "-") for r in rows), f"fifth list {sec}: a code outside {numeral}"
+        parts["B5" if k < 9 else "B5x"] += rows
+    nos = sorted({r["no"] for r in parts["B5"]})
+    assert nos == list(range(1373, 1558)), "fifth list: the new items' numbers do not run 1373 to 1557"
+    return list(parts.items())
+
+
 def build(src, out_dir):
     places = Places(out_dir)
     by_id = {c["id"]: c for c in places.cities}
     out, seen, lost, stats = [], set(), Counter(), []
+
+    def file_rows(label, part):
+        filed = 0
+        for r in part:
+            assert r["name"] and r["code"][0] in CATS, (label, r)
+            text = ""
+            for piece in r["place"]:
+                text += ("；" if text and places.prov_re.match(piece) else "") + piece
+            toks = places.tokens(text)
+            for i, (cid, word, core) in enumerate(toks):
+                if not cid:
+                    lost[word] += 1
+                    continue
+                name = shown(r["name"], toks, i, places)
+                # not fit to show: the page spells out a character it cannot print (蚂虫另（虫字旁加另）节) or uses a
+                # private-use one (阿坝's 㑇舞); or the saved page is in doubt (see DOUBT)
+                if "字旁加" in name or re.search("[\ue000-\uf8ff]", name) or (label, r["code"], by_id[cid]["n"]) in DOUBT:
+                    lost["（" + name + "）"] += 1
+                    continue
+                key = (cid, name)
+                if key in seen:
+                    continue
+                seen.add(key)
+                filed += 1
+                rest = word.replace(by_id[cid]["full"], "")
+                by = next((n for n in sorted(places.counties[by_id[cid]["prov"]], key=len, reverse=True) if rest.startswith(n) and cid in places.counties[by_id[cid]["prov"]][n]), "")
+                by = by or places.renamed.get(rest, "")
+                out.append([by_id[cid]["n"], CATS[r["code"][0]], name, f"{label} {r['code']}", f"{r['name']} @ {text}", by])
+        stats.append((label, len({r["no"] for r in part}), filed))
+
     for fname, batch, kind, sizes in NOTICES:
         doc = open(os.path.join(src, fname), "rb").read().decode("utf-8")
         rows = text_rows(doc, places.prov_re.search) if kind == "text" else table_rows(doc)
@@ -239,33 +294,10 @@ def build(src, out_dir):
             if which == 0:
                 nos = [r["no"] for r in part]
                 assert nos == list(range(nos[0], nos[0] + len(nos))), f"{fname}: numbers do not run on"
-            filed = 0
-            for r in part:
-                assert r["name"] and r["code"][0] in CATS, (fname, r)
-                text = ""
-                for piece in r["place"]:
-                    text += ("；" if text and places.prov_re.match(piece) else "") + piece
-                toks = places.tokens(text)
-                for i, (cid, word, core) in enumerate(toks):
-                    if not cid:
-                        lost[word] += 1
-                        continue
-                    name = shown(r["name"], toks, i, places)
-                    # not fit to show: the page spells out a character it cannot print (蚂虫另（虫字旁加另）节) or uses a
-                    # private-use one (阿坝's 㑇舞); or the saved page is in doubt (see DOUBT)
-                    if "字旁加" in name or re.search("[\ue000-\uf8ff]", name) or (batch + ("x" if which else ""), r["code"], by_id[cid]["n"]) in DOUBT:
-                        lost["（" + name + "）"] += 1
-                        continue
-                    key = (cid, name)
-                    if key in seen:
-                        continue
-                    seen.add(key)
-                    filed += 1
-                    rest = word.replace(by_id[cid]["full"], "")
-                    by = next((n for n in sorted(places.counties[by_id[cid]["prov"]], key=len, reverse=True) if rest.startswith(n) and cid in places.counties[by_id[cid]["prov"]][n]), "")
-                    by = by or places.renamed.get(rest, "")
-                    out.append([by_id[cid]["n"], CATS[r["code"][0]], name, f"{batch}{'x' if which else ''} {r['code']}", f"{r['name']} @ {text}", by])
-            stats.append((batch, "扩展" if which else "新列", len(part), filed))
+            file_rows(batch + ("x" if which else ""), part)
+    b5 = os.path.join(HERE, "sources", "feiyi_b5.tsv")
+    for label, part in fifth(b5) if os.path.exists(b5) else []:
+        file_rows(label, part)
     with open(os.path.join(HERE, "sources", "feiyi_all.tsv"), "w", encoding="utf-8") as f:
         f.write("# 国家级非物质文化遗产代表性项目名录，按申报地区归到地级市。由 build_feiyi.py 从国务院前四批公布通知（www.gov.cn）读出，不要手改。\n")
         f.write("# 第五批（国发〔2021〕8号）以图片公布，这里没有读；批次后带 x 的是扩展项目名录。出处网址见 sources/feiyi_food.tsv 文件头。\n")
@@ -273,8 +305,8 @@ def build(src, out_dir):
         f.write("# 列：城市、门类、卡上显示的名字、批次与项目编号、名录原文（项目名 @ 申报地区或单位）、申报的县区（地级市本身申报则空）\n")
         for r in out:
             f.write("\t".join(r) + "\n")
-    for s in stats:
-        print("%s %s: %d rows in the notice, %d filings under a city" % s)
+    for st in stats:
+        print("%s: %d items in the notice, %d filings under a city" % st)
     per = Counter(r[0] for r in out)
     print(f"{len(out)} filings, {len(per)} cities; without any: {[c['n'] for c in places.cities if c['n'] not in per]}")
     print("counties matched under today's name:", sorted(places.renamed.items()))
